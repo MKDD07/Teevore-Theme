@@ -1,0 +1,189 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "sw": false,
+        "hidemb": false,
+        "tc": false
+      }
+    },
+    "banner": {
+      "type": "page-banner",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "htag": "h1",
+            "tff": "ft2",
+            "fts": 48,
+            "ftsm": 32,
+            "fw": "500",
+            "tuu": false,
+            "cl": "#222222",
+            "mb": 0,
+            "mbm": 0
+          }
+        },
+        "text_gTQKzd": {
+          "type": "text",
+          "settings": {
+            "title": "{{ page.content }}",
+            "hidemb": true,
+            "fs": 13,
+            "fsm": 12,
+            "lh": 1.5,
+            "cl": "#000000",
+            "mb": 30,
+            "mbm": 20
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "text_gTQKzd"
+      ],
+      "settings": {
+        "hit": 250,
+        "hitt": 400,
+        "hitm": 300,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000",
+        "overlay_op": 0,
+        "cntwd": 1600,
+        "text-align": false
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "hidettl": true,
+        "hide_hdft": false,
+        "sst": 0,
+        "ssb": 0,
+        "sstm": 0,
+        "ssbm": 0,
+        "bg": "",
+        "sw": false
+      }
+    },
+    "collection_grid_slider_hQtqje": {
+      "type": "collection-grid-slider",
+      "blocks": {
+        "collection_EbnQhb": {
+          "type": "collection",
+          "settings": {
+            "collection": "shopify://policies/terms-of-service",
+            "svg_code": "<svg width=\"96\" height=\"96\" viewbox=\"0 0 96 96\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\">\n<path d=\"M73.08 13.4C71.2 13.12 69.04 13 66 13H30C27 13 24.8 13.12 23.04 13.36C9.64 14.84 7 22.8 7 36V60C7 73.2 9.64 81.16 22.92 82.6C24.8 82.88 26.96 83 30 83H66C69 83 71.2 82.88 72.96 82.64C86.36 81.16 89 73.24 89 60V36C89 22.8 86.36 14.84 73.08 13.4ZM40.36 36C42.6 36 44.4 37.8 44.4 40C44.4 42.2 42.6 44 40.4 44C38.2 44 36.4 42.2 36.4 40C36.4 37.8 38.16 36 40.36 36ZM28.36 36C30.64 36 32.4 37.8 32.4 40C32.4 42.2 30.6 44 28.4 44C26.2 44 24.4 42.2 24.4 40C24.4 37.8 26.16 36 28.36 36ZM68 65H28.08C26.44 65 25.04 63.64 25.04 62C25.04 60.36 26.36 59 28 59H68C69.64 59 71 60.36 71 62C71 63.64 69.64 65 68 65ZM68 43H54C52.36 43 51 41.64 51 40C51 38.36 52.36 37 54 37H68C69.64 37 71 38.36 71 40C71 41.64 69.64 43 68 43Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n</svg>",
+            "title": "Terms of Service",
+            "description": "Read Teevore’s Terms & Conditions outlining our policies on orders, payments, returns, shipping, liability, and usage of our website. Stay informed before shopping at Teevore.",
+            "button_text": "",
+            "button_link": "shopify://policies/terms-of-service",
+            "bg_color": "#f5f5f5",
+            "text_color": "#ffffff"
+          }
+        },
+        "collection_JYqzkq": {
+          "type": "collection",
+          "settings": {
+            "collection": "shopify://policies/shipping-policy",
+            "svg_code": "<svg width=\"96\" height=\"96\" viewbox=\"0 0 96 96\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\">\n<path d=\"M86.004 62C87.124 62 88.004 62.88 88.004 64V68C88.004 74.64 82.644 80 76.004 80C76.004 73.4 70.604 68 64.004 68C57.404 68 52.004 73.4 52.004 80H44.004C44.004 73.4 38.6039 68 32.0039 68C25.4039 68 20.0039 73.4 20.0039 80C13.3639 80 8.00391 74.64 8.00391 68V60C8.00391 57.8 9.80391 56 12.0039 56H50.004C55.524 56 60.004 51.52 60.004 46V24C60.004 21.8 61.804 20 64.004 20H67.364C70.244 20 72.884 21.56 74.324 24.04L76.884 28.52C77.244 29.16 76.764 30 76.004 30C70.484 30 66.004 34.48 66.004 40V52C66.004 57.52 70.484 62 76.004 62H86.004Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M32.0039 88C36.4222 88 40.004 84.4184 40.004 80C40.004 75.5816 36.4222 72 32.0039 72C27.5856 72 24.0039 75.5816 24.0039 80C24.0039 84.4184 27.5856 88 32.0039 88Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M64.0039 88C68.4219 88 72.0039 84.4184 72.0039 80C72.0039 75.5816 68.4219 72 64.0039 72C59.5855 72 56.0039 75.5816 56.0039 80C56.0039 84.4184 59.5855 88 64.0039 88Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M88.0039 50.12V56H76.0039C73.8039 56 72.0039 54.2 72.0039 52V40C72.0039 37.8 73.8039 36 76.0039 36H81.1639L86.9639 46.16C87.6439 47.36 88.0039 48.72 88.0039 50.12Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M52.324 8H22.7639C14.6039 8 8.00391 14.6 8.00391 22.76V48.28C8.00391 50.48 9.80391 52.28 12.0039 52.28H48.604C52.684 52.28 56.004 48.96 56.004 44.88V11.68C56.004 9.64 54.364 8 52.324 8ZM40.284 28.28L31.9239 36.36C31.3239 36.92 30.5639 37.2 29.8439 37.2C29.0839 37.2 28.3239 36.92 27.7639 36.36L23.7239 32.52C22.5239 31.36 22.4839 29.44 23.6439 28.24C24.7639 27.04 26.6839 27.04 27.8839 28.16L29.8439 30.04L36.1239 23.96C37.3239 22.8 39.2039 22.84 40.364 24.04C41.524 25.24 41.484 27.12 40.284 28.28Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n</svg>",
+            "title": "Shipping Policy",
+            "description": "Explore Teevore’s Shipping Policy – details on delivery timelines, flat shipping charges, order processing, and tracking updates across India.",
+            "button_text": "",
+            "button_link": "shopify://policies/shipping-policy",
+            "bg_color": "#f5f5f5",
+            "text_color": "#ffffff"
+          }
+        },
+        "collection_EWpAFm": {
+          "type": "collection",
+          "settings": {
+            "collection": "shopify://policies/refund-policy",
+            "svg_code": "<svg width=\"96\" height=\"96\" viewbox=\"0 0 96 96\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\">\n<path d=\"M59.9998 91C58.9198 91 57.9198 90.4 57.3998 89.48C56.8798 88.52 56.8798 87.4 57.4398 86.44L61.6398 79.44C62.4798 78.04 64.3198 77.56 65.7598 78.4C67.1998 79.24 67.6398 81.08 66.7998 82.52L65.7198 84.32C76.7598 81.72 85.0398 71.8 85.0398 59.96C85.0398 58.32 86.3998 56.96 88.0398 56.96C89.6798 56.96 91.0398 58.32 91.0398 59.96C90.9998 77.08 77.0798 91 59.9998 91Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M8 39C6.36 39 5 37.64 5 36C5 18.92 18.92 5 36 5C37.08 5 38.08 5.6 38.6 6.52C39.12 7.48 39.12 8.6 38.56 9.56L34.36 16.56C33.52 17.96 31.68 18.44 30.24 17.56C28.84 16.72 28.36 14.88 29.24 13.44L30.32 11.64C19.24 14.24 11 24.16 11 36C11 37.64 9.64 39 8 39Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M65.5996 32.84L50.5597 24.72C48.9597 23.88 47.0796 23.88 45.4796 24.72L30.3996 32.84C29.3196 33.44 28.6396 34.6 28.6396 35.88C28.6396 37.2 29.3196 38.36 30.3996 38.96L45.4396 47.08C46.2396 47.52 47.1196 47.72 47.9996 47.72C48.8796 47.72 49.7597 47.52 50.5597 47.08L65.5996 38.96C66.6796 38.36 67.3596 37.2 67.3596 35.88C67.3596 34.6 66.6796 33.44 65.5996 32.84Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M42.96 49.88L28.96 42.88C27.88 42.36 26.64 42.4 25.6 43.04C24.6 43.68 24 44.76 24 45.96V59.2C24 61.48 25.28 63.56 27.32 64.56L41.32 71.56C41.8 71.8 42.32 71.92 42.88 71.92C43.52 71.92 44.12 71.76 44.68 71.4C45.72 70.76 46.32 69.68 46.32 68.48V55.24C46.28 52.96 45.04 50.92 42.96 49.88Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M70.3597 43.04C69.3197 42.4 68.0797 42.36 66.9997 42.88L52.9997 49.88C50.9597 50.92 49.6797 52.96 49.6797 55.24V68.48C49.6797 69.68 50.2797 70.76 51.3197 71.4C51.8797 71.76 52.4797 71.92 53.1197 71.92C53.6397 71.92 54.1597 71.8 54.6797 71.56L68.6797 64.56C70.7197 63.52 71.9997 61.48 71.9997 59.2V45.96C71.9997 44.76 71.3997 43.68 70.3597 43.04Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n</svg>",
+            "title": "Refund Policy",
+            "description": "Learn about Teevore’s 7-day return and refund policy. Get details on cancellations, eligibility, damaged items, handling charges, and easy exchange process.",
+            "button_text": "",
+            "button_link": "shopify://policies/refund-policy",
+            "bg_color": "#f5f5f5",
+            "text_color": "#ffffff"
+          }
+        },
+        "collection_466QHT": {
+          "type": "collection",
+          "settings": {
+            "collection": "shopify://policies/privacy-policy",
+            "svg_code": "<svg width=\"96\" height=\"96\" viewbox=\"0 0 96 96\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\">\n<path d=\"M81.6404 27.84V35.16C81.6404 37.72 80.4404 40.12 78.3604 41.6L34.3604 73.84C31.5204 75.92 27.6404 75.92 24.8404 73.8L19.0804 69.48C16.4804 67.52 14.3604 63.28 14.3604 60.04V27.84C14.3604 23.36 17.8004 18.4 22.0004 16.84L43.8804 8.64001C46.1604 7.80001 49.8403 7.80001 52.1203 8.64001L74.0004 16.84C78.2004 18.4 81.6404 23.36 81.6404 27.84Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M75.2804 49.36C77.9204 47.44 81.6404 49.32 81.6404 52.6V60.12C81.6404 63.36 79.5204 67.56 76.9204 69.52L55.0404 85.88C53.1204 87.28 50.5604 88 48.0004 88C45.4404 88 42.8804 87.28 40.9604 85.84L37.6404 83.36C35.4804 81.76 35.4804 78.52 37.6804 76.92L75.2804 49.36Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n</svg>",
+            "title": "Privacy Policy",
+            "description": "Read Teevore’s Privacy Policy to learn how we collect, use, and protect your personal information, including order details, cookies, and browsing data.",
+            "button_text": "",
+            "button_link": "shopify://policies/privacy-policy",
+            "bg_color": "#f5f5f5",
+            "text_color": "#ffffff"
+          }
+        },
+        "collection_ByGHg7": {
+          "type": "collection",
+          "settings": {
+            "collection": "shopify://policies/contact-information",
+            "svg_code": "<svg width=\"96\" height=\"96\" viewbox=\"0 0 96 96\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\">\n<path d=\"M62.3598 7C50.4798 7 40.8398 16.64 40.8398 28.52C40.8398 40.4 50.4798 50.04 62.3598 50.04C74.2398 50.04 83.8798 40.4 83.8798 28.52C83.8798 16.64 74.2398 7 62.3598 7Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M25.4401 52.12C18.1201 52.12 12.1201 58.08 12.1201 65.44C12.1201 72.8 18.0801 78.76 25.4401 78.76C32.7601 78.76 38.7601 72.8 38.7601 65.44C38.7601 58.08 32.7601 52.12 25.4401 52.12Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n<path d=\"M66.4802 66.48C60.2802 66.48 55.2402 71.52 55.2402 77.72C55.2402 83.92 60.2802 88.96 66.4802 88.96C72.6802 88.96 77.7202 83.92 77.7202 77.72C77.7202 71.52 72.6802 66.48 66.4802 66.48Z\" fill=\"#292D32\" fill-opacity=\"0.25\"></path>\n</svg>",
+            "title": "Contact Information",
+            "description": "For any queries regarding shipping, feel free to contact us:",
+            "button_text": "",
+            "button_link": "shopify://policies/contact-information",
+            "bg_color": "#f5f5f5",
+            "text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "collection_EbnQhb",
+        "collection_JYqzkq",
+        "collection_EWpAFm",
+        "collection_466QHT",
+        "collection_ByGHg7"
+      ],
+      "name": "Collection Grid",
+      "settings": {
+        "title": "",
+        "subtitle": "",
+        "expand_width": 400,
+        "collapse_width": 150,
+        "grid_gap": 10,
+        "transition_speed": 400,
+        "transition_ease": "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "hover_scale": 102,
+        "hover_blur": 1,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0,
+        "title_size": 16,
+        "title_size_mobile": 14,
+        "sw": true,
+        "sst": 0,
+        "ssb": 40,
+        "sstm": 20,
+        "ssbm": 20,
+        "hidem": false,
+        "hided": false
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "banner",
+    "main",
+    "collection_grid_slider_hQtqje"
+  ]
+}
