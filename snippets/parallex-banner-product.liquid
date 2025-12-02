@@ -1,0 +1,44 @@
+    <div class="{% if section_st.sw %}fw-sec{% if section_st.npd %} npd{% endif %}{% else %}page-width{% endif %}">
+        <div class="hero fl pr {% render 'animate-data', css:true, text:true %}">
+            {% if section_st.image != blank or section_st.imagem != blank %}
+                {%- liquid
+                    assign banner_img = section_st.image
+                    assign banner_imgm = section_st.imagem
+                    assign banner_imgm_srcset = banner_imgm | image_url: width: banner_imgm.width | image_tag: widths: '360,480,760' | split: 'srcset="' | last | split: '"' | first
+                -%}
+                <picture class="overlay pa all0 of_hidden brad{% if section_st.parallax %} prlxImg{% endif %}" style="--rounded:{{ section_st.ibrad }}px;--ipos:{{ section_st.image.presentation.focal_point | default: 'center center' }};" data-u-scale="1.3">
+                    {% if section_st.imagem != blank %}
+                        <source media="(max-width: 767px)" srcset="{{ banner_imgm_srcset }}" width="{{ banner_imgm.width }}" height="{{ banner_imgm.height }}">
+                    {% endif %}
+                    {{ banner_img | image_url: width: banner_img.width | image_tag: class:'imgFt heroImg', width:banner_img.width, height:banner_img.height, widths:"400,600,800,1000,1200,1400,1600,2000,2400,3000" }}
+                </picture>
+            {% endif %}
+            {% if section_st.image == blank %}<div class="ph_bg">{{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>{% endif %}                       	
+            <div class="hero_wrap wd100 fl m_auto {{ section_st.text_align }} {{ section_st.text_align_m }}" style="--mht:{{ section_st.hit }}px;--mhtt:{{ section_st.hitt }}px;--mhtm:{{ section_st.hitm }}px;--mwd:{{ section_st.cntwd }}px;--cwd:{{ section_st.cwd }}px;--rounded:{{ section_st.brad }}px;--bpd:{{ section_st.bpd | times:0.84 | floor }}px {{ section_st.bpd }}px;--bpdm:{{ section_st.bpdm | times:0.86 | floor }}px {{ section_st.bpdm }}px;">
+                {% if section_st.ol_link %}<a class="pa z3 all0" href="{{ section_st.link }}" ></a> {% endif %}
+                {%  if  section.blocks.size > 0 %}
+                    <div class="hero_cap pr {{ section_st.text-align }} brad {% render 'animate-data', css:true %}" style="background-color:rgba({{ section_st.tbg | color_to_rgb | remove:'rgb(' | remove: ')' }},{{ section_st.opt }});">
+                        {% for block in section.blocks %}
+                            {% assign blk_st = block.settings %}
+                            {% if  block.type == 'heading' %}
+                                <div class="rgTxt sec-ttl {{ blk_st.tff }} mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md" style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--ls:{{ blk_st.ls }}px;--lh:{{ blk_st.lh }};--to:{{blk_st.to}};" {{ block.shopify_attributes }}>{{ blk_st.title }}</div>
+                            {% elsif block.type == 'text' %}
+                                <div class="rgTxt mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md{% if blk_st.hidem %} hide-sm{% endif %}" style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--lh:{{ blk_st.lh }};" {{ block.shopify_attributes }}>{{ blk_st.title }}</div>                      
+                            {% elsif block.type == 'countdown' %}
+                                <countdown-time class="atCounter box_timer fl tc ht{{ section.id }} ttu mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md {{ section_st.text-align }}" data-date="{{ blk_st.date }}" style="--cl:{{ blk_st.cl }};--bg:{{ blk_st.bg }};--border:{{ blk_st.bdr }};--rounded:{{ blk_st.radius }}px;--fs:{{ blk_st.fs }}px;--fsl:{{ blk_st.fsl }}px;--fw:500" {{ block.shopify_attributes }}>
+                                    <span class="pd10"><span class="tm days">00</span>{{ 'date_formats.days' | t }}</span>
+                                    <span class="pd10"><span class="tm hours">00</span>{{ 'date_formats.hours' | t }}</span>
+                                    <span class="pd10"><span class="tm minutes">00</span>{{ 'date_formats.minuts' | t }}</span>
+                                    <span class="pd10"><span class="tm seconds">00</span>{{ 'date_formats.seconds' | t }}</span>
+                                </countdown-time>
+                            {% elsif block.type == 'button' %}                               
+                                {% if blk_st.ol_link != true %}            
+                                    <a href="{{ blk_st.link }}" class="btn {{ blk_st.btn-size }} {{ blk_st.btn-style }} mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md{% if blk_st.hidem %} hide-sm{% endif %}" {{ block.shopify_attributes }}>{{ blk_st.title | escape }}</a>           
+                                {% endif %}                                
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,230 @@
+{%- comment -%}
+  Newsletter Signup Snippet
+  Usage: {% render 'newsletter-signup', section: section %}
+{%- endcomment -%}
+
+{%- liquid
+  assign formid = 'newsletter-' | append: section.id
+  assign bg_color = section.settings.background_color | default: '#ffffff'
+  assign button_bg_color = section.settings.button_background_color | default: '#222222'
+  assign button_text_color = section.settings.button_text_color | default: '#ffffff'
+  assign icon_color = section.settings.icon_color | default: '#222222'
+  assign input_text_color = section.settings.input_text_color | default: '#222222'
+  assign border_radius = section.settings.border_radius | default: 10
+  assign button_border_radius = section.settings.button_border_radius | default: 10
+-%}
+
+{%- if section.settings.newsletter_code != blank -%}
+  {{ section.settings.newsletter_code }}
+{%- else -%}
+  {%- form 'customer', novalidate: 'novalidate', id: formid, class: 'form-single-field newsletter-form' -%}
+    {{ form.errors | default_errors }}
+    {%- if form.posted_successfully? -%}
+      <div class="form-success newsletter-success">
+        {{ 'general.newsletter_form.confirmation' | t }}
+      </div>
+    {%- else -%}
+      <div class="input-wrapper input-wrapper-{{ section.id }}" 
+           style="background: {{ bg_color }}; border-radius: {{ border_radius }}px;">
+<svg class="icon newsletter-icon" xmlns="https://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <g data-name="Layer 2">
+    <g data-name="inbox">
+      <rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"></rect>
+      <path fill="{% unless request.path contains '/collections/women' or template contains 'girls_collections' %}#222222{% else %}#FF66AC{% endunless %}" d="M20.79 11.34l-3.34-6.68A3 3 0 0 0 14.76 3H9.24a3 3 0 0 0-2.69 1.66l-3.34 6.68a2 2 0 0 0-.21.9V18a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3v-5.76a2 2 0 0 0-.21-.9zM8.34 5.55a1 1 0 0 1 .9-.55h5.52a1 1 0 0 1 .9.55L18.38 11H16a1 1 0 0 0-1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2a1 1 0 0 0-1-1H5.62z"></path>
+    </g>
+  </g>
+</svg>
+
+        
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <label for="Email-{{ formid }}" class="visually-hidden">
+          {{ 'general.newsletter_form.email_placeholder' | t }}
+        </label>
+        <input type="email" 
+               name="contact[email]" 
+               id="Email-{{ formid }}" 
+               class="input newsletter-input" 
+               value="{% if customer %}{{ customer.email }}{% endif %}" 
+               placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}" 
+               autocorrect="off" 
+               autocapitalize="off"
+               style="border: none !important; height: 20px; padding: 0 !important; width: -webkit-fill-available; margin-bottom: 0;"
+               required>
+        
+        <button type="submit" 
+                class="btn btn7 colored fll f-acc" 
+                name="commit"
+                id="Subscribe-{{ formid }}" 
+                title="{{ 'general.newsletter_form.submit' | t }}"
+                style="--brl: {{ button_border_radius }}px;">
+                <span style="hide-lg hide-xxl">
+                <svg width="16" height="21" viewBox="0 0 16 21" fill="none" xmlns="https://www.w3.org/2000/svg">
+<path d="M12.8933 9.65999L12.2266 8.55332C12.0866 8.30665 11.96 7.83999 11.96 7.56665V5.87999C11.96 3.70665 10.1933 1.93332 8.01332 1.93332C5.83332 1.93332 4.06665 3.70665 4.06665 5.87999V7.56665C4.06665 7.83999 3.93998 8.30665 3.79998 8.54665L3.12665 9.65999C2.85998 10.1067 2.79998 10.6 2.96665 11.0533C3.12665 11.5 3.50665 11.8467 3.99998 12.0133C5.29332 12.4533 6.65332 12.6667 8.01332 12.6667C9.37332 12.6667 10.7333 12.4533 12.0266 12.02C12.4933 11.8667 12.8533 11.5133 13.0266 11.0533C13.2 10.5933 13.1533 10.0867 12.8933 9.65999Z" fill="white" style="fill:white;fill-opacity:1;"/>
+<path d="M9.49999 2.21334C9.03999 2.03334 8.53999 1.93334 8.01333 1.93334C7.49333 1.93334 6.99333 2.02668 6.53333 2.21334C6.81999 1.67334 7.38666 1.33334 8.01333 1.33334C8.64666 1.33334 9.20666 1.67334 9.49999 2.21334Z" fill="white" style="fill:white;fill-opacity:1;"/>
+<path d="M9.88666 13.34C9.60666 14.1133 8.86666 14.6667 7.99999 14.6667C7.47333 14.6667 6.95333 14.4533 6.58666 14.0733C6.37333 13.8733 6.21333 13.6067 6.12 13.3333C6.20666 13.3467 6.29333 13.3533 6.38666 13.3667C6.53999 13.3867 6.69999 13.4067 6.85999 13.42C7.23999 13.4533 7.62666 13.4733 8.01333 13.4733C8.39333 13.4733 8.77333 13.4533 9.14666 13.42C9.28666 13.4067 9.42666 13.4 9.55999 13.38C9.66666 13.3667 9.77333 13.3533 9.88666 13.34Z" fill="white" style="fill:white;fill-opacity:1;"/>
+</svg>
+
+</span>
+
+          <span class="btn-text hide-md hide-sm">{{ 'general.newsletter_form.submit' | t }}</span>
+        </button>
+      </div>
+    {%- endif -%}
+  {%- endform -%}
+{%- endif -%}
+{% style %}
+  #newsletter_pp .input-wrapper-{{ section.id }} {
+    width:100%;
+    height: 45px;
+    display: flex;
+    gap: 15px;
+    padding: 5px;
+    box-sizing: content-box;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  .input-wrapper-{{ section.id }} {
+    width: 90%;
+    height: 45px;
+    display: flex;
+    gap: 15px;
+    padding: 5px;
+    box-sizing: content-box;
+    align-items: center;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+  }
+  @media(max-width: 768px)
+  { .input-wrapper-{{ section.id }} {
+    width: 100%;
+  }
+}
+    .at_footer .input-wrapper-{{ section.id }} {
+    margin: 0;
+  }
+
+  .input-wrapper-{{ section.id }} .newsletter-icon {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    margin-left: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .input-wrapper-{{ section.id }} .newsletter-input {
+    flex: 1;
+    outline: none;
+    font-size: 14px;
+  }
+
+  .input-wrapper-{{ section.id }} .newsletter-input::placeholder {
+    color: {{ input_text_color | color_modify: 'alpha', 0.6 }};
+  }
+
+  .input-wrapper-{{ section.id }} .newsletter-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px {{ bg_color }} inset;
+    -webkit-text-fill-color: {{ input_text_color }};
+  }
+
+  .input-wrapper-{{ section.id }} .subscribe-btn {
+    height: 100%;
+    width: 120px;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+
+  .input-wrapper-{{ section.id }} .subscribe-btn .arrow {
+    position: absolute;
+    margin-right: 150px;
+    transition: all 0.3s ease;
+  }
+
+  .input-wrapper-{{ section.id }} .subscribe-btn .btn-text {
+    position: relative;
+    z-index: 1;
+    margin-left:0;
+    color: {{bg_color}};
+    background: {{input_text_color}};
+  }
+
+  .input-wrapper-{{ section.id }}:active .newsletter-icon {
+    transform: scale(1.1);
+  }
+
+  .input-wrapper-{{ section.id }} .subscribe-btn:hover .btn-text {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    margin-left: 350px;
+  }
+  
+  .input-wrapper-{{ section.id }} .subscribe-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  .input-wrapper-{{ section.id }} .subscribe-btn:hover .arrow {
+    margin-right: 0;
+    animation: jello-vertical 0.9s both;
+    transform-origin: right;
+  }
+
+  @keyframes jello-vertical {
+    0% { transform: scale3d(1, 1, 1); }
+    30% { transform: scale3d(0.75, 1.25, 1); }
+    40% { transform: scale3d(1.25, 0.75, 1); }
+    50% { transform: scale3d(0.85, 1.15, 1); }
+    65% { transform: scale3d(1.05, 0.95, 1); }
+    75% { transform: scale3d(0.95, 1.05, 1); }
+    100% { transform: scale3d(1, 1, 1); }
+  }
+
+  .input-wrapper-{{ section.id }} .subscribe-btn:active {
+    transform: scale(0.95);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .newsletter-success {
+    text-align: center;
+    padding: 15px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    color: #155724;
+    margin: 15px 0;
+  }
+  @media (max-width: 768px) {
+    .input-wrapper-{{ section.id }} {
+      width: 95%;
+      height: 40px;
+      gap: 10px;
+    }
+    
+    .input-wrapper-{{ section.id }} .subscribe-btn {
+      width: 100px;
+      font-size: 12px;
+    }
+    
+    .input-wrapper-{{ section.id }} .newsletter-icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
+{% endstyle %}

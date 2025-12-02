@@ -1,0 +1,319 @@
+{%- assign discount_metafield = product.metafields.product.get_discount.value | downcase -%}
+{% assign blk_st = block.settings %}
+{% assign section_id = section.id | default: 'default' %}
+{% assign safe_section_id = section_id | handle %}
+{% assign display_type = blk_st.display_type | default: 'slider' %}
+{%- if discount_metafield == 'give discount' or blk_st.enable_for_all -%}
+{% capture svg_design %}
+  <svg width="180" height="201" viewBox="0 0 180 201" fill="none" xmlns="https://www.w3.org/2000/svg">
+<path d="M144.828 38.9107C145.3 39.728 145.3 40.7349 144.828 41.5522L136.317 56.2936C135.845 57.1109 134.973 57.6144 134.03 57.6144L117.008 57.6144C116.064 57.6144 115.192 57.1109 114.72 56.2936L106.209 41.5522C105.737 40.7349 105.737 39.728 106.209 38.9107L114.72 24.1693C115.192 23.352 116.064 22.8486 117.008 22.8486L134.03 22.8486C134.973 22.8486 135.845 23.352 136.317 24.1693L144.828 38.9107Z" fill="white" fill-opacity="0.1"/>
+<path d="M144.638 39.0208C145.07 39.7699 145.07 40.6935 144.638 41.4426L136.127 56.1838C135.694 56.9329 134.894 57.3938 134.029 57.3938L117.008 57.3938C116.143 57.3938 115.344 56.9328 114.911 56.1838L106.4 41.4426C105.968 40.6934 105.968 39.7699 106.4 39.0208L114.911 24.2795C115.344 23.5304 116.143 23.0686 117.008 23.0686L134.029 23.0686C134.894 23.0686 135.694 23.5304 136.127 24.2795L144.638 39.0208Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M75.5888 38.9107C76.0606 39.728 76.0606 40.7349 75.5888 41.5522L67.0778 56.2936C66.606 57.1109 65.7339 57.6144 64.7902 57.6144L47.7683 57.6144C46.8246 57.6144 45.9526 57.1109 45.4807 56.2936L36.9698 41.5522C36.4979 40.7349 36.4979 39.728 36.9698 38.9107L45.4807 24.1693C45.9526 23.352 46.8246 22.8486 47.7683 22.8486L64.7902 22.8486C65.7339 22.8486 66.606 23.352 67.0778 24.1693L75.5888 38.9107Z" fill="white" fill-opacity="0.1"/>
+<path d="M75.3982 39.0208C75.8307 39.7699 75.8307 40.6935 75.3982 41.4426L66.8874 56.1838C66.4549 56.9329 65.6548 57.3938 64.7898 57.3938L47.7683 57.3938C46.9034 57.3938 46.1042 56.9328 45.6716 56.1838L37.1609 41.4426C36.7283 40.6934 36.7283 39.7699 37.1609 39.0208L45.6716 24.2795C46.1042 23.5304 46.9032 23.0686 47.7683 23.0686L64.7898 23.0686C65.6549 23.0686 66.4549 23.5304 66.8875 24.2795L75.3982 39.0208Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M179.237 179.415C179.709 180.233 179.709 181.24 179.237 182.057L170.727 196.798C170.255 197.616 169.383 198.119 168.439 198.119L151.417 198.119C150.473 198.119 149.601 197.616 149.129 196.798L140.618 182.057C140.147 181.24 140.147 180.233 140.618 179.415L149.129 164.674C149.601 163.857 150.473 163.353 151.417 163.353L168.439 163.353C169.383 163.353 170.255 163.857 170.727 164.674L179.237 179.415Z" fill="white" fill-opacity="0.1"/>
+<path d="M179.047 179.525C179.479 180.275 179.479 181.198 179.047 181.947L170.536 196.688C170.104 197.438 169.304 197.898 168.438 197.898L151.417 197.898C150.552 197.898 149.753 197.437 149.32 196.688L140.81 181.947C140.377 181.198 140.377 180.275 140.81 179.525L149.32 164.784C149.753 164.035 150.552 163.573 151.417 163.573L168.438 163.573C169.304 163.573 170.104 164.035 170.536 164.784L179.047 179.525Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M110.692 179.415C111.164 180.233 111.164 181.24 110.692 182.057L102.181 196.798C101.709 197.616 100.837 198.119 99.8935 198.119L82.8716 198.119C81.9279 198.119 81.0559 197.616 80.584 196.798L72.0731 182.057C71.6012 181.24 71.6012 180.233 72.0731 179.415L80.584 164.674C81.0559 163.857 81.9279 163.353 82.8716 163.353L99.8935 163.353C100.837 163.353 101.709 163.857 102.181 164.674L110.692 179.415Z" fill="white" fill-opacity="0.1"/>
+<path d="M110.501 179.525C110.934 180.275 110.934 181.198 110.501 181.947L101.991 196.688C101.558 197.438 100.758 197.898 99.8931 197.898L82.8716 197.898C82.0066 197.898 81.2075 197.437 80.7749 196.688L72.2642 181.947C71.8316 181.198 71.8316 180.275 72.2642 179.525L80.7749 164.784C81.2074 164.035 82.0065 163.573 82.8716 163.573L99.8931 163.573C100.758 163.573 101.558 164.035 101.991 164.784L110.501 179.525Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M144.828 79.0547C145.3 79.872 145.3 80.879 144.828 81.6963L136.317 96.4376C135.845 97.2549 134.973 97.7584 134.03 97.7584L117.008 97.7584C116.064 97.7584 115.192 97.2549 114.72 96.4376L106.209 81.6963C105.737 80.879 105.737 79.872 106.209 79.0547L114.72 64.3134C115.192 63.4961 116.064 62.9926 117.008 62.9926L134.03 62.9926C134.973 62.9926 135.845 63.4961 136.317 64.3134L144.828 79.0547Z" fill="white" fill-opacity="0.1"/>
+<path d="M144.638 79.1648C145.07 79.914 145.07 80.8375 144.638 81.5867L136.127 96.3279C135.694 97.077 134.894 97.5378 134.029 97.5378L117.008 97.5378C116.143 97.5378 115.344 97.0768 114.911 96.3279L106.4 81.5867C105.968 80.8375 105.968 79.914 106.4 79.1648L114.911 64.4236C115.344 63.6744 116.143 63.2127 117.008 63.2126L134.029 63.2126C134.894 63.2126 135.694 63.6744 136.127 64.4236L144.638 79.1648Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M75.5888 79.0543C76.0606 79.8715 76.0606 80.8785 75.5888 81.6958L67.0778 96.4372C66.606 97.2544 65.7339 97.7579 64.7902 97.7579L47.7683 97.7579C46.8246 97.7579 45.9526 97.2544 45.4807 96.4372L36.9698 81.6958C36.4979 80.8785 36.4979 79.8715 36.9698 79.0543L45.4807 64.3129C45.9526 63.4956 46.8246 62.9921 47.7683 62.9921L64.7902 62.9921C65.7339 62.9921 66.606 63.4956 67.0778 64.3129L75.5888 79.0543Z" fill="white" fill-opacity="0.1"/>
+<path d="M75.3982 79.1643C75.8307 79.9135 75.8307 80.837 75.3982 81.5862L66.8874 96.3274C66.4549 97.0765 65.6548 97.5374 64.7898 97.5374L47.7683 97.5374C46.9034 97.5373 46.1042 97.0764 45.6716 96.3274L37.1609 81.5862C36.7283 80.837 36.7283 79.9135 37.1609 79.1643L45.6716 64.4231C46.1042 63.6739 46.9032 63.2122 47.7683 63.2122L64.7898 63.2122C65.6549 63.2122 66.4549 63.6739 66.8875 64.4231L75.3982 79.1643Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M144.828 119.199C145.3 120.016 145.3 121.023 144.828 121.841L136.317 136.582C135.845 137.399 134.973 137.903 134.03 137.903L117.008 137.903C116.064 137.903 115.192 137.399 114.72 136.582L106.209 121.841C105.737 121.023 105.737 120.016 106.209 119.199L114.72 104.458C115.192 103.64 116.064 103.137 117.008 103.137L134.03 103.137C134.973 103.137 135.845 103.64 136.317 104.458L144.828 119.199Z" fill="white" fill-opacity="0.1"/>
+<path d="M144.638 119.309C145.07 120.058 145.07 120.982 144.638 121.731L136.127 136.472C135.694 137.221 134.894 137.682 134.029 137.682L117.008 137.682C116.143 137.682 115.344 137.221 114.911 136.472L106.4 121.731C105.968 120.982 105.968 120.058 106.4 119.309L114.911 104.568C115.344 103.819 116.143 103.357 117.008 103.357L134.029 103.357C134.894 103.357 135.694 103.819 136.127 104.568L144.638 119.309Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M144.828 159.343C145.3 160.16 145.3 161.167 144.828 161.985L136.317 176.726C135.845 177.543 134.973 178.047 134.03 178.047L117.008 178.047C116.064 178.047 115.192 177.543 114.72 176.726L106.209 161.985C105.737 161.167 105.737 160.16 106.209 159.343L114.72 144.602C115.192 143.784 116.064 143.281 117.008 143.281L134.03 143.281C134.973 143.281 135.845 143.784 136.317 144.602L144.828 159.343Z" fill="white" fill-opacity="0.1"/>
+<path d="M144.638 159.453C145.07 160.202 145.07 161.126 144.638 161.875L136.127 176.616C135.694 177.365 134.894 177.826 134.029 177.826L117.008 177.826C116.143 177.826 115.344 177.365 114.911 176.616L106.4 161.875C105.968 161.126 105.968 160.202 106.4 159.453L114.911 144.712C115.344 143.963 116.143 143.501 117.008 143.501L134.029 143.501C134.894 143.501 135.694 143.963 136.127 144.712L144.638 159.453Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M40.2355 58.9825C40.7074 59.7998 40.7074 60.8067 40.2355 61.624L31.7246 76.3654C31.2527 77.1827 30.3807 77.6861 29.4369 77.6861L12.4151 77.6861C11.4713 77.6861 10.5993 77.1827 10.1274 76.3654L1.61651 61.624C1.14465 60.8067 1.14465 59.7998 1.61651 58.9825L10.1274 44.2411C10.5993 43.4238 11.4713 42.9203 12.4151 42.9203L29.4369 42.9203C30.3807 42.9203 31.2527 43.4238 31.7246 44.2411L40.2355 58.9825Z" fill="white" fill-opacity="0.1"/>
+<path d="M40.0449 59.0925C40.4775 59.8417 40.4775 60.7652 40.0449 61.5144L31.5342 76.2556C31.1016 77.0047 30.3016 77.4656 29.4365 77.4656L12.415 77.4656C11.5501 77.4656 10.7509 77.0046 10.3184 76.2556L1.80762 61.5144C1.37508 60.7652 1.37508 59.8417 1.80762 59.0925L10.3184 44.3513C10.7509 43.6021 11.55 43.1404 12.415 43.1404L29.4365 43.1404C30.3016 43.1404 31.1016 43.6021 31.5342 44.3513L40.0449 59.0925Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M40.2355 18.8384C40.7074 19.6557 40.7074 20.6627 40.2355 21.48L31.7246 36.2213C31.2527 37.0386 30.3807 37.5421 29.4369 37.5421L12.4151 37.5421C11.4713 37.5421 10.5993 37.0386 10.1274 36.2213L1.61651 21.48C1.14465 20.6627 1.14465 19.6557 1.61651 18.8384L10.1274 4.09706C10.5993 3.27977 11.4713 2.7763 12.4151 2.7763L29.4369 2.7763C30.3807 2.7763 31.2527 3.27977 31.7246 4.09706L40.2355 18.8384Z" fill="white" fill-opacity="0.1"/>
+<path d="M40.0449 18.9485C40.4775 19.6977 40.4775 20.6212 40.0449 21.3704L31.5342 36.1116C31.1016 36.8607 30.3016 37.3215 29.4365 37.3215L12.415 37.3215C11.5501 37.3215 10.7509 36.8605 10.3184 36.1116L1.80762 21.3704C1.37508 20.6212 1.37508 19.6977 1.80762 18.9485L10.3184 4.20727C10.7509 3.45811 11.55 2.99635 12.415 2.99634L29.4365 2.99634C30.3016 2.99634 31.1016 3.4581 31.5342 4.20727L40.0449 18.9485Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M110.692 58.9825C111.164 59.7998 111.164 60.8067 110.692 61.624L102.181 76.3654C101.709 77.1827 100.837 77.6861 99.8932 77.6861L82.8714 77.6861C81.9276 77.6861 81.0556 77.1827 80.5837 76.3654L72.0728 61.624C71.6009 60.8067 71.6009 59.7998 72.0728 58.9825L80.5837 44.2411C81.0556 43.4238 81.9276 42.9203 82.8714 42.9203L99.8932 42.9203C100.837 42.9203 101.709 43.4238 102.181 44.2411L110.692 58.9825Z" fill="white" fill-opacity="0.1"/>
+<path d="M110.501 59.0925C110.934 59.8417 110.934 60.7652 110.501 61.5144L101.99 76.2556C101.558 77.0047 100.758 77.4656 99.8928 77.4656L82.8713 77.4656C82.0064 77.4656 81.2072 77.0046 80.7747 76.2556L72.2639 61.5144C71.8314 60.7652 71.8314 59.8417 72.2639 59.0925L80.7747 44.3513C81.2072 43.6021 82.0063 43.1404 82.8713 43.1404L99.8928 43.1404C100.758 43.1404 101.558 43.6021 101.99 44.3513L110.501 59.0925Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M110.692 99.127C111.164 99.9443 111.164 100.951 110.692 101.769L102.181 116.51C101.709 117.327 100.837 117.831 99.8932 117.831L82.8714 117.831C81.9276 117.831 81.0556 117.327 80.5837 116.51L72.0728 101.769C71.6009 100.951 71.6009 99.9443 72.0728 99.127L80.5837 84.3856C81.0556 83.5683 81.9276 83.0649 82.8714 83.0649L99.8932 83.0649C100.837 83.0649 101.709 83.5683 102.181 84.3856L110.692 99.127Z" fill="white" fill-opacity="0.1"/>
+<path d="M110.501 99.2371C110.934 99.9862 110.934 100.91 110.501 101.659L101.99 116.4C101.558 117.149 100.758 117.61 99.8928 117.61L82.8713 117.61C82.0064 117.61 81.2072 117.149 80.7747 116.4L72.2639 101.659C71.8314 100.91 71.8314 99.9862 72.2639 99.2371L80.7747 84.4958C81.2072 83.7467 82.0063 83.2849 82.8713 83.2849L99.8928 83.2849C100.758 83.2849 101.558 83.7467 101.99 84.4958L110.501 99.2371Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M75.5888 119.199C76.0606 120.016 76.0606 121.023 75.5888 121.841L67.0778 136.582C66.606 137.399 65.7339 137.903 64.7902 137.903L47.7683 137.903C46.8246 137.903 45.9526 137.399 45.4807 136.582L36.9698 121.841C36.4979 121.023 36.4979 120.016 36.9698 119.199L45.4807 104.458C45.9526 103.64 46.8246 103.137 47.7683 103.137L64.7902 103.137C65.7339 103.137 66.606 103.64 67.0778 104.458L75.5888 119.199Z" fill="white" fill-opacity="0.1"/>
+<path d="M75.3982 119.309C75.8307 120.058 75.8307 120.982 75.3982 121.731L66.8874 136.472C66.4549 137.221 65.6548 137.682 64.7898 137.682L47.7683 137.682C46.9034 137.682 46.1042 137.221 45.6716 136.472L37.1609 121.731C36.7283 120.982 36.7283 120.058 37.1609 119.309L45.6716 104.568C46.1042 103.819 46.9032 103.357 47.7683 103.357L64.7898 103.357C65.6549 103.357 66.4549 103.819 66.8875 104.568L75.3982 119.309Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M179.237 58.9825C179.709 59.7998 179.709 60.8067 179.237 61.624L170.727 76.3654C170.255 77.1827 169.383 77.6861 168.439 77.6861L151.417 77.6861C150.473 77.6861 149.601 77.1827 149.129 76.3654L140.618 61.624C140.147 60.8067 140.147 59.7998 140.618 58.9825L149.129 44.2411C149.601 43.4238 150.473 42.9203 151.417 42.9203L168.439 42.9203C169.383 42.9203 170.255 43.4238 170.727 44.2411L179.237 58.9825Z" fill="white" fill-opacity="0.1"/>
+<path d="M179.047 59.0925C179.479 59.8417 179.479 60.7652 179.047 61.5144L170.536 76.2556C170.104 77.0047 169.304 77.4656 168.438 77.4656L151.417 77.4656C150.552 77.4656 149.753 77.0046 149.32 76.2556L140.81 61.5144C140.377 60.7652 140.377 59.8417 140.81 59.0925L149.32 44.3513C149.753 43.6021 150.552 43.1404 151.417 43.1404L168.438 43.1404C169.304 43.1404 170.104 43.6021 170.536 44.3513L179.047 59.0925Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M179.237 18.8389C179.709 19.6562 179.709 20.6632 179.237 21.4804L170.727 36.2218C170.255 37.0391 169.383 37.5426 168.439 37.5426L151.417 37.5426C150.473 37.5426 149.601 37.0391 149.129 36.2218L140.618 21.4804C140.147 20.6632 140.147 19.6562 140.618 18.8389L149.129 4.09755C149.601 3.28026 150.473 2.77679 151.417 2.77679L168.439 2.77679C169.383 2.77679 170.255 3.28026 170.727 4.09755L179.237 18.8389Z" fill="white" fill-opacity="0.1"/>
+<path d="M179.047 18.949C179.479 19.6982 179.479 20.6217 179.047 21.3708L170.536 36.1121C170.104 36.8612 169.304 37.322 168.438 37.322L151.417 37.322C150.552 37.322 149.753 36.861 149.32 36.1121L140.81 21.3708C140.377 20.6217 140.377 19.6982 140.81 18.949L149.32 4.20776C149.753 3.45859 150.552 2.99683 151.417 2.99682L168.438 2.99683C169.304 2.99683 170.104 3.45858 170.536 4.20776L179.047 18.949Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M179.237 99.127C179.709 99.9443 179.709 100.951 179.237 101.769L170.727 116.51C170.255 117.327 169.383 117.831 168.439 117.831L151.417 117.831C150.473 117.831 149.601 117.327 149.129 116.51L140.618 101.769C140.147 100.951 140.147 99.9443 140.618 99.127L149.129 84.3856C149.601 83.5683 150.473 83.0649 151.417 83.0649L168.439 83.0649C169.383 83.0649 170.255 83.5683 170.727 84.3856L179.237 99.127Z" fill="white" fill-opacity="0.1"/>
+<path d="M179.047 99.2371C179.479 99.9862 179.479 100.91 179.047 101.659L170.536 116.4C170.104 117.149 169.304 117.61 168.438 117.61L151.417 117.61C150.552 117.61 149.753 117.149 149.32 116.4L140.81 101.659C140.377 100.91 140.377 99.9862 140.81 99.2371L149.32 84.4958C149.753 83.7467 150.552 83.2849 151.417 83.2849L168.438 83.2849C169.304 83.2849 170.104 83.7467 170.536 84.4958L179.047 99.2371Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M179.237 139.271C179.709 140.089 179.709 141.096 179.237 141.913L170.727 156.654C170.255 157.471 169.383 157.975 168.439 157.975L151.417 157.975C150.473 157.975 149.601 157.471 149.129 156.654L140.618 141.913C140.147 141.096 140.147 140.089 140.618 139.271L149.129 124.53C149.601 123.713 150.473 123.209 151.417 123.209L168.439 123.209C169.383 123.209 170.255 123.713 170.727 124.53L179.237 139.271Z" fill="white" fill-opacity="0.1"/>
+<path d="M179.047 139.381C179.479 140.131 179.479 141.054 179.047 141.803L170.536 156.544C170.104 157.294 169.304 157.754 168.438 157.754L151.417 157.754C150.552 157.754 149.753 157.293 149.32 156.544L140.81 141.803C140.377 141.054 140.377 140.131 140.81 139.381L149.32 124.64C149.753 123.891 150.552 123.429 151.417 123.429L168.438 123.429C169.304 123.429 170.104 123.891 170.536 124.64L179.047 139.381Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+<path d="M110.692 18.8384C111.164 19.6557 111.164 20.6627 110.692 21.48L102.181 36.2213C101.709 37.0386 100.837 37.5421 99.8932 37.5421L82.8714 37.5421C81.9276 37.5421 81.0556 37.0386 80.5837 36.2213L72.0728 21.48C71.6009 20.6627 71.6009 19.6557 72.0728 18.8384L80.5837 4.09706C81.0556 3.27977 81.9276 2.7763 82.8714 2.7763L99.8932 2.7763C100.837 2.7763 101.709 3.27977 102.181 4.09706L110.692 18.8384Z" fill="white" fill-opacity="0.1"/>
+<path d="M110.501 18.9485C110.934 19.6977 110.934 20.6212 110.501 21.3704L101.99 36.1116C101.558 36.8607 100.758 37.3215 99.8928 37.3215L82.8713 37.3215C82.0064 37.3215 81.2072 36.8605 80.7747 36.1116L72.2639 21.3704C71.8314 20.6212 71.8314 19.6977 72.2639 18.9485L80.7747 4.20727C81.2072 3.45811 82.0063 2.99635 82.8713 2.99634L99.8928 2.99634C100.758 2.99634 101.558 3.4581 101.99 4.20727L110.501 18.9485Z" stroke="black" stroke-opacity="0.4" stroke-width="0.440252"/>
+</svg>
+{% endcapture %}
+<div class="dc-widget" data-display-type="{{ display_type }}" {{ blk_st.shopify_attributes }} id="discount-widget-{{ safe_section_id }}" data-section-id="{{ safe_section_id }}">
+  {% if display_type == 'tabs' %}
+    <div class="dc-tabs">
+      {% for i in (1..5) %}
+        {% assign card_enabled_key = 'card_' | append: i | append: '_enabled' %}
+        {% assign card_enabled = blk_st[card_enabled_key] %}
+        {% if card_enabled %}
+          {% assign card_offer_key = 'card_' | append: i | append: '_offer' %}
+          {% assign card_offer = blk_st[card_offer_key] | default: 'Special Offer' %}
+          <button class="dc-tab {% if forloop.first %}active{% endif %}" data-tab="{{ i }}">{{ card_offer }}</button>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div class="dc-content-area">
+      {% for i in (1..5) %}
+        {% assign card_enabled_key = 'card_' | append: i | append: '_enabled' %}
+        {% assign card_enabled = blk_st[card_enabled_key] %}
+        {% if card_enabled %}
+          {% assign card_offer_key = 'card_' | append: i | append: '_offer' %}
+          {% assign card_code_key = 'card_' | append: i | append: '_code' %}
+          {% assign card_description_key = 'card_' | append: i | append: '_description' %}
+          {% assign card_label_key = 'card_' | append: i | append: '_label' %}
+          {% assign card_offer = blk_st[card_offer_key] | default: 'Flat $25 off*' %}
+          {% assign card_code = blk_st[card_code_key] | default: 'DISCOUNT25' %}
+          {% assign card_description = blk_st[card_description_key] | default: 'Save on all transactions.' %}
+          {% assign card_label = blk_st[card_label_key] | default: 'DISCOUNT' %}
+          <div class="dc-tab-content" data-tab-content="{{ i }}" style="{% unless forloop.first %}display: none;{% endunless %}">
+            <div class="dc-container">
+              <div class="dc-inner">
+                <div class="dc-label">{{ card_label }}</div>
+                <div class="dc-content"><span>{{ svg_design }}</span>
+                  <div class="dc-offer">{{ card_offer }}</div>
+                  <div class="fl f-aic f-jcsb f-col-992">
+                    <div class="pr_price sale dc-code">{{ card_code }}</div>
+                    <button class="btn btn-sm btn7 dc-copy-btn" data-copy-text="{{ card_code }}">Copy Code</button>
+                  </div>
+                  <div class="dc-description">{{ card_description }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% elsif display_type == 'grid' %}
+    <div class="dc-grid">
+      {% for i in (1..5) %}
+        {% assign card_enabled_key = 'card_' | append: i | append: '_enabled' %}
+        {% assign card_enabled = blk_st[card_enabled_key] %}
+        {% if card_enabled %}
+          {% assign card_offer_key = 'card_' | append: i | append: '_offer' %}
+          {% assign card_code_key = 'card_' | append: i | append: '_code' %}
+          {% assign card_description_key = 'card_' | append: i | append: '_description' %}
+          {% assign card_label_key = 'card_' | append: i | append: '_label' %}
+          {% assign card_offer = blk_st[card_offer_key] | default: 'Flat $25 off*' %}
+          {% assign card_code = blk_st[card_code_key] | default: 'DISCOUNT25' %}
+          {% assign card_description = blk_st[card_description_key] | default: 'Save on all transactions.' %}
+          {% assign card_label = blk_st[card_label_key] | default: 'DISCOUNT' %}
+          <div class="dc-container">
+            <div class="dc-inner">
+              <div class="dc-label">{{ card_label }}</div>
+              <div class="dc-content"><span>{{ svg_design }}</span>
+                <div class="dc-offer">{{ card_offer }}</div>
+                <div class="fl f-aic f-jcsb f-col-992">
+                  <div class="pr_price sale dc-code">{{ card_code }}</div>
+                  <button class="btn btn-sm btn7 dc-copy-btn" data-copy-text="{{ card_code }}">Copy Code</button>
+                </div>
+                <div class="dc-description">{{ card_description }}</div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="dc-slider pr">
+      <div class="dc-slides">
+        {% for i in (1..5) %}
+          {% assign card_enabled_key = 'card_' | append: i | append: '_enabled' %}
+          {% assign card_enabled = blk_st[card_enabled_key] %}
+          {% if card_enabled %}
+            {% assign card_offer_key = 'card_' | append: i | append: '_offer' %}
+            {% assign card_code_key = 'card_' | append: i | append: '_code' %}
+            {% assign card_description_key = 'card_' | append: i | append: '_description' %}
+            {% assign card_label_key = 'card_' | append: i | append: '_label' %}
+            {% assign card_offer = blk_st[card_offer_key] | default: 'Flat $25 off*' %}
+            {% assign card_code = blk_st[card_code_key] | default: 'DISCOUNT25' %}
+            {% assign card_description = blk_st[card_description_key] | default: 'Save on all transactions.' %}
+            {% assign card_label = blk_st[card_label_key] | default: 'DISCOUNT' %}
+            <div class="dc-slide">
+              <div class="dc-container">
+                <div class="dc-inner">
+                  <div class="dc-label">{{ card_label }}</div>
+                  <div class="dc-content"><span>{{ svg_design }}</span>
+                    <div class="dc-offer">{{ card_offer }}</div>
+                    <div class="fl f-aic f-jcsb f-col-992">
+                      <div class="pr_price sale dc-code">{{ card_code }}</div>
+                      <button class="btn btn-sm btn7 dc-copy-btn" data-copy-text="{{ card_code }}">Copy Code</button>
+                    </div>
+                    <div class="dc-description">{{ card_description }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% assign enabled_cards_count = 0 %}
+      {% for i in (1..5) %}
+        {% assign card_enabled_key = 'card_' | append: i | append: '_enabled' %}
+        {% assign card_enabled = blk_st[card_enabled_key] %}
+        {% if card_enabled %}
+          {% assign enabled_cards_count = enabled_cards_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      {% if enabled_cards_count > 1 %}
+        <div class="dc-nav pa">
+          <button class="dc-nav-btn" data-nav="prev" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="dc-dots">
+            {% for i in (1..enabled_cards_count) %}
+              <button class="dc-dot {% if forloop.first %}active{% endif %}" data-slide="{{ forloop.index0 }}"></button>
+            {% endfor %}
+          </div>
+          <button class="dc-nav-btn" data-nav="next" {% if enabled_cards_count <= 1 %}disabled{% endif %}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const container = document.querySelector('#discount-widget-{{ safe_section_id }}');
+  if (!container) return;
+  const displayType = container.dataset.displayType;
+  let currentSlide = 0, totalSlides = 0;
+
+  function setupCopyButtons() {
+    container.querySelectorAll('.dc-copy-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const textToCopy = this.dataset.copyText;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textToCopy).then(() => showCopySuccess(this)).catch(() => fallbackCopy(textToCopy, this));
+        } else {
+          fallbackCopy(textToCopy, this);
+        }
+      });
+    });
+  }
+
+  function fallbackCopy(text, button) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.select();
+    textArea.setSelectionRange(0, 99999);
+    try {
+      if (document.execCommand('copy')) showCopySuccess(button);
+    } catch (err) {
+      console.error('Fallback copy failed: ', err);
+    }
+    document.body.removeChild(textArea);
+  }
+
+  function showCopySuccess(button) {
+    const originalText = button.textContent;
+    button.textContent = 'Copied!';
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('copied');
+    }, 2000);
+  }
+
+  function setupTabs() {
+    const tabs = container.querySelectorAll('.dc-tab');
+    const tabContents = container.querySelectorAll('.dc-tab-content');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        const tabNumber = this.dataset.tab;
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(content => content.style.display = 'none');
+        this.classList.add('active');
+        const targetContent = container.querySelector(`[data-tab-content="${tabNumber}"]`);
+        if (targetContent) targetContent.style.display = 'block';
+      });
+    });
+  }
+
+  function setupSlider() {
+    const slides = container.querySelectorAll('.dc-slide');
+    totalSlides = slides.length;
+    if (totalSlides <= 1) return;
+    const prevBtn = container.querySelector('[data-nav="prev"]');
+    const nextBtn = container.querySelector('[data-nav="next"]');
+    const dots = container.querySelectorAll('.dc-dot');
+    if (prevBtn && nextBtn) {
+      prevBtn.addEventListener('click', prevSlide);
+      nextBtn.addEventListener('click', nextSlide);
+    }
+    dots.forEach((dot, index) => dot.addEventListener('click', () => goToSlide(index)));
+    if (container.dataset.autoplay === 'true') {
+      setInterval(() => {
+        if (currentSlide < totalSlides - 1) nextSlide();
+        else goToSlide(0);
+      }, 5000);
+    }
+    let startX = 0, endX = 0;
+    const slidesContainer = container.querySelector('.dc-slides');
+    if (slidesContainer) {
+      slidesContainer.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+      slidesContainer.addEventListener('touchend', e => {
+        endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0 && currentSlide < totalSlides - 1) nextSlide();
+          else if (diff < 0 && currentSlide > 0) prevSlide();
+        }
+      });
+    }
+  }
+
+  function prevSlide() {
+    if (currentSlide > 0) {
+      currentSlide--;
+      updateSlider();
+    }
+  }
+
+  function nextSlide() {
+    if (currentSlide < totalSlides - 1) {
+      currentSlide++;
+      updateSlider();
+    }
+  }
+
+  function goToSlide(slideIndex) {
+    currentSlide = slideIndex;
+    updateSlider();
+  }
+
+  function updateSlider() {
+    const slidesContainer = container.querySelector('.dc-slides');
+    const prevBtn = container.querySelector('[data-nav="prev"]');
+    const nextBtn = container.querySelector('[data-nav="next"]');
+    const dots = container.querySelectorAll('.dc-dot');
+    if (slidesContainer) slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+    if (prevBtn) prevBtn.disabled = currentSlide === 0;
+    if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+    dots.forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
+  }
+
+  setupCopyButtons();
+  if (displayType === 'tabs') setupTabs();
+  else if (displayType === 'slider') setupSlider();
+});
+</script>
+{%- endif -%}
+{%  style %}
+  .dc-content span{
+  position: absolute;
+  top:0;
+  right:10px;
+  pointer-events: none;
+  }
+{% endstyle %}

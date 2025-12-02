@@ -1,0 +1,25 @@
+{% if product.metafields.custom.countdown != blank %}
+                  <div
+                    class="timer fl f-wrap f-aic {{ blk_st.cds }} mb{{ blk_st.bm }}{% if blk_st.iscenter %} f-jcc{% endif %}"
+                    style="--bg:{{ blk_st.bg }};--rounded:{{blk_st.brad }}px"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- if blk_st.clbl != blank -%}
+                      <label style="color:{{ blk_st.cl }}">{{ blk_st.clbl }}</label>
+                    {%- endif -%}
+                    <countdown-time
+                      id="countdown"
+                      class="atCounter {{ blk_st.cds }} fl f-aic{% if blk_st.cds != 'inline_timer' %} w_100{% endif %}{% if blk_st.iscenter %} f-jcc{% endif %}{% if blk_st.text_ttu %} ttu{% endif %}"
+                      data-date="{{ product.metafields.custom.countdown }}"
+                      style="--cl:{{ blk_st.tcl }};--fs:{{ blk_st.fs }}px;--fsl:{{ blk_st.tfs }}px;--fw:{{ blk_st.fw }};--border:{{ blk_st.border }};"
+                    >
+                      <span><span class="tm days fl f-col">00</span> {{ 'date_formats.days' | t }}</span
+                      ><span class="timerdot">:</span>
+                      <span><span class="tm hours fl f-col">00</span> {{ 'date_formats.hours' | t }}</span
+                      ><span class="timerdot">:</span>
+                      <span><span class="tm minutes fl f-col">00</span> {{ 'date_formats.minuts' | t }}</span
+                      ><span class="timerdot">:</span>
+                      <span><span class="tm seconds fl f-col">00</span> {{ 'date_formats.seconds' | t }}</span>
+                    </countdown-time>
+                  </div>
+                {%- endif -%}

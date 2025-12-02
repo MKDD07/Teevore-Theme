@@ -1,0 +1,128 @@
+{% comment %}  Simple Order Timeline - 3 Boxes with Flex {% endcomment %}   
+<div class="fl f-jcsb order f-aic">     
+    <div class="fl f-aic f-col f-aic card tooltip-container">          
+        <div class="p20 rounded20">{{ blk_st.svg_text_01 }}</div>         
+        <div class="kug">Ordered</div>         
+        <div>{{ 'now' | date: '%d %b' }}</div>     
+        <div class="tooltip">Order on <br>{{ 'now' | date: '%d %b' }}</div>   
+    </div>    
+
+    <span></span>     
+
+    <div class="fl f-aic f-col f-aic card tooltip-container">         
+        <div class="p20 rounded20 ">{{ blk_st.svg_text_02 }}</div>         
+        <div class="kug">Dispatch</div>         
+        <div>{{ 'now' | date: '%s' | plus: 86400 | date: '%d' }}–{{ 'now' | date: '%s' | plus: 172800 | date: '%d %b' }}</div>     
+        <div class="tooltip">Prepare with in <br>{{ 'now' | date: '%s' | plus: 86400 | date: '%d' }}–{{ 'now' | date: '%s' | plus: 172800 | date: '%d %b' }} </div>   
+    </div>    
+
+    <span></span>     
+
+    <div class="fl f-aic f-col f-aic card tooltip-container">         
+        <div class="p20 rounded20 ">{{ blk_st.svg_text_03 }}</div>         
+        <div class="kug">Delivered</div>         
+        <div>{{ 'now' | date: '%s' | plus: 345600 | date: '%d' }}–{{ 'now' | date: '%s' | plus: 518400 | date: '%d %b' }}</div>     
+        <div class="tooltip">Estimated arrival date range <br>{{ 'now' | date: '%s' | plus: 518400 | date: '%d %b' }}–{{ 'now' | date: '%s' | plus: 691200 | date: '%d %b' }}</div>   
+    </div>  
+</div>   
+
+<style>      
+.rounded20 {        
+    position: relative;
+    padding: 10px;        
+    border-radius: 50px;        
+    min-height: 40px;        
+    min-width: 40px;        
+    display: flex;       
+    align-items: center;        
+    justify-content: center;        
+    margin-block: 20px;
+      
+}
+.rounded20:hover {
+box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.rounded20::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    border: 2px solid var(--cl);
+    border-radius: 50px;
+    pointer-events: none;
+    animation: rotateOutline 2s linear infinite;
+}rgba(0, 0, 0, 0.04)
+
+@keyframes rotateOutline {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(100deg);
+    }
+}
+ 
+    .order span{        
+        width:100%;        
+        content: "";        
+        background:#222222;        
+        height: 2px;        
+        margin-bottom: 30px;  
+    }   
+    .card{    
+        min-width:71px; 
+    }   
+
+    /* Minimal Animated Tooltip */ 
+    .tooltip-container {   
+        position: relative; 
+    }  
+
+    .tooltip {   
+        position: absolute;   
+        bottom: calc(100% + 8px);   
+        left: 50%;   
+        transform: translateX(-50%) translateY(4px);   
+        background: rgba(45, 45, 45, 0.9);   
+        color: white;   
+        padding: 8px 12px;   
+        border-radius: 6px;   
+        font-size: 13px;   
+        line-height: 1.4;
+        white-space: normal;
+        word-wrap: break-word;
+        max-width: 280px;
+        min-width: 180px;
+        opacity: 0;   
+        visibility: hidden;   
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);   
+        z-index: 1000;   
+        pointer-events: none;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+        font-weight: 500;
+        text-align: center;
+    }  
+
+    .tooltip::after {   
+        content: '';   
+        position: absolute;   
+        top: 100%;   
+        left: 50%;   
+        transform: translateX(-50%);   
+        border: 4px solid transparent;   
+        border-top-color: rgba(45, 45, 45, 0.9); 
+    }  
+
+    .tooltip-container:hover .tooltip {   
+        opacity: 1;   
+        visibility: visible; 
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* Bold dates in tooltips */
+    .tooltip {
+        font-variant-numeric: tabular-nums;
+    } 
+</style>

@@ -1,0 +1,30 @@
+{%- liquid
+    assign product_url = product.url | within: collection
+    if settings.clurl
+        assign product_url = product.url
+    endif
+-%}
+<div class="pr_list fl f-aic brad of_hidden" style="--rounded:{{ section_st.brad }}px">
+  <div class="pr_list_img">    
+    <a class="grid_img" href="{{ product_url }}" aria-label="{{ product.title }}">
+        {{ product.featured_image | image_url: width: product.featured_image.width | image_tag: loading:'lazy', width:product.featured_image.width, height:product.featured_image.height, class:'imgFt', sizes:'80px', widths:"100,200,320" }}
+    </a>
+  </div>
+  <div class="fl1 pr_list_detail fl f-jcsb">
+    <div class="fl f-col">
+    <a href="{{ product_url }}" class="pr_list_ttl mb5">{{ product.title }}</a>
+    {% if settings.show_vendor %}<div class="pr_list_vendor mb5">{{ product.vendor }}</div>{% endif %}   	
+    {%- unless settings.hide-price -%}<div class="pr_list_meta mb10">{% render 'product-price', product: product %}</div>{%- endunless -%}        
+    {% if settings.show_product_review %}<div class="pr_review mb5">{% render 'ratings', product: product %}</div>{% endif %}
+        </div>
+    {%- if showbtn -%}
+      <product-card>
+        <button type="button" data-url="{{ product.url | split: "?" | first }}?section_id=quick-view" class="btn-options rounded btn btn7 pr quick-view {{ ctrecom }}"><span class="txt"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="https://www.w3.org/2000/svg">
+<path d="M4.78647 5.05317C4.78647 2.9065 6.15981 1.1665 7.85981 1.1665C9.55981 1.1665 10.9331 2.9065 10.9331 5.05317M7.85981 5.05317C1.35981 5.05317 0.459804 4.6465 1.56647 10.7865C2.19981 14.3198 2.65314 14.8132 7.85981 14.8132C13.0665 14.8132 13.5198 14.3132 14.1531 10.7865C15.2598 4.6465 14.3665 5.05317 7.85981 5.05317Z" stroke="white" stroke-miterlimit="10"/>
+</svg>
+
+</span><svg class="at-icon at-spin"><use xlink:href="#icon-loading"></use></svg></button>
+      </product-card>
+    {%- endif -%}
+  </div>
+    </div>

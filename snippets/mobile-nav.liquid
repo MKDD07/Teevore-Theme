@@ -1,0 +1,167 @@
+{%- capture mobile_menu -%}
+<div class="mob_nav_wr fl f-col hide-lg f-jcsb" role="navigation">
+<div class="box-container mauto">
+  <div class="line-with-icon pt10 ">
+          <a href="#closeNav" class="mnvTtl pr ml_auto closembNav" title="{{ 'sections.navigation.close_menu' | t }}"><svg width="40" height="8" viewBox="0 0 40 8" fill="none" xmlns="https://www.w3.org/2000/svg">
+<rect width="40" height="8" rx="4" fill="#e8e8e8"/><use xlink:href="#icon-close"></use></svg></a>
+
+  </div>
+</div>
+     <div class="mbNavHrd fl pdmob">
+        {% comment %}
+          <a href="#mobNav" class="mnvTtl mbMnink pr active"></a>{% endcomment %}
+          {% if secSt.catnav %}<a href="#mobCtnav" class="mnvTtl mbMnink pr">{{ 'sections.navigation.categories' | t }}</a>{% endif %}
+          <div class="hasSub socials wfill fl f-jcsb mt5 fl-acc" style="padding: 5px 10px">
+                                        {%- if block_st.socttl != blank -%}<h3 class="h4 mb15">{{ block_st.socttl }}</h3>{%- endif -%}
+                                        {% render 'social-media' %}
+            {%- if shop.customer_accounts_enabled -%}
+                <div class="fl f-row">
+         <a class="hdicon visible-ms" href="{{ pages[settings.wishlist_page].url }}" title="{{ 'sections.header.wishlist' | t }}">
+              <svg class="at-icon{% if sec_st.icntyp == '3' %} hide-lg{% endif %}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+              <path d="M12 21.65C11.69 21.65 11.39 21.61 11.14 21.52C7.32 20.21 1.25 15.56 1.25 8.69001C1.25 5.19001 4.08 2.35001 7.56 2.35001C9.25 2.35001 10.83 3.01001 12 4.19001C13.17 3.01001 14.75 2.35001 16.44 2.35001C19.92 2.35001 22.75 5.20001 22.75 8.69001C22.75 15.57 16.68 20.21 12.86 21.52C12.61 21.61 12.31 21.65 12 21.65ZM7.56 3.85001C4.91 3.85001 2.75 6.02001 2.75 8.69001C2.75 15.52 9.32 19.32 11.63 20.11C11.81 20.17 12.2 20.17 12.38 20.11C14.68 19.32 21.26 15.53 21.26 8.69001C21.26 6.02001 19.1 3.85001 16.45 3.85001C14.93 3.85001 13.52 4.56001 12.61 5.79001C12.33 6.17001 11.69 6.17001 11.41 5.79001C10.48 4.55001 9.08 3.85001 7.56 3.85001Z" fill="#222222"/>
+              </svg>
+              </svg>
+              {%- if sec_st.icntyp != '3' -%}<b id="wishlistItems" class="cartCount pp">0</b>{%- endif -%}
+              <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.wishlist' | t }}</p>
+          </a>
+          		<a href="{{ routes.cart_url }}" class="hdicon visible-ms" id="cartLink" title="{{ 'sections.header.cart' | t }}">
+            <svg class="at-icon{% if sec_st.icntyp == '3' %} hide-lg{% endif %}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+            <path d="M16.5 8.62999C16.09 8.62999 15.75 8.28999 15.75 7.87999V6.49999C15.75 5.44999 15.3 4.42999 14.52 3.71999C13.73 2.99999 12.71 2.66999 11.63 2.76999C9.83 2.93999 8.25 4.77999 8.25 6.69999V7.66999C8.25 8.07999 7.91 8.41999 7.5 8.41999C7.09 8.41999 6.75 8.07999 6.75 7.66999V6.68999C6.75 3.99999 8.92 1.51999 11.49 1.26999C12.99 1.12999 14.43 1.59999 15.53 2.60999C16.62 3.59999 17.25 5.01999 17.25 6.49999V7.87999C17.25 8.28999 16.91 8.62999 16.5 8.62999Z" fill="#222222"/>
+            <path d="M15 22.75H9C4.38 22.75 3.52 20.6 3.3 18.51L2.55 12.52C2.44 11.44 2.4 9.89 3.45 8.73C4.35 7.73 5.84 7.25 8 7.25H16C18.17 7.25 19.66 7.74 20.55 8.73C21.59 9.89 21.56 11.44 21.45 12.5L20.7 18.51C20.48 20.6 19.62 22.75 15 22.75ZM8 8.75C6.31 8.75 5.15 9.08 4.56 9.74C4.07 10.28 3.91 11.11 4.04 12.35L4.79 18.34C4.96 19.94 5.4 21.26 9 21.26H15C18.6 21.26 19.04 19.95 19.21 18.36L19.96 12.35C20.09 11.13 19.93 10.3 19.44 9.75C18.85 9.08 17.69 8.75 16 8.75H8Z" fill="#222222"/>
+            <path d="M15.42 13.15C14.86 13.15 14.41 12.7 14.41 12.15C14.41 11.6 14.86 11.15 15.41 11.15C15.96 11.15 16.41 11.6 16.41 12.15C16.41 12.7 15.97 13.15 15.42 13.15Z" fill="#222222"/>
+            <path d="M8.42 13.15C7.86 13.15 7.41 12.7 7.41 12.15C7.41 11.6 7.86 11.15 8.41 11.15C8.96 11.15 9.41 11.6 9.41 12.15C9.41 12.7 8.97 13.15 8.42 13.15Z" fill="#222222"/>
+            </svg>
+            </svg>
+            {%- if sec_st.icntyp != '3' -%}<b id="cart-icon-ms" class="cartCount pp">{{ cart.item_count }}</b>{%- endif -%}
+            <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.cart' | t }}{% if sec_st.icntyp == '3' %}<b id="cart-icon-bubble" class="cartCount pp">{{ cart.item_count }}</b>{% endif %}</p>
+        </a> 
+        		    <a class="hdicon user-menu visible-ms" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="{{ 'sections.header.account' | t }}">
+                {%- render 'icon-account', icntyp: sec_st.icntyp -%}
+                <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.account' | t }}</p>
+          </a>
+    		  <a class="hdicon user-menu fll btn btn7 btn-sm gap10 ml10" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="{{ 'sections.header.account' | t }}">
+                {%- render 'icon-account', icntyp: sec_st.icntyp -%}
+                <p class="m0">Login</p>
+          </a>
+           </div>
+        {%- endif -%}
+
+        </div>
+
+        {% comment %}
+        <a href="#closeNav" class="mnvTtl pr ml_auto closembNav" title="{{ 'sections.navigation.close_menu' | t }}"><svg class="at-icon"><use xlink:href="#icon-close"></use></svg></a>
+        {% endcomment %}
+     </div>
+  
+      <ul id="mobNav" class="mobNav mt10 fl f-col hide-lg{% if settings.mmsub %} st2{% else %} st1{% endif %}">
+      {%- capture arrow -%}
+          {% if settings.mmsub %}
+            <svg class="at-icon arw ml_auto"><use class="mns" xlink:href="#icon-plus"></use><use xlink:href="#icon-minus"></use></svg>
+          {% else %}
+            <svg class="at-icon arw right ml_auto"><use xlink:href="#icon-arrow"></use></svg>
+          {% endif %}
+      {%- endcapture -%}
+      {%- capture arrowbk -%}<svg class="at-icon arw left mr20"><use xlink:href="#icon-arrow"></use></svg>{%- endcapture -%}
+      {% if secSt.spnav %}
+          {% for link in linklists[secSt.mbmenu].links %}
+              {% render 'mm-mobile-links', link: link, arrow:arrow, arrowbk:arrowbk %}
+          {% endfor %}
+      {% else %}
+          {%- for block in section.blocks -%}
+              {% assign blk_st = block.settings %}
+              {%- assign label = blk_st.title |  split: '[label' | last  | split: ']' | first | prepend: "nm_lbl" -%}
+              {%- capture link_level_1 -%}
+                  {% if navType == 'cat' %}
+                      {%- assign collection = collections[blk_st.url] -%}
+                      {%- assign ttlink = collections[blk_st.url].url -%}
+                  {% else %}
+                      {%- assign ttlink = blk_st.url -%}
+                  {% endif %}
+                  <a class="hasSub" href="{% if blk_st.url != blank %}{{ ttlink }}{% else %}#{% endif %}">
+                      {% if secSt.sicnm and collection.metafields.custom.icon != blank and navType == 'cat' %}
+                          {% assign icn_size = secSt.icnm | plus: 50 %}
+                          <img class="icn lazyload mr10" data-src="{{ collection.metafields.custom.icon | image_url: width: icn_size }}" width="{{ secSt.icnm }}" height="{{ secSt.icnm }}" alt="{{ collection.title }}" />
+                      {% endif %}
+                      {{ blk_st.title | split: '[' | first }}
+                      {% if blk_st.title contains '[label' %} <span class="lbl {{ label }}">{{ settings[label] }}</span>{% endif %}
+                      {{ arrow }}
+                  </a>
+              {%- endcapture -%}
+              {%- if block.type == 'home' -%}
+                  <li class="lvl1"><a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t }}</a></li>
+              {%- elsif block.type == 'slink' -%}
+                  <li class="lvl1">{{ link_level_1 | remove: arrow | remove: 'hasSub' }}</li>
+              {%- elsif block.type == 'm1' or block.type == 'm2' or block.type == 'm4' or block.type == 'm5' or block.type == 'dd' -%}
+                  {%- if blk_st.title != blank -%}
+                      <li class="lvl1 parent">{{ link_level_1 }}
+                          <ul class="subLinks close">
+                              {% unless settings.mmsub %}
+                                  {% assign name = blk_st.title | split:'[label' | first %}
+                                  <li class="backto">{{ arrowbk }} {{ 'sections.navigation.back' | t: item: name }}</li>
+                              {% endunless %}
+                              {% for link in linklists[blk_st.menu].links %}{% render 'mm-mobile-links', link:link, arrow:arrow, arrowbk:arrowbk %}{% endfor %}
+                          </ul>
+                      </li>
+                  {%- endif -%}
+              {%- elsif block.type == 'm3' and blk_st.title != blank -%}
+                  <li class="lvl1 parent">{{ link_level_1 }}
+                      <ul class="subLinks">
+                          {%- if blk_st.ttl1 != blank or blk_st.ttl2 != blank or blk_st.ttl3 != blank or blk_st.ttl4 != blank or blk_st.ttl5 != blank -%}
+                              {% unless settings.mmsub %}
+                                  {% assign name = blk_st.title | split:'[label' | first %}
+                                  <li class="backto">{{ arrowbk }} {{ 'sections.navigation.back' | t: item: name }}</li>
+                              {% endunless %}
+                          {%- endif -%}
+                          {% for i in (1..5) %}
+                              {% capture bkttl %}{% cycle blk_st.ttl1, blk_st.ttl2, blk_st.ttl3, blk_st.ttl4, blk_st.ttl5 %}{% endcapture %}
+                              {%- assign m_3_label = bkttl |  split: '[label' | last  | split: ']' | first | prepend: "nm_lbl" -%}
+                              {% if navType == 'cat' %}
+                                  {%- assign collection = collections[blk_st.url] -%}
+                                  {% capture bkurl %}{% cycle blk_st.url1.url, blk_st.url2.url, blk_st.url3.url, blk_st.url4.url, blk_st.url5.url %}{% endcapture %}
+                              {% else %}
+                                  {% capture bkurl %}{% cycle blk_st.url1, blk_st.url2, blk_st.url3, blk_st.url4, blk_st.url5 %}{% endcapture %}
+                              {% endif %}
+                              {% capture bkmenu %}{% cycle blk_st.menu1, blk_st.menu2, blk_st.menu3, blk_st.menu4, blk_st.menu5 %}{% endcapture %}
+                              {%- if bkttl != blank -%}
+                                  <li>
+                                      <a href="{% if bkurl != blank %}{{ bkurl }}{% else %}#{% endif %}" {% if linklists[blk_st.menu1].links != blank %}class="hasSub"{% endif %}>
+                                          {{ bkttl | split: '[label' | first }}
+                                          {% if bkttl contains '[label' %}<span class="lbl {{ m_3_label }}">{{ settings[m_3_label] }}</span>{% endif %}
+                                          {% if linklists[bkmenu].links != blank %}{{ arrow }}{% endif %}
+                                      </a>
+                                      {% if linklists[bkmenu].links != blank %}
+                                          <ul class="subLinks">
+                                              <li class="backto">{{ arrowbk }} {{ bkttl | split: '[label' | first }}</li>
+                                              {% for link in linklists[bkmenu].links %}
+                                                  <li{% if link.active %} class="active"{% endif %}>
+                                                      {%- assign label = link.title |  split: '[label' | last | split: ']' | first | prepend: "nm_lbl" -%}
+                                                      <a href="{{ link.url }}">{{ link.title | split: '[label' | first }}{% if link.title contains '[label' %}<span class="lbl {{ label1 }}">{{ settings[label] }}</span>{% endif %}</a>
+                                                  </li>
+                                              {% endfor %}
+                                          </ul>
+                                      {%- endif -%}
+                                  </li>
+                              {%- endif -%}
+                          {% endfor %}
+                      </ul>
+                  </li>
+              {%- endif -%}
+          {%- endfor -%}
+      {%- endif -%}
+      {% if secSt.exttxt1 != blank and secSt.extlk1 != blank %}
+          <li><a href="{{ secSt.extlk1 }}" style="color:{{ secSt.extcl1m }}">{{ secSt.exttxt1 }}</a></li>
+      {%- endif -%}
+      {% if secSt.exttxt2 != blank and secSt.extlk2 != blank %}
+          <li><a href="{{ secSt.extlk2 }}" style="color:{{ secSt.extcl2m }}">{{ secSt.exttxt2 }}</a></li>
+      {%- endif -%}
+      {% if secSt.help != blank %}<li class="help">{{ secSt.help }}</li>{% endif %}
+      </ul>
+    {% if secSt.catnav %}
+      <ul id="mobCtnav" class="mobNav hide{% if settings.mmsub %} st2{% else %} st1{% endif %}" style="--icnsz:{{ secSt.icnm }}px;--icnrad:{{ secSt.icnrad }}px">
+        {% for link in linklists[secSt.catmenu].links %}{% render 'mb-cat-links', link: link, secSt: section.settings %}{% endfor %}
+      </ul>
+    {% endif %}
+    {% if settings.mlcurrency or settings.mlLang %}<div class="crlnRow mt_auto fl pr">{% render 'currencyLang', ismobile: true %}</div>{% endif %}
+</div>
+{%- endcapture -%}
+{{- mobile_menu | strip_newlines | remove: "  " | remove: "	" -}}

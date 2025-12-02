@@ -1,0 +1,47 @@
+{%- capture newsletter -%}
+{%- liquid 
+    assign block_st = block.settings
+    assign cnt_width = settings.cntwd | append: 'px'
+    if block_st.sw
+        assign cnt_width = '100vw'
+    endif
+    assign verticle = false
+    if block_st.style == "3"
+      assign verticle = true
+      assign btn_class = 'w_100'
+    endif
+    assign formid = 'newsletter' | append: section.id
+-%}
+<div id="{{ section.id }}" class="fl sec_cov pr of_hidden{% if block_st.hidem %} hide-sm{% endif %}{% if block_st.hided %} hide-md hide-lg{% endif %}{% if block_st.image != blank and block_st.style != "3" %} bgImg lazyload{% endif %}" style="--sbg:{% if block_st.bgg != blank %}{{ block_st.bgg }}{% else %}{{ block_st.bg }}{% endif %};--sst:{{ block_st.sst }}px;--ssb:{{ block_st.ssb }}px;--sstm:{{ block_st.sstm }}px;--ssbm:{{ block_st.ssbm }}px;--overlay:{{ block_st.overlay | color_modify: 'alpha', block_st.overlay_op }};"
+  	   {% if block_st.image != blank and block_st.style != "3" %} data-bgset="{{ block_st.bgimg | image_url: width: block_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>
+  
+	 <div class="page-width newsletter_sec pr zi1 stl"{{ block.settings.style }} style="width:-webkit-fill-available;">   			                          
+                <div class="fl f-aic f-col f-row-md">
+					{% if block.settings.style == "3" %}
+                    <div class="fl1 {% render 'animate-data', css:true %}" {% render 'animate-data' %}>
+                        {% if block.settings.image == blank %}
+                            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}        
+                        {% else %}
+                            {%- capture sizes -%}
+                              (min-width:1024px) calc({{ cnt_width }} / 2), 100vw
+                            {%- endcapture -%}
+                            {{ block_st.image | image_url: width: block_st.image.width | image_tag: loading:'lazy', width:block_st.image.width, height:block_st.image.height, class:'imgAt', sizes:sizes, widths:"560,740,900,1200,1400,1600,2000,2400" }}
+                        {% endif %}
+                    </div>
+					{% endif %}
+                    <div class="fl1{% if block_st.style == "3" %} pd20{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %}>         
+						<div class="{% if block_st.style == "2" %}fl-md f-aic-md{% endif %}">
+							{%- if block_st.title != blank  or block_st.subtitle != blank -%}
+								<div class="sec-ttl pd0{% if block_st.style == "2" %} fl1 mr30 tl{% else %} mb25 tc{% endif %}">
+									<h3 class="h3 mb10" style="--fs:{{ block_st.fs }}px;--fsm:{{ block_st.fsm }}px;">{{ block_st.title }}</h3>     
+									{%- if block_st.subtitle != blank -%}<p style="--fs:{{ block_st.fst }}px;--fsm:{{ block_st.fstm }}px;">{{ block_st.subtitle }}</p>{%- endif -%}
+								</div>
+							{% endif %}
+							{% render 'newsletter-form', formid:formid, verticle:verticle, btn_class: btn_class  %}
+						</div>						
+					</div>		 
+ 	 		</div>
+     </div>     
+</div>
+{%- endcapture -%}
+{{ newsletter | strip_newlines | remove: '  ' | remove: '	' }}
