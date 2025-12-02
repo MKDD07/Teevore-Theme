@@ -464,7 +464,6 @@
             {% if section_st.copyright_text != blank %}
                 <div class="fl1{% if section_st.show_payment %} wd50-md mb10 mb0-sm tl-md{% endif %} tc">
                      {% assign year = "now" | date: "%Y" %}{% assign insert_year = year %}{{  section_st.copyright_text | replace:"[year]", insert_year }}   
-                    {% if section_st.show_designby %}<span class="designBy">{% if section_st.copyright_text != blank %} | {% endif %}Designed by <a href="https://www.adornthemes.com" target="_blank">AdornThemes</a></span>{% endif %}
                 </div>
             {% endif %}
 {% if section_st.show_payment %}
