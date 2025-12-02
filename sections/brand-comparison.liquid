@@ -1,0 +1,947 @@
+{% assign section_st = section.settings %}
+<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload{% endif %}" 
+     style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
+     {% if section_st.bgimg != blank %}data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>
+  
+  <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}" id="{{ section.id }}" data-section-id="{{ section.id }}">  
+    <div class="brand-comparison-wrapper" id="{{ unique_id }}" style="position: relative;">
+      <div class="bcc pr">
+        <div class="fl gap30">
+          <div class="rounded10 wd40 hide-md hide-sm fl f-col">
+            {% render 'sec-title' %}
+            <div class="rounded10 fl ovhid h_100">
+              {% if section_st.media_type == 'image' and section_st.image != blank %}
+                <img src="{{ section_st.image | image_url: width: 1200 }}" 
+                     alt="{{ section_st.image.alt | escape }}" 
+                     class="media-element-{{section.id}} rounded10 ovhid lazy-zoom fl" 
+                     loading="lazy">
+              {% elsif section_st.media_type == 'video' and section_st.video_url != blank %}
+                <div class="video-wrapper-{{section.id}}">
+                  {% if section_st.video_url.type == 'youtube' %}
+                    <iframe src="https://www.youtube.com/embed/{{ section_st.video_url.id }}" frameborder="0" allowfullscreen></iframe>
+                  {% elsif section_st.video_url.type == 'vimeo' %}
+                    <iframe src="https://player.vimeo.com/video/{{ section_st.video_url.id }}" frameborder="0" allowfullscreen></iframe>
+                  {% endif %}
+                </div>
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+          </div>
+          <div class="comparison-table wd60-lg wd100 fl f-col pr gap10">
+            <div class="hide-lg">
+              {% render 'sec-title' %}
+            </div>
+            
+            {% if section_st.show_header %}
+              <div class="table-row fl f-ais f-jcsb fwsb">
+                <div class="header-feature">{{ section_st.header_feature_text }}</div>
+                <div class="header-brand">{{ section_st.header_brand1_text }}</div>
+                <div class="header-brand">{{ section_st.header_brand2_text }}</div>
+              </div>
+            {% endif %}
+
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'comparison_row' %}
+                  <div class="table-row fl f-ais f-jcsb" {{ block.shopify_attributes }}>
+                    <div class="row-brand feature">{{ block.settings.feature_name }}</div>
+                    <div class="row-brand brand-value fl f-aic gap5 wd30">
+                      <span>{{ block.settings.brand1_value }}</span>
+                      {% if block.settings.brand1_icon != blank %}
+                        {% render 'icon', icon: block.settings.brand1_icon, class: 'comparison-icon', color: section.settings.brand1_icon_color %}
+                      {% elsif block.settings.brand1_arrow == 'up' %}
+                        <span class="arrow arrow-up"></span>
+                      {% elsif block.settings.brand1_arrow == 'down' %}
+                        <span class="arrow arrow-down"></span>
+                      {% endif %}
+                    </div>
+                    <div class="row-brand brand-value">
+                      <span>{{ block.settings.brand2_value }}</span>
+                      {% if block.settings.brand2_icon != blank %}
+                        {% render 'icon', icon: block.settings.brand2_icon, class: 'comparison-icon', color: section.settings.brand2_icon_color %}
+                      {% elsif block.settings.brand2_arrow == 'up' %}
+                        <span class="arrow arrow-up"></span>
+                      {% elsif block.settings.brand2_arrow == 'down' %}
+                        <span class="arrow arrow-down"></span>
+                      {% endif %}
+                    </div>
+                  </div>
+              {% endcase %}
+            {% endfor %}
+
+            <div class="loader hide-md">
+              <div class="kugaa pr white">
+                <p class="pr zi1">Always</p>
+                <span></span>
+              </div>
+              <div class="words">
+                <span class="word">Bold</span>
+                <span class="word">Unique</span>
+                <span class="word">Fearless</span>
+                <span class="word">Original</span>
+                <span class="word">Unstoppable</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+/* Table Styles */
+.table-header, .table-row {
+  border-radius: 5px;
+  padding: 16px;
+  font-size: 16px;
+  border: 1px solid var(--border_cls);
+  color: var(--cl);
+  transition: all 0.3s ease;
+}
+
+.table-header {
+  font-weight: 500;
+  background: var(--bg_color);
+  margin-bottom: 8px;
+}
+
+.table-row {
+  font-size: 15px;
+  line-height: 1.4;
+  word-break: break-word;
+  flex-wrap: wrap;
+  z-index: 1;
+  background: #ffffff;
+}
+
+/* Column Styles */
+.header-brand, .row-brand, .header-feature {
+  width: {{ section_st.column_width }}%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-brand {
+  text-align: {{ section_st.header_text_align }};
+}
+
+.row-brand.feature {
+  font-weight: {{ section_st.feature_font_weight }};
+  text-align: {{ section_st.feature_text_align }};
+  color: {{ section_st.feature_text_color }};
+}
+
+.row-brand.brand-value {
+  text-align: {{ section_st.brand_text_align }};
+  justify-content: space-between;
+}
+
+/* Icon & Arrow Styles */
+.comparison-icon {
+  width: {{ section_st.icon_size }}px;
+  height: {{ section_st.icon_size }}px;
+  flex-shrink: 0;
+}
+
+.arrow::before {
+  content: "";
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-left: {{ section_st.arrow_size }}px solid transparent;
+  border-right: {{ section_st.arrow_size }}px solid transparent;
+}
+
+.arrow-up::before {
+  border-bottom: {{ section_st.arrow_size | plus: 2 }}px solid {{ section_st.arrow_up_color }};
+}
+
+.arrow-down::before {
+  border-top: {{ section_st.arrow_size | plus: 2 }}px solid {{ section_st.arrow_down_color }};
+}
+.lazy-zoom{object-fit: cover;}
+/* Image Styles */
+.lazy-zoom img{
+  transform: scale(1);
+  transition: transform 0.6s ease-in-out;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.lazy-zoom.zoomed {
+  transform: scale(1.1);
+}
+
+/* Loader Animation */
+.loader {
+  color: white;
+  font-weight: 500;
+  font-size: 48px;
+  height: 100px;
+  padding: 10px;
+  display: flex;
+  border-radius: 8px;
+  margin-top: 30px;
+  justify-content: center;
+}
+
+.kugaa span {
+  background: #222222;
+  position: absolute;
+  height: 70%;
+  top: 0;
+  left: 0;
+  animation: spin_fill 4s ease-in-out forwards;
+}
+
+.words {
+  overflow: hidden;
+  position: relative;
+}
+
+.words::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(var(--bg-color) 10%, transparent 30%, transparent 70%, var(--bg-color) 90%);
+  z-index: 20;
+}
+
+.word {
+  display: block;
+  height: 100%;
+  padding-left: 6px;
+  color: #956afa;
+  animation: spin_words 4s infinite;
+}
+
+/* Animations */
+@keyframes spin_fill {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes spin_words {
+  10% { transform: translateY(-102%); }
+  25% { transform: translateY(-100%); }
+  35% { transform: translateY(-202%); }
+  50% { transform: translateY(-200%); }
+  60% { transform: translateY(-302%); }
+  75% { transform: translateY(-300%); }
+  85% { transform: translateY(-402%); }
+  100% { transform: translateY(-400%); }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .bcc { max-width: 100%; }
+
+  .table-header, .table-row {
+    flex-direction: column;
+    font-size: {{ section_st.mobile_font_size }}px;
+    padding: {{ section_st.mobile_padding }}px;
+  }
+  
+  .header-feature, .header-brand, .row-brand {
+    width: 100%;
+    margin-bottom: 6px;
+    justify-content: flex-start;
+    text-align: left;
+    padding-left: 0;
+  }
+}
+</style>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const elements = document.querySelectorAll('.lazy-zoom, .spin_4990');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('zoomed');
+        }, 2000); // delay before animation
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  elements.forEach(el => observer.observe(el));
+});
+</script>
+{% schema %}
+{
+  "name": "Brand Comparison",
+  "class": "index-section",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Sub Heading",
+      "default": "Compare our brand with competitors..."
+    },
+    {
+      "type": "checkbox",
+      "id": "italic_fancy_font",
+      "label": "Enable Fancy Italic Font"
+    },
+    {
+      "type": "select",
+      "id": "italic_font_selection",
+      "label": "Fancy Font Selection",
+      "info": "Choose which font to use for the italic outline effect",
+      "options": [
+        { "value": "primary", "label": "Primary Font" },
+        { "value": "alternative", "label": "Alternative Font" },
+        { "value": "secondary", "label": "Secondary Font" }
+      ],
+      "default": "primary"
+    },
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "options": [
+            { "value": "image", "label": "Image" },
+            { "value": "video", "label": "Video" }
+          ],
+          "default": "image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Video URL",
+          "accept": ["youtube", "vimeo"]
+        },
+        {
+          "type": "select",
+          "id": "media_fit",
+          "label": "Media Fit",
+          "options": [
+            { "value": "cover", "label": "Cover" },
+            { "value": "contain", "label": "Contain" },
+            { "value": "fill", "label": "Fill" }
+          ],
+          "default": "cover"
+        },
+        {
+          "type": "select",
+          "id": "media_position",
+          "label": "Media Position",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "top", "label": "Top" },
+            { "value": "bottom", "label": "Bottom" },
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "video_aspect_ratio",
+          "label": "Video Aspect Ratio",
+          "min": 30,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 55
+        },
+    {
+      "type": "header",
+      "content": "Table Header Settings"
+    },
+    {
+          "type": "color",
+          "id": "brand1_icon_color",
+          "label": "Brand 1 Icon Color",
+          "default": "#3BAA5C"
+        },
+        {
+          "type": "color",
+          "id": "brand2_icon_color",
+          "label": "Brand 2 Icon Color",
+          "default": "#D26464"
+        },
+    {
+      "type": "checkbox",
+      "id": "show_header",
+      "label": "Show Table Header",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "header_feature_text",
+      "label": "Feature Column Header",
+      "default": "Features"
+    },
+    {
+      "type": "text",
+      "id": "header_brand1_text",
+      "label": "Brand 1 Column Header",
+      "default": "Our Brand"
+    },
+    {
+      "type": "text",
+      "id": "header_brand2_text",
+      "label": "Brand 2 Column Header",
+      "default": "Competitor"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Header Background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header Text Color",
+      "default": "#212529"
+    },
+    {
+      "type": "color",
+      "id": "header_border_color",
+      "label": "Header Border Color",
+      "default": "#dee2e6"
+    },
+    {
+      "type": "range",
+      "id": "header_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "label": "Header Border Width",
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "header_padding",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "label": "Header Padding",
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_font_size",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "label": "Header Font Size",
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "header_font_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Header Font Weight",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "header_text_align",
+      "label": "Header Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "label": "Header Bottom Margin",
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Table Design Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1400,
+      "step": 50,
+      "label": "Maximum Table Width",
+      "unit": "px",
+      "default": 1000
+    },
+    {
+      "type": "range",
+      "id": "column_width",
+      "min": 25,
+      "max": 40,
+      "step": 1,
+      "label": "Column Width",
+      "unit": "%",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "row_gap",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "label": "Row Gap",
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "color",
+      "id": "row_bg",
+      "label": "Row Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "row_hover_bg",
+      "label": "Row Hover Background",
+      "default": "#f8f9fa"
+    },
+    {
+      "type": "color",
+      "id": "row_text_color",
+      "label": "Row Text Color",
+      "default": "#212529"
+    },
+
+    {
+      "type": "color",
+      "id": "row_hover_border_color",
+      "label": "Row Hover Border Color",
+      "default": "#007bff"
+    },
+    {
+      "type": "range",
+      "id": "row_border_width",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "label": "Row Border Width",
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "row_padding",
+      "min": 8,
+      "max": 24,
+      "step": 2,
+      "label": "Row Padding",
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "row_font_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "label": "Row Font Size",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "row_line_height",
+      "min": 1.2,
+      "max": 2.0,
+      "step": 0.1,
+      "label": "Row Line Height",
+      "default": 1.4
+    },
+    {
+      "type": "header",
+      "content": "Feature Column Settings"
+    },
+    {
+      "type": "color",
+      "id": "feature_text_color",
+      "label": "Feature Text Color",
+      "default": "#212529"
+    },
+    {
+      "type": "range",
+      "id": "feature_font_weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "label": "Feature Font Weight",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "feature_text_align",
+      "label": "Feature Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Brand Column Settings"
+    },
+    {
+      "type": "select",
+      "id": "brand_text_align",
+      "label": "Brand Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "Icon Settings"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "label": "Icon Size",
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Arrow Settings"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "label": "Arrow Size",
+      "unit": "px",
+      "default": 6
+    },
+    {
+      "type": "color",
+      "id": "arrow_up_color",
+      "label": "Up Arrow Color",
+      "default": "#3BAA5C"
+    },
+    {
+      "type": "color",
+      "id": "arrow_down_color",
+      "label": "Down Arrow Color",
+      "default": "#D26464"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 12,
+      "max": 18,
+      "step": 1,
+      "label": "Mobile Font Size",
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "label": "Mobile Padding",
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Section Design"
+    },
+    {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Fullwidth?",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background",
+      "default": "#fff"
+    },
+    {
+      "type": "color_background",
+      "id": "bgg",
+      "label": "Gradient Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bgimg",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "overlay",
+      "label": "Image Overlay",
+      "default": "#3d4246"
+    },
+    {
+      "type": "range",
+      "id": "overlay_op",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay Opacity",
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "headings_cl",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Top",
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Bottom",
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Top (mobile)",
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Bottom (mobile)",
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on Mobile?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on Desktop?",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_row",
+      "name": "Comparison Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature_name",
+          "label": "Feature Name",
+          "default": "Feature Name"
+        },
+        {
+          "type": "header",
+          "content": "Brand 1 Settings"
+        },
+        {
+          "type": "text",
+          "id": "brand1_value",
+          "label": "Brand 1 Value",
+          "default": "Superior Quality"
+        },
+        {
+          "type": "select",
+          "id": "brand1_arrow",
+          "label": "Brand 1 Arrow",
+          "options": [
+            { "value": "none", "label": "No Arrow" },
+            { "value": "up", "label": "Up Arrow (Better)" },
+            { "value": "down", "label": "Down Arrow (Worse)" }
+          ],
+          "default": "up"
+        },
+        {
+          "type": "text",
+          "id": "brand1_icon",
+          "label": "Brand 1 Custom Icon",
+          "info": "Enter icon name (overrides arrow). Example: check, star, award"
+        },
+        {
+          "type": "header",
+          "content": "Brand 2 Settings"
+        },
+        {
+          "type": "text",
+          "id": "brand2_value",
+          "label": "Brand 2 Value",
+          "default": "Standard Quality"
+        },
+        {
+          "type": "select",
+          "id": "brand2_arrow",
+          "label": "Brand 2 Arrow",
+          "options": [
+            { "value": "none", "label": "No Arrow" },
+            { "value": "up", "label": "Up Arrow (Better)" },
+            { "value": "down", "label": "Down Arrow (Worse)" }
+          ],
+          "default": "down"
+        },
+        {
+          "type": "text",
+          "id": "brand2_icon",
+          "label": "Brand 2 Custom Icon",
+          "info": "Enter icon name (overrides arrow). Example: x, minus, alert-circle"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Brand Comparison",
+      "blocks": [
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Fabric Density",
+            "brand1_value": "280 GSM",
+            "brand1_arrow": "up",
+            "brand2_value": "180 GSM",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "RIB Construction",
+            "brand1_value": "Double-needle ribbed",
+            "brand1_arrow": "up",
+            "brand2_value": "Single-needle",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Seam Technology",
+            "brand1_value": "Triple-reinforced",
+            "brand1_arrow": "up",
+            "brand2_value": "Standard seams",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Moisture Management",
+            "brand1_value": "Hydrophobic fiber blend",
+            "brand1_arrow": "up",
+            "brand2_value": "Basic cotton",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Dye Quality",
+            "brand1_value": "OEKO-TEX certified",
+            "brand1_arrow": "up",
+            "brand2_value": "Standard dyes",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Antimicrobial",
+            "brand1_value": "Silver ion technology",
+            "brand1_arrow": "up",
+            "brand2_value": "None",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Fit Engineering",
+            "brand1_value": "Ergonomic with stretch zones",
+            "brand1_arrow": "up",
+            "brand2_value": "Standard fit",
+            "brand2_arrow": "down"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "feature_name": "Thread Count",
+            "brand1_value": "40s combed cotton (200 TC)",
+            "brand1_arrow": "up",
+            "brand2_value": "20s cotton (150 TC)",
+            "brand2_arrow": "down"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

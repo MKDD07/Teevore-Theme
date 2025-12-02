@@ -1,0 +1,450 @@
+<!-- sections/discount-card.liquid -->
+<style>
+  .discount-card-container {
+    display: flex;
+    width: 100%;
+    margin: 40px auto;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .discount-card {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .gift-first {
+    position: relative;
+    width: 30%;
+    height: -webkit-fill-available;
+    background: linear-gradient(135deg, #FF8FAB 0%, #FF6B94 100%);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .gift-icon {
+    position: relative;
+    z-index: 3;
+    transform: rotate(21.795deg);
+  }
+
+  .blur-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    filter: blur(2px);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .blur-circle-1 {
+    width: 130px;
+    height: 130px;
+    top: 10px;
+    left: 50px;
+    animation-delay: 0s;
+  }
+
+  .blur-circle-2 {
+    width: 130px;
+    height: 130px;
+    top: -20px;
+    right: 20px;
+    animation-delay: 1.5s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    25% {
+      transform: translateY(-10px) scale(1.05);
+    }
+    50% {
+      transform: translateY(-25px) scale(1.02);
+    }
+    75% {
+      transform: translateY(-45px) scale(1.08);
+    }
+  }
+
+  .gift-second {
+    display: flex;
+    padding: 30px 50px;
+    align-items: center;
+    gap: 30px;
+    flex: 1;
+    background: var(--bgl);
+    min-height: 155px;
+  }
+
+  .gift-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .gift-text {
+    color: #d5f365;
+    font-size: {{ section.settings.main_text_size }}px;
+    font-weight: {{ section.settings.main_text_weight }};
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .gift-subtext {
+    color: #FFF;
+    font-family: var(--font-body-family);
+    font-size: {{ section.settings.sub_text_size }}px;
+    font-weight: {{ section.settings.sub_text_weight }};
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .discount-card-container {
+      padding: 40px 15px;
+    }
+
+    .gift-second {
+      padding: 20px 30px;
+      gap: 20px;
+    }
+
+    .gift-text {
+      font-size: {{ section.settings.main_text_size | times: 0.8 }}px;
+    }
+
+    .gift-subtext {
+      font-size: {{ section.settings.sub_text_size | times: 0.9 }}px;
+    }
+  }
+
+        .gift-button {
+        padding-left: 33px;
+        padding-right: 33px;
+        padding-bottom: 16px;
+        padding-top: 16px;
+        border-radius: 9px;
+        background: #d5f365;
+        border: none;
+        font-family: inherit;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.4s;
+        color: var(--cl)
+        }
+
+        .gift-button:hover {
+        box-shadow: 7px 5px 56px -14px #C3D900;
+        }
+
+        .gift-button:active {
+        transform: scale(0.97);
+        box-shadow: 7px 5px 56px -10px #C3D900;
+        }
+  @media (max-width: 575px) {
+    .discount-card {
+      flex-direction: column;
+    }
+
+    .gift-first {
+      width: 100%;
+      height: 120px;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .gift-second {
+      width: 100%;
+      border-radius: 0 0 15px 15px;
+      flex-direction: column;
+      text-align: center;
+      padding: 25px 20px;
+      gap: 15px;
+    }
+
+    .gift-content {
+      align-items: center;
+      text-align: center;
+    }
+
+    .gift-text {
+      font-size: {{ section.settings.main_text_size | times: 0.7 }}px;
+    }
+
+    .gift-subtext {
+      font-size: {{ section.settings.sub_text_size | times: 0.8 }}px;
+    }
+  }
+</style>
+{% assign section_st = section.settings %}
+<div
+  class="discount-card-container fw-sec"
+  style="--sbg:{{ section_st.bg }};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--picon:{{ section_st.play_ico }};--thumb_bdr:{{ section_st.thumb_bdr }}"
+>
+  <div class="discount-card">
+    <div class="gift-first" style="background: {{ section.settings.left_bg_color }};">
+      <div class="blur-circle blur-circle-1"></div>
+      <div class="blur-circle blur-circle-2"></div>
+      <div class="gift-icon">
+        <svg xmlns="https://www.w3.org/2000/svg" width="92" height="92" viewBox="0 0 120 120" fill="none">
+          <path d="M56.4373 17.292L52.8779 15.8688C42.2 11.599 36.093 16.547 32.9476 24.4131L31.5244 27.9724L11.5989 77.803C10.4176 80.7572 13.0944 83.768 16.1552 82.9276L24.0634 80.8055C25.9141 80.307 27.8504 81.2464 28.6194 83.0401L32.1511 91.3468C32.9841 93.29 35.2621 94.2008 37.2053 93.3678L45.576 89.7792C47.3199 89.0315 49.3701 89.6862 50.3312 91.3091L54.5959 98.2987C56.2477 100.982 60.2624 100.647 61.4295 97.7285L85.6247 37.2199C87.1903 33.3047 91.6746 31.3822 95.5898 32.9478L56.4373 17.292ZM46.3246 38.1428C48.2822 38.9256 49.2434 41.1677 48.4606 43.1253C47.6778 45.083 45.4357 46.0442 43.4781 45.2614C41.5204 44.4786 40.5592 42.2365 41.342 40.2788C42.1248 38.3212 44.3669 37.36 46.3246 38.1428ZM55.0122 66.5937C53.019 65.7967 52.0934 63.5687 52.8761 61.6111C53.6589 59.6535 55.9011 58.6923 57.8587 59.475C59.8163 60.2578 60.7776 62.5 59.9948 64.4576C59.212 66.4152 56.9698 67.3765 55.0122 66.5937ZM65.4812 48.9817L38.2764 60.6447C37.529 60.9651 36.7531 60.9439 36.0768 60.6735C35.4005 60.403 34.8239 59.8835 34.5035 59.1361C33.884 57.6911 34.5672 55.9827 36.0121 55.3632L63.217 43.7002C64.6619 43.0807 66.3704 43.7639 66.9899 45.2089C67.6093 46.6538 66.9262 48.3623 65.4812 48.9817Z" fill="{{ section.settings.icon_color }}"/>
+          <path d="M95.623 32.9623L93.4881 38.3013C95.8373 39.2406 97.6954 41.0983 98.6922 43.3547C99.7033 45.7819 99.7321 48.3943 98.7927 50.7435L95.3485 59.3571C94.2953 61.991 92.6368 62.7315 89.9673 61.664L83.1334 58.9314L90.947 39.3907C91.3455 38.3941 92.4915 37.9028 93.4881 38.3013L95.623 32.9623ZM95.623 32.9623C91.6721 31.3825 87.1878 33.305 85.608 37.2558L75.6595 62.1355L87.8324 67.003C93.4561 69.2518 98.4387 67.1157 100.687 61.4919L104.132 52.8784C105.697 48.9631 105.519 44.7633 103.995 41.1403C102.422 37.5386 99.524 34.5635 95.623 32.9623C95.623 32.9623 95.6586 32.9765 95.623 32.9623Z" fill="{{ section.settings.icon_color }}"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="gift-second" style="background: var(--bgl);">
+      <div class="gift-content">
+        <h2 class="gift-text kug">{{ section.settings.main_text }}</h2>
+        <p class="gift-subtext">{{ section.settings.sub_text }}</p>
+      </div>
+      {% if section.settings.button_text != blank %}
+        <a href="{{ section.settings.button_link }}" class="gift-button">
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Discount Card",
+  "tag": "section",
+  "class": "discount-card-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "main_text",
+      "label": "Main Text",
+      "default": "Extra 20% off"
+    },
+    {
+      "type": "text",
+      "id": "sub_text",
+      "label": "Subtitle Text",
+      "default": "Use Code: GIFT20"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Use Code First20"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Text Styling"
+    },
+    {
+      "type": "range",
+      "id": "main_text_size",
+      "min": 24,
+      "max": 72,
+      "step": 2,
+      "unit": "px",
+      "label": "Main Text Size",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "main_text_weight",
+      "label": "Main Text Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" },
+        { "value": "800", "label": "Extra Bold" }
+      ],
+      "default": "700"
+    },
+    {
+      "type": "range",
+      "id": "sub_text_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Subtitle Size",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "sub_text_weight",
+      "label": "Subtitle Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "header",
+      "content": "Button Styling"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Text Size",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "button_text_weight",
+      "label": "Button Text Weight",
+      "options": [
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "500"
+    },
+    {
+      "type": "range",
+      "id": "button_padding_x",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Horizontal Padding",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_padding_y",
+      "min": 8,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Button Vertical Padding",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_radius",
+      "min": 0,
+      "max": 25,
+      "step": 1,
+      "unit": "px",
+      "label": "Button Border Radius",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "id": "left_bg_color",
+      "label": "Left Section Background",
+      "default": "#FF8FAB"
+    },
+    {
+      "type": "color",
+      "id": "right_bg_color",
+      "label": "Right Section Background",
+      "default": "#FF8FAB"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#DDFEAD"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#FF8FAB"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg",
+      "label": "Button Hover Background",
+      "default": "#F0F0F0"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Top spacing",
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Bottom spacing",
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Top spacing (mobile)",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Bottom spacing (mobile)",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background",
+      "default": "#fff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Discount Card"
+    }
+  ]
+}
+{% endschema %}

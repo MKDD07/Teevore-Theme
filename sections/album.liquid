@@ -1,0 +1,519 @@
+{% schema %}
+{
+  "name": "Pro Scatter V2",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout & Dimensions"
+    },
+    {
+      "type": "range",
+      "id": "scroll_height",
+      "min": 120,
+      "max": 300,
+      "step": 10,
+      "unit": "vh",
+      "label": "Section Height",
+      "default": 200,
+      "info": "Total scroll distance. Lower = faster animation."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_background_grid",
+      "label": "Show Tech Grid Background",
+      "default": true,
+      "info": "Adds a subtle grid to fill empty space."
+    },
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Album Art",
+      "info": "Square 1:1 recommended"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "min": 200,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Image Size",
+      "default": 350
+    },
+    {
+      "type": "range",
+      "id": "radius_attached",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Corner Radius (Closed)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "radius_scattered",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Corner Radius (Open)",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Split Content Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_split",
+      "label": "Enable Side Text",
+      "default": false,
+      "info": "If disabled, Image is centered. If enabled, Image Left / Text Right."
+    },
+    {
+      "type": "text",
+      "id": "split_heading",
+      "label": "Side Heading",
+      "default": "LUCID ORIGIN"
+    },
+    {
+      "type": "richtext",
+      "id": "split_text",
+      "label": "Side Description",
+      "default": "<p>Experience the soundscape.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Animation Style"
+    },
+    {
+      "type": "select",
+      "id": "anim_style",
+      "label": "Type",
+      "options": [
+        { "value": "style-1", "label": "Explode" },
+        { "value": "style-2", "label": "Rain Drop" },
+        { "value": "style-3", "label": "Fan Out" },
+        { "value": "style-4", "label": "3D Flip" },
+        { "value": "style-5", "label": "Chaos" }
+      ],
+      "default": "style-1"
+    },
+    {
+      "type": "range",
+      "id": "anim_speed",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "label": "Scatter Distance %",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "content_block",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "select",
+          "id": "position",
+          "label": "Position",
+          "options": [
+            { "value": "top", "label": "Top (Before Animation)" },
+            { "value": "bottom", "label": "Bottom (After Animation)" }
+          ],
+          "default": "bottom"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "INFO BLOCK"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Content",
+          "default": "<p>Details here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Pro Scatter V2"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  #Section-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+    position: relative;
+    overflow: hidden;
+
+    /* CSS Variables */
+    --img-size: {{ section.settings.image_size }}px;
+    --anim-mult: {{ section.settings.anim_speed | divided_by: 100.0 }};
+    --r-closed: {{ section.settings.radius_attached }}px;
+    --r-open: {{ section.settings.radius_scattered }}px;
+    
+    {% if section.settings.main_image != blank %}
+      --bg-url: url('{{ section.settings.main_image | image_url: width: 1000 }}');
+    {% else %}
+      --bg-url: url('https://cdn.leonardo.ai/users/e5e21a3c-9f3f-4cf1-a58f-8262427aac03/generations/53ee439b-bd6b-4aea-90a3-6288cf521bf0/segments/2:4:1/Lucid_Origin_Gritty_hiphop_album_cover_dark_alley_atmosphere_n_1.jpg');
+    {% endif %}
+  }
+
+  /* --- Background Grid to remove "Emptiness" --- */
+  {% if section.settings.show_background_grid %}
+  #Section-{{ section.id }}::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* Vignette Overlay */
+  #Section-{{ section.id }}::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, {{ section.settings.bg_color }} 90%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  {% endif %}
+
+  /* Content Blocks */
+  .content-block-wrapper {
+    padding: 4vh 1rem;
+    text-align: center;
+    z-index: 2;
+    position: relative;
+    min-height: auto;
+  }
+  .content-block-wrapper h2 { margin-bottom: 0.5rem; font-size: 2rem; color: inherit; }
+  .content-block-wrapper p { opacity: 0.7; max-width: 600px; margin: 0 auto; }
+
+  /* Scroll Track */
+  .scroll-track {
+    height: {{ section.settings.scroll_height }}vh;
+    position: relative;
+    z-index: 2;
+  }
+
+  .sticky-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* FADE OUT LOGIC AT END OF SCROLL */
+    opacity: calc(1 - (max(0, var(--p) - 0.85) * 7));
+  }
+
+  /* Layout Container */
+  .stage-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2rem;
+    transition: all 0.3s ease;
+  }
+
+  /* Centered Mode */
+  .stage-layout.layout-center { flex-direction: column; }
+  
+  /* Split Mode */
+  .stage-layout.layout-split { flex-direction: row; justify-content: center; gap: 5%; }
+
+  /* Image Composite */
+  .image-composite {
+    width: var(--img-size);
+    height: var(--img-size);
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    z-index: 5;
+  }
+
+  /* --- SLICE LOGIC --- */
+  .slice {
+    width: 20%;
+    height: 100%;
+    background-image: var(--bg-url);
+    background-size: var(--img-size) var(--img-size);
+    background-repeat: no-repeat;
+    will-change: transform, opacity, border-radius;
+    
+    /* Use calc to remove sub-pixel gaps */
+    margin-right: -0.5px; 
+  }
+
+  /* Background Mapping */
+  .slice:nth-child(1) { background-position: 0% center; }
+  .slice:nth-child(2) { background-position: 25% center; }
+  .slice:nth-child(3) { background-position: 50% center; }
+  .slice:nth-child(4) { background-position: 75% center; }
+  .slice:nth-child(5) { background-position: 100% center; margin-right: 0; }
+
+  /* Radius Morphing Logic:
+     If p=0 (attached): Uses --r-closed (0 or user set) on outer corners.
+     If p=1 (scattered): Uses --r-open (rounded) on ALL corners.
+  */
+  .slice:nth-child(1) {
+    border-top-left-radius:    calc(var(--r-closed) * (1 - var(--p)) + var(--r-open) * var(--p));
+    border-bottom-left-radius: calc(var(--r-closed) * (1 - var(--p)) + var(--r-open) * var(--p));
+    border-top-right-radius:   calc(0px * (1 - var(--p)) + var(--r-open) * var(--p));
+    border-bottom-right-radius:calc(0px * (1 - var(--p)) + var(--r-open) * var(--p));
+  }
+  .slice:nth-child(2), .slice:nth-child(3), .slice:nth-child(4) {
+    border-radius: calc(var(--r-open) * var(--p));
+  }
+  .slice:nth-child(5) {
+    border-top-right-radius:    calc(var(--r-closed) * (1 - var(--p)) + var(--r-open) * var(--p));
+    border-bottom-right-radius: calc(var(--r-closed) * (1 - var(--p)) + var(--r-open) * var(--p));
+    border-top-left-radius:     calc(0px * (1 - var(--p)) + var(--r-open) * var(--p));
+    border-bottom-left-radius:  calc(0px * (1 - var(--p)) + var(--r-open) * var(--p));
+  }
+
+  /* --- SPLIT TEXT LOGIC --- */
+  .split-text-content {
+    display: none;
+    flex-shrink: 0;
+    width: 40%;
+    opacity: 0;
+    
+    /* Fade in text as soon as animation starts (p > 0) */
+    opacity: calc(var(--p) * 3); 
+    transform: translateY(calc(20px * (1 - var(--p))));
+  }
+  .stage-layout.layout-split .split-text-content { display: block; }
+  
+
+  /* --- MOBILE --- */
+  @media(max-width: 768px) {
+    #Section-{{ section.id }} { --img-size: 280px; }
+    
+    /* Force Stack on Mobile */
+    .stage-layout.layout-split { 
+      flex-direction: column !important; 
+      justify-content: center; 
+      gap: 2rem;
+    }
+    
+    /* 100% Width on Mobile */
+    .split-text-content { 
+      width: 100% !important; 
+      text-align: center; 
+      padding: 0 1rem;
+    }
+  }
+/* Base (extra-small mobile) */
+.max-her {
+  max-height: 600px;
+}
+
+/* ≥ 480px (small mobile) */
+@media (min-width: 480px) {
+  .max-her {
+    max-height: 650px;
+  }
+}
+
+/* ≥ 576px (mobile) */
+@media (min-width: 576px) {
+  .max-her {
+    max-height: 700px;
+  }
+}
+
+/* ≥ 768px (tablet) */
+@media (min-width: 768px) {
+  .max-her {
+    max-height: 700px;
+  }
+}
+
+/* ≥ 992px (desktop) */
+@media (min-width: 992px) {
+  .max-her {
+    max-height: 800px;
+  }
+}
+
+  /* --- ANIMATION STYLES (using --p) --- */
+  /* Style 1: Explode */
+  .style-1 .slice:nth-child(1) { transform: translate3d(calc(-200px * var(--anim-mult) * var(--p)), calc(-100px * var(--anim-mult) * var(--p)), 0) rotate(calc(-15deg * var(--p))); }
+  .style-1 .slice:nth-child(2) { transform: translate3d(calc(-80px * var(--anim-mult) * var(--p)), calc(50px * var(--anim-mult) * var(--p)), 0) rotate(calc(-5deg * var(--p))); }
+  .style-1 .slice:nth-child(3) { transform: translate3d(0, calc(150px * var(--anim-mult) * var(--p)), 0) scale(calc(1 - (0.2 * var(--p)))); }
+  .style-1 .slice:nth-child(4) { transform: translate3d(calc(80px * var(--anim-mult) * var(--p)), calc(-40px * var(--anim-mult) * var(--p)), 0) rotate(calc(5deg * var(--p))); }
+  .style-1 .slice:nth-child(5) { transform: translate3d(calc(200px * var(--anim-mult) * var(--p)), calc(-120px * var(--anim-mult) * var(--p)), 0) rotate(calc(20deg * var(--p))); }
+
+  /* Style 2: Rain */
+  .style-2 .slice:nth-child(1) { transform: translate3d(0, calc(-300px * var(--anim-mult) * var(--p)), 0); opacity: calc(1 - var(--p)); }
+  .style-2 .slice:nth-child(2) { transform: translate3d(0, calc(-100px * var(--anim-mult) * var(--p)), 0); }
+  .style-2 .slice:nth-child(3) { transform: translate3d(0, calc(300px * var(--anim-mult) * var(--p)), 0); }
+  .style-2 .slice:nth-child(4) { transform: translate3d(0, calc(100px * var(--anim-mult) * var(--p)), 0); }
+  .style-2 .slice:nth-child(5) { transform: translate3d(0, calc(-200px * var(--anim-mult) * var(--p)), 0); opacity: calc(1 - var(--p)); }
+
+  /* Style 3: Fan */
+  .style-3 .slice { transform-origin: bottom center; }
+  .style-3 .slice:nth-child(1) { transform: rotate(calc(-40deg * var(--p))) translate3d(calc(-50px * var(--p)), 0, 0); }
+  .style-3 .slice:nth-child(2) { transform: rotate(calc(-20deg * var(--p))) translate3d(calc(-20px * var(--p)), 0, 0); }
+  .style-3 .slice:nth-child(3) { transform: translate3d(0, calc(-20px * var(--p)), 0); }
+  .style-3 .slice:nth-child(4) { transform: rotate(calc(20deg * var(--p))) translate3d(calc(20px * var(--p)), 0, 0); }
+  .style-3 .slice:nth-child(5) { transform: rotate(calc(40deg * var(--p))) translate3d(calc(50px * var(--p)), 0, 0); }
+
+  /* Style 4: Flip */
+  .style-4 { perspective: 1000px; }
+  .style-4 .slice:nth-child(1) { transform: rotateY(calc(-80deg * var(--p))) translate3d(calc(-100px * var(--p)), 0, 0); }
+  .style-4 .slice:nth-child(2) { transform: rotateY(calc(-40deg * var(--p))) translate3d(calc(-50px * var(--p)), 0, 0); }
+  .style-4 .slice:nth-child(3) { transform: translateZ(calc(-100px * var(--p))); }
+  .style-4 .slice:nth-child(4) { transform: rotateY(calc(40deg * var(--p))) translate3d(calc(50px * var(--p)), 0, 0); }
+  .style-4 .slice:nth-child(5) { transform: rotateY(calc(80deg * var(--p))) translate3d(calc(100px * var(--p)), 0, 0); }
+
+  /* Style 5: Chaos */
+  .style-5 .slice:nth-child(1) { transform: rotate(calc(360deg * var(--p))) translate3d(calc(-150px * var(--p)), calc(150px * var(--p)), 0); }
+  .style-5 .slice:nth-child(2) { transform: scale(calc(1 - 0.5 * var(--p))) translate3d(0, calc(-200px * var(--p)), 0); }
+  .style-5 .slice:nth-child(3) { transform: rotate(calc(-180deg * var(--p))); border-radius: 50%; }
+  .style-5 .slice:nth-child(4) { transform: skew(calc(20deg * var(--p))) translate3d(calc(50px * var(--p)), calc(100px * var(--p)), 0); }
+  .style-5 .slice:nth-child(5) { transform: rotate(calc(-360deg * var(--p))) translate3d(calc(150px * var(--p)), calc(-150px * var(--p)), 0); }
+
+</style>
+<div class="sec_cov max-her" style="overflow: hidden; --sbg:#ffffff;--sst:60px;--ssb:60px;--sstm:40px;--ssbm:40px;--overlay:rgba(0, 0, 0, 0);">
+<div id="Section-{{ section.id }}">
+
+  <!-- Top Blocks -->
+  {% for block in section.blocks %}
+    {% if block.settings.position == 'top' %}
+      <div class="content-block-wrapper kug" {{ block.shopify_attributes }}>
+        <h2>{{ block.settings.heading }}</h2>
+        <div>{{ block.settings.text }}</div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <!-- Scroll Track -->
+  <div class="scroll-track" id="Track-{{ section.id }}">
+    <div class="sticky-stage">
+      
+      <!-- Layout Wrapper -->
+      <div class="stage-layout {% if section.settings.enable_split %}layout-split{% else %}layout-center{% endif %}">
+        
+        <!-- 1. Image Composite -->
+        <div class="image-composite {{ section.settings.anim_style }}" id="Composite-{{ section.id }}">
+          <div class="slice"></div>
+          <div class="slice"></div>
+          <div class="slice"></div>
+          <div class="slice"></div>
+          <div class="slice"></div>
+        </div>
+
+        <!-- 2. Split Text Content (If Enabled) -->
+        <div class="split-text-content">
+          <h2 class="kug">{{ section.settings.split_heading }}</h2>
+          <div>{{ section.settings.split_text }}</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Blocks -->
+  {% for block in section.blocks %}
+    {% if block.settings.position == 'bottom' %}
+      <div class="content-block-wrapper kug" {{ block.shopify_attributes }}>
+        <h2>{{ block.settings.heading }}</h2>
+        <div>{{ block.settings.text }}</div>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+</div>
+</div>
+<script>
+(function() {
+  const track = document.getElementById('Track-{{ section.id }}');
+  const composite = document.getElementById('Composite-{{ section.id }}');
+  const splitText = document.querySelector('#Section-{{ section.id }} .split-text-content');
+  const stickyStage = document.querySelector('#Section-{{ section.id }} .sticky-stage');
+
+  let ticking = false;
+
+  // Initial Set
+  if(stickyStage) stickyStage.style.setProperty('--p', 0);
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateAnimation();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }
+
+  function updateAnimation() {
+    if (!track) return;
+    
+    const trackRect = track.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const distance = trackRect.height - viewportHeight;
+
+    // 1. Calculate Raw Progress (0 to 1) based on scroll
+    let rawProgress = -trackRect.top / distance;
+    
+    // 2. Apply the "30% Start" Logic
+    // Animation starts only after 30% scroll through the track
+    // Map range [0.3, 1.0] to [0, 1]
+    let startThreshold = 0; 
+    let adjustedProgress = (rawProgress - startThreshold) / (1 - startThreshold);
+
+    // Clamp values
+    if (adjustedProgress < 0) adjustedProgress = 0;
+    if (adjustedProgress > 1) adjustedProgress = 1;
+
+    // Apply to the wrapper
+    if(stickyStage) stickyStage.style.setProperty('--p', adjustedProgress);
+  }
+
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('resize', onScroll);
+  updateAnimation(); 
+})();
+</script>

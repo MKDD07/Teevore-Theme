@@ -1,0 +1,392 @@
+{%- capture breadcrumb -%}
+{% unless template == 'index' %}
+{% assign section_st = section.settings %}
+
+{%- comment -%}
+  SEO-optimized breadcrumb with proper schema markup and accessibility
+  Follows Google's structured data guidelines for better crawling
+{%- endcomment -%}
+
+<nav class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %} breadcrumb fl f-wrap f-aic{% if section_st.tc %} tc{% endif %}{% if section_st.hidemb %} hide-sm{% endif %}{% if settings.bcase %} ttu{% endif %}" 
+     role="navigation" 
+     aria-label="{{ 'general.breadcrumbs.aria_label' | t | default: 'Breadcrumb navigation' }}"
+     itemscope 
+     itemtype="https://schema.org/BreadcrumbList">
+    
+    {%- comment -%} Home breadcrumb {%- endcomment -%}
+    <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a class="fwm" 
+           href="{{ routes.root_url }}" 
+           title="{{ 'general.breadcrumbs.home_link_title' | t | default: 'Go to homepage' }}"
+           itemprop="item"
+           itemid="{{ shop.secure_url }}">
+            <span itemprop="name">
+                {% if settings.home_display == 'text' %}
+                    {{ 'general.breadcrumbs.home' | t | default: 'Home' }}
+                {% else %}
+                    {{ settings.svg_code }}
+                    <span class="sr-only">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</span>
+                {% endif %}
+            </span>
+        </a>
+        <meta itemprop="position" content="1" />
+    </span>
+
+    {% assign breadcrumb_position = 2 %}
+
+    {%- comment -%} Product page breadcrumb {%- endcomment -%}
+    {% if template contains 'product' %}
+        {%- comment -%} Determine collection context {%- endcomment -%}
+        {% assign breadcrumb_collection = collection %}
+        {% unless breadcrumb_collection %}
+            {% assign breadcrumb_collection = product.collections.first %}
+        {% endunless %}
+        
+        {%- comment -%} Collection breadcrumb {%- endcomment -%}
+        {% if breadcrumb_collection and breadcrumb_collection.handle != blank %}
+            <span class="barr" aria-hidden="true">/</span>
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                {% capture collection_url %}{{ routes.collections_url }}/{{ breadcrumb_collection.handle }}{% endcapture %}
+                <a class="fwm" 
+                   href="{{ collection_url }}" 
+                   title="{{ 'general.breadcrumbs.collection_link_title' | t: collection_title: breadcrumb_collection.title | default: breadcrumb_collection.title }}"
+                   itemprop="item"
+                   itemid="{{ shop.secure_url }}{{ collection_url }}">
+                    <span itemprop="name">{{ breadcrumb_collection.title }}</span>
+                </a>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+            {% assign breadcrumb_position = breadcrumb_position | plus: 1 %}
+        {% endif %}
+        
+        {%- comment -%} Product breadcrumb {%- endcomment -%}
+        <span class="barr" aria-hidden="true">/</span>
+        <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span class="fwm" 
+                  itemprop="item"
+                  itemid="{{ shop.secure_url }}{% if breadcrumb_collection %}{{ product.url | within: breadcrumb_collection }}{% else %}{{ product.url }}{% endif %}"
+                  aria-current="page">
+                <span itemprop="name">{{ product.title }}</span>
+            </span>
+            <meta itemprop="position" content="{{ breadcrumb_position }}" />
+        </span>
+
+    {%- comment -%} Collection page breadcrumb {%- endcomment -%}
+    {% elsif template contains 'collection' and collection.handle %}
+        <span class="barr" aria-hidden="true">/</span>
+        {% if current_tags %}
+            {%- comment -%} Collection with tags {%- endcomment -%}
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                {% capture collection_url %}{{ routes.collections_url }}/{{ collection.handle }}{% endcapture %}
+                <a class="fwm" 
+                   href="{{ collection_url }}"
+                   title="{{ 'general.breadcrumbs.collection_link_title' | t: collection_title: collection.title | default: collection.title }}"
+                   itemprop="item"
+                   itemid="{{ shop.secure_url }}{{ collection_url }}">
+                    <span itemprop="name">{{ collection.title }}</span>
+                </a>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+            {% assign breadcrumb_position = breadcrumb_position | plus: 1 %}
+            
+            <span class="barr" aria-hidden="true">/</span>
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span class="fwm"
+                      itemprop="item"
+                      itemid="{{ shop.secure_url }}{{ canonical_url }}"
+                      aria-current="page">
+                    <span itemprop="name">{{ current_tags | join: " + " }}</span>
+                </span>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+        {% else %}
+            {%- comment -%} Collection without tags {%- endcomment -%}
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span class="fwm"
+                      itemprop="item"
+                      itemid="{{ shop.secure_url }}{{ collection.url }}"
+                      aria-current="page">
+                    <span itemprop="name">{{ collection.title }}</span>
+                </span>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+        {% endif %}
+
+    {%- comment -%} Blog listing page breadcrumb {%- endcomment -%}
+    {% elsif template == 'blog' %}
+        <span class="barr" aria-hidden="true">/</span>
+        {% if current_tags %}
+            {%- comment -%} Blog with tags {%- endcomment -%}
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a class="fwm" 
+                   href="{{ blog.url }}"
+                   title="{{ 'general.breadcrumbs.blog_link_title' | t: blog_title: blog.title | default: blog.title }}"
+                   itemprop="item"
+                   itemid="{{ shop.secure_url }}{{ blog.url }}">
+                    <span itemprop="name">{{ blog.title }}</span>
+                </a>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+            {% assign breadcrumb_position = breadcrumb_position | plus: 1 %}
+            
+            <span class="barr" aria-hidden="true">/</span>
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span class="fwm"
+                      itemprop="item"
+                      itemid="{{ shop.secure_url }}{{ canonical_url }}"
+                      aria-current="page">
+                    <span itemprop="name">{{ current_tags | join: " + " }}</span>
+                </span>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+        {% else %}
+            {%- comment -%} Blog without tags {%- endcomment -%}
+            <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span class="fwm"
+                      itemprop="item"
+                      itemid="{{ shop.secure_url }}{{ blog.url }}"
+                      aria-current="page">
+                    <span itemprop="name">{{ blog.title }}</span>
+                </span>
+                <meta itemprop="position" content="{{ breadcrumb_position }}" />
+            </span>
+        {% endif %}
+
+    {%- comment -%} Article page breadcrumb {%- endcomment -%}
+    {% elsif template == 'article' %}
+        <span class="barr" aria-hidden="true">/</span>
+        <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a class="fwm" 
+               href="{{ blog.url }}"
+               title="{{ 'general.breadcrumbs.blog_link_title' | t: blog_title: blog.title | default: blog.title }}"
+               itemprop="item"
+               itemid="{{ shop.secure_url }}{{ blog.url }}">
+                <span itemprop="name">{{ blog.title }}</span>
+            </a>
+            <meta itemprop="position" content="{{ breadcrumb_position }}" />
+        </span>
+        {% assign breadcrumb_position = breadcrumb_position | plus: 1 %}
+        
+        <span class="barr" aria-hidden="true">/</span>
+        <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span class="fwm"
+                  itemprop="item"
+                  itemid="{{ shop.secure_url }}{{ article.url }}"
+                  aria-current="page">
+                <span itemprop="name">{{ article.title }}</span>
+            </span>
+            <meta itemprop="position" content="{{ breadcrumb_position }}" />
+        </span>
+
+    {%- comment -%} Page breadcrumb {%- endcomment -%}
+    {% elsif template contains 'page' %}
+        <span class="barr" aria-hidden="true">/</span>
+        <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span class="fwm"
+                  itemprop="item"
+                  itemid="{{ shop.secure_url }}{{ page.url }}"
+                  aria-current="page">
+                <span itemprop="name">{{ page.title }}</span>
+            </span>
+            <meta itemprop="position" content="{{ breadcrumb_position }}" />
+        </span>
+
+    {%- comment -%} Cart page breadcrumb {%- endcomment -%}
+    {% elsif template contains 'cart' %}
+        <span class="barr" aria-hidden="true">/</span>
+        <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span class="fwm"
+                  itemprop="item"
+                  itemid="{{ shop.secure_url }}{{ routes.cart_url }}"
+                  aria-current="page">
+                <span itemprop="name">{{ 'cart.general.title' | t | default: 'Cart' }}</span>
+            </span>
+            <meta itemprop="position" content="{{ breadcrumb_position }}" />
+        </span>
+
+    {%- comment -%} Generic page breadcrumb {%- endcomment -%}
+    {% else %}
+        <span class="barr" aria-hidden="true">/</span>
+        <span itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <span class="fwm"
+                  itemprop="item"
+                  itemid="{{ shop.secure_url }}{{ canonical_url | default: request.path }}"
+                  aria-current="page">
+                <span itemprop="name">{{ page_title }}</span>
+            </span>
+            <meta itemprop="position" content="{{ breadcrumb_position }}" />
+        </span>
+    {% endif %}
+</nav>
+
+{%- comment -%} Additional JSON-LD for enhanced SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "{{ 'general.breadcrumbs.home' | t | default: 'Home' }}",
+            "item": "{{ shop.secure_url }}"
+        }
+        {% assign json_position = 2 %}
+        {% if template contains 'product' %}
+            {% assign breadcrumb_collection = collection %}
+            {% unless breadcrumb_collection %}
+                {% assign breadcrumb_collection = product.collections.first %}
+            {% endunless %}
+            {% if breadcrumb_collection and breadcrumb_collection.handle != blank %}
+            ,{
+                "@type": "ListItem",
+                "position": {{ json_position }},
+                "name": {{ breadcrumb_collection.title | json }},
+                "item": "{{ shop.secure_url }}{{ routes.collections_url }}/{{ breadcrumb_collection.handle }}"
+            }
+            {% assign json_position = json_position | plus: 1 %}
+            {% endif %}
+            ,{
+                "@type": "ListItem",
+                "position": {{ json_position }},
+                "name": {{ product.title | json }},
+                "item": "{{ shop.secure_url }}{% if breadcrumb_collection %}{{ product.url | within: breadcrumb_collection }}{% else %}{{ product.url }}{% endif %}"
+            }
+        {% elsif template == 'list-collections' %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ 'collections.general.all' | t | default: 'All Collections' }}",
+                "item": "{{ shop.secure_url }}{{ routes.collections_url }}"
+            }
+        {% elsif template contains 'collection' and collection.handle %}
+            {% if current_tags %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ collection.title | json }},
+                "item": "{{ shop.secure_url }}{{ routes.collections_url }}/{{ collection.handle }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ current_tags | join: ' + ' }}",
+                "item": "{{ shop.secure_url }}{{ canonical_url }}"
+            }
+            {% else %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ collection.title | json }},
+                "item": "{{ shop.secure_url }}{{ collection.url }}"
+            }
+            {% endif %}
+        {% elsif template == 'blog' %}
+            {% if current_tags %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ blog.title | json }},
+                "item": "{{ shop.secure_url }}{{ blog.url }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "{{ current_tags | join: ' + ' }}",
+                "item": "{{ shop.secure_url }}{{ canonical_url }}"
+            }
+            {% else %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ blog.title | json }},
+                "item": "{{ shop.secure_url }}{{ blog.url }}"
+            }
+            {% endif %}
+        {% elsif template == 'article' %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ blog.title | json }},
+                "item": "{{ shop.secure_url }}{{ blog.url }}"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": {{ article.title | json }},
+                "item": "{{ shop.secure_url }}{{ article.url }}"
+            }
+        {% elsif template contains 'page' %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ page.title | json }},
+                "item": "{{ shop.secure_url }}{{ page.url }}"
+            }
+        {% elsif template contains 'cart' %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": "{{ 'cart.general.title' | t | default: 'Cart' }}",
+                "item": "{{ shop.secure_url }}{{ routes.cart_url }}"
+            }
+        {% else %}
+            ,{
+                "@type": "ListItem",
+                "position": 2,
+                "name": {{ page_title | json }},
+                "item": "{{ shop.secure_url }}{{ canonical_url | default: request.path }}"
+            }
+        {% endif %}
+    ]
+}
+</script>
+{% endunless %}
+{%- endcapture -%}
+{{ breadcrumb | strip_newlines | remove: "  " | remove: "	" }}
+
+{%- comment -%} CSS for screen reader accessibility {%- endcomment -%}
+<style>
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+</style>
+
+{% schema %}
+{
+    "name": "SEO Breadcrumb",
+    "class": "bc_wrap",
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "sw",
+            "label": "Fullwidth?",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "hidemb",
+            "label": "Hide in mobile?",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "tc",
+            "label": "Text center?",
+            "default": false
+        },
+        {
+            "type": "paragraph",
+            "content": "SEO-optimized breadcrumb with proper schema markup for better Google crawling and accessibility. Set additional styles from Theme Settings-> Typography & Colors -> Breadcrumb"            
+        }
+    ]
+}
+{% endschema %}

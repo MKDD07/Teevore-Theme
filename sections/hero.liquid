@@ -1,0 +1,813 @@
+{%- capture hero_banner -%}
+{%- assign section_st = section.settings -%}
+<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}" style="--sbg:{{ section_st.bg }};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};">   
+    <div class="{% if section_st.sw %}fw-sec{% if section_st.npd %} npd{% endif %}{% else %}page-width{% endif %}">
+        <div class="hero fl pr {% render 'animate-data', css:true, text:true %}">
+            {% if section_st.image != blank or section_st.imagem != blank %}
+                {%- liquid
+                    assign banner_img = section_st.image
+                    assign banner_imgm = section_st.imagem
+                    assign banner_imgm_srcset = banner_imgm | image_url: width: banner_imgm.width | image_tag: widths: '360,480,760' | split: 'srcset="' | last | split: '"' | first
+                -%}
+                <picture class="overlay pa all0 of_hidden brad{% if section_st.parallax %} prlxImg{% endif %}" style="--rounded:{{ section_st.ibrad }}px;--ipos:{{ section_st.image.presentation.focal_point | default: 'center center' }};" data-u-scale="1.3">
+                    {% if section_st.imagem != blank %}
+                        <source media="(max-width: 767px)" srcset="{{ banner_imgm_srcset }}" width="{{ banner_imgm.width }}" height="{{ banner_imgm.height }}">
+                    {% endif %}
+                    {{ banner_img | image_url: width: banner_img.width | image_tag: class:'imgFt heroImg', width:banner_img.width, height:banner_img.height, widths:"400,600,800,1000,1200,1400,1600,2000,2400,3000" }}
+                </picture>
+            {% endif %}
+            {% if section_st.image == blank %}<div class="ph_bg">{{ 'hero-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}</div>{% endif %}                       	
+            <div class="hero_wrap wd100 fl m_auto {{ section_st.text_align }} {{ section_st.text_align_m }}" style="--mht:{{ section_st.hit }}px;--mhtt:{{ section_st.hitt }}px;--mhtm:{{ section_st.hitm }}px;--mwd:{{ section_st.cntwd }}px;--cwd:{{ section_st.cwd }}px;--rounded:{{ section_st.brad }}px;--bpd:{{ section_st.bpd | times:0.84 | floor }}px {{ section_st.bpd }}px;--bpdm:{{ section_st.bpdm | times:0.86 | floor }}px {{ section_st.bpdm }}px;">
+                {% if section_st.ol_link %}<a class="pa z3 all0" href="{{ section_st.link }}" ></a> {% endif %}
+                {%  if  section.blocks.size > 0 %}
+                    <div class="hero_cap pr {{ section_st.text-align }} brad {% render 'animate-data', css:true %}" style="background-color:rgba({{ section_st.tbg | color_to_rgb | remove:'rgb(' | remove: ')' }},{{ section_st.opt }});">
+                        {% for block in section.blocks %}
+                            {% assign blk_st = block.settings %}
+                            {% if  block.type == 'heading' %}
+                                <div class="rgTxt sec-ttl {{ blk_st.tff }} mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md" style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--ls:{{ blk_st.ls }}px;--lh:{{ blk_st.lh }};--to:{{blk_st.to}};" {{ block.shopify_attributes }}>{{ blk_st.title }}</div>
+                            {% elsif block.type == 'text' %}
+                                <div class="rgTxt mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md{% if blk_st.hidem %} hide-sm{% endif %}" style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--lh:{{ blk_st.lh }};" {{ block.shopify_attributes }}>{{ blk_st.title }}</div>                      
+                            {% elsif block.type == 'countdown' %}
+                                <countdown-time class="atCounter box_timer fl tc ht{{ section.id }} ttu mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md {{ section_st.text-align }}" data-date="{{ blk_st.date }}" style="--cl:{{ blk_st.cl }};--bg:{{ blk_st.bg }};--border:{{ blk_st.bdr }};--rounded:{{ blk_st.radius }}px;--fs:{{ blk_st.fs }}px;--fsl:{{ blk_st.fsl }}px;--fw:500" {{ block.shopify_attributes }}>
+                                    <span class="pd10"><span class="tm days">00</span>{{ 'date_formats.days' | t }}</span>
+                                    <span class="pd10"><span class="tm hours">00</span>{{ 'date_formats.hours' | t }}</span>
+                                    <span class="pd10"><span class="tm minutes">00</span>{{ 'date_formats.minuts' | t }}</span>
+                                    <span class="pd10"><span class="tm seconds">00</span>{{ 'date_formats.seconds' | t }}</span>
+                                </countdown-time>
+                            {% elsif block.type == 'button' %}                               
+                                {% if blk_st.ol_link != true %}            
+                                    <a href="{{ blk_st.link }}" class="btn {{ blk_st.btn-size }} {{ blk_st.btn-style }} mb{{ blk_st.mbm }} mb{{ blk_st.mb }}-md{% if blk_st.hidem %} hide-sm{% endif %}" {{ block.shopify_attributes }}>{{ blk_st.title | escape }}</a>           
+                                {% endif %}
+                                {% elsif block.type == 'scroll_banner' %}  
+                                <div class="sec_cov{% if block.settings.hidem %} hide-sm{% endif %}{% if block.settings.hided %} hide-md hide-lg{% endif %}{% if block.settings.bgimg != blank %} bgImg lazyload zi1{% endif %}" style="{% if block.settings.rotate_enable %}transform: rotate({{ block.settings.rotate_deg }}deg);{% endif %}padding-top: {{ block.settings.sst }}px; padding-bottom: {{ block.settings.ssb }}px;">
+                                {% if block.settings.bgimg != blank %}data-bgset="{{ block.settings.bgimg | image_url: width: block.settings.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}	
+                                <div class="scrlTxtWrap fl w_100 of_hidden" style="background: {% if block.settings.bgg != blank %}{{ block.settings.bgg }}{% else %}{{ block.settings.bg }}{% endif %};--cl:{{ block.settings.cl }};--fs:{{ block.settings.fs }}px;--fsm:{{ block.settings.fsm }}px;--fw:{{ block.settings.fw }};--spd:{{ block.settings.speed }}s;--spdm:{{ block.settings.speedm }}s;--icns:{{ block.settings.icns }}px;--grsp:{{ block.settings.space }}px;padding-block: {{ block.settings.msb }}px">
+                                        {%- for i in (0..5) -%}
+                                        <div class="fl f-aic f-jcc marquee rgTxt">
+                                            {%- for block in section.blocks -%}
+                                            <div class="fl f-aic tc scrlTxt {{ block.settings.ff }}{% if block.settings.outline %} outline{% endif %}">
+                                                <span>{{ block.settings.text }}</span>
+                                
+                                                {%- if block.settings.icon == 'dot' -%}
+                                                    <svg class="at-icon" height="512" viewBox="0 0 24 24" width="512" xmlns="https://www.w3.org/2000/svg"><path d="m12 20c4.4183 0 8-3.5817 8-8 0-4.41828-3.5817-8-8-8-4.41828 0-8 3.58172-8 8 0 4.4183 3.58172 8 8 8z" fill="rgb(0,0,0)"/></svg>
+                                                {%- elsif block.settings.icon == 'star' -%}
+                                                    <svg class="at-icon" height="512" viewBox="0 0 32 32" width="512" xmlns="https://www.w3.org/2000/svg"><path d="m29.911 13.75-6.229 6.072 1.471 8.576c.064.375-.09.754-.398.978-.174.127-.381.191-.588.191-.159 0-.319-.038-.465-.115l-7.702-4.049-7.701 4.048c-.336.178-.745.149-1.053-.076-.308-.224-.462-.603-.398-.978l1.471-8.576-6.23-6.071c-.272-.266-.371-.664-.253-1.025s.431-.626.808-.681l8.609-1.25 3.85-7.802c.337-.683 1.457-.683 1.794 0l3.85 7.802 8.609 1.25c.377.055.69.319.808.681s.019.758-.253 1.025z"/></svg>
+                                                {%- elsif block.settings.icon == 'sparkle' -%}
+                                                    <svg class="at-icon" height="512" viewBox="0 0 24 24" width="512" xmlns="https://www.w3.org/2000/svg"><path d="m21.137 11.519-2.726-.779a7.453 7.453 0 0 1 -5.151-5.151l-.779-2.726a.52.52 0 0 0 -.962 0l-.779 2.726a7.453 7.453 0 0 1 -5.151 5.151l-2.726.779a.5.5 0 0 0 0 .962l2.726.779a7.453 7.453 0 0 1 5.151 5.151l.779 2.726a.5.5 0 0 0 .962 0l.779-2.726a7.453 7.453 0 0 1 5.151-5.151l2.726-.779a.5.5 0 0 0 0-.962z" fill="rgb(0,0,0)"/></svg>
+                                                {%- elsif block.settings.icon == 'heart' -%}
+                                                <svg class="at-icon" height="512" viewBox="0 0 512.001 512.001" width="512" xmlns="https://www.w3.org/2000/svg"><path d="m256.001 477.407c-2.59 0-5.179-.669-7.499-2.009-2.52-1.454-62.391-36.216-123.121-88.594-35.994-31.043-64.726-61.833-85.396-91.513-26.748-38.406-40.199-75.348-39.982-109.801.254-40.09 14.613-77.792 40.435-106.162 26.258-28.848 61.3-44.734 98.673-44.734 47.897 0 91.688 26.83 116.891 69.332 25.203-42.501 68.994-69.332 116.891-69.332 35.308 0 68.995 14.334 94.859 40.362 28.384 28.563 44.511 68.921 44.247 110.724-.218 34.393-13.921 71.279-40.728 109.632-20.734 29.665-49.426 60.441-85.279 91.475-60.508 52.373-119.949 87.134-122.45 88.588-2.331 1.354-4.937 2.032-7.541 2.032z"/></svg>
+                                                {%- elsif block.settings.icon == 'flower' -%}
+                                                <svg class="at-icon" viewBox="0 0 512 512" xmlns="https://www.w3.org/2000/svg"><path d="m493.8 195.5c-13-41.6-53.9-68-97.2-62.7-17.6 2.1-34.5 7.4-50.2 15.5-1.5.8-3.2-.5-2.9-2.1 3.1-17.5 3.1-35.1-.1-52.6-7.9-42.9-45.2-74-88.8-74s-81 31.1-88.8 74c-2.6 14.3-3.1 28.8-1.5 43.2.2 1.6-1.5 2.7-2.9 2-13-6.6-26.8-11.3-41-13.8-42.9-7.7-85.2 16.3-100.5 57.2-15.3 40.9.7 86.8 38.1 109.2 15.2 9.2 31.8 15.4 49.2 18.6 1.6.3 2.2 2.3 1 3.4-13.2 11.9-24 25.8-32.2 41.6-20.2 38.7-9.8 86.2 24.6 113 16.4 12.7 35.9 19.1 55.5 19.1 21.5 0 43-7.7 60.1-22.9 13.3-11.9 24.1-25.7 32.4-41.4.8-1.5 2.9-1.4 3.6.1 7.4 16.1 17.5 30.6 30 43.2 17.5 17.4 40.5 26.4 63.8 26.4 17.9 0 35.8-5.3 51.4-16.1 35.8-24.8 48.8-71.7 30.8-111.4-7.3-16.2-17.3-30.7-29.8-43.3-1.2-1.2-.5-3.2 1.2-3.4 17.6-2.2 34.4-7.6 50.2-15.8 38.4-20.4 57-65.4 44-107z"/></svg>
+                                                {%- endif -%}
+                                                </div>
+                                            {%- endfor -%}
+                                        </div>
+                                    {%- endfor -%}
+                                    </div> 
+                                </div>                                
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{%- endcapture -%}
+{{- hero_banner | strip_newlines | remove: '  ' | remove: '	' -}}
+{% schema %}
+{
+    "name": "Hero Banner",
+    "class": "index-section",
+    "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+    },
+    "settings": [
+        {
+            "type":"paragraph",
+            "content":"Banner Height ==="
+        },
+        {
+            "type": "range",
+            "id": "hit",
+            "label": "Desktop",
+            "default":600,
+            "min": 100,
+            "max": 1000,
+            "step": 10
+        },
+        {
+            "type": "range",
+            "id": "hitt",
+            "label": "Tablet",
+            "default":500,
+            "min": 100,
+            "max": 900,
+            "step": 10
+        },
+        {
+            "type": "range",
+            "id": "hitm",
+            "label": "Mobile",
+            "default":400,
+            "min": 100,
+            "max": 900,
+            "step": 10
+        },
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Recommended width 2000px and height as per above desktop height"
+        },
+        {
+            "type": "image_picker",
+            "id": "imagem",
+            "label": "Mobile Image",
+            "info": "Recommended width 750px and height as per above mobile height. If mobile image is blank, dekstop image will be used."
+        },
+       {
+            "type": "color",
+            "id": "overlay",
+            "label": "Image Overlay",
+            "default": "#000"
+        },
+        {
+            "type": "range",
+            "id": "overlay_op",
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "label": "Overlay Opacity",
+            "unit": "%",
+            "default": 0
+        },
+    {
+      "type": "checkbox",
+      "id": "italic_fancy_font",
+      "label": "Enable Fancy Italic Font"
+    },
+    {
+      "type": "select",
+      "id": "italic_font_selection",
+      "label": "Fancy Font Selection",
+      "info": "Choose which font to use for the italic outline effect",
+      "options": [
+        {"value": "primary", "label": "Primary Font"},
+        {"value": "alternative", "label": "Alternative Font"},
+        {"value": "secondary", "label": "Secondary Font"}
+      ],
+      "default": "primary"
+    },
+        {
+                "type": "range",
+                "id": "ibrad",
+                "label": "Image Rounded",
+                "default": 0,
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit":"px"
+       },
+        {
+            "type": "checkbox",
+            "id": "parallax",
+            "label": "Enable Parallax scrolling",
+            "default":true,
+            "info":"For Parallax Effect Recommanded Image width : 1900 and height  = Banner height + 300. Effect will not work on mobile device."
+        },
+        {
+            "type": "checkbox",
+            "id": "ol_link",
+            "label": "Enable click on image?",
+            "default":false
+        },
+        {
+            "type": "header",
+            "content": "Text Appearance ==="
+        },
+        {
+            "type": "range",
+            "id": "cntwd",
+            "min": 300,
+            "max": 2000,
+            "step": 100,
+            "label": "Container Max. width (desktop)",
+            "unit": "px",
+            "default": 1400
+        },
+        {
+            "type": "range",
+            "id": "cwd",
+            "min": 300,
+            "max": 1000,
+            "step": 50,
+            "label": "Text Max. width (desktop)",
+            "unit": "px",
+            "default": 500
+        },
+       {
+            "type": "select",
+            "id": "text-align",
+            "label": "Text align",
+            "default": "tc f-jcc",
+            "options": [
+                { "label": "Left",      "value": "tl f-jcs" },
+                { "label": "Center",    "value": "tc f-jcc" },
+                { "label": "Right",     "value": "tr f-jce" }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "text_align",
+            "label": "Position",
+            "default": "f-jcc-md f-aic-md",
+            "options": [
+                { "label": "Top Left",      "value": "f-ais-md f-jcs-md" },
+                { "label": "Top Center",    "value": "f-jcc-md f-ais-md" },
+                { "label": "Top Right",     "value": "f-jce-md f-ais-md" },
+                { "label": "Left",  		  "value": "f-aic-md f-jcs-md" },
+                { "label": "Center", 		  "value": "f-jcc-md f-aic-md" },
+                { "label": "Right",  		  "value": "f-jce-md f-aic-md" },
+                { "label": "Bottom Left",   "value": "f-aie-md f-jcs-md" },
+                { "label": "Bottom Center", "value": "f-jcc-md f-aie-md" },
+                { "label": "Bottom Right",  "value": "f-jce-md f-aie-md" }
+            ]
+        },
+        {
+            "type": "select",
+            "id": "text_align_m",
+            "label": "Position (mobile)",
+            "default": "f-jcc f-aic",
+            "options": [
+                { "label": "Top Left",      "value": "f-ais f-jcs" },
+                { "label": "Top Center",    "value": "f-jcc f-ais" },
+                { "label": "Top Right",     "value": "f-jce f-ais" },
+                { "label": "Left",  		  "value": "f-aic f-jcs" },
+                { "label": "Center", 		  "value": "f-jcc f-aic" },
+                { "label": "Right",  		  "value": "f-jce f-aic" },
+                { "label": "Bottom Left",   "value": "f-aie f-jcs" },
+                { "label": "Bottom Center", "value": "f-jcc f-aie" },
+                { "label": "Bottom Right",  "value": "f-jce f-aie" }
+            ]
+        },
+        {
+            "type": "color",
+            "id": "tbg",
+            "label": "Box background",
+            "default": "#fff"
+        },
+        {
+            "type": "range",
+            "id": "opt",
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "label": "Box background opacity",
+            "unit": "%",
+            "default": 1
+        },
+		{
+            "type": "range",
+            "id": "bpd",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Box padding",
+            "unit": "px",
+            "default":60
+        },
+		{
+            "type": "range",
+            "id": "bpdm",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+			"label": "Box padding (mobile)",
+            "unit": "px",
+            "default":30
+        },
+		{
+            "type": "range",
+            "id": "brad",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "label": "Box rounded",
+            "unit": "px",
+            "default":5
+        },
+		{
+            "type": "header",
+            "content": "Section Design ==="
+        },
+       {
+            "type":"checkbox",
+            "id":"sw",
+            "label":"Fullwidth?",
+            "default": true
+        },
+        {
+            "type":"checkbox",
+            "id":"npd",
+            "label":"No padding?",
+            "default": true,
+            "info":"Remove left/right padding for fullwidth"
+        },
+		{
+			"type": "range",
+			"id": "sst",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing top",
+			"unit": "px",
+			"default":40
+        },
+		{
+			"type": "range",
+			"id": "ssb",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing bottom",
+			"unit": "px",
+			"default":40
+        },
+		{
+			"type": "range",
+			"id": "sstm",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing top (mobile)",
+			"unit": "px",
+			"default":15
+        },
+		{
+			"type": "range",
+			"id": "ssbm",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing bottom (mobile)",
+			"unit": "px",
+			"default":15
+        },
+         {
+            "type": "checkbox",
+            "id": "hidem",
+            "label": "Hide on Mobile?",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "hided",
+            "label": "Hide on Desktop?",
+            "default": false
+        }
+    ],
+    "blocks": [
+        {
+            "type": "heading",
+            "name": "Heading",
+            "settings":[
+                {
+                    "type": "richtext",
+                    "id": "title",
+                    "label": "Text",
+
+                },
+              {
+                    "type": "select",
+                    "id": "htag",
+                    "label": "Heading tag",
+                   "info":"Specify heading types for SEO and search engines for crawling purposes.",
+                    "default": "p",
+                    "options": [
+                        {
+                            "value": "h1",
+                            "label": "H1"
+                        },
+                        {
+                            "value": "h2",
+                            "label": "H2"
+                        },
+                        {
+                            "value": "h3",
+                            "label": "H3"
+                        },
+                        {
+                            "value": "h4",
+                            "label": "H4"
+                        },
+                        {
+                            "value": "h5",
+                            "label": "H5"
+                        },
+                        {
+                            "value": "h6",
+                            "label": "H6"
+                        },
+                       {
+                            "value": "p",
+                            "label": "P"
+                        }
+                    ]
+                },
+               {
+                    "type": "select",
+                    "id": "tff",
+                    "label": "Font Family",
+                    "default": "ft2",
+                    "options": [
+                        {
+                            "value": "ft1",
+                            "label": "Font 1"
+                        },
+                        {
+                            "value": "ft2",
+                            "label": "Font 2"
+                        },
+                        {
+                            "value": "ft3",
+                            "label": "Font 3"
+                        }
+                    ]
+                },
+                {
+                    "type": "color",
+                    "id": "cl",
+                    "label": "Text Color",
+                    "default": "#000"
+                },
+                {
+                    "type": "range",
+                    "id": "fs",
+                    "label": "Font size",
+                    "default": 14,
+                    "min": 10,
+                    "max": 100,
+                    "step": 1,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "fsm",
+                    "label": "Font size (mobile)",
+                    "default": 14,
+                    "min": 10,
+                    "max": 30,
+                    "step": 1,
+                    "unit": "px"
+                },
+               {
+                    "type": "select",
+                    "id": "fw",
+                    "label": "Font weight",
+                    "default": "400",
+                    "options": [
+                        {
+                            "value": "300",
+                            "label": "Light"
+                        },
+                        {
+                            "value": "400",
+                            "label": "Regular"
+                        },
+                        {
+                            "value": "500",
+                            "label": "Medium"
+                        },
+                        {
+                            "value": "600",
+                            "label": "Semi Bold"
+                        },
+                        {
+                            "value": "700",
+                            "label": "Bold"
+                        }
+                    ]
+                },
+                {
+                    "type": "range",
+                    "id": "ls",
+                    "label": "Letter spacing",
+                    "default":0,
+                    "min": 0,
+                    "max": 10,
+                    "step": 1,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "lh",
+                    "label": "Line height",
+                    "default": 1.5,
+                    "min": 1.0,
+                    "max": 2.0,
+                    "step": 0.1
+                },
+               {
+                    "type": "range",
+                    "id": "to",
+                    "label": "Text opacity",
+                    "default": 1,
+                    "min": 0,
+                    "max": 1,
+                    "step": 0.1
+                },
+                {
+                    "type": "range",
+                    "id": "mb",
+                    "label": "Margin bottom",
+                    "default": 20,
+                    "min": 0,
+                    "max": 50,
+                    "step": 1,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "mbm",
+                    "label": "Margin bottom (mobile)",
+                    "default": 20,
+                    "min": 0,
+                    "max": 30,
+                    "step": 1,
+                    "unit": "px"
+                }
+            ]
+        },
+      {
+            "type": "text",
+            "name": "Text",
+            "settings":[
+                {
+                    "type": "richtext",
+                    "id": "title",
+                    "label": "Text",
+                    "default": "<p>Designed with the entrepreneur in mind, Revone offers a user-friendly interface coupled with robust features that allow for easy setup and customization. </p>"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hidem",
+                    "label": "Hide text in mobile?",
+                    "default": false
+                },
+                {
+                    "type": "color",
+                    "id": "cl",
+                    "label": "Text Color",
+                    "default": "#333"
+                },
+                {
+                    "type": "range",
+                    "id": "fs",
+                    "label": "Font size",
+                    "default": 14,
+                    "min": 10,
+                    "max": 100,
+                    "step": 1,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "fsm",
+                    "label": "Font size (mobile)",
+                    "default": 14,
+                    "min": 10,
+                    "max": 30,
+                    "step": 1,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "lh",
+                    "label": "Line height",
+                    "default": 1.5,
+                    "min": 1.0,
+                    "max": 2.0,
+                    "step": 0.1
+                },
+                {
+                    "type": "range",
+                    "id": "mb",
+                    "label": "Margin bottom",
+                    "default": 30,
+                    "min": 0,
+                    "max": 50,
+                    "step": 1,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "mbm",
+                    "label": "Margin bottom (mobile)",
+                    "default": 20,
+                    "min": 0,
+                    "max": 30,
+                    "step": 1,
+                    "unit": "px"
+                }
+            ]
+        },
+        {
+            "type": "countdown",
+            "name": "Countdown Timer",
+            "limit":1,
+            "settings":[
+                {
+                    "type": "text",
+                    "id": "date",
+                    "label": "Enter Date",
+					"info":"Format: mm/dd/yyyy hh:mm:ss"
+                },
+                {
+                    "type": "color",
+                    "id": "bg",
+                    "label": "Background",
+                    "default": "#000"
+                },
+                {
+                    "type": "color",
+                    "id": "cl",
+                    "label": "Text",
+                    "default": "#eee"
+                },
+                {
+                    "type": "color",
+                    "id": "bdr",
+                    "label": "Border",
+                    "default": "#000"
+                },
+              {
+                    "type": "range",
+                    "id": "fs",
+                    "min": 10,
+                    "max": 30,
+                    "step": 1,
+                    "label": "Font Size Digit",
+                    "unit": "px",
+                    "default": 22
+                },
+               {
+                    "type": "range",
+                    "id": "fsl",
+                    "min": 10,
+                    "max": 20,
+                    "step": 1,
+                    "label": "Font Size Label",
+                    "unit": "px",
+                    "default": 12
+                },
+                {
+                    "type": "range",
+                    "id": "radius",
+                    "min": 0,
+                    "max": 50,
+                    "step": 1,
+                    "label": "Rounded Corners",
+                    "unit": "px",
+                    "default": 0
+                },
+                {
+                    "type": "range",
+                    "id": "mb",
+                    "label": "Margin Bottom",
+                    "default": 30,
+                    "min": 0,
+                    "max": 50,
+                    "step": 5,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "mbm",
+                    "label": "Margin Bottom (mobile)",
+                    "default": 20,
+                    "min": 0,
+                    "max": 30,
+                    "step": 1,
+                    "unit": "px"
+                }
+            ]
+        },
+        {
+            "type": "button",
+            "name": "Button",
+            "limit":1,
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Button Label",
+                    "default":"SHOP NOW"
+                },
+                {
+                    "type": "url",
+                    "id": "link",
+                    "label": "Button Link"
+                },
+                {
+                    "type": "checkbox",
+                    "id": "hidem",
+                    "label": "Hide in mobile?",
+                    "default": false
+                },
+                {
+					"type": "select",
+					"id": "btn-style",
+					"label": "Button Design",
+					"default": "btn1",
+					"options": [
+					  {
+						"label": "Button 1",
+						"value": "btn1"
+					  },
+					  {
+						"label": "Button 2",
+						"value": "btn2"
+					  },
+					  {
+						"label": "Button 3",
+						"value": "btn3"
+					  },
+					  {
+						"label": "Button 4",
+						"value": "btn4"
+					  },
+					 {
+						"label": "Button 5",
+						"value": "btn5"
+					  },
+					  {
+						"label": "Button 6",
+						"value": "btn6"
+					  },
+                      {
+                          "label": "Button 7 Gradient",
+                          "value": "btn7"
+                      },
+                      {
+                          "label": "Button 8 Gradient",
+                          "value": "btn8"
+                      },
+					  {
+						"label": "Link",
+						"value": "btnLink"
+					  }
+					]
+				  },
+                {
+                    "type": "select",
+                    "id": "btn-size",
+                    "label": "Button Size",
+                    "default": "btn-md",
+                    "options": [
+                        {
+                            "label": "Small",
+                            "value": "btn-sm"
+                        },
+                        {
+                            "label": "Medium",
+                            "value": "btn-md"
+                        },
+                        {
+                            "label": "Large",
+                            "value": "btn-lg"
+                        }
+                    ]
+                },
+                {
+                    "type": "range",
+                    "id": "mb",
+                    "label": "Margin Bottom",
+                    "default": 20,
+                    "min": 0,
+                    "max": 50,
+                    "step": 5,
+                    "unit": "px"
+                },
+                {
+                    "type": "range",
+                    "id": "mbm",
+                    "label": "Margin Bottom (mobile)",
+                    "default": 20,
+                    "min": 0,
+                    "max": 50,
+                    "step": 5,
+                    "unit": "px"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Hero Banner",
+            "blocks": [
+            ]
+        }
+    ]
+}
+{% endschema %}

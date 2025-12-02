@@ -1,0 +1,1078 @@
+{%- assign section_st = section.settings -%}
+
+<style>
+  .cse {
+    padding: {{ section_st.padding_top }}px 0 {{ section_st.padding_bottom }}px;
+    background: {{ section_st.bg_color }};
+  }
+  
+  .cc {
+    max-width: {{ section_st.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .cl {
+    display: flex;
+    flex-direction: column;
+    gap: {{ section_st.item_spacing }}px;
+    {% if section_st.enable_sticky %}
+    position: relative;
+    {% endif %}
+
+  }
+  
+.ci {
+  overflow: hidden;
+  border-radius: {{ section_st.border_radius }}px;
+  padding: {{ section_st.item_padding }}px;
+  transition: all .3s cubic-bezier(0,0,.5,1);
+  cursor: pointer;
+
+  {% if section_st.enable_sticky %}
+  position: sticky;
+  top: calc({{ forloop.index0 | times: 20 }}px + {{ section_st.sticky_offset }}px);
+  z-index: {{ 100 | minus: forloop.index0 }};
+  {% endif %}
+
+  {% if section_st.layout_type == 'horizontal' %}
+  display: flex;
+  align-items: center;
+  {% else %}
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  {% endif %}
+
+  /* Dynamic height based on total blocks */
+  height: calc(100% / {{ section.blocks.size }});
+}
+
+  
+  .ci:hover {
+    box-shadow: 2px 4px 16px #00000014;
+  }
+  .cim{
+  min-height:180px;}
+ 
+  .cim img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+    
+  .ccn {
+    {% if section_st.layout_type == 'horizontal' %}
+    flex: 1;
+    {% else %}
+    width: 100%;
+    {% endif %}
+    position: relative;
+    max-width:400px;
+    height: 100%;
+    align-content: center;
+  }
+  
+  .cti {
+    font-size: clamp(16px, 2vw, 28px);
+    font-weight: {{ section_st.title_weight }};
+    color: {{ section_st.title_color }};
+    margin: 0 0 {{ section_st.title_margin }}px;
+    line-height: 1.3;
+    {% if section_st.enable_title == false %}
+    display: none;
+    {% endif %}
+    font-family: {{ settings.font_face_family_sec }}
+  }
+  
+  .csu {
+    font-size: {{ section_st.subtitle_size }}px;
+    color: {{ section_st.subtitle_color }};
+    font-weight: {{ section_st.subtitle_weight }};
+    margin: 0 0 {{ section_st.subtitle_margin }}px;
+    {% if section_st.enable_subtitle == false %}
+    display: none;
+    {% endif %}
+  }
+  
+  .cde {
+    margin: 0;
+    {% if section_st.enable_description == false %}
+    display: none;
+    {% endif %}
+    {% if section_st.desc_lines > 0 %}
+    display: -webkit-box;
+    -webkit-line-clamp: {{ section_st.desc_lines }};
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    {% endif %}
+  }
+  
+  .cco {
+    font-size: {{ section_st.count_size }}px;
+    color: {{ section_st.count_color }};
+    font-weight: {{ section_st.count_weight }};
+    {% if section_st.count_position == 'badge' %}
+    position: absolute;
+    top: {{ section_st.count_top }}px;
+    right: {{ section_st.count_right }}px;
+    background: {{ section_st.count_bg }};
+    padding: {{ section_st.count_padding }}px;
+    border-radius: {{ section_st.count_border_radius }}px;
+    {% else %}
+    margin-top: {{ section_st.count_margin }}px;
+    {% endif %}
+    {% if section_st.enable_count == false %}
+    display: none;
+    {% endif %}
+  }
+  
+  .carr {
+    {% if section_st.enable_arrow %}
+    {% if section_st.layout_type == 'horizontal' %}
+    margin-left: auto;
+    {% else %}
+    margin-top: auto;
+    align-self: center;
+    {% endif %}
+    width: {{ section_st.arrow_size }}px;
+    height: {{ section_st.arrow_size }}px;
+    background: {{ section_st.arrow_bg }};
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    {% else %}
+    display: none;
+    {% endif %}
+  }
+  
+  .carr svg {
+    width: {{ section_st.arrow_icon_size }}px;
+    height: {{ section_st.arrow_icon_size }}px;
+    fill: {{ section_st.arrow_color }};
+  }
+  
+  .shea {
+    text-align: {{ section_st.header_align }};
+    margin-bottom: {{ section_st.header_margin }}px;
+    {% if section_st.enable_header == false %}
+    display: none;
+    {% endif %}
+  }
+  
+  .sht {
+    font-size: {{ section_st.section_title_size }}px;
+    font-weight: {{ section_st.section_title_weight }};
+    color: {{ section_st.section_title_color }};
+    margin: 0 0 {{ section_st.section_title_margin }}px;
+    line-height: 1.2;
+  }
+  
+  .shs {
+    font-size: {{ section_st.section_subtitle_size }}px;
+    color: {{ section_st.section_subtitle_color }};
+    margin: 0;
+    line-height: 1.5;
+    max-width: {{ section_st.subtitle_width }}px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cgr {
+    display: grid;
+    grid-template-columns: repeat({{ section_st.columns_desktop }}, 1fr);
+    gap: {{ section_st.grid_gap }}px;
+  }
+  
+  .cgr .ci {
+    {% if section_st.enable_sticky %}
+    position: static;
+    {% endif %}
+  }
+  
+  @media (max-width: 768px) {
+    .cc {
+      padding: 0 16px;
+    }
+    
+    .cgr {
+      grid-template-columns: repeat({{ section_st.columns_mobile }}, 1fr);
+    }
+    
+    .ci {
+      {% if section_st.mobile_direction == 'vertical' %}
+      flex-direction: column;
+      text-align: center;
+      {% endif %}
+      padding: {{ section_st.mobile_padding }}px;
+    }
+    
+    .cim {
+      {% if section_st.mobile_direction == 'vertical' %}
+      margin-right: 0;
+      margin-bottom: {{ section_st.content_spacing }}px;
+      {% endif %}
+    }
+  }
+  .cispan img{object-position: top;}
+  .lazy-zooms {
+    transform: scale(1);
+    transition: transform 0.6s ease-in-out;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+</style>
+
+<div class="sec_cov" style="--sbg:{{ section_st.bg }};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px">
+  <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}" id="{{ section.id }}" data-section-id="{{ section.id }}">
+    {% render 'sec-title' %}
+    <div class="fl gap20">
+    <div class="{% if section_st.layout_style == 'grid' %}cgr{% else %}cl wd60-lg wd100 f-jcsb{% endif %}">
+      {% for block in section.blocks %}
+        {% assign collection = collections[block.settings.collection] %}
+        {% if collection != blank %}
+          <div class="ci" onclick="window.location.href='{{ collection.url }}'">
+            {% if section_st.enable_image %}
+              <div class="cim">
+                {% if collection.featured_image %}
+<span class="pa zi001 ovhid fl f-jce" style="top: 0; right: 0; width: 50%; height: 100%">
+  {% if section_st.featured_image %}
+    {{ section_st.featured_image | image_url: width: 2000 | image_tag: alt: collection.title, loading: "lazy", class: "w-full h-auto block ml-auto" }}
+  {% else %}
+    {{ collection.featured_image | image_url: width: 2000 | image_tag: alt: collection.title, loading: "lazy", class: "w-full h-auto block ml-auto" }}
+  {% endif %}
+</span>
+
+
+
+                  <span class="w_100 h_100 pa top0 left0 pevnt" style="background: linear-gradient(270deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 41.95%, #ffffff 100%);"></span>
+                {% endif %}
+              </div>
+            {% endif %}
+            
+            <div class="ccn">
+              {% if section_st.enable_count and section_st.count_position == 'badge' %}
+                <div class="cco">
+                  {{ collection.products_count }}
+                  {% if collection.products_count == 1 %}item{% else %}items{% endif %}
+                </div>
+              {% endif %}
+              {% if section_st.enable_title %}
+                <h3 class="cti">{{ collection.title }}</h3>
+              {% endif %}
+              
+              {% if section_st.enable_subtitle and block.settings.custom_title != blank %}
+                <div class="csu">{{ block.settings.custom_title }}</div>
+              {% endif %}
+              
+              {% if section_st.enable_description %}
+                {% if block.settings.description != blank %}
+                  <p class="cde">{{ block.settings.description }}</p>
+                {% elsif collection.description != blank %}
+                  <p class="cde">{{ collection.description | strip_html }}</p>
+                {% endif %}
+              {% endif %}
+              
+              {% if section_st.enable_count and section_st.count_position == 'inline' %}
+                <div class="cco">
+                  {{ collection.products_count }}
+                  {% if collection.products_count == 1 %}item{% else %}items{% endif %}
+                </div>
+              {% endif %}
+            </div>
+            <div class="carr">
+              <svg viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6l6 6l-6 6l-1.41-1.41z"/>
+              </svg>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div> 
+    <div class="rounded10 wd40 hide-md hide-sm fl f-col">
+      <div class="rounded10 fl h_100 ovhid">
+        {% if section_st.media_type == 'image' and section_st.image != blank %}
+          <img src="{{ section_st.image | image_url: width: 1200 }}" 
+               alt="{{ section_st.image.alt | escape }}" 
+               class="media-element-{{section.id}} rounded10 ovh lazy-zooms" 
+               loading="lazy">
+        {% elsif section_st.media_type == 'video' and section_st.video_url != blank %}
+          <div class="video-wrapper-{{section.id}}">
+            {% if section_st.video_url.type == 'youtube' %}
+              <iframe src="https://www.youtube.com/embed/{{ section_st.video_url.id }}" frameborder="0" allowfullscreen></iframe>
+            {% elsif section_st.video_url.type == 'vimeo' %}
+              <iframe src="https://player.vimeo.com/video/{{ section_st.video_url.id }}" frameborder="0" allowfullscreen></iframe>
+            {% endif %}
+          </div>
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% schema %}
+{
+  "name": "Collection List - Minimal",
+  "settings": [
+        {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Sub Heading"
+    },
+	    {
+      "type": "header",
+      "content": "Section Design"
+    },
+    {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "label": "Spacing top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "label": "Spacing bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "label": "Spacing top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "label": "Spacing bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on desktop",
+      "default": false
+    },
+            {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "options": [
+            { "value": "image", "label": "Image" },
+            { "value": "video", "label": "Video" }
+          ],
+          "default": "image"
+        },
+            {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "label": "Video URL",
+          "accept": ["youtube", "vimeo"]
+        },
+        {
+          "type": "select",
+          "id": "media_fit",
+          "label": "Media Fit",
+          "options": [
+            { "value": "cover", "label": "Cover" },
+            { "value": "contain", "label": "Contain" },
+            { "value": "fill", "label": "Fill" }
+          ],
+          "default": "cover"
+        },
+        {
+          "type": "select",
+          "id": "media_position",
+          "label": "Media Position",
+          "options": [
+            { "value": "center", "label": "Center" },
+            { "value": "top", "label": "Top" },
+            { "value": "bottom", "label": "Bottom" },
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "video_aspect_ratio",
+          "label": "Video Aspect Ratio",
+          "min": 30,
+          "max": 200,
+          "step": 5,
+          "unit": "%",
+          "default": 55
+        },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout Style",
+      "options": [
+        {"value": "list", "label": "List (Stacking)"},
+        {"value": "grid", "label": "Grid"}
+      ],
+      "default": "list"
+    },
+    {
+      "type": "select",
+      "id": "layout_type",
+      "label": "Item Layout",
+      "options": [
+        {"value": "horizontal", "label": "Horizontal"},
+        {"value": "vertical", "label": "Vertical"}
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable Sticky Stacking",
+      "default": true,
+      "info": "Items will stack with 20px offset when scrolling"
+    },
+    {
+      "type": "range",
+      "id": "sticky_offset",
+      "label": "Sticky Top Offset",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "Desktop Columns (Grid)",
+      "min": 1,
+      "max": 4,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "columns_mobile",
+      "label": "Mobile Columns (Grid)",
+      "min": 1,
+      "max": 3,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Container Settings"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container Max Width",
+      "min": 800,
+      "max": 1400,
+      "step": 50,
+      "default": 1200,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Section Top Padding",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Section Bottom Padding",
+      "min": 0,
+      "max": 120,
+      "step": 10,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Item Settings"
+    },
+    {
+      "type": "color",
+      "id": "item_bg",
+      "label": "Item Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#e5e5e5"
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border Radius",
+      "min": 0,
+      "max": 20,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "item_padding",
+      "label": "Item Padding",
+      "min": 10,
+      "max": 40,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Item Spacing",
+      "min": 10,
+      "max": 40,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid Gap",
+      "min": 10,
+      "max": 40,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Content Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_header",
+      "label": "Show Section Header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image",
+      "label": "Show Images",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_title",
+      "label": "Show Collection Title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_subtitle",
+      "label": "Show Custom Subtitle",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_count",
+      "label": "Show Product Count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_arrow",
+      "label": "Show Arrow",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "select",
+      "id": "header_align",
+      "label": "Header Alignment",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "center", "label": "Center"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "header_margin",
+      "label": "Header Bottom Margin",
+      "min": 20,
+      "max": 80,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_title_size",
+      "label": "Section Title Size",
+      "min": 20,
+      "max": 48,
+      "default": 28,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_title_weight",
+      "label": "Section Title Weight",
+      "min": 300,
+      "max": 700,
+      "step": 100,
+      "default": 600
+    },
+    {
+      "type": "color",
+      "id": "section_title_color",
+      "label": "Section Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "section_title_margin",
+      "label": "Section Title Bottom Margin",
+      "min": 0,
+      "max": 20,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_subtitle_size",
+      "label": "Section Subtitle Size",
+      "min": 14,
+      "max": 20,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "section_subtitle_color",
+      "label": "Section Subtitle Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_width",
+      "label": "Subtitle Max Width",
+      "min": 400,
+      "max": 800,
+      "step": 50,
+      "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Image Settings"
+    },
+    {
+      "type": "range",
+      "id": "image_size",
+      "label": "Image Width (Horizontal)",
+      "min": 60,
+      "max": 150,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "label": "Image Height (Vertical)",
+      "min": 100,
+      "max": 300,
+      "step": 10,
+      "default": 200,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Image Border Radius",
+      "min": 0,
+      "max": 20,
+      "default": 6,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_hover_scale",
+      "label": "Image Hover Scale",
+      "min": 100,
+      "max": 130,
+      "step": 5,
+      "default": 105
+    },
+    {
+      "type": "header",
+      "content": "Content Spacing"
+    },
+    {
+      "type": "range",
+      "id": "content_spacing",
+      "label": "Content Spacing",
+      "min": 10,
+      "max": 30,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title Size",
+      "min": 14,
+      "max": 24,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_weight",
+      "label": "Title Weight",
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "default": 600
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#333333"
+    },
+    {
+      "type": "range",
+      "id": "title_margin",
+      "label": "Title Bottom Margin",
+      "min": 0,
+      "max": 15,
+      "default": 6,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Size",
+      "min": 12,
+      "max": 18,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_weight",
+      "label": "Subtitle Weight",
+      "min": 400,
+      "max": 600,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#666666"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_margin",
+      "label": "Subtitle Bottom Margin",
+      "min": 0,
+      "max": 15,
+      "default": 6,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "desc_size",
+      "label": "Description Size",
+      "min": 12,
+      "max": 16,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "desc_color",
+      "label": "Description Color",
+      "default": "#555555"
+    },
+    {
+      "type": "range",
+      "id": "desc_lines",
+      "label": "Description Max Lines",
+      "min": 0,
+      "max": 4,
+      "default": 2,
+      "info": "0 = No limit"
+    },
+    {
+      "type": "header",
+      "content": "Product Count"
+    },
+    {
+      "type": "select",
+      "id": "count_position",
+      "label": "Count Position",
+      "options": [
+        {"value": "badge", "label": "Badge (Top Right)"},
+        {"value": "inline", "label": "Inline (Bottom)"}
+      ],
+      "default": "badge"
+    },
+    {
+      "type": "range",
+      "id": "count_size",
+      "label": "Count Font Size",
+      "min": 10,
+      "max": 16,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "count_color",
+      "label": "Count Color",
+      "default": "#888888"
+    },
+    {
+      "type": "color",
+      "id": "count_bg",
+      "label": "Count Background (Badge)",
+      "default": "rgba(255,255,255,0.9)"
+    },
+    {
+      "type": "range",
+      "id": "count_padding",
+      "label": "Count Padding (Badge)",
+      "min": 2,
+      "max": 8,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "count_border_radius",
+      "label": "Count Border Radius (Badge)",
+      "min": 0,
+      "max": 10,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "count_weight",
+      "label": "Count Font Weight",
+      "min": 400,
+      "max": 600,
+      "step": 100,
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "count_top",
+      "label": "Count Top Position (Badge)",
+      "min": 0,
+      "max": 20,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "count_right",
+      "label": "Count Right Position (Badge)",
+      "min": 0,
+      "max": 20,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "count_margin",
+      "label": "Count Top Margin (Inline)",
+      "min": 0,
+      "max": 15,
+      "default": 6,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Arrow Settings"
+    },
+    {
+      "type": "range",
+      "id": "arrow_size",
+      "label": "Arrow Size",
+      "min": 20,
+      "max": 40,
+      "default": 28,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "arrow_icon_size",
+      "label": "Arrow Icon Size",
+      "min": 12,
+      "max": 40,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "arrow_bg",
+      "label": "Arrow Background",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "arrow_color",
+      "label": "Arrow Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Hover Effects"
+    },
+    {
+      "type": "range",
+      "id": "hover_lift",
+      "label": "Hover Lift",
+      "min": 0,
+      "max": 10,
+      "default": 3,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "hover_shadow",
+      "label": "Hover Shadow",
+      "min": 0,
+      "max": 20,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Settings"
+    },
+    {
+      "type": "select",
+      "id": "mobile_direction",
+      "label": "Mobile Layout",
+      "options": [
+        {"value": "horizontal", "label": "Keep Horizontal"},
+        {"value": "vertical", "label": "Switch to Vertical"}
+      ],
+      "default": "horizontal"
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding",
+      "label": "Mobile Item Padding",
+      "min": 10,
+      "max": 25,
+      "default": 16,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Subtitle"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Custom Description",
+          "info": "Will override collection description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection List - Minimal",
+      "blocks": [
+        {"type": "collection"},
+        {"type": "collection"},
+        {"type": "collection"}
+      ]
+    }
+  ]
+}
+{% endschema %}

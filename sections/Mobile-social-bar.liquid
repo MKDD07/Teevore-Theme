@@ -1,0 +1,282 @@
+{%- liquid
+  assign section_st = section.settings
+  assign social_blocks = section.blocks | where: 'type', 'social'
+  assign button_blocks = section.blocks | where: 'type', 'button'
+-%}
+
+<div
+  class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}"
+  style="
+    --sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};
+    --sst:{{ section_st.sst }}px;
+    --ssb:{{ section_st.ssb }}px;
+    --sstm:{{ section_st.sstm }}px;
+    --ssbm:{{ section_st.ssbm }}px;
+    border-bottom: 1px solid {{ section_st.border_color }};
+  "
+>
+  <div
+    id="{{ section.id }}"
+    class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %} social-bar pr fl f-aic f-jcsb"
+    style="
+      --fs:{{ section_st.fts }}px;
+      --fsm:{{ section_st.ftsm }}px;
+      --fw:{{ section_st.fw }};
+      --cl:{{ section_st.cl }};
+    "
+  >
+    {%- comment -%} Social Media Section {%- endcomment -%}
+    {%- if social_blocks.size > 0 -%}
+      {%- assign social_block = social_blocks.first -%}
+      <div class="social-section fl f-aic {{ social_block.settings.al }}">
+        {%- render 'social-media' -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Button Section {%- endcomment -%}
+    {%- if button_blocks.size > 0 -%}
+      <div class="button-section fl f-aic">
+        {%- for block in button_blocks -%}
+          {%- assign blk_st = block.settings -%}
+          {%- if blk_st.btn_text != blank -%}
+            <a
+              {% if blk_st.btn_link != blank %}
+                href="{{ blk_st.btn_link }}"
+              {% else %}
+                role="link" aria-disabled="true"
+              {% endif %}
+              class="btn btn4 btn-sm{% if blk_st.hide_mobile %} hide-sm{% endif %}"
+              style="
+                color: {{ blk_st.btn_text_color }};
+                background-color: {{ blk_st.btn_bg_color }};
+                border: 1px solid {{ blk_st.btn_border_color }};
+              "
+              {{ block.shopify_attributes }}
+            >
+              {{ blk_st.btn_text }}
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{%- style -%}
+  #{{ section.id }} {
+    color: {{ section_st.cl }};
+  }
+  #{{ section.id }} .btn {
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+  #{{ section.id }} .btn:hover {
+    opacity: 0.8;
+  }
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Social Bar",
+  "class": "index-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text Appearance"
+    },
+    {
+      "type": "range",
+      "id": "fts",
+      "label": "Font size",
+      "default": 14,
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "ftsm",
+      "label": "Font size (mobile)",
+      "default": 12,
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "fw",
+      "label": "Font weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "cl",
+      "label": "Text color",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Section Design"
+    },
+    {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_background",
+      "id": "bgg",
+      "label": "Gradient background"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "label": "Spacing top",
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "label": "Spacing bottom",
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "label": "Spacing top (mobile)",
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "label": "Spacing bottom (mobile)",
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "social",
+      "name": "Social Icons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "al",
+          "label": "Alignment",
+          "default": "tl",
+          "options": [
+            { "value": "tl", "label": "Left" },
+            { "value": "tc f-jcc", "label": "Center" },
+            { "value": "tr f-jce", "label": "Right" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button text",
+          "default": "Shop Now"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color",
+          "label": "Button text color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "btn_bg_color",
+          "label": "Button background color",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "btn_border_color",
+          "label": "Button border color",
+          "default": "#333333"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Bar",
+      "blocks": [
+        {
+          "type": "social"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

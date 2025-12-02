@@ -1,0 +1,588 @@
+{% comment %}
+  Interactive Options Section
+  This section creates an expandable card interface with customizable options
+{% endcomment %}
+
+<style>
+  .options-section-{{ section.id }} {
+    --option-color-1: {{ section.settings.color_1 }};
+    --option-color-2: {{ section.settings.color_2 }};
+    --option-color-3: {{ section.settings.color_3 }};
+    --option-color-4: {{ section.settings.color_4 }};
+    --option-color-5: {{ section.settings.color_5 }};
+    --option-color-6: {{ section.settings.color_6 }};
+  }
+
+  .options-section-{{ section.id }} {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-height: {{ section.settings.section_height }}px;
+    padding: {{ section.settings.section_padding_top }}px 0 {{ section.settings.section_padding_bottom }}px;
+    font-family: {{ section.settings.font_family }};
+    transition: 0.25s;
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  }
+
+  .options-container-{{ section.id }} {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    overflow: hidden;
+    min-width: 600px;
+    max-width: {{ section.settings.max_width }}px;
+    width: calc(100% - 100px);
+    height: {{ section.settings.options_height }}px;
+  }
+
+  @media screen and (max-width: 798px) {
+    .options-container-{{ section.id }} {
+      min-width: 520px;
+    }
+    .options-container-{{ section.id }} .option:nth-child(6) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 718px) {
+    .options-container-{{ section.id }} {
+      min-width: 440px;
+    }
+    .options-container-{{ section.id }} .option:nth-child(5) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 638px) {
+    .options-container-{{ section.id }} {
+      min-width: 360px;
+    }
+    .options-container-{{ section.id }} .option:nth-child(4) {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 558px) {
+    .options-container-{{ section.id }} {
+      min-width: 280px;
+    }
+    .options-container-{{ section.id }} .option:nth-child(3) {
+      display: none;
+    }
+  }
+
+  .option-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+    min-width: 60px;
+    margin: 10px;
+    background: var(--option-background, var(--default-background, #E6E9ED));
+    background-size: auto 120%;
+    background-position: center;
+    cursor: pointer;
+    transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+    border-radius: 30px;
+    flex-grow: 1;
+    
+  }
+
+  .option-{{ section.id }}:nth-child(1) {
+    --default-background: var(--option-color-1);
+  }
+  .option-{{ section.id }}:nth-child(2) {
+    --default-background: var(--option-color-2);
+  }
+  .option-{{ section.id }}:nth-child(3) {
+    --default-background: var(--option-color-3);
+  }
+  .option-{{ section.id }}:nth-child(4) {
+    --default-background: var(--option-color-4);
+  }
+  .option-{{ section.id }}:nth-child(5) {
+    --default-background: var(--option-color-5);
+  }
+  .option-{{ section.id }}:nth-child(6) {
+    --default-background: var(--option-color-6);
+  }
+
+  .option-{{ section.id }}:hover {
+    flex-grow: 10000;
+    transform: scale(1);
+    max-width: 600px;
+    margin: 0px;
+    border-radius: 40px;
+    background-size: auto 100%;
+    transition: opacity 0.6s ease-out;
+
+  }
+
+  .option-{{ section.id }}.active .shadow-{{ section.id }} {
+    box-shadow: inset 0 -120px 120px -120px black, inset 0 -120px 120px -100px black;
+  }
+
+  .option-{{ section.id }}.active .label-{{ section.id }} {
+    bottom: 20px;
+    left: 20px;
+  }
+
+  .option-{{ section.id }}.active .info-{{ section.id }} > div {
+    left: 0px;
+    opacity: 1;
+  }
+
+  .option-{{ section.id }}:not(.active) .shadow-{{ section.id }} {
+    bottom: -40px;
+    box-shadow: inset 0 -120px 0px -120px black, inset 0 -120px 0px -100px black;
+  }
+
+  .option-{{ section.id }}:not(.active) .label-{{ section.id }} {
+    bottom: 10px;
+    left: 10px;
+  }
+
+  .option-{{ section.id }}:not(.active) .info-{{ section.id }} > div {
+    left: 20px;
+    opacity: 0;
+  }
+
+  .shadow-{{ section.id }} {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 120px;
+    transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+  }
+
+  .label-{{ section.id }} {
+    display: flex;
+    position: absolute;
+    right: 0px;
+    height: 40px;
+    transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95);
+  }
+
+  .icon-{{ section.id }} {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    max-width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-color: {{ section.settings.icon_background_color }};
+    color: var(--default-background);
+    font-size: {{ section.settings.icon_size }}px;
+  }
+
+  .info-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;
+    color: {{ section.settings.label_text_color }};
+    white-space: pre;
+  }
+
+  .info-{{ section.id }} > div {
+    position: relative;
+    transition: 0.5s cubic-bezier(0.05, 0.61, 0.41, 0.95), opacity 0.5s ease-out;
+  }
+
+  .info-{{ section.id }} .main {
+    font-weight: bold;
+    font-size: {{ section.settings.main_text_size }}px;
+  }
+
+  .info-{{ section.id }} .sub {
+    transition-delay: 0.1s;
+    font-size: {{ section.settings.sub_text_size }}px;
+  }
+
+  .credit-{{ section.id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: inherit;
+    font-size: {{ section.settings.credit_text_size }}px;
+  }
+</style>
+
+<div class="options-section-{{ section.id }}">
+  <div class="options-container-{{ section.id }}">
+    {% for block in section.blocks %}
+      <div class="option-{{ section.id }}{% if forloop.first %} active{% endif %}" 
+           style="--option-background:url({{ block.settings.background_image | image_url: width: 1280 }});"
+           {{ block.shopify_attributes }}>
+        <div class="shadow-{{ section.id }}"></div>
+        <div class="label-{{ section.id }}">
+          <div class="info-{{ section.id }}">
+            <div class="main">
+            {{ collection.title }}
+            </div>
+            <div class="sub">
+            {% assign words = collection.description | split: ' ' %}
+            {% assign truncated_words = words | slice: 0, 20 %}
+            {{ truncated_words | join: ' ' }} trustcaste
+            </div>
+          </div>
+        </div>
+        {% if block.settings.link_url != blank %}
+          <a href="{{ block.settings.link_url }}" class="option-link" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10;"></a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  
+  {% if section.settings.show_credit %}
+    <div class="credit-{{ section.id }}">
+      {% if section.settings.credit_link != blank %}
+        <a href="{{ section.settings.credit_link }}" target="_blank">{{ section.settings.credit_text }}</a>
+      {% else %}
+        {{ section.settings.credit_text }}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const options = document.querySelectorAll('.option-{{ section.id }}');
+    
+    options.forEach(function(option) {
+      option.addEventListener('click', function() {
+        // Remove active class from all options
+        options.forEach(function(opt) {
+          opt.classList.remove('active');
+        });
+        
+        // Add active class to clicked option
+        this.classList.add('active');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Interactive Options",
+  "tag": "section",
+  "class": "section-interactive-options",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "unit": "px",
+      "label": "Section height",
+      "default": 500
+    },
+    {
+      "type": "range",
+      "id": "options_height",
+      "min": 200,
+      "max": 600,
+      "step": 50,
+      "unit": "px",
+      "label": "Options height",
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 900
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_1",
+      "label": "Option 1 default color",
+      "default": "#ED5565"
+    },
+    {
+      "type": "color",
+      "id": "color_2",
+      "label": "Option 2 default color",
+      "default": "#FC6E51"
+    },
+    {
+      "type": "color",
+      "id": "color_3",
+      "label": "Option 3 default color",
+      "default": "#FFCE54"
+    },
+    {
+      "type": "color",
+      "id": "color_4",
+      "label": "Option 4 default color",
+      "default": "#2ECC71"
+    },
+    {
+      "type": "color",
+      "id": "color_5",
+      "label": "Option 5 default color",
+      "default": "#5D9CEC"
+    },
+    {
+      "type": "color",
+      "id": "color_6",
+      "label": "Option 6 default color",
+      "default": "#AC92EC"
+    },
+    {
+      "type": "color",
+      "id": "icon_background_color",
+      "label": "Icon background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "label_text_color",
+      "label": "Label text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "font_picker",
+      "id": "font_family",
+      "label": "Font family",
+      "default": "roboto_n4"
+    },
+    {
+      "type": "range",
+      "id": "main_text_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Main text size",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "sub_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Subtitle text size",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Credit Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_credit",
+      "label": "Show credit",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "credit_text",
+      "label": "Credit text",
+      "default": "Photos from Victor of Valencia on tumblr"
+    },
+    {
+      "type": "url",
+      "id": "credit_link",
+      "label": "Credit link"
+    },
+    {
+      "type": "range",
+      "id": "credit_text_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Credit text size",
+      "default": 12
+    }
+  ],
+  "blocks": [
+    {
+      "type": "option",
+      "name": "Option",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Option Title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Option description"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background image"
+        },
+        {
+          "type": "collection",
+          "id": "link_url",
+          "label": "Collection"
+        },
+        {
+          "type": "header",
+          "content": "Icon Settings"
+        },
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon type",
+          "options": [
+            {
+              "value": "fontawesome",
+              "label": "Font Awesome"
+            },
+            {
+              "value": "svg",
+              "label": "SVG"
+            },
+            {
+              "value": "unicode",
+              "label": "Unicode"
+            }
+          ],
+          "default": "fontawesome"
+        },
+        {
+          "type": "text",
+          "id": "fontawesome_icon",
+          "label": "Font Awesome icon class",
+          "default": "fas fa-star",
+          "info": "Enter Font Awesome class (e.g., fas fa-walking)"
+        },
+        {
+          "type": "html",
+          "id": "svg_icon",
+          "label": "SVG icon code",
+          "info": "Paste SVG code here"
+        },
+        {
+          "type": "text",
+          "id": "unicode_icon",
+          "label": "Unicode icon",
+          "default": "★",
+          "info": "Enter unicode character or emoji"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Interactive Options",
+      "blocks": [
+        {
+          "type": "option",
+          "settings": {
+            "title": "Walking",
+            "subtitle": "Explore on foot",
+            "fontawesome_icon": "fas fa-walking"
+          }
+        },
+        {
+          "type": "option",
+          "settings": {
+            "title": "Winter",
+            "subtitle": "Cold adventures",
+            "fontawesome_icon": "fas fa-snowflake"
+          }
+        },
+        {
+          "type": "option",
+          "settings": {
+            "title": "Nature",
+            "subtitle": "Forest trails",
+            "fontawesome_icon": "fas fa-tree"
+          }
+        },
+        {
+          "type": "option",
+          "settings": {
+            "title": "Water",
+            "subtitle": "Aquatic fun",
+            "fontawesome_icon": "fas fa-tint"
+          }
+        },
+        {
+          "type": "option",
+          "settings": {
+            "title": "Summer",
+            "subtitle": "Sunny days",
+            "fontawesome_icon": "fas fa-sun"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

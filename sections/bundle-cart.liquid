@@ -1,0 +1,1126 @@
+{%- liquid
+  assign section_st = section.settings
+  assign page_width = settings.cntwd | append: 'px'
+  if section_st.sw
+    assign page_width = '100vw'
+  endif
+
+  comment
+    Handle collection assignment with fallback
+  endcomment
+  assign collection = collections[section_st.collection]
+  unless collection
+    assign collection = collections.all
+  endunless
+
+  assign product_limit = section_st.rows | default: 8
+  assign min_products = section_st.min_products | default: 3
+  assign discount_percentage = section_st.discount_percentage | default: 30
+  assign grid_desktop = section_st.grid | default: 4
+  assign grid_tablet = section_st.gridtb | default: 3
+  assign grid_mobile = section_st.gridmb | default: 2
+-%}
+
+{%- capture sizes -%}
+  (min-width:1024px) calc({{ page_width }} / {{ grid_desktop }}),(min-width:768px) calc(100vw / {{ grid_tablet }}), calc(100vw / {{ grid_mobile }})
+{%- endcapture -%}
+
+<div
+  class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}"
+  style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg | default: 'transparent' }}{% endif %};--sst:{{ section_st.sst | default: 0 }}px;--ssb:{{ section_st.ssb | default: 0 }}px;--sstm:{{ section_st.sstm | default: 0 }}px;--ssbm:{{ section_st.ssbm | default: 0 }}px;"
+>
+  <div
+    class="{% if section_st.sw %}fw-sec{% if section_st.npd %} npd{% endif %}{% else %}page-width{% endif %} pr zi1"
+    id="{{ section.id }}"
+    data-section-id="{{ section.id }}"
+    data-section-type="product-bundle"
+  >
+    <!-- Section Header -->
+    <div class="section-header tc mb30">
+      {% if section_st.title != blank %}
+        <h2 class="section-title">{{ section_st.title }}</h2>
+      {% endif %}
+      {% if section_st.subtitle != blank %}
+        <div class="section-subtitle">{{ section_st.subtitle }}</div>
+      {% endif %}
+    </div>
+
+    <div class="bundle-container gr_size">
+      <!-- Products Grid -->
+      <div class="products-section">
+        <div
+          class="grid gspace gr_products rwcols-{{ grid_mobile }} rwcols-md-{{ grid_tablet }} rwcols-lg-{{ grid_desktop }}"
+          style="--grsp:{{ section_st.gspace | default: 20 | divided_by: 2.0 }}px;--grspm:{{ section_st.gspacem | default: 20 | divided_by: 2.0 }}px;"
+        >
+          {% if collection.products.size > 0 %}
+            {% for product in collection.products limit: product_limit %}
+              <div class="gitem {% render 'animate-data', css:true %}" {% render 'animate-data', i: forloop.index %}>
+                {% render 'product-card-bundle', product: product, section_st: section_st, sizes: sizes %}
+              </div>
+            {% endfor %}
+          {% else %}
+            <!-- Placeholder products when no products exist -->
+            {% for i in (1..product_limit) %}
+              <div
+                class="gitem{% if section_st.carousel %} swiper-slide{% endif %} {% render 'animate-data', css:true %}"
+                {% render 'animate-data', i: forloop.index %}
+              >
+                <div class="grid_bx">
+                  <a href="#" class="grid_lnk">
+                    <div class="grid_img_wr">
+                      {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture -%}
+                      {{- 'product-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                    </div>
+                    <br>
+                    <div class="fl">
+                      <div class="h4 grid_title">{{ 'homepage.onboarding.product_title' | t }}</div>
+                      <div class="grid_meta">{% render 'product-price' %}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Bundle Cart -->
+      <div class="bundle-cart" style="min-width: {{ section_st.bundle_width | default: 300 }}px;">
+        <div class="bundle-header">
+          <h3>{{ section_st.bundle_title | default: 'Your Bundle' }}</h3>
+          <div class="bundle-discount">Save {{ discount_percentage }}% when you buy {{ min_products }}+ items</div>
+        </div>
+
+        <div class="bundle-items" id="bundleItems">
+          <div class="empty-state">
+            Add at least {{ min_products }} products to proceed and save {{ discount_percentage }}%
+          </div>
+        </div>
+
+        <div class="bundle-summary" id="bundleSummary" style="display: none;">
+          <div class="summary-row">
+            <span>Subtotal:</span>
+            <span id="bundleSubtotal">{{ 0 | money }}</span>
+          </div>
+          <div class="summary-row discount-row">
+            <span>Discount ({{ discount_percentage }}%):</span>
+            <span id="bundleDiscount">-{{ 0 | money }}</span>
+          </div>
+          <div class="summary-row total-row">
+            <span>Total:</span>
+            <span id="bundleTotal">{{ 0 | money }}</span>
+          </div>
+
+          <button
+            class="btn-add-bundle-to-cart btn btn-primary btn-lg"
+            id="addBundleToCart"
+            disabled
+          >
+            {{ section_st.cart_button_text | default: 'Add Bundle to Cart' }}
+          </button>
+
+          <button
+            class="btn-clear-bundle btn btn-sm btn-outline"
+            style="margin-bottom: 15px;"
+            id="clearBundle"
+          >
+            Clear Bundle
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function() {
+  'use strict';
+  
+  // Wait for DOM to be fully loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBundle);
+  } else {
+    initBundle();
+  }
+
+  function initBundle() {
+    const bundleSection = document.querySelector('[data-section-type="product-bundle"]');
+    if (!bundleSection) return;
+
+    // Bundle data object
+    const bundleData = {
+      items: [],
+      minProducts: {{ min_products }},
+      discountPercentage: {{ discount_percentage }}
+    };
+
+    // Cache DOM elements
+    const bundleItems = document.getElementById('bundleItems');
+    const bundleSummary = document.getElementById('bundleSummary');
+    const addToCartBtn = document.getElementById('addBundleToCart');
+    const clearBundleBtn = document.getElementById('clearBundle');
+
+    // Initialize all functionality
+    initVariantSelection();
+    initAddToBundle();
+    initBundleControls();
+    
+    // Update display on load
+    updateBundleDisplay();
+
+    // Variant selection handler
+    function initVariantSelection() {
+      const variantSelects = document.querySelectorAll('.variant-select');
+      variantSelects.forEach(select => {
+        select.addEventListener('change', handleVariantChange);
+      });
+    }
+
+    function handleVariantChange(event) {
+      const select = event.target;
+      const productId = select.dataset.productId;
+      const productCard = document.querySelector(`[data-product-id="${productId}"]`);
+      
+      if (!productCard) return;
+      
+      const addButton = productCard.querySelector('.btn-add-to-bundle');
+      if (!addButton) return;
+      
+      try {
+        const variantsDataAttr = addButton.dataset.productVariants;
+        if (!variantsDataAttr) return;
+        
+        const variantsData = JSON.parse(variantsDataAttr);
+        
+        // Get currently selected variant based on all dropdowns
+        const selectedVariant = getCurrentlySelectedVariant(productCard, variantsData);
+        
+        if (selectedVariant) {
+          updateButtonWithVariant(addButton, selectedVariant, productCard);
+        }
+      } catch (error) {
+        console.error('Error handling variant change:', error);
+      }
+    }
+
+    function getCurrentlySelectedVariant(productCard, variantsData) {
+      // Get all selected options for this product
+      const selectedOptions = {};
+      const allSelects = productCard.querySelectorAll('.variant-select');
+      
+      allSelects.forEach(sel => {
+        const optionPosition = sel.dataset.optionPosition;
+        if (optionPosition && sel.value) {
+          selectedOptions[`option${optionPosition}`] = sel.value;
+        }
+      });
+      
+      // Find matching variant based on selected options
+      const matchingVariant = variantsData.find(variant => {
+        return Object.keys(selectedOptions).every(optionKey => 
+          variant[optionKey] === selectedOptions[optionKey]
+        );
+      });
+      
+      return matchingVariant;
+    }
+
+    function updateButtonWithVariant(button, variant, productCard) {
+      // Update button data attributes with selected variant
+      button.dataset.variantId = variant.id;
+      button.dataset.productPrice = variant.price;
+      button.dataset.variantTitle = variant.title;
+      button.disabled = !variant.available;
+      
+      // Update button text
+      if (variant.available) {
+        button.textContent = variant.title ? `Add ${variant.title} to Bundle` : 'Add to Bundle';
+      } else {
+        button.textContent = 'Sold Out';
+      }
+      
+      // Update variant info display if it exists
+      updateVariantInfo(productCard, variant);
+    }
+
+    function updateVariantInfo(productCard, variant) {
+      const variantInfo = productCard.querySelector('.selected-variant-info');
+      if (!variantInfo) return;
+      
+      const priceEl = variantInfo.querySelector('.variant-price');
+      const availabilityEl = variantInfo.querySelector('.variant-availability');
+      
+      if (priceEl) {
+        priceEl.textContent = formatMoney(variant.price);
+      }
+      
+      if (availabilityEl) {
+        availabilityEl.textContent = variant.available ? 'In Stock' : 'Sold Out';
+        availabilityEl.className = `variant-availability ${variant.available ? 'in-stock' : 'sold-out'}`;
+      }
+      
+      variantInfo.style.display = 'block';
+    }
+
+    // Add to bundle functionality
+    function initAddToBundle() {
+      const addButtons = document.querySelectorAll('.btn-add-to-bundle');
+      addButtons.forEach(button => {
+        if (!button.disabled && !button.classList.contains('disabled')) {
+          button.addEventListener('click', handleAddToBundle);
+        }
+      });
+    }
+
+    function handleAddToBundle(event) {
+      event.preventDefault();
+      
+      const button = event.target;
+      if (button.disabled) return;
+      
+      // Get the product card containing this button
+      const productCard = button.closest('[data-product-id]');
+      if (!productCard) {
+        console.error('Product card not found');
+        showMessage('Error: Product not found');
+        return;
+      }
+
+      // Get currently selected variant from the product card
+      const selectedVariant = getSelectedVariantFromCard(productCard, button);
+      if (!selectedVariant) {
+        showMessage('Please select all options first');
+        return;
+      }
+
+      const item = createBundleItemFromVariant(selectedVariant, productCard, button);
+      if (!item) return;
+
+      addItemToBundle(item);
+      updateBundleDisplay();
+      showButtonFeedback(button);
+    }
+
+    function getSelectedVariantFromCard(productCard, button) {
+      try {
+        const variantsDataAttr = button.dataset.productVariants;
+        if (!variantsDataAttr) {
+          // If no variants data, use button's current data
+          return {
+            id: button.dataset.variantId,
+            price: parseInt(button.dataset.productPrice) || 0,
+            title: button.dataset.variantTitle || '',
+            available: !button.disabled
+          };
+        }
+        
+        const variantsData = JSON.parse(variantsDataAttr);
+        return getCurrentlySelectedVariant(productCard, variantsData);
+      } catch (error) {
+        console.error('Error getting selected variant:', error);
+        return null;
+      }
+    }
+
+    function createBundleItemFromVariant(variant, productCard, button) {
+      try {
+        const productId = productCard.dataset.productId || button.dataset.productId || '';
+        const productTitle = button.dataset.productTitle || productCard.querySelector('.grid_title')?.textContent || 'Product';
+        const productImage = button.dataset.productImage || productCard.querySelector('img')?.src || '';
+
+        return {
+          variantId: variant.id.toString(),
+          productId: productId,
+          title: productTitle,
+          variantTitle: variant.title || '',
+          price: parseInt(variant.price) || 0,
+          image: productImage,
+          quantity: 1
+        };
+      } catch (error) {
+        console.error('Error creating bundle item:', error);
+        return null;
+      }
+    }
+
+    function addItemToBundle(item) {
+      const existingIndex = bundleData.items.findIndex(i => i.variantId === item.variantId);
+      
+      if (existingIndex > -1) {
+        bundleData.items[existingIndex].quantity += 1;
+      } else {
+        bundleData.items.push(item);
+      }
+      
+      console.log('Added to bundle:', item); // Debug log
+    }
+
+    function showButtonFeedback(button) {
+      const originalText = button.textContent;
+      button.textContent = 'Added!';
+      button.disabled = true;
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.disabled = false;
+      }, 1500);
+    }
+
+    // Bundle controls
+    function initBundleControls() {
+      if (clearBundleBtn) {
+        clearBundleBtn.addEventListener('click', handleClearBundle);
+      }
+      
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', handleAddBundleToCart);
+      }
+    }
+
+    function handleClearBundle(event) {
+      event.preventDefault();
+      
+      bundleData.items = [];
+      updateBundleDisplay();
+      resetAllButtons();
+      showMessage('Bundle cleared');
+    }
+
+    function resetAllButtons() {
+      const addButtons = document.querySelectorAll('.btn-add-to-bundle');
+      addButtons.forEach(btn => {
+        if (!btn.classList.contains('disabled')) {
+          btn.disabled = false;
+          const variantTitle = btn.dataset.variantTitle;
+          btn.textContent = variantTitle ? `Add ${variantTitle} to Bundle` : 'Add to Bundle';
+        }
+      });
+    }
+
+    function handleAddBundleToCart(event) {
+      event.preventDefault();
+      
+      if (addToCartBtn.disabled || bundleData.items.length === 0) return;
+      
+      const originalText = addToCartBtn.textContent;
+      addToCartBtn.disabled = true;
+      addToCartBtn.textContent = 'Adding to Cart...';
+      
+      const cartData = {
+        items: bundleData.items.map(item => ({
+          id: parseInt(item.variantId),
+          quantity: item.quantity
+        }))
+      };
+
+      console.log('Adding to cart:', cartData); // Debug log
+      addBundleToCart(cartData, originalText);
+    }
+
+    function addBundleToCart(cartData, originalButtonText) {
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(cartData)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Cart success:', data); // Debug log
+        handleCartSuccess();
+      })
+      .catch(error => {
+        console.error('Cart error:', error);
+        handleCartError(error);
+      })
+      .finally(() => {
+        resetCartButton(originalButtonText);
+      });
+    }
+
+    function handleCartSuccess() {
+      bundleData.items = [];
+      updateBundleDisplay();
+      resetAllButtons();
+      showMessage('Bundle added to cart successfully!');
+      
+      // Trigger cart update
+      updateCartUI();
+    }
+
+    function handleCartError(error) {
+      console.error('Cart error:', error);
+      showMessage('Failed to add bundle to cart. Please try again.');
+    }
+
+    function resetCartButton(originalText) {
+      if (addToCartBtn) {
+        addToCartBtn.disabled = false;
+        addToCartBtn.textContent = originalText;
+      }
+    }
+
+    function updateCartUI() {
+      // Try multiple cart update methods
+      try {
+        if (typeof theme !== 'undefined' && theme.cart && typeof theme.cart.getCart === 'function') {
+          theme.cart.getCart();
+        } else if (typeof window.theme !== 'undefined' && window.theme.cart && typeof window.theme.cart.getCart === 'function') {
+          window.theme.cart.getCart();
+        } else if (typeof Shopify !== 'undefined' && Shopify.theme && Shopify.theme.cart) {
+          Shopify.theme.cart.getCart();
+        } else {
+          // Dispatch custom event for theme to listen to
+          document.dispatchEvent(new CustomEvent('cart:updated'));
+          
+          // Fallback: refresh cart count if element exists
+          fetch('/cart.js')
+            .then(response => response.json())
+            .then(cart => {
+              const cartCount = document.querySelector('.cart-count, .cart__count, [data-cart-count]');
+              if (cartCount) {
+                cartCount.textContent = cart.item_count;
+              }
+            })
+            .catch(e => console.log('Cart count update failed:', e));
+        }
+      } catch (error) {
+        console.log('Cart UI update failed:', error);
+      }
+    }
+
+    // Bundle display update
+    function updateBundleDisplay() {
+      if (!bundleItems || !bundleSummary) return;
+      
+      if (bundleData.items.length === 0) {
+        showEmptyState();
+        return;
+      }
+
+      renderBundleItems();
+      updateBundleSummary();
+    }
+
+    function showEmptyState() {
+      bundleItems.innerHTML = `
+        <div class="empty-state">
+          <p>Add at least ${bundleData.minProducts} products to proceed and save ${bundleData.discountPercentage}%</p>
+        </div>
+      `;
+      bundleSummary.style.display = 'none';
+    }
+
+    function renderBundleItems() {
+      const itemsHTML = bundleData.items.map(item => createBundleItemHTML(item)).join('');
+      bundleItems.innerHTML = itemsHTML;
+      
+      // Add event listeners to new elements
+      addBundleItemListeners();
+    }
+
+    function createBundleItemHTML(item) {
+      return `
+        <div class="bundle-item" data-variant-id="${item.variantId}">
+          ${item.image ? `<img src="${item.image}" alt="${escapeHtml(item.title)}" class="bundle-item-image" loading="lazy">` : ''}
+          <div class="bundle-item-info">
+            <div class="bundle-item-title">${escapeHtml(item.title)}</div>
+            ${item.variantTitle ? `<div class="bundle-item-variant">${escapeHtml(item.variantTitle)}</div>` : ''}
+            <div class="bundle-item-price">${formatMoney(item.price)}</div>
+          </div>
+          <div class="bundle-item-quantity">
+            <span class="qty" aria-label="Quantity">${item.quantity}</span>
+            <div class="qty-container fl" style="flex-direction: column-reverse;">
+              <button type="button" class="qty-btn minus" data-variant-id="${item.variantId}" ${item.quantity <= 1 ? 'disabled' : ''} aria-label="Decrease quantity">-</button>
+              <button type="button" class="qty-btn plus" data-variant-id="${item.variantId}" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          <button type="button" class="remove-item" data-variant-id="${item.variantId}" title="Remove item" aria-label="Remove item">×</button>
+        </div>
+      `;
+    }
+
+    function addBundleItemListeners() {
+      // Quantity controls
+      const qtyButtons = bundleItems.querySelectorAll('.qty-btn');
+      qtyButtons.forEach(btn => {
+        btn.addEventListener('click', handleQuantityChange);
+      });
+
+      // Remove buttons
+      const removeButtons = bundleItems.querySelectorAll('.remove-item');
+      removeButtons.forEach(btn => {
+        btn.addEventListener('click', handleRemoveItem);
+      });
+    }
+
+    function handleQuantityChange(event) {
+      event.preventDefault();
+      
+      const button = event.target;
+      if (button.disabled) return;
+      
+      const variantId = button.dataset.variantId;
+      const isPlus = button.classList.contains('plus');
+      const item = bundleData.items.find(i => i.variantId === variantId);
+      
+      if (!item) return;
+      
+      if (isPlus) {
+        item.quantity += 1;
+      } else if (item.quantity > 1) {
+        item.quantity -= 1;
+      }
+      
+      updateBundleDisplay();
+    }
+
+    function handleRemoveItem(event) {
+      event.preventDefault();
+      
+      const variantId = event.target.dataset.variantId;
+      bundleData.items = bundleData.items.filter(i => i.variantId !== variantId);
+      updateBundleDisplay();
+    }
+
+    function updateBundleSummary() {
+      const subtotal = calculateSubtotal();
+      const hasDiscount = bundleData.items.length >= bundleData.minProducts;
+      const discount = hasDiscount ? Math.round(subtotal * (bundleData.discountPercentage / 100)) : 0;
+      const total = subtotal - discount;
+
+      updateSummaryElements(subtotal, discount, total, hasDiscount);
+      bundleSummary.style.display = 'block';
+    }
+
+    function calculateSubtotal() {
+      return bundleData.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    }
+
+    function updateSummaryElements(subtotal, discount, total, hasDiscount) {
+      const elements = {
+        subtotal: document.getElementById('bundleSubtotal'),
+        discount: document.getElementById('bundleDiscount'),
+        total: document.getElementById('bundleTotal'),
+        discountRow: bundleSummary.querySelector('.discount-row')
+      };
+      
+      if (elements.subtotal) elements.subtotal.textContent = formatMoney(subtotal);
+      if (elements.discount) elements.discount.textContent = `-${formatMoney(discount)}`;
+      if (elements.total) elements.total.textContent = formatMoney(total);
+      
+      if (elements.discountRow) {
+        elements.discountRow.style.display = hasDiscount ? 'flex' : 'none';
+      }
+      
+      if (addToCartBtn) {
+        addToCartBtn.disabled = !hasDiscount;
+      }
+    }
+
+    // Utility functions
+    function formatMoney(cents) {
+      if (typeof cents !== 'number' || isNaN(cents)) return '$0.00';
+      
+      try {
+        const locale = '{{ localization.language.iso_code | default: "en" }}-{{ localization.country.iso_code | default: "US" }}';
+        const currency = '{{ cart.currency.iso_code | default: "USD" }}';
+        
+        return new Intl.NumberFormat(locale, {
+          style: 'currency',
+          currency: currency
+        }).format(cents / 100);
+      } catch (error) {
+        return '$' + (cents / 100).toFixed(2);
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text || typeof text !== 'string') return '';
+      
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function showMessage(message) {
+      // Create or update message element
+      let messageEl = document.getElementById('bundle-message');
+      
+      if (!messageEl) {
+        messageEl = document.createElement('div');
+        messageEl.id = 'bundle-message';
+        messageEl.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #28a745;
+          color: white;
+          padding: 12px 20px;
+          border-radius: 4px;
+          z-index: 10000;
+          font-size: 14px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+          transition: opacity 0.3s ease;
+        `;
+        document.body.appendChild(messageEl);
+      }
+      
+      messageEl.textContent = message;
+      messageEl.style.opacity = '1';
+      
+      // Auto hide after 3 seconds
+      setTimeout(() => {
+        if (messageEl) {
+          messageEl.style.opacity = '0';
+          setTimeout(() => {
+            if (messageEl && messageEl.parentNode) {
+              messageEl.parentNode.removeChild(messageEl);
+            }
+          }, 300);
+        }
+      }, 3000);
+    }
+
+    // Debug function (remove in production)
+    window.bundleDebug = {
+      data: bundleData,
+      updateDisplay: updateBundleDisplay,
+      clear: () => {
+        bundleData.items = [];
+        updateBundleDisplay();
+      },
+      getCurrentVariants: () => {
+        const result = {};
+        document.querySelectorAll('[data-product-id]').forEach(card => {
+          const productId = card.dataset.productId;
+          const button = card.querySelector('.btn-add-to-bundle');
+          if (button) {
+            const variant = getSelectedVariantFromCard(card, button);
+            result[productId] = variant;
+          }
+        });
+        return result;
+      }
+    };
+  }
+})();
+</script>
+
+<style>
+  .products-section {
+    grid-row: 1 / span 3;
+    grid-column: 1 / span 3;
+  }
+
+
+  .product-card {
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .grid_bx
+    {
+      border: none;
+    }
+    select
+    {
+      margin-bottom: 0;
+    }
+  .product-variants {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  .grid
+    {
+      margin: 0
+    }
+  .bundle-cart {
+    border: 2px solid #414042;
+    border-radius: 10px;
+    padding: 10px;
+    position: sticky;
+    top: 20px;
+  }
+
+  .bundle-header h3 {
+    margin: 0 0 10px 0;
+    text-align: center;
+  }
+
+  .bundle-discount {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(65, 64, 66, 0.3);
+  }
+
+  .empty-state {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    padding: 20px 0;
+  }
+
+  .bundle-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .bundle-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+
+  .bundle-item-info {
+    flex: 1;
+  }
+
+  .bundle-item-title {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .bundle-item-variant {
+    font-size: 11px;
+    color: #666;
+  }
+
+  .bundle-item-price {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .bundle-item-quantity {
+    display: flex;
+    align-items: center;border: 1px solid #414042;
+  }
+
+  .qty-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    border: 1px solid #414042
+  }
+  .remove-item {
+    background: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  .total-row {
+    font-weight: 700;
+    font-size: 16px;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
+
+  .discount-row {
+    color: #22c55e;
+  }
+
+  .btn-add-bundle-to-cart {
+    width: 100%;
+    margin: 15px 0 10px 0;
+  }
+
+  .btn-clear-bundle {
+    width: 100%;
+    font-size: 12px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .bundle-container {
+      flex-direction: column;
+    }
+
+    .bundle-cart {
+      position: static;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Bundle",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "richtext",
+      "id": "title",
+      "label": "Section Title",
+      "default": "<p>Build Your Bundle</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "<p>Mix and match your favorites and save big!</p>"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Select Collection",
+      "info": "Choose the collection of products for the bundle"
+    },
+    {
+      "type": "header",
+      "content": "Bundle Settings"
+    },
+    {
+      "type": "text",
+      "id": "bundle_title",
+      "label": "Bundle Cart Title",
+      "default": "Your Bundle"
+    },
+    {
+      "type": "range",
+      "id": "min_products",
+      "label": "Minimum Products for Discount",
+      "min": 2,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "info": "Minimum number of products required to apply discount"
+    },
+    {
+      "type": "range",
+      "id": "discount_percentage",
+      "label": "Bundle Discount (%)",
+      "min": 5,
+      "max": 50,
+      "step": 5,
+      "default": 30,
+      "unit": "%"
+    },
+    {
+      "type": "text",
+      "id": "cart_button_text",
+      "label": "Add to Cart Button Text",
+      "default": "Add Bundle to Cart"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "rows",
+      "label": "Product Limit",
+      "default": 12,
+      "min": 4,
+      "max": 50,
+      "step": 2,
+      "info": "Maximum number of products to display"
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "label": "Products per Row (Desktop)",
+      "default": 4,
+      "min": 2,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "gridtb",
+      "label": "Products per Row (Tablet)",
+      "default": 3,
+      "min": 1,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "gridmb",
+      "label": "Products per Row (Mobile)",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "gspace",
+      "label": "Grid Spacing",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gspacem",
+      "label": "Grid Spacing (Mobile)",
+      "min": 5,
+      "max": 30,
+      "step": 5,
+      "default": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "container_gap",
+      "label": "Gap Between Products and Bundle",
+      "min": 20,
+      "max": 60,
+      "step": 10,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "bundle_width",
+      "label": "Bundle Cart Width",
+      "min": 250,
+      "max": 400,
+      "step": 25,
+      "default": 300,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Section Design"
+    },
+    {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Full Width Section",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "npd",
+      "label": "No Padding",
+      "default": false,
+      "info": "Remove left/right padding for full width sections"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color_background",
+      "id": "bgg",
+      "label": "Gradient Background"
+    },
+    {
+      "type": "color",
+      "id": "headings_cl",
+      "label": "Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Top",
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Bottom",
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Top (Mobile)",
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing Bottom (Mobile)",
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on Mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on Desktop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Bundle"
+    }
+  ]
+}
+{% endschema %}

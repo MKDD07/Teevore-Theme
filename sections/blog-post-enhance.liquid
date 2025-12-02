@@ -1,0 +1,454 @@
+{%- liquid 
+    assign section_st = section.settings
+    assign page_width = settings.cntwd | append: 'px'
+    if section_st.sw
+        assign page_width = '100vw'
+    endif
+-%}
+{% assign section_st = section.settings %}
+<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload zi1{% endif %}" style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
+  {% if section_st.bgimg != blank %}data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>    
+  <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}" id="{{ section.id }}">
+	  <div class="section-header-container{% if section_st.elg %} hide-lg hide-sm hide-md{% endif %} fl pr mt20 f-row-md f-col mb30 f-aic{% if section_st.justify_content == 'start' %} f-jcsb{% else %} f-jcc{% endif %}">
+    {%- render 'sec-title' -%}
+      {%- if section_st.show_view_all != blank -%}
+        <div class="tc"><a href="{{ section_st.blog_url }}" class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}">{{ section_st.show_view_all }}</a></div>
+    {%- endif -%}</div>
+{% capture svg_calender %}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+                    <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="currentcolor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+{% endcapture %}
+{% capture svg_comments %}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+                    <path d="M8.5 19H8C4 19 2 18 2 13V8C2 4 4 2 8 2H16C20 2 22 4 22 8V13C22 17 20 19 16 19H15.5C15.19 19 14.89 19.15 14.7 19.4L13.2 21.4C12.54 22.28 11.46 22.28 10.8 21.4L9.3 19.4C9.14 19.18 8.77 19 8.5 19Z" stroke="currentcolor" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+{% endcapture %}
+  <div class="blog-content pr-sm pst">
+
+    {% assign featured_article = blogs[section_st.blog_handle].articles.first %}
+    {% if featured_article %}
+    <div class="bdf pr f-col f-jcsb fl p25 br10" style="background-image: url('{{ featured_article.image | img_url: '1200x1200' }}');">
+        <agr style="top: 10px;left: 10px;color: #ffffff;position: absolute;padding: 6px 16px;background: #4f772d; border-radius:{{ settings.btn_rad }}px">{{ featured_article.tags.first }}</agr>
+        <div class="title-info zi2" style="color:#fff">
+                      <div class="author-info">
+              <div class="date">
+                {% if section_st.show_date_icon %}
+                {{ svg_calender }}
+                {% endif %} 
+                <p>{{ featured_article.published_at | date: section_st.date_format }}</p>
+              </div>
+              <div class="comments">
+                {% if section_st.show_comment_icon %}
+                {{ svg_comments }}
+                {% endif %}
+                <p>{{ featured_article.comments_count }} {{ section_st.comments_text }}</p>
+              </div>
+            </div>
+          <h4 class="kug fsz30"style="color:#ffffff">{{ featured_article.title }}</h4>
+          <p style="margin-bottom:30px;">{{ featured_article.excerpt | default: featured_article.content | strip_html | truncate: section_st.excerpt_length }}</p>
+          <a href="{{ featured_article.url }}" class="click-me">{{ section_st.read_more_text }}</a>
+        </div>
+      </div>
+    {% endif %}
+    <div class="bds pr hide-md hide-sm">
+      {% assign blog_articles = blogs[section_st.blog_handle].articles | limit: section_st.articles_count %}
+      {% for article in blog_articles offset: 1 limit: 3 %}
+        <div class="blog-list-card pr-sm pst" href="{{ article.url }}" style="top:{% cycle 'top0': '50px','80px', '110px' %}; margin-bottom: {% if forloop.last %}0{% else %}20px{% endif %}">{% if article.tags != blank %}<agr style="top: 10px;left: 10px;color: #ffffff;position: absolute;padding: 6px 16px;background: #c1121f; border-radius:{{ settings.btn_rad }}px">{{ article.tags.first }}</agr>{% endif %}
+          <div class="image-list-card" style="background-image: url('{{ article.image | img_url: '1200x1200' }}');"></div>
+          <div class="container-author fl f-col p0">
+            <div class="author-info">
+              <div class="date">
+                {% if section_st.show_date_icon %}
+                   {{ svg_calender }}
+                {% endif %}
+                <p>{{ article.published_at | date: section_st.date_format }}</p>
+              </div>
+              <div class="comments">
+                {% if section_st.show_comment_icon %}
+                {{ svg_comments }}
+                {% endif %}
+                <p>{{ article.comments_count }} {{ section_st.comments_text }}</p>
+              </div>
+            </div>
+            <div class="title-info-list">
+              <h4 class="kug fsz22 inherit">{{ article.title }}</h4>
+              <p>{{ article.excerpt | default: article.content | strip_html | truncate: section_st.excerpt_length }}</p>
+              <a href="{{ article.url }}" class="click-me-list">{{ section_st.read_more_text }}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+        <div class="bds pr hide-sm hide-md">
+      {% assign blog_articles = blogs[section_st.blog_handle].articles | limit: section_st.articles_count %}
+      {% for article in blog_articles offset: 4 %}
+        <div class="blog-list-card pr-sm pst" href="{{ article.url }}" style="top:{% cycle 'top2': '140px','170px', '200px' %}; margin-bottom: {% if forloop.last %}0{% else %}20px{% endif %}"><span>{{ article.tags.first }}</span>
+          <div class="image-list-card" style="background-image: url('{{ article.image | img_url: '1200x1200' }}');"></div>
+          <div class="container-author fl f-col p0">
+            <div class="author-info">
+              <div class="date">
+                {% if section_st.show_date_icon %}
+                   {{ svg_calender }}
+                {% endif %}
+                <p>{{ article.published_at | date: section_st.date_format }}</p>
+              </div>
+              <div class="comments">
+                {% if section_st.show_comment_icon %}
+                {{ svg_comments }}
+                {% endif %}
+                <p>{{ article.comments_count }} {{ section_st.comments_text }}</p>
+              </div>
+            </div>
+            <div class="title-info-list">
+              <h4 class="kug fsz22 inherit">{{ article.title }}</h4>
+              <p>{{ article.excerpt | default: article.content | strip_html | truncate: section_st.excerpt_length }}</p>
+              <a href="{{ article.url }}" class="click-me-list">{{ section_st.read_more_text }}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+        <div class="bds pr hide-lg">
+      {% assign blog_articles = blogs[section_st.blog_handle].articles | limit: section_st.articles_count %}
+      {% for article in blog_articles offset: 1 limit: 99 %}
+        <div class="blog-list-card pr-sm pst" href="{{ article.url }}" style="top:{% cycle 'top22': '20px','40px', '60px','80px','100px','120px' %}; margin-bottom: {% if forloop.last %}0{% else %}20px{% endif %}">{% if article.tags != blank %}<agr style="top: 10px;left: 10px;color: #ffffff;position: absolute;padding: 6px 16px;background: #c1121f; border-radius:{{ settings.btn_rad }}px">{{ article.tags.first }}</agr>{% endif %}
+          <div class="image-list-card" style="background-image: url('{{ article.image | img_url: '800x800' }}');"></div>
+          <div class="container-author fl f-col p0">
+            <div class="author-info">
+              <div class="date">
+                {% if section_st.show_date_icon %}
+                   {{ svg_calender }}
+                {% endif %}
+                <p>{{ article.published_at | date: section_st.date_format }}</p>
+              </div>
+              <div class="comments">
+                {% if section_st.show_comment_icon %}
+                {{ svg_comments }}
+                {% endif %}
+                <p>{{ article.comments_count }} {{ section_st.comments_text }}</p>
+              </div>
+            </div>
+            <div class="title-info-list">
+              <h4 class="kug fsz22 inherit">{{ article.title }}</h4>
+              <p>{{ article.excerpt | default: article.content | strip_html | truncate: section_st.excerpt_length }}</p>
+              <a href="{{ article.url }}" class="click-me-list">{{ section_st.read_more_text }}</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Blog Stories",
+  "tag": "section",
+  "class": "blog-stories-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "select",
+      "id": "align_items",
+      "label": "Align Items",
+      "default": "center",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Start (Top)"
+        }
+      ]
+    }, 
+    {
+      "type": "select",
+      "id": "justify_content",
+      "label": "Justify Content",
+      "default": "center",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Space Between"
+        }
+      ]
+    },   
+    {
+      "type": "url",
+      "id": "blog_url",
+      "label": "Select Blog Page",
+    },
+{
+      "type": "text",
+      "id": "show_view_all",
+      "label": "Button Text",
+      "info": "Show button below products to visit collection page"
+    },
+{
+      "type": "select",
+      "id": "btn-style",
+      "label": "Button design",
+      "default": "btn1",
+      "options": [
+        {
+          "label": "Button 1",
+          "value": "btn1"
+        },
+        {
+          "label": "Button 2",
+          "value": "btn2"
+        },
+        {
+          "label": "Button 3",
+          "value": "btn3"
+        },
+        {
+          "label": "Button 4",
+          "value": "btn4"
+        },
+        {
+          "label": "Button 5",
+          "value": "btn5"
+        },
+        {
+          "label": "Button 6",
+          "value": "btn6"
+        },
+        {
+          "label": "Button 7 Gradient",
+          "value": "btn7"
+        },
+        {
+          "label": "Button 8 Gradient",
+          "value": "btn8"
+        },
+        {
+          "label": "Link",
+          "value": "btnLink"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "btn-size",
+      "label": "Button size",
+      "default": "btn-md",
+      "options": [
+        {
+          "label": "Small",
+          "value": "btn-sm"
+        },
+        {
+          "label": "Medium",
+          "value": "btn-md"
+        },
+        {
+          "label": "Large",
+          "value": "btn-lg"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": "Find more options at Theme settings -> Products grid"
+    },   
+ {
+      "type": "header",
+      "content": "Section Design ==="
+    },    
+{
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Fullwidth?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "npd",
+      "label": "No padding?",
+      "default": false,
+      "info": "Remove left/right padding for fullwidth"
+    },    
+{
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing top",
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing bottom",
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing top (mobile)",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing bottom (mobile)",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on mobile?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on desktop?",
+      "default": false
+    },
+    {
+      "type": "blog",
+      "id": "blog_handle",
+      "label": "Blog",
+      "info": "Select the blog to display articles from"
+    },
+    {
+      "type": "range",
+      "id": "articles_count",
+      "label": "Number of Articles",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4,
+      "info": "Total number of articles to display (including featured article)"
+    },
+    {
+      "type": "range",
+      "id": "excerpt_length",
+      "label": "Excerpt Length",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "default": 120,
+      "info": "Number of characters for article excerpt"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_more_button",
+      "label": "Show View More Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_more_text",
+      "label": "View More Button Text",
+      "default": "View More"
+    },
+    {
+      "type": "url",
+      "id": "view_more_url",
+      "label": "View More Button URL",
+      "info": "Leave empty to use default blog URL"
+    },
+    {
+      "type": "text",
+      "id": "read_more_text",
+      "label": "Read More Text",
+      "default": "Read More"
+    },
+    {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date_icon",
+      "label": "Show Date Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_comment_icon",
+      "label": "Show Comment Icon",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "comments_text",
+      "label": "Comments Text",
+      "default": "Comments"
+    },
+    {
+      "type": "select",
+      "id": "date_format",
+      "label": "Date Format",
+      "options": [
+        {
+          "value": "%B %d, %Y",
+          "label": "January 01, 2024"
+        },
+        {
+          "value": "%b %d, %Y",
+          "label": "Jan 01, 2024"
+        },
+        {
+          "value": "%d/%m/%Y",
+          "label": "01/01/2024"
+        },
+        {
+          "value": "%m/%d/%Y",
+          "label": "01/01/2024 (US Format)"
+        },
+        {
+          "value": "%d %B %Y",
+          "label": "01 January 2024"
+        }
+      ],
+      "default": "%B %d, %Y"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Stories",
+      "settings": {
+        "articles_count": 4,
+        "excerpt_length": 120
+      }
+    }
+  ]
+}
+{% endschema %}

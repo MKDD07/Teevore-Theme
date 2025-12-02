@@ -1,0 +1,735 @@
+{%  assign section_st = section.settings %}
+<div class="contact-page sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload{% endif %}" style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--cl:{{ section_st.cl }};--cl:{{section_st.headings_cl }};--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
+   {% if section_st.bgimg != blank %}data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>  	
+  <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}" id="{{ section.id }}" data-section-id="{{ section.id }}">
+    {% render 'sec-title' %}
+    
+    <div class="contact-flex-wrapper" style="display: flex; flex-wrap: wrap; gap: 30px;">
+      
+      {% for block in section.blocks %}
+        {% assign blk_st = block.settings %}
+        
+        {% if block.type == 'contact_form' %}
+          {%- capture form_content -%}
+            <div class="contact-frm form-vertical {% render 'animate-data', css:true %}">
+              {% form 'contact' %}
+                {% if form.posted_successfully? %}<p class="border form-success">{{ 'contact.form.post_success' | t }}</p>{% endif %}
+                {{ form.errors | default_errors }}
+                
+                <div class="fl f-col f-row-md col-gap" style="--gap:15px;">
+                  <div class="fl1 f-col f-row-md">
+                    <input type="text" id="ContactFormName" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" {% if section_st.require_name %}required{% endif %}>
+                  </div>       
+                  <div class="fl1">
+                    <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}" {% if section_st.require_email %}required{% endif %}>
+                  </div>              
+                </div>
+                
+                {% unless section_st.show_phone %}
+                <input type="tel" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" placeholder="{{ 'contact.form.phone' | t }}" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}" {% if section_st.require_phone %}required{% endif %}>
+                {% endunless %} 
+                
+                {% unless section_st.show_company %}
+                <input type="text" id="ContactFormCompany" name="contact[company]" placeholder="{{ section_st.company_label | default: 'Company Name' }}" value="{% if form[company] %}{{ form[company] }}{% endif %}" {% if section_st.require_company %}required{% endif %}>
+                {% endunless %}
+                
+                {% unless section_st.show_subject %}
+                <input type="text" id="ContactFormSubject" name="contact[email subject]" placeholder="{{ 'contact.form.subject' | t }}" value="{% if form[subject] %}{{ form[subject] }}{% endif %}" {% if section_st.require_subject %}required{% endif %}>
+                {% endunless %}
+                
+                {% unless section_st.show_quantity %}
+                <input type="number" id="ContactFormQuantity" name="contact[quantity]" placeholder="{{ section_st.quantity_label | default: 'Quantity' }}" value="{% if form[quantity] %}{{ form[quantity] }}{% endif %}" min="1" {% if section_st.require_quantity %}required{% endif %}>
+                {% endunless %}
+                
+                {% unless section_st.show_product %}
+                <input type="text" id="ContactFormProduct" name="contact[product]" placeholder="{{ section_st.product_label | default: 'Product Name' }}" value="{% if form[product] %}{{ form[product] }}{% endif %}" {% if section_st.require_product %}required{% endif %}>
+                {% endunless %}
+                
+                <textarea style="height: 100% !important" rows="{{ section_st.message_rows | default: 10 }}" id="ContactFormMessage" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}" {% if section_st.require_message %}required{% endif %}>{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                
+                {% if section_st.show_consent %}
+                <label class="checkbox-label mt20 mb20">
+                  <input type="checkbox" name="contact[consent]" required>
+                  <span>{{ section_st.consent_text | default: 'I agree to the privacy policy' }}</span>
+                </label>
+                {% endif %}
+                
+                <input type="submit" class="btn {{ section_st.btn-style }}" value="{{ 'contact.form.submit' | t }}">
+                <p>Save money when you buy in bulk! We offer discounts on bulk orders depending on the product and the total invoice amount.</p>
+              {% endform %}
+            </div>
+          {%- endcapture -%}
+          
+          <div class="contact-block-item" style="flex: 0 0 {% if blk_st.block_width == 'half' %}calc(50% - 15px){% else %}100%{% endif %}; order: {{ blk_st.block_order }};" {{ block.shopify_attributes }}>
+            {{ form_content }}
+          </div>
+          
+        {% else %}
+          {%- capture block_content -%}
+            {% case block.type %}
+              
+              {% when 'content_block' %}
+                <div class="content-block-wrapper">
+                  {% if blk_st.cnt_title != blank %}<div class="fsz22 fwm mb10">{{ blk_st.cnt_title }}</div>{% endif %}
+                  
+                  {% if blk_st.show_address %}
+                    {% if blk_st.logo %}
+                    <p class="mb20">
+                      {%- assign logo_alt = blk_st.logo.alt | default: shop.name | escape -%}
+                      {% capture sizes %}(max-width: {{ blk_st.logowd | times: 2 }}px) 50vw, {{ blk_st.logowd }}px{% endcapture %}
+                      {% capture widths %}{{ blk_st.logowd }}, {{ blk_st.logowd | times: 1.5 | round }}, {{ blk_st.logowd | times: 2 }}{% endcapture %}
+                      {%- assign logo_ht = blk_st.logowd | divided_by: blk_st.logo.aspect_ratio -%}
+                      {{ blk_st.logo | image_url: width: 600 | image_tag: loading:'lazy', class:'h_auto', widths:widths, height:logo_ht, width:blk_st.logowd, alt:logo_alt, sizes:sizes }}
+                    </p>
+                    {% endif %}
+                    
+                    {% if blk_st.store_address != blank or blk_st.store_phone != blank or blk_st.store_email != blank %}
+                    <ul class="c_address mb15">
+                      {% if blk_st.store_address != blank %}<li>{{ blk_st.store_address }}</li>{% endif %}
+                      {% if blk_st.store_phone != blank %}<li class="phone">{{ blk_st.store_phone }}</li>{% endif %}
+                      {% if blk_st.store_email != blank %}<li class="email">{{ blk_st.store_email }}</li>{% endif %}
+                    </ul>
+                    {% endif %}
+                  {% endif %}
+                  
+                  {% if blk_st.show_hours and blk_st.storetime != blank %}
+                    <div class="store-hours mb15">
+                      {% if blk_st.hours_title != blank %}<div class="fsz18 fwm mb10">{{ blk_st.hours_title }}</div>{% endif %}
+                      {{ blk_st.storetime }}
+                    </div>
+                  {% endif %}
+                  
+                  {% if blk_st.show_socials %}
+                    <div class="follow-us">
+                      {% if blk_st.social_title != blank %}<div class="fsz18 fwm mb10">{{ blk_st.social_title }}</div>{% endif %}
+                      {%- render 'social-media' -%}
+                    </div>
+                  {% endif %}
+                  
+                  {% if blk_st.richtext_content != blank %}
+                    <div class="richtext-content mb15">
+                      {{ blk_st.richtext_content }}
+                    </div>
+                  {% endif %}
+                </div>
+              
+              {% when 'image' %}
+                <div class="image-block">
+                  {% if blk_st.image != blank %}
+                    {%- assign img_alt = blk_st.image.alt | default: blk_st.image_caption | escape -%}
+                    {% capture sizes %}(max-width: {{ blk_st.image_width }}px) auto, {{ blk_st.image_width }}px{% endcapture %}
+                    {% capture widths %}{{ blk_st.image_width }}, {{ blk_st.image_width | times: 1.5 | round }}, {{ blk_st.image_width | times: 2 }}{% endcapture %}
+                    <div class="mb15" style="height: auto; border-radius: {{ blk_st.border_radius }}px; overflow: hidden;">
+                      {{ blk_st.image | image_url: width: 800 | image_tag: loading:'lazy', widths:widths, alt:img_alt, sizes:sizes }}
+                    </div>
+                  {% endif %}
+                  {% if blk_st.image_caption != blank %}<p class="image-caption">{{ blk_st.image_caption }}</p>{% endif %}
+                </div>
+              
+              {% when 'divider' %}
+                <div class="divider-block" style="width: 100%; border-bottom: 1px solid {{ blk_st.clr_hr }}; margin: 15px 0;"></div>
+              
+            {% endcase %}
+          {%- endcapture -%}
+          
+          <div class="contact-block-item {% render 'animate-data', css:true %}" style="flex: 0 0 {% if blk_st.block_width == 'half' %}calc(50% - 15px){% else %}100%{% endif %}; order: {{ blk_st.block_order }};" {{ block.shopify_attributes }}>
+            {{ block_content }}
+          </div>
+          
+        {% endif %}
+      {% endfor %}
+      
+    </div>
+  </div>
+</div>
+{% style %}
+  .image-block img
+  {
+    height: auto;
+  }
+    .contact-page h2 {
+    font-size: 2rem;
+    font-family: {{settings.font_face_family_sec }}
+
+  }
+
+  .contact-page h3 {
+    font-size: 1.25rem;    font-family: {{settings.font_face_family_sec }}
+  }
+
+  .contact-page h4 {
+    font-size: 1rem;    font-family: {{settings.font_face_family_sec }}
+  }
+{% endstyle %}
+{% schema %}
+{
+    "name": "Contact Form Flexible",
+    "class":"contact-form",
+    "disabled_on": {
+      "groups": ["header", "footer", "custom.overlay"]
+    },
+    "settings": [
+       {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Drop Us A Line"
+      },
+      {
+        "type": "textarea",
+        "id": "subtitle",
+        "label": "Sub Heading"
+      }, 
+      {
+        "type": "checkbox",
+        "id": "sw",
+        "label": "Full width",
+        "default": false
+      },   
+      {
+        "type": "range",
+        "id": "page_width",
+        "label": "Container Width",
+        "default": 1000,
+        "min": 700,
+        "max": 1800,
+        "step": 100,
+        "unit": "px"
+      },
+      {
+        "type": "header",
+        "content": "Form Fields ==="
+      },
+      {
+        "type": "checkbox",
+        "id": "require_name",
+        "label": "Make name required",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "require_email",
+        "label": "Make email required",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_phone",
+        "label": "Hide phone field",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "require_phone",
+        "label": "Make phone required",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_company",
+        "label": "Hide company field",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "company_label",
+        "label": "Company field label",
+        "default": "Company Name"
+      },
+      {
+        "type": "checkbox",
+        "id": "require_company",
+        "label": "Make company required",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_subject",
+        "label": "Hide subject field",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "require_subject",
+        "label": "Make subject required",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity",
+        "label": "Hide quantity field",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "quantity_label",
+        "label": "Quantity field label",
+        "default": "Quantity"
+      },
+      {
+        "type": "checkbox",
+        "id": "require_quantity",
+        "label": "Make quantity required",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_product",
+        "label": "Hide product name field",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "product_label",
+        "label": "Product field label",
+        "default": "Product Name"
+      },
+      {
+        "type": "checkbox",
+        "id": "require_product",
+        "label": "Make product required",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "message_rows",
+        "label": "Message box rows",
+        "min": 3,
+        "max": 15,
+        "step": 1,
+        "default": 10
+      },
+      {
+        "type": "checkbox",
+        "id": "require_message",
+        "label": "Make message required",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_consent",
+        "label": "Show consent checkbox",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "consent_text",
+        "label": "Consent text",
+        "default": "I agree to the privacy policy and terms of service"
+      },
+      {
+        "type": "select",
+        "id": "btn-style",
+        "label": "Button design",
+        "default": "btn1",
+        "options": [
+          {
+            "label": "Button 1",
+            "value": "btn1"
+          },
+          {
+            "label": "Button 2",
+            "value": "btn2"
+          },
+          {
+            "label": "Button 3",
+            "value": "btn3"
+          },
+          {
+            "label": "Button 4",
+            "value": "btn4"
+          },
+          {
+            "label": "Button 5",
+            "value": "btn5"
+          },
+          {
+            "label": "Button 6",
+            "value": "btn6"
+          },
+          {
+            "label": "Link",
+            "value": "btnLink"
+          }  
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Section Design ==="
+      },      
+      {
+        "type": "color",
+        "id": "bg",
+        "label": "Background",
+        "default":"#fff"	
+      },
+      {
+        "type": "color_background",
+        "id": "bgg",
+        "label": "Background (alternative)"
+      },	
+      {
+        "type": "image_picker",
+        "id": "bgimg",
+        "label": "Background image"
+      }, 
+      {
+        "type": "color",
+        "id": "overlay",
+        "label": "Image overlay",
+        "default": "#3d4246"
+      },
+      {
+        "type": "range",
+        "id": "overlay_op",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "label": "Overlay opacity",
+        "unit": "%",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "headings_cl",
+        "label": "Text"
+      },
+      {
+        "type": "range",
+        "id": "sst",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "label": "Spacing top",
+        "unit": "px",
+        "default":40
+      },
+      {
+        "type": "range",
+        "id": "ssb",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "label": "Spacing bottom",
+        "unit": "px",
+        "default":40
+      },		
+      {
+        "type": "range",
+        "id": "sstm",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "label": "Spacing top (mobile)",
+        "unit": "px",
+        "default":15
+      },
+      {
+        "type": "range",
+        "id": "ssbm",
+        "min": 0,
+        "max": 100,
+        "step": 5,
+        "label": "Spacing bottom (mobile)",
+        "unit": "px",
+        "default":15
+      },
+      {
+        "type": "checkbox",
+        "id": "hidem",
+        "label": "Hide on mobile?",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "hided",
+        "label": "Hide on desktop?",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "contact_form",
+        "name": "📝 Contact Form",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "select",
+            "id": "block_width",
+            "label": "Block Width",
+            "default": "half",
+            "options": [
+              {
+                "label": "50% Width",
+                "value": "half"
+              },
+              {
+                "label": "100% Width",
+                "value": "full"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "block_order",
+            "label": "Display Order",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 1,
+            "info": "Lower numbers appear first"
+          }
+        ]
+      },
+      {
+        "type": "content_block",
+        "name": "📄 Content Block",
+        "settings": [
+          {
+            "type": "select",
+            "id": "block_width",
+            "label": "Block Width",
+            "default": "half",
+            "options": [
+              {
+                "label": "50% Width",
+                "value": "half"
+              },
+              {
+                "label": "100% Width",
+                "value": "full"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "block_order",
+            "label": "Display Order",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 2,
+            "info": "Lower numbers appear first"
+          },
+          {
+            "type": "text",
+            "id": "cnt_title",
+            "label": "Block Title"
+          },
+          {
+            "type": "header",
+            "content": "Address Section"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_address",
+            "label": "Show Address Section",
+            "default": false
+          },
+          {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo image"
+          },
+          {
+            "type": "range",
+            "id": "logowd",
+            "label": "Logo Width",
+            "default": 100,
+            "min": 50,
+            "max": 500,
+            "step": 10,
+            "unit": "px"
+          },
+          {
+            "type": "richtext",
+            "id": "store_address",
+            "label": "Address"
+          },
+          {
+            "type": "text",
+            "id": "store_phone",
+            "label": "Phone Number"
+          },
+          {
+            "type": "text",
+            "id": "store_email",
+            "label": "Email"
+          },
+          {
+            "type": "header",
+            "content": "Store Hours Section"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_hours",
+            "label": "Show Store Hours",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "hours_title",
+            "label": "Hours Title",
+            "default": "Opening Hours"
+          },
+          {
+            "type": "richtext",
+            "id": "storetime",
+            "label": "Store Hours"
+          },
+          {
+            "type": "header",
+            "content": "Social Media Section"
+          },
+          {
+            "type": "checkbox",
+            "id": "show_socials",
+            "label": "Show Social Media",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "social_title",
+            "label": "Social Title",
+            "default": "Follow Us"
+          },
+          {
+            "type": "header",
+            "content": "Rich Text Section"
+          },
+          {
+            "type": "richtext",
+            "id": "richtext_content",
+            "label": "Custom Content",
+            "info": "Add any custom HTML/text content"
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "🖼️ Image Block",
+        "settings": [
+          {
+            "type": "select",
+            "id": "block_width",
+            "label": "Block Width",
+            "default": "half",
+            "options": [
+              {
+                "label": "50% Width",
+                "value": "half"
+              },
+              {
+                "label": "100% Width",
+                "value": "full"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "block_order",
+            "label": "Display Order",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 3,
+            "info": "Lower numbers appear first"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "range",
+            "id": "image_width",
+            "label": "Image Width",
+            "default": 300,
+            "min": 100,
+            "max": 600,
+            "step": 50,
+            "unit": "px"
+          },
+          {
+            "type": "range",
+            "id": "border_radius",
+            "label": "Border Radius",
+            "default": 0,
+            "min": 0,
+            "max": 50,
+            "step": 5,
+            "unit": "px"
+          },
+          {
+            "type": "text",
+            "id": "image_caption",
+            "label": "Image Caption"
+          }
+        ]
+      },
+      {
+        "type": "divider",
+        "name": "➖ Divider",
+        "settings": [
+          {
+            "type": "select",
+            "id": "block_width",
+            "label": "Block Width",
+            "default": "full",
+            "options": [
+              {
+                "label": "50% Width",
+                "value": "half"
+              },
+              {
+                "label": "100% Width",
+                "value": "full"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "block_order",
+            "label": "Display Order",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "default": 4,
+            "info": "Lower numbers appear first"
+          },
+          {
+            "type": "color",
+            "id": "clr_hr",
+            "label": "Divider Color",
+            "default": "#eee"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Contact Form Flexible",
+        "blocks": [
+          {
+            "type": "contact_form",
+            "settings": {
+              "block_width": "half",
+              "block_order": 1
+            }
+          },
+          {
+            "type": "content_block",
+            "settings": {
+              "block_width": "half",
+              "block_order": 2,
+              "cnt_title": "Get In Touch",
+              "show_address": true,
+              "show_hours": true,
+              "show_socials": true
+            }
+          }
+        ]
+      }
+    ]
+}
+{% endschema %}

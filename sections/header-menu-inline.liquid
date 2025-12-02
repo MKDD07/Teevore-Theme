@@ -1,0 +1,1792 @@
+{%- liquid
+    assign sec_st = section.settings
+
+    assign cnt_width = settings.cntwd | append: 'px'
+    if sec_st.sw
+        assign cnt_width = '100vw'
+    endif
+
+    assign is_rtl = false
+    assign list_rtl = 'ar,dv,ha,he,ku,fa,ur,ug' | split: ','
+    assign pm_left = 'left'
+    assign pm_right = 'right'
+    if list_rtl contains request.locale.iso_code or settings.rtl
+        assign is_rtl = true
+        assign pm_left = 'right'
+        assign pm_right = 'left'
+    endif
+   
+    assign logo = sec_st.logo
+    assign istrnsparent = false
+    assign page_type = request.page_type
+    if page_type == 'index' and sec_st.trhead
+        assign istrnsparent = true
+    elsif page_type == 'collection' and sec_st.trheadcl
+        assign istrnsparent = true
+    elsif page_type == 'blog' and sec_st.trheadbg
+        assign istrnsparent = true
+    elsif page_type == 'article' and sec_st.trheadar and article.image != blank
+        assign istrnsparent = true
+    endif
+    if istrnsparent
+        assign logo = sec_st.trLogo | default: logo
+    endif
+    
+-%}
+{%- capture sec_styles -%}
+{%- style -%}
+     .hdr_inline {
+      --hdrHt:{{ sec_st.ht }}px;
+      --hdrHtm:{{ sec_st.htm }}px;
+      --hdrSp:{{ sec_st.head_space }}px;
+      --logowd:{{ sec_st.logowd }}px;
+      --logowdm:{{ sec_st.logowdm }}px;
+      {%- if sec_st.bgimg != blank -%}
+          background:{{ sec_st.bg }} url({{ sec_st.bgimg | image_url: width:sec_st.bgimg.width }}) {{ sec_st.bgrepeat }} {{ sec_st.bgposition | replace:"_", " " }}/{{ sec_st.bgsize }};
+      {%- elsif sec_st.bgg != blank -%}
+          background:{{ sec_st.bgg }};
+      {%- else -%}
+          background-color:{{ sec_st.bg }};
+      {%- endif -%}
+      {%- if sec_st.hdrbd -%}
+          border-bottom:1px solid {{ sec_st.hdrbd_cl }};
+      {%- endif -%}
+      --cl:{{ sec_st.cl }}; --clh:{{ sec_st.clh }}; --icns:{{ sec_st.icon }}px; --icnsm:16px;--fs:{{ sec_st.fs }}px;
+    }
+    .hdr_inline:has(.trnsprt) {border-bottom:0;}      
+    {%- if sec_st.cntlogo -%}
+      .mbnavCol { min-width:35px; margin-{{ pm_left }}:-5px; }  
+    {%- else -%}
+      .navToggle { margin-{{ pm_right }}:-5px; }
+    {%- endif -%}
+    
+    @media only screen and (max-width:1024px){
+      .main-search { order:3; width:100%; flex:auto; margin:5px 0 0; }
+      {%- if sec_st.cntlogo -%}
+        .icons-col { flex:1; }
+      {%- else -%}
+        .icons-col { margin-{{ pm_left }}:auto; }
+      {%- endif -%}
+    }
+  
+    {%- if section.settings.hdrStyle == '3' -%}
+    #header .crlgTtl { font-size:{{ settings.navfs }}px; font-weight:{{ settings.navfw }};  {% if settings.nav_case %} text-transform: uppercase; {% endif %} font-family:var(--{{ settings.navft }}); }
+    #header .crlgTtl { color:var(--cl); }
+    #header .crlgTtl:after { background-color:var(--cl); }
+    {%- endif -%}
+    
+    .icons-col .hdicon p {  {% if settings.nav_case %} text-transform: uppercase; {% endif %} font-family:var(--{{ settings.navft }}); font-weight:{{ settings.navfw }}; }
+    {%- if section.settings.icntyp == '3' -%}
+    .cartCount.pp {margin:-2px 0 0 4px;}
+    {%- endif -%}
+    {%- if istrnsparent -%}
+        .hdr_wrap:not(.sticky_hdr) { height:0; overflow:visible; }
+        .hdr_wrap:not(.sticky_hdr) .hdicon,
+        .hdr_wrap:not(.sticky_hdr) .lvl1 > a,
+        .hdr_wrap:not(.sticky_hdr) .crlgTtl { color:{{ sec_st.thcl }}!important; }
+        .hdr_wrap:not(.sticky_hdr) .stlogo,
+        .hdr_wrap.sticky_hdr .trlogo { display:none !important; }
+        .hdr_wrap:not(.sticky_hdr) #main_navwr { background-color:transparent; border:0 none; }
+    {%- endif -%}
+    {%- if sec_st.sticky_shadow -%}
+        .sticky_hdr { box-shadow:0 0 20px 0 #00000010; }
+    {%- endif -%}
+    {%- if section.settings.hdrStyle == '2' or section.settings.hdrStyle == '5'  -%}
+      @media only screen and (min-width: 1025px) { #main_nav {margin-left:-15px;}}
+    {% endif %}
+{%- endstyle -%}
+{%- endcapture -%}
+{{- sec_styles | strip_newlines | remove: '  ' -}}
+
+{%- capture logo -%}
+<div class="header-logo">
+  <a href="{{ routes.root_url }}" itemprop="url" class="hdr_logo_lnk" title=">{{ shop.name }}">
+    {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+    {%- capture sizes -%}(max-width: {{ sec_st.logowd | times: 2 }}px) 50vw, {{ sec_st.logowd }}px{%- endcapture -%}
+    {%- capture widths -%}{{ sec_st.logowd }}, {{ sec_st.logowd | times: 1.5 | round }}, {{ sec_st.logowd | times: 2 }}{%- endcapture -%}
+    {%- if istrnsparent and logo != blank -%}
+        {%- assign trlogo_ht = sec_st.logowd | divided_by: logo.aspect_ratio -%}
+        {{- logo | image_url: width: 600 | image_tag: class: 'imgAt trlogo db fw700', widths: widths, height: trlogo_ht, width: sec_st.logowd, alt: logo_alt, sizes: sizes, preload: true -}}
+    {%- endif -%}
+    {%- if sec_st.logo != blank -%}
+        {%- assign logo_ht = sec_st.logowd | divided_by: sec_st.logo.aspect_ratio -%}
+        {{- sec_st.logo | image_url: width: 600 | image_tag: class: 'imgAt stlogo db fw700', widths: widths, height: logo_ht, width: sec_st.logowd, alt: logo_alt, sizes: sizes, preload: true -}}
+    {%- elsif sec_st.logo_text !=blank -%}
+    <div class="imgAt stlogo db fw700" style="width: clamp(150px, 20vw, {{ sec_st.logowd }}px); color: {% unless request.path contains '/collections/women' or template contains  'girls_collections' %} {{ settings.bgs }} {% else %} {{ settings.bgl }} {% endunless %};" aria-label="logo_alt">{{ sec_st.logo_text }}</div>
+    {%-  else -%}
+        {{ shop.name }}
+    {%- endif -%}
+  </a>
+</div>
+{%- endcapture -%}
+
+{%- capture buttons -%}
+    <div class="fl f-jce{% if sec_st.hdrStyle == '2'  or sec_st.hdrStyle == '5'  %} fl1{% endif %}">
+        {%- if sec_st.hdrStyle == '3' -%}
+            {%- if settings.mlcurrency or settings.mlLang -%}<div class="fl f-aic hide-sm hide-md col-gap" style="--gap:10px;">{% render 'currencyLang' %}<span></span></div>{%- endif -%}
+        {%- endif -%}
+        {%- if settings.enable_search -%}
+          {%- if sec_st.hdrStyle == '4' or sec_st.hdrStyle == '5' -%}<div class="searchinline mr10 hide-sm hide-md">{% render 'search-form' %}</div>{%- endif -%}
+		  <a class="hdicon searchIcn{% if sec_st.cntlogo %} hide-sm hide-md{% endif %}{% if sec_st.hdrStyle == '4' or sec_st.hdrStyle == '5' %} hide-lg{% endif %}" href="{{ routes.search_url }}" title="{{ 'sections.header.search' | t }}">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="https://www.w3.org/2000/svg">
+              <path d="M13.4166 2.33325C19.5416 2.33325 24.5 7.29159 24.5 13.4166C24.5 19.5416 19.5416 24.4999 13.4166 24.4999C7.29165 24.4999 2.33331 19.5416 2.33331 13.4166C2.33331 9.09992 4.79498 5.36659 8.39998 3.53492" stroke="currentColor" style="stroke:currentColor;stroke:color(display-p3 0.1333 0.1333 0.1333);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M25.6666 25.6666L23.3333 23.3333" stroke="currentColor" style="stroke:currentColor;stroke:color(display-p3 0.1333 0.1333 0.1333);stroke-opacity:1;" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
+              <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.search' | t }}</p>
+          </a>
+        {%- endif -%}
+        {%- if shop.customer_accounts_enabled -%}
+		  <a class="hdicon user-menu hide-md hide-sm" href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}" title="{{ 'sections.header.account' | t }}">
+                {%- render 'icon-account', icntyp: sec_st.icntyp -%}
+                <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.account' | t }}</p>
+          </a>
+        {%- endif -%}
+
+        {%- if settings.wishlist -%}
+          <a class="hdicon hide-sm hide-md" href="{{ pages[settings.wishlist_page].url }}" title="{{ 'sections.header.wishlist' | t }}">
+              <svg class="at-icon{% if sec_st.icntyp == '3' %} hide-lg{% endif %}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+              <path d="M12 21.65C11.69 21.65 11.39 21.61 11.14 21.52C7.32 20.21 1.25 15.56 1.25 8.69001C1.25 5.19001 4.08 2.35001 7.56 2.35001C9.25 2.35001 10.83 3.01001 12 4.19001C13.17 3.01001 14.75 2.35001 16.44 2.35001C19.92 2.35001 22.75 5.20001 22.75 8.69001C22.75 15.57 16.68 20.21 12.86 21.52C12.61 21.61 12.31 21.65 12 21.65ZM7.56 3.85001C4.91 3.85001 2.75 6.02001 2.75 8.69001C2.75 15.52 9.32 19.32 11.63 20.11C11.81 20.17 12.2 20.17 12.38 20.11C14.68 19.32 21.26 15.53 21.26 8.69001C21.26 6.02001 19.1 3.85001 16.45 3.85001C14.93 3.85001 13.52 4.56001 12.61 5.79001C12.33 6.17001 11.69 6.17001 11.41 5.79001C10.48 4.55001 9.08 3.85001 7.56 3.85001Z" fill="#222222"/>
+              </svg>
+              </svg>
+              {%- if sec_st.icntyp != '3' -%}<b id="wishlistItems" class="cartCount pp">0</b>{%- endif -%}
+              <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.wishlist' | t }}</p>
+          </a>
+        {%- endif -%}
+
+        {%- unless settings.catalog-mode -%}						
+		<a href="{{ routes.cart_url }}" class="hdicon hide-sm hide-md" id="cartLink" title="{{ 'sections.header.cart' | t }}">
+            <svg class="at-icon{% if sec_st.icntyp == '3' %} hide-lg{% endif %}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="https://www.w3.org/2000/svg">
+<path d="M16.5 8.62999C16.09 8.62999 15.75 8.28999 15.75 7.87999V6.49999C15.75 5.44999 15.3 4.42999 14.52 3.71999C13.73 2.99999 12.71 2.66999 11.63 2.76999C9.83 2.93999 8.25 4.77999 8.25 6.69999V7.66999C8.25 8.07999 7.91 8.41999 7.5 8.41999C7.09 8.41999 6.75 8.07999 6.75 7.66999V6.68999C6.75 3.99999 8.92 1.51999 11.49 1.26999C12.99 1.12999 14.43 1.59999 15.53 2.60999C16.62 3.59999 17.25 5.01999 17.25 6.49999V7.87999C17.25 8.28999 16.91 8.62999 16.5 8.62999Z" fill="#222222"/>
+<path d="M15 22.75H9C4.38 22.75 3.52 20.6 3.3 18.51L2.55 12.52C2.44 11.44 2.4 9.89 3.45 8.73C4.35 7.73 5.84 7.25 8 7.25H16C18.17 7.25 19.66 7.74 20.55 8.73C21.59 9.89 21.56 11.44 21.45 12.5L20.7 18.51C20.48 20.6 19.62 22.75 15 22.75ZM8 8.75C6.31 8.75 5.15 9.08 4.56 9.74C4.07 10.28 3.91 11.11 4.04 12.35L4.79 18.34C4.96 19.94 5.4 21.26 9 21.26H15C18.6 21.26 19.04 19.95 19.21 18.36L19.96 12.35C20.09 11.13 19.93 10.3 19.44 9.75C18.85 9.08 17.69 8.75 16 8.75H8Z" fill="#222222"/>
+<path d="M15.42 13.15C14.86 13.15 14.41 12.7 14.41 12.15C14.41 11.6 14.86 11.15 15.41 11.15C15.96 11.15 16.41 11.6 16.41 12.15C16.41 12.7 15.97 13.15 15.42 13.15Z" fill="#222222"/>
+<path d="M8.42 13.15C7.86 13.15 7.41 12.7 7.41 12.15C7.41 11.6 7.86 11.15 8.41 11.15C8.96 11.15 9.41 11.6 9.41 12.15C9.41 12.7 8.97 13.15 8.42 13.15Z" fill="#222222"/>
+</svg>
+</svg>
+            {%- if sec_st.icntyp != '3' -%}<b id="cart-icon-bubble" class="cartCount pp">{{ cart.item_count }}</b>{%- endif -%}
+            <p class="m0{% if sec_st.icntyp == '1' %} hide{% else %} hide-sm hide-md{% endif %}{% if sec_st.icntyp == '2' %} pdt5{% endif %}">{{ 'sections.header.cart' | t }}{% if sec_st.icntyp == '3' %}<b id="cart-icon-bubble" class="cartCount pp">{{ cart.item_count }}</b>{% endif %}</p>
+        </a>
+        {%- endunless -%}
+        {%- unless sec_st.cntlogo -%}
+            <a href="#" class="hdicon navToggle hide-lg hamburger-icon m10" title="{{ 'sections.navigation.menu' | t }}"><span></span><span></span><span></span></a>{%- endunless -%}
+      </div>
+{%- endcapture -%}
+{%- capture site_header -%}
+    <header id="header" class="fl f-col f-aic pr main_hdr col-gap{% if sec_st.sw %} fw-sec{% else %} page-width{% endif %}{% if istrnsparent %} trnsprt{% endif %}" data-sticky="{{ sec_st.sticky_type }}" style="{% if sec_st.trhead %}--thcl:{{ sec_st.thcl }};{% endif %}--gap:{{ sec_st.gap }}px;--gapm:5px;">
+        {% if sec_st.cntlogo %}
+        <div class="fl1 mbnavCol fl hide-lg cnt">
+            <a href="#" class="hdicon navToggle hide-lg hamburger-icon" title="{{ 'sections.navigation.menu' | t }}">
+            <span></span><span></span><span></span></a>
+            {% if settings.enable_search and sec_st.cntlogo %}
+              <a class="hdicon searchIcn" href="{{ routes.search_url }}" title="{{ 'sections.header.search' | t }}"><svg class="at-icon"><use xlink:href="#icon-search"></use></svg></a>
+            {% endif %}
+        </div>
+        {% endif %}
+        {%- if sec_st.hdrStyle == '1' or sec_st.hdrStyle == '3' or sec_st.hdrStyle == '4' -%}
+          
+            <div class="fl wd100 mt20 f-jcsb f-aic">
+          {{ logo }}
+            {{ buttons }}
+            </div>
+            <div class="fl f-jcsb w_100">
+         {% if section.settings.enable_switch %} 
+        <div class="main-element" style="width: 240px;"></div>
+       {% endif %}
+        {%- render 'navigation', sec_st:sec_st, secblk:section.blocks, cnt_width:cnt_width -%}
+        {% if section.settings.enable_switch %}
+          <div class="page-switch">    
+                {% render 'switch_box' %} 
+                  </div>
+                {% endif %}
+       </div>
+        {%- else -%}
+            {% render 'navigation', sec_st:sec_st, secblk:section.blocks, cnt_width:cnt_width %}
+            {{ logo }}
+            {{ buttons }}
+
+        {%- endif -%}
+    </header>
+<script>
+  function centerMain() {
+    const reference = document.querySelector('.page-switch');
+    const main = document.querySelector('.main-element');
+
+    if(reference && main){
+      const refWidth = reference.offsetWidth;
+      main.style.width = refWidth + 'px';
+    }
+  }
+
+  // Run on page load
+  window.addEventListener('load', centerMain);
+
+  // Adjust on window resize
+  window.addEventListener('resize', centerMain);
+</script>
+    {%- if settings.enable_search -%}
+        {%- assign search_type = 'drawer' -%}
+        {%- if sec_st.hdrStyle == '4' or sec_st.hdrStyle == '5' -%}
+            {% assign search_type = 'inline' %}
+        {%- endif -%}
+        {%- render 'search-drawer', search_type:search_type, cnt_width:cnt_width, is_rtl:is_rtl -%}
+    {%- endif -%}
+<!--mmobile-->
+{%- render 'mobile-nav', sec_st:sec_st, secblk:section.blocks -%}
+{%- endcapture -%}
+{{- site_header | replace:"<!--mmobile-->", "</div>" | strip_newlines | remove: "  " | remove: "	" -}}
+{% schema %}
+ {
+    "name": "Header - Menu Inline",
+    "limit": 1,
+    "class": "hdr_wrap pr hdr_inline",
+    "enabled_on": {
+        "groups": ["header"]
+    },
+    "settings": [
+       {
+        "type": "range",
+        "id": "ht",
+        "min": 50,
+        "max": 150,
+        "step": 1,
+        "label": "Header Height",
+        "default": 70
+       },
+       {
+            "type": "select",
+            "id": "hdrStyle",
+            "label": "Header Design",
+            "default": "1",
+            "info":"Enable Currency & Language from Theme Settings",
+            "options": [
+              {
+                "label": "Logo Left",
+                "value": "1"
+              },         
+              {
+              "label": "Logo Center",
+                "value": "2"
+              },         
+              {
+                  "label": "With Currency & Language",
+                 "value": "3"
+              },
+               {
+                "label": "Logo Left Visible Search",
+                "value": "4"
+              },
+              {
+                "label": "Logo Center Visible Search",
+                "value": "5"
+              }
+            ]
+       },  
+               
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo Image"
+      },
+      {
+        "type": "textarea",
+        "id": "logo_text",
+        "label": "Logo SVG Text"
+      },
+      {
+        "type": "range",
+        "id": "logowd",
+        "min": 50,
+        "max": 500,
+        "step": 5,
+        "label": "Logo Width",
+        "default": 120
+      },      
+ 	  {
+        "type": "select",
+        "id": "icntyp",
+        "label": "Addons",
+        "default": "1",
+        "options": [
+          {
+            "label": "Icons only",
+            "value": "1"
+          },         
+          {
+          "label": "Icons with text",
+            "value": "2"
+          },         
+          {
+          "label": "Text only",
+            "value": "3"
+          }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "icon",
+        "min": 12,
+        "max": 50,
+        "step": 1,
+        "label": "Icons Size",
+        "unit": "px",
+        "default": 16
+      },
+      {
+        "type": "range",
+        "id": "fs",
+        "min": 10,
+        "max": 20,
+        "step": 1,
+        "label": "Font Size",
+        "unit": "px",
+        "default": 12
+      },     
+      {
+        "type": "color",
+        "id": "cl",
+        "label": "Icons & Text",
+        "default": "#555"
+      },
+      {
+        "type": "color",
+        "id": "clh",
+        "label": "Icons & Text (hover)",
+        "default": "#000"
+      },  
+      {
+        "type": "range",
+        "id": "gap",
+        "min": 10,
+        "max": 100,
+        "step": 1,
+        "label": "Columns gap",
+        "unit": "px",
+        "default": 30
+      },	  	 
+      {
+        "type": "header",
+        "content": "Sticky Header ====="
+      },
+      {
+        "type": "select",
+        "id": "sticky_type",
+        "label": "Sticky Header",
+        "default": "top",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "always",
+            "label": "Always"
+          },
+          {
+            "value": "top",
+            "label": "On scroll up"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky_shadow",
+        "label": "Show bottom shadow?",
+        "default": true
+      },
+            {
+        "type": "checkbox",
+        "id": "enable_switch",
+        "label": "Enable Women Page on Header",
+        "default": true
+      },
+	  {
+        "type": "header",
+        "content": "Transparent Header ====="
+      },
+      {
+        "type": "checkbox",
+        "id": "trhead",
+        "label": "Enable for home page",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "trheadcl",
+        "label": "Enable for collection page",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "trheadbg",
+        "label": "Enable for blog page",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "trheadar",
+        "label": "Enable for article page",
+        "default": false
+      },
+	  {
+        "type": "image_picker",
+        "id": "trLogo",
+        "label": "Logo Image"
+      },      
+	  {
+        "type": "color",
+        "id": "thcl",
+        "label": "Text & Icon",
+        "default": "#fff"
+      },
+	  {
+        "type": "header",
+        "content": "Navigation ===="
+      },
+      {
+		 "type": "paragraph",
+		 "content":"Customize look from Theme Settings -> Header Menu."
+      }, 	      
+       {
+        "type": "header",
+        "content": "Mobile Site  ====="
+      },
+      {
+        "type": "range",
+        "id": "logowdm",
+        "min": 50,
+        "max": 200,
+        "step": 2,
+        "label": "Logo Width",
+        "default": 90
+      },
+      {
+        "type": "checkbox",
+        "id": "cntlogo",
+        "label": "Logo Center?",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "htm",
+        "min": 30,
+        "max": 130,
+        "step": 1,
+        "label": "Header Height",
+        "default": 60
+      },
+      {
+        "type": "checkbox",
+        "id": "spnav",
+        "label": "Show different Menu for Mobile?",		
+        "default": false
+      },
+      {
+        "type": "link_list",
+        "id": "mbmenu",
+        "label": "Select Menu",
+        "default": "main-menu"
+      },
+      {
+		"type": "paragraph",
+        "content": "Categories Menu ===="
+	  },
+      {
+        "type": "checkbox",
+        "id": "catnav",
+        "label": "Show?",
+        "default": true
+      },
+      {
+        "type": "link_list",
+        "id": "catmenu",
+        "label": "Select Menu",
+        "default": "main-menu"
+      },
+      {
+            "type":"checkbox",
+            "id":"sicnm",
+            "label":"Show Icon Image?",
+            "default": true,
+			"info":"[How to add?](https://www.adornthemes.com/knowledge-base/icon-image-for-collection/)"
+      },
+      {
+            "type": "range",
+            "id": "icnm",
+            "label": "Icon/img Size",
+            "default":30,
+            "min": 10,
+            "max": 70,
+            "step": 1,
+            "unit": "px"
+      },
+      {
+            "type": "range",
+            "id": "icnrad",
+            "label": "Border Radius",
+            "default":30,
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "unit": "px"
+      },
+      {
+        "type": "textarea",
+        "id": "help",
+        "label": "Help Block"
+      },
+       {
+        "type": "header",
+        "content": "Section Design ==="
+      },
+        {
+          "type":"checkbox",
+          "id":"sw",
+          "label":"Fullwidth?",
+          "default": false,
+          "info":"Manage fullwidth padding from Theme Settings -> Layout"
+      },
+      {
+        "type": "color",
+        "id": "bg",
+        "label": "Background",
+        "default": "#fff"
+      },
+      {
+        "type": "color_background",
+        "id": "bgg",
+        "label": "Gradient Background"
+      },
+      {
+        "type": "image_picker",
+        "id": "bgimg",
+        "label": "Background image"
+      },
+      {
+        "type": "select",
+        "id": "bgrepeat",
+        "label": "Background Repeat",
+        "default": "no-repeat",
+        "info": "[how to repeat the background image](https:\/\/w3schools.com\/cssref\/pr_background-repeat.asp)",
+        "options": [
+          {
+            "value": "no-repeat",
+            "label": "No Repeat"
+          },
+          {
+            "value": "repeat",
+            "label": "All Sides"
+          },
+          {
+            "value": "repeat-x",
+            "label": "Horizontally"
+          },
+          {
+            "value": "repeat-y",
+            "label": "Vertically"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "bgposition",
+        "label": "Background Position",
+        "default": "center_center",
+        "info": "[position of the background images](https:\/\/w3schools.com\/cssref\/pr_background-position.asp)",
+        "options": [
+          {
+            "value": "left_top",
+            "label": "Left Top"
+          },
+          {
+            "value": "left_center",
+            "label": "Left Center"
+          },
+          {
+            "value": "left_bottom",
+            "label": "Left Bottom"
+          },
+          {
+            "value": "center_top",
+            "label": "Center Top"
+          },
+          {
+            "value": "center_center",
+            "label": "Center Center"
+          },
+          {
+            "value": "center_bottom",
+            "label": "Center Bottom"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "bgsize",
+        "label": "Background Size",
+        "default": "auto",
+        "info": "[Specifies the size of the background image](https:\/\/w3schools.com\/cssref\/css3_pr_background-size.asp)",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Auto"
+          },
+          {
+            "value": "cover",
+            "label": "Cover"
+          },
+          {
+            "value": "contain",
+            "label": "Contain"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "hdrbd",
+        "label": "Show Bottom Border",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "hdrbd_cl",
+        "label": "Bottom Border",
+        "default": "#fff"
+      },
+    {
+      "type": "collection",
+      "id": "target_collection",
+      "label": "Select Collection to Switch To"
+    },
+    {
+      "type": "text",
+      "id": "switch_label",
+      "label": "Switch Label",
+      "default": "Toggle Collection View"
+    }
+	],
+    "blocks": [
+      {
+        "type": "home",
+        "name": "Home Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+			"default": "Home"
+          }
+        ]
+      },
+	  {
+        "type": "slink",
+        "name": "Single Link",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Single Menu"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          }
+        ]
+      }, 
+      {
+        "type": "dd",
+        "name": "Dropdown Menu",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Dropdown"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Select Menu",
+            "default": "main-menu"
+          }
+        ]
+      },
+	  {
+        "type": "m1",
+        "name": "MM Modern",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Modern"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          },
+ 			{
+            "type": "checkbox",
+            "id": "newtab",
+            "label": "Open Link in New Window?"
+          },  
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Select Menu",
+            "default": "main-menu"
+          },
+          {
+            "type": "range",
+            "id": "mcol",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "label": "Select Columns",
+            "default": 2
+          },
+          {
+            "type": "header",
+            "content": "Image Columns ==="
+          },
+          {
+            "type": "select",
+            "id": "callPos",
+            "label": "Position",
+            "default": "right",
+			"info": "Show images at right or bottom of links",
+            "options": [
+              { "value": "right", "label": "Right" },
+              {
+                "value": "bottom",
+                "label": "Bottom"
+              }
+            ]
+          },
+
+          {
+            "type": "range",
+            "id": "colWd",
+            "min": 20,
+            "max": 100,
+            "step": 1,
+            "label": "Column Width",
+            "default": 50,
+			"unit": "%",
+			"info": "Option work when images show right of links"
+          },
+          {
+            "type": "range",
+            "id": "icol",
+            "min": 1,
+            "max": 4,
+            "step": 1,
+            "label": "Columns per row",
+            "default": 2
+          },        
+          {
+            "type": "paragraph",
+            "content": "Image 1 ==="
+          },
+          {
+            "type": "image_picker",
+            "id": "image1",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "iTtl1",
+            "label": "Title Text"
+          },
+          {
+            "type": "url",
+            "id": "imgurl1",
+            "label": "Link on Image"
+          },
+          {
+            "type": "paragraph",
+            "content": "Image 2 ==="
+          },
+          {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "iTtl2",
+            "label": "Title Text"
+          },
+          {
+            "type": "url",
+            "id": "imgurl2",
+            "label": "Image 2 Link"
+          },
+          {
+            "type": "paragraph",
+            "content": "Image 3 ==="
+          },
+          {
+            "type": "image_picker",
+            "id": "image3",
+            "label": "Image 3"
+          },
+          {
+            "type": "text",
+            "id": "iTtl3",
+            "label": "Title Text"
+          },
+          {
+            "type": "url",
+            "id": "imgurl3",
+            "label": "Image 3 Link"
+          },
+          {
+            "type": "paragraph",
+            "content": "Image 4 ==="
+          },
+          {
+            "type": "image_picker",
+            "id": "image4",
+            "label": "Image 4",
+            "info": "Image to show in menu"
+          },
+          {
+            "type": "text",
+            "id": "iTtl4",
+            "label": "Title Text"
+          },
+          {
+            "type": "url",
+            "id": "imgurl4",
+            "label": "Image 4 Link"
+          },
+           {
+            "type": "range",
+            "id": "icnbr",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Image Rounded",
+            "default": 0
+          },
+          {
+            "type":"paragraph",
+            "content":"Title Appearance ==="
+          },
+           {
+            "type": "checkbox",
+            "id": "overlay_lbl",
+            "label": "Show above image?"
+          },             
+          {
+            "type": "color",
+            "id": "ttcl",
+            "label": "Text",
+            "default": "#111"
+          },
+           {
+            "type": "color",
+            "id": "ttbg",
+            "label": "Background",
+            "default": "#fff"
+          },
+          {
+            "type": "range",
+            "id": "ttfs",
+            "label": "Font Size",
+            "default": 13,
+            "min": 10,
+            "max": 30,
+            "step": 1,
+            "unit": "px"
+          },
+          {
+            "type": "select",
+            "id": "ttfw",
+            "label": "Font Weight",
+            "default": "600",
+            "options": [
+              {
+                "value": "300",
+                "label": "Light"
+              },
+              {
+                "value": "400",
+                "label": "Regular"
+              },
+              {
+                "value": "500",
+                "label": "Medium"
+              },
+              {
+                "value": "600",
+                "label": "Semi Bold"
+              },
+              {
+                "value": "700",
+                "label": "Bold"
+              }
+            ]
+          },
+          {
+            "type": "select",
+            "id": "ttla",
+            "label": "Alignment",
+            "default": "tc",
+            "options": [
+              { "value": "tl", "label": "Left" },
+              { "value": "tc", "label": "Center" },
+              { "value": "tr", "label": "Right" }
+            ]
+          },       
+          {
+            "type": "header",
+            "content": "Custom size & Align ==="
+          },
+   		 {
+			"type": "checkbox",
+			"id": "cwd",
+			"label": "Custom Width?",
+			"default": false
+		  },
+		  {
+			"type": "text",
+			"id": "bxwd",
+			"label": "Box Width",
+			"default": "600"
+		  },
+		  {
+			"type": "select",
+			"id": "mmal",
+			"label": "Box Align",
+			"default": "center",
+			"options": [
+			  { "value": "left", "label": "Left" },
+			  { "value": "center", "label": "Center" },
+			  { "value": "right", "label": "Right" }
+			]
+		  },
+		 {
+            "type": "checkbox",
+            "id": "bxsz",
+            "label": "Enable container width?",
+            "default": true,
+			"info":"Inner content width is equal to the layout width while fullwidth header."
+          }
+        ]
+      },
+	  {
+        "type": "m2",
+        "name": "MM Links & Products",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Products"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          },  
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Select Menu",
+            "default": "main-menu"
+          },
+          {
+            "type": "range",
+            "id": "lgrid",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Link per row",
+            "default": 2
+          },
+          {
+            "type": "header",
+            "content": "Products ==="
+          },
+          {
+            "type": "text",
+            "id": "pttl",
+            "label": "Title Text",
+            "default": "BEST SELLER"
+          },
+          {
+          	"type": "product_list",
+          	"id": "products",
+          	"label": "Sellect Products"
+          },
+          {
+            "type": "range",
+            "id": "grid",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Products per row",
+            "default": 2
+          },
+          {
+            "type": "range",
+            "id": "pcolWd",
+            "min": 20,
+            "max": 70,
+            "step": 1,
+            "label": "Columns Width",
+			"unit": "%",
+            "default": 30
+          },
+          {
+            "type": "text",
+            "id": "prodall",
+            "label": "Button Text",
+            "default": "View All"
+          },
+          {
+            "type": "select",
+            "id": "btn-style",
+            "label": "Select Button",
+            "default": "btn1",
+            "options": [
+              {
+                "label": "Button 1",
+                "value": "btn1"
+              },
+              {
+                "label": "Button 2",
+                "value": "btn2"
+              },
+              {
+                "label": "Button 3",
+                "value": "btn3"
+              },
+              {
+                "label": "Button 4",
+                "value": "btn4"
+              },
+              {
+                "label": "Button 5",
+                "value": "btn5"
+              },
+               {
+                "label": "Button 6",
+                "value": "btn6"
+              },
+              {
+                  "label": "Button 7 Gradient",
+                  "value": "btn7"
+              },
+              {
+                  "label": "Button 8 Gradient",
+                  "value": "btn8"
+              }
+            ]
+          },
+          {
+            "type": "header",
+            "content": "Featured Column ==="
+          },
+          {
+            "type": "checkbox",
+            "id": "ftcl",
+            "label": "Enable ?",
+			"default": true
+          },
+          {
+            "type": "range",
+            "id": "colWd",
+            "min": 20,
+            "max": 80,
+            "step": 1,
+            "label": "Columns Width",
+			"unit": "%",
+            "default": 30
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "range",
+            "id": "icnbr",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Image Rounded",
+            "default": 0
+          },
+          {
+            "type": "text",
+            "id": "ft_ttl",
+            "label": "Title"
+          },
+          {
+            "type": "range",
+            "id": "ft_ttls",
+            "min": 13,
+            "max": 100,
+            "step": 1,
+            "label": "Font Size",
+            "default": 30
+          },
+          {
+            "type": "text",
+            "id": "ft_sttl",
+            "label": "Sub Title"
+          },
+          {
+            "type": "range",
+            "id": "ft_sttls",
+            "min": 10,
+            "max": 40,
+            "step": 1,
+            "label": "Font Size",
+            "default": 15
+          },
+          {
+            "type": "text",
+            "id": "ft_btn",
+            "label": "Button Text"
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          },
+          {
+            "type": "select",
+            "id": "btn-style2",
+            "label": "Select Button",
+            "default": "btn1",
+            "options": [
+              {
+                "label": "Button 1",
+                "value": "btn1"
+              },
+              {
+                "label": "Button 2",
+                "value": "btn2"
+              },
+              {
+                "label": "Button 3",
+                "value": "btn3"
+              },
+              {
+                "label": "Button 4",
+                "value": "btn4"
+              },
+              {
+                "label": "Button 5",
+                "value": "btn5"
+              },
+               {
+                "label": "Button 6",
+                "value": "btn6"
+              },
+              {
+                  "label": "Button 7 Gradient",
+                  "value": "btn7"
+              },
+              {
+                  "label": "Button 8 Gradient",
+                  "value": "btn8"
+              }
+            ]
+         },
+          {
+            "type": "color",
+            "id": "txtcl",
+            "label": "Text",
+            "default": "#fff"
+          },
+          {
+            "type": "color",
+            "id": "ft_bg",
+            "label": "Image overlay",
+            "default": "#333"
+          },
+        {
+            "type": "range",
+            "id": "ft_opt",
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "label": "Overlay opacity",
+            "unit": "%",
+            "default": 0.4
+        },
+          {
+            "type": "header",
+            "content": "Custom size & Align ==="
+          },
+	 {
+			"type": "checkbox",
+			"id": "cwd",
+			"label": "Custom Width?",
+			"default": false
+		  },
+		  {
+			"type": "text",
+			"id": "bxwd",
+			"label": "Box Width",
+			"default": "600"
+		  },
+		  {
+			"type": "select",
+			"id": "mmal",
+			"label": "Box Align",
+			"default": "center",
+			"options": [
+			  { "value": "left", "label": "Left" },
+			  { "value": "center", "label": "Center" },
+			  { "value": "right", "label": "Right" }
+			]
+		  },
+			{
+            "type": "checkbox",
+            "id": "bxsz",
+            "label": "Enable container width?",
+            "default": true,
+			"info":"Inner content width is equal to the layout width while fullwidth header."
+          }
+        ]
+      },
+	  {
+        "type": "m3",
+        "name": "MM Top Image Columns",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Image Columns"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          },
+		  {
+            "type":"header",
+        	"content": "Column 1"
+          },
+          {
+            "type": "text",
+            "id": "ttl1",
+            "label": "Title text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image1",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "url1",
+            "label": "Image Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu1",
+            "label": "Select Menu"
+          },
+		  {
+            "type":"header",
+        	"content": "Column 2"
+          },
+          {
+            "type": "text",
+            "id": "ttl2",
+            "label": "Title text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image2",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "id": "url2",
+            "label": "Image Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu2",
+            "label": "Select Menu"
+          },
+		  {
+            "type":"header",
+        	"content": "Column 3"
+          },
+          {
+            "type": "text",
+            "id": "ttl3",
+            "label": "Title text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image3",
+            "label": "Image",
+            "info": "Image to show in menu"
+          },
+          {
+            "type": "url",
+            "id": "url3",
+            "label": "Image Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu3",
+            "label": "Select Menu"
+          },
+		  {
+            "type":"header",
+        	"content": "Column 4"
+          },
+          {
+            "type": "text",
+            "id": "ttl4",
+            "label": "Title text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image4",
+            "label": "Image",
+            "info": "Image to show in menu"
+          },
+          {
+            "type": "url",
+            "id": "url4",
+            "label": "Menu Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu4",
+            "label": "Select Menu"
+          },
+		  {
+            "type":"header",
+        	"content": "Column 5"
+          },
+          {
+            "type": "text",
+            "id": "ttl5",
+            "label": "Title text"
+          },
+          {
+            "type": "image_picker",
+            "id": "image5",
+            "label": "Image",
+            "info": "Image to show in menu"
+          },
+          {
+            "type": "url",
+            "id": "url5",
+            "label": "Menu Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu5",
+            "label": "Select Menu"
+          },
+            {
+            "type": "range",
+            "id": "icnbr",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Image rounded",
+            "default": 0
+          },
+          {
+            "type": "header",
+            "content": "Custom size & Align ==="
+          },
+ 	    {
+			"type": "checkbox",
+			"id": "cwd",
+			"label": "Custom Width?",
+			"default": false
+		  },
+		  {
+			"type": "text",
+			"id": "bxwd",
+			"label": "Box Width",
+			"default": "600"
+		  },
+		  {
+			"type": "select",
+			"id": "mmal",
+			"label": "Box Align",
+			"default": "center",
+			"options": [
+			  { "value": "left", "label": "Left" },
+			  { "value": "center", "label": "Center" },
+			  { "value": "right", "label": "Right" }
+			]
+		  },
+		 {
+            "type": "checkbox",
+            "id": "bxsz",
+            "label": "Enable container width?",
+            "default": true,
+			"info":"Inner content width is equal to the layout width while fullwidth header."
+          }
+        ]
+      },
+	  {
+        "type": "m4",
+        "name": "MM Categories",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Categories"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Select Menu",
+            "default": "main-menu",
+            "info": "Use collection links only to show link with image"
+          },
+          {
+            "type": "checkbox",
+            "id": "icn",
+            "label": "Show Icon for Main Links?",
+            "default": false
+			
+          },
+           {
+            "type": "checkbox",
+            "id": "icn1",
+            "label": "Show Icon for Sub Links?",
+            "default": false			
+          },
+          {
+            "type": "paragraph",
+            "content": "[How to add icon image by metafield?](https://www.adornthemes.com/knowledge-base/icon-image-for-collection/)"
+          },
+          {
+            "type": "header",
+            "content": "Main Links ==="
+          },
+          {
+            "type": "range",
+            "id": "icnsz",
+            "min": 20,
+            "max": 100,
+            "step": 2,
+            "label": "Icon Size",
+            "default": 30
+          },
+          {
+            "type": "range",
+            "id": "icnbr",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Border Radius",
+            "default": 15
+          },
+          {
+            "type": "range",
+            "id": "fs",
+            "min": 10,
+            "max": 30,
+            "step": 1,
+            "label": "Font Size",
+            "default": 14
+          },
+          {
+            "type": "header",
+            "content": "Sub Links ==="
+          },
+          {
+            "type": "range",
+            "id": "sicnsz",
+            "min": 20,
+            "max": 200,
+            "step": 2,
+            "label": "Icon Size",
+            "default": 50
+          },
+          {
+            "type": "range",
+            "id": "sicnbr",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Border Radius",
+            "default": 30
+          },
+          {
+            "type": "range",
+            "id": "sfs",
+            "min": 10,
+            "max": 30,
+            "step": 1,
+            "label": "Font Size",
+            "default": 16
+          },
+          {
+            "type": "radio",
+            "id": "tps",
+            "label": "Link Position",
+            "default": "1",
+            "options": [
+              {
+                "value": "1",
+                "label": "Left of Image"
+              },
+              {
+                "value": "2",
+                "label": "Bottom of Image"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "mcol",
+            "min": 1,
+            "max": 6,
+            "step": 1,
+            "label": "Select Columns",
+            "default": 3
+          },
+          {
+            "type": "header",
+            "content": "Products ==="
+          },
+          {
+            "type": "checkbox",
+            "id": "showpr",
+            "label": "Show Prducts?",
+            "default": true
+          },
+          {
+            "type": "range",
+            "id": "grid",
+            "label": "Products Per Row",
+            "default": 2,
+            "min": 1,
+            "max": 4,
+            "step": 1
+          },
+          {
+            "type": "range",
+            "id": "prlimit",
+            "min": 1,
+            "max": 20,
+            "step": 1,
+            "label": "Products limit",
+            "default": 6
+          },
+          {
+            "type": "range",
+            "id": "prColwd",
+            "min": 20,
+            "max": 70,
+            "step": 1,
+            "label": "Column width",
+            "default": 50,
+			"unit": "%"
+          },
+          {
+            "type": "header",
+            "content": "Custom size & Align ==="
+          },
+ 	    {
+			"type": "checkbox",
+			"id": "cwd",
+			"label": "Custom Width?",
+			"default": false
+		  },
+		  {
+			"type": "text",
+			"id": "bxwd",
+			"label": "Box Width",
+			"default": "600"
+		  },
+		  {
+			"type": "select",
+			"id": "mmal",
+			"label": "Box Align",
+			"default": "center",
+			"options": [
+			  { "value": "left", "label": "Left" },
+			  { "value": "center", "label": "Center" },
+			  { "value": "right", "label": "Right" }
+			]
+		  },
+		 {
+            "type": "checkbox",
+            "id": "bxsz",
+            "label": "Enable container width?",
+            "default": true,
+			"info":"Inner content width is equal to the layout width while fullwidth header."
+          }
+        ]
+      },
+	  {
+        "type": "m5",
+        "name": "MM Collections",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Link Name",
+            "default": "Collections"
+          },
+          {
+            "type": "url",
+            "id": "url",
+            "label": "Menu Link"
+          },
+          {
+            "type": "link_list",
+            "id": "menu",
+            "label": "Select Menu",
+            "default": "main-menu",
+            "info": "Use collection links only for this menu"
+          },
+          {
+            "type": "checkbox",
+            "id": "icn",
+            "label": "Show Icon/image?",
+            "default": true		
+          },
+          {
+            "type": "paragraph",
+            "content":"[How to add icon image by metafield??](https://www.adornthemes.com/knowledge-base/icon-image-for-collection/)"
+          },
+          {
+            "type": "range",
+            "id": "icnsz",
+            "min": 20,
+            "max": 300,
+            "step": 5,
+            "label": "Image Size",
+            "default": 200
+          },
+          {
+            "type": "range",
+            "id": "icnbr",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "Border Radius",
+            "default": 0
+          },
+          {
+            "type": "radio",
+            "id": "tps",
+            "label": "Link Position",
+            "default": "2",
+            "options": [
+              {
+                "value": "1",
+                "label": "Left of Image"
+              },
+              {
+                "value": "2",
+                "label": "Bottom of Image"
+              }
+            ]
+          },
+          {
+            "type": "range",
+            "id": "fs",
+            "min": 10,
+            "max": 30,
+            "step": 1,
+            "label": "Font Size",
+            "default": 14
+          },
+          {
+            "type": "range",
+            "id": "mcol",
+            "min": 1,
+            "max": 10,
+            "step": 1,
+            "label": "Select Columns",
+            "default": 5
+          },
+          {
+            "type": "header",
+            "content": "Custom size & Align ==="
+          },
+		 {
+			"type": "checkbox",
+			"id": "cwd",
+			"label": "Custom Width?",
+			"default": false
+		  },
+		  {
+			"type": "text",
+			"id": "bxwd",
+			"label": "Box Width",
+			"default": "600"
+		  },
+		  {
+			"type": "select",
+			"id": "mmal",
+			"label": "Box Align",
+			"default": "center",
+			"options": [
+			  { "value": "left", "label": "Left" },
+			  { "value": "center", "label": "Center" },
+			  { "value": "right", "label": "Right" }
+			]
+		  },
+		  {
+            "type": "checkbox",
+            "id": "bxsz",
+            "label": "Enable container width?",
+            "default": true,
+			"info":"Inner content width is equal to the layout width while fullwidth header."
+          },
+        ]
+      }
+    ],
+    "presets": [
+        {
+            "name": "Header - Menu Inline",
+            "settings":{
+            },
+            "blocks": [
+              {
+                  "type": "home"
+              },
+              {
+                  "type": "slink"
+              },
+              {
+                  "type": "m1"
+              },
+              {
+                  "type": "dd"
+              }
+            ]
+        }
+    ]
+  }
+{% endschema %}
