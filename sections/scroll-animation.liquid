@@ -1,0 +1,604 @@
+{%- capture sec_cov -%}
+{% assign section_st = section.settings %}
+<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.ganim %} gr_bg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload zi1{% endif %}" 
+  style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--as:{{ section_st.animsp }}s;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
+  {% if section_st.bgimg != blank %}data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>
+  
+  <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}{% unless section_st.lefta %} tc{% endunless %}">
+    {% if section_st.image != blank %}
+      {{ section_st.image | image_url: width:section_st.image.width | image_tag: loading:'lazy', class:'imgAt', widths:"180,320,400,560,740,900,1200,1600,2000" }}
+    {%- endif -%}
+     <div class="richtext m_auto w_100 {% render 'animate-data', css:true %}"
+      {% render 'animate-data' %} 
+      style="max-width: {{ section_st.maxwd }}%;">
+      
+      <div class="richtext-container">
+        <div class="richtext-column pd20">
+          {% for block in section.blocks %}
+            {% assign blk_st = block.settings %}
+            {% if blk_st.column_placement == '1' or blk_st.column_placement == blank %}
+              {% case block.type %}
+                
+                {% when 'heading' %}
+                  <div class="rgTxt {{ blk_st.tff }}" {{ block.shopify_attributes }} 
+                    style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--lh:{{ blk_st.lh }};--mb:{{ blk_st.mb }}px;">
+                    {{ blk_st.heading }}
+                  </div>
+                  
+                {% when 'subheading' %}
+                  <div class="rgTxt {{ blk_st.tff }}" {{ block.shopify_attributes }} 
+                    style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--lh:{{ blk_st.lh }};--mb:{{ blk_st.mb }}px;">
+                    {{ blk_st.subheading }}
+                  </div>
+                  
+                {% when 'text' %}
+                  <div class="rgTxt mauto {{ blk_st.tff }}" {{ block.shopify_attributes }} 
+                    style="--cl:{{ blk_st.cl }};--fs:{{ blk_st.fs }}px;--fsm:{{ blk_st.fsm }}px;--fw:{{ blk_st.fw }};--lh:{{ blk_st.lh }};--mb:{{ blk_st.mb }}px; max-width: 1024px;">
+                    {{ blk_st.text }}
+                  </div>
+                  
+                {% when 'button' %}
+                  <div class="btn-container" {{ block.shopify_attributes }}>
+                    {% if blk_st.btntxt != blank %}
+                      <a class="btn {{ blk_st.btn_size }} {{ blk_st.btn_style }}" 
+                         {% if blk_st.newtab %}target="_blank"{% endif %} 
+                         href="{{ blk_st.url | default: '#' }}">
+                        {{ blk_st.btntxt }}
+                      </a>
+                    {% endif %}
+                  </div>
+
+                {% when 'image' %}
+                  <div class="image-container floating-animation" {{ block.shopify_attributes }} 
+                    style="--mb:{{ blk_st.mb }}px;--img-width:{{ blk_st.img_width }}%;--img-align:{{ blk_st.img_align }}; margin: 0 auto; mix-blend-mode: darken;">
+                    {% if blk_st.image != blank %}
+                      {% if blk_st.link != blank %}
+                        <a href="{{ blk_st.link }}" {% if blk_st.newtab %}target="_blank"{% endif %}>
+                      {% endif %}
+                      {{ blk_st.image | image_url: width: blk_st.image.width | image_tag: 
+                        loading: 'lazy', 
+                        class: 'block-image', 
+                        widths: '180,320,400,560,740,900,1200,1600,2000',
+                        alt: blk_st.alt_text | default: blk_st.image.alt }}
+                      {% if blk_st.link != blank %}
+                        </a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+                  
+              {% endcase %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- endcapture -%}
+{{ sec_cov | strip_newlines | remove: '  ' | remove: '	' }}
+{% style %}
+  .floating-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .richtext em,
+  .richtext i {
+    {% if section_st.italic_outline %}
+      -webkit-text-stroke: 1px currentColor;
+      -webkit-text-fill-color: transparent;
+      font-style: normal;
+    {% endif %}
+  }
+  .image-container {
+    margin-bottom: var(--mb, 20px);
+    text-align: var(--img-align, center);
+  }
+.image-container {
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .image-container {
+    width: 50%;
+  }
+}
+
+  .block-image {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+  }
+{% endstyle %}}
+
+{% schema %}
+{
+  "name": "Scroll Animation",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on Mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on Desktop",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "ganim",
+      "label": "Gradient Animation",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "bgimg",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bgg",
+      "label": "Background Gradient"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Bottom Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Top Padding Mobile",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "label": "Section Bottom Padding Mobile",
+      "default": 40
+    },
+    {
+      "type": "color",
+      "id": "overlay",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_op",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay Opacity",
+      "default": 0.3
+    },
+    {
+      "type": "range",
+      "id": "animsp",
+      "min": 1,
+      "max": 10,
+      "step": 0.5,
+      "unit": "s",
+      "label": "Animation Speed",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Full Width Section",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "lefta",
+      "label": "Left Align Content",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Section Image"
+    },
+    {
+      "type": "range",
+      "id": "maxwd",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Content Max Width",
+      "default": 100
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "Heading Text",
+        },
+        {
+          "type": "select",
+          "id": "tff",
+          "label": "Font Family",
+          "options": [
+            {"value": "", "label": "Default"},
+            {"value": "font-1", "label": "Font 1"},
+            {"value": "font-2", "label": "Font 2"},
+            {"value": "font-3", "label": "Font 3"}
+          ],
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "label": "Text Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "fs",
+          "min": 12,
+          "max": 72,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 32
+        },
+        {
+          "type": "range",
+          "id": "fsm",
+          "min": 12,
+          "max": 48,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size Mobile",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "fw",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "label": "Font Weight",
+          "default": 600
+        },
+        {
+          "type": "range",
+          "id": "lh",
+          "min": 0.8,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line Height",
+          "default": 1.2
+        },
+        {
+          "type": "range",
+          "id": "mb",
+          "min": 0,
+          "max": 60,
+          "step": 5,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading", 
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "subheading",
+          "label": "Subheading Text",
+        },
+        {
+          "type": "select",
+          "id": "tff",
+          "label": "Font Family",
+          "options": [
+            {"value": "", "label": "Default"},
+            {"value": "font-1", "label": "Font 1"},
+            {"value": "font-2", "label": "Font 2"},
+            {"value": "font-3", "label": "Font 3"}
+          ],
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "label": "Text Color",
+          "default": "#666666"
+        },
+        {
+          "type": "range",
+          "id": "fs",
+          "min": 12,
+          "max": 48,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "fsm",
+          "min": 12,
+          "max": 32,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size Mobile",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "fw",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "label": "Font Weight",
+          "default": 400
+        },
+        {
+          "type": "range",
+          "id": "lh",
+          "min": 0.8,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line Height",
+          "default": 1.4
+        },
+        {
+          "type": "range",
+          "id": "mb",
+          "min": 0,
+          "max": 60,
+          "step": 5,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 15
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text Content",
+          "default": "<p>Add your text content here.</p>"
+        },
+        {
+          "type": "select",
+          "id": "tff",
+          "label": "Font Family",
+          "options": [
+            {"value": "", "label": "Default"},
+            {"value": "font-1", "label": "Font 1"},
+            {"value": "font-2", "label": "Font 2"},
+            {"value": "font-3", "label": "Font 3"}
+          ],
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "label": "Text Color",
+          "default": "#333333"
+        },
+        {
+          "type": "range",
+          "id": "fs",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "fsm",
+          "min": 12,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size Mobile",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "fw",
+          "min": 100,
+          "max": 900,
+          "step": 100,
+          "label": "Font Weight",
+          "default": 400
+        },
+        {
+          "type": "range",
+          "id": "lh",
+          "min": 0.8,
+          "max": 2,
+          "step": 0.1,
+          "label": "Line Height",
+          "default": 1.6
+        },
+        {
+          "type": "range",
+          "id": "mb",
+          "min": 0,
+          "max": 60,
+          "step": 5,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 20
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "btntxt",
+          "label": "Button Text",
+          "default": "Click Me"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Button URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "newtab",
+          "label": "Open in New Tab",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "btn_size",
+          "label": "Button Size",
+          "options": [
+            {"value": "btn-sm", "label": "Small"},
+            {"value": "btn-md", "label": "Medium"},
+            {"value": "btn-lg", "label": "Large"}
+          ],
+          "default": "btn-md"
+        },
+        {
+          "type": "select",
+          "id": "btn_style",
+          "label": "Button Style",
+          "options": [
+            {"value": "btn-primary", "label": "Primary"},
+            {"value": "btn-secondary", "label": "Secondary"},
+            {"value": "btn-outline", "label": "Outline"}
+          ],
+          "default": "btn-primary"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text",
+          "info": "Leave blank to use image's alt text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Image Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "newtab",
+          "label": "Open Link in New Tab",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "img_width",
+          "min": 10,
+          "max": 100,
+          "step": 5,
+          "unit": "%",
+          "label": "Image Width",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "img_align",
+          "label": "Image Alignment",
+          "options": [
+            {"value": "left", "label": "Left"},
+            {"value": "center", "label": "Center"},
+            {"value": "right", "label": "Right"}
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "mb",
+          "min": 0,
+          "max": 60,
+          "step": 5,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 20
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll Animation",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

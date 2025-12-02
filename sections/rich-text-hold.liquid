@@ -1,0 +1,266 @@
+
+<!-- Section -->
+{%- liquid
+  assign section_id = 'scroll-fill-text-' | append: section.id
+  assign text_content = section.settings.text_content | default: 'Amazing Products'
+  assign text_position = section.settings.text_position | default: 'center'
+  assign text_size = section.settings.text_size | default: 'large'
+  assign stroke_color = section.settings.stroke_color | default: '#000000'
+  assign fill_color = section.settings.fill_color | default: '#000000'
+  assign background_color = section.settings.background_color | default: '#ffffff'
+  assign stroke_width = section.settings.stroke_width | default: 1
+  assign animation_direction = section.settings.animation_direction | default: 'left'
+  assign section_height = section.settings.section_height | default: '100vh'
+-%}
+
+<section id="{{ section_id }}" class="scroll-fill-section-{{ section.id }}" style="background-color: {{ background_color }}; min-height: {{ section_height }};text-align: {{ text_position }}">
+  <div class="scroll-fill-container-{{ section.id }}">
+    <h1 class="scroll-fill-text-{{ section.id }} {{ text_position }} {{ text_size }}" 
+        data-text="{{ text_content }}" 
+        data-direction="{{ animation_direction }}"
+        style="--stroke-color: {{ stroke_color }}; --fill-color: {{ fill_color }}; --stroke-width: {{ stroke_width }}px;">
+      {{ text_content }}
+    </h1>
+  </div>
+</section>
+
+<style>
+  .scroll-fill-section-{{ section.id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+    view-timeline-name: --section-{{ section.id }};
+    view-timeline-axis: block;
+  }
+
+  .scroll-fill-container-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    padding: 72px 20px;
+  }
+
+  .scroll-fill-text-{{ section.id }} {
+    position: relative;
+    display: inline-block;
+    line-height: 1.2;
+    margin: 0;
+    color: transparent;
+    -webkit-text-stroke: var(--stroke-width) var(--stroke-color);
+    -webkit-text-fill-color: transparent;
+    text-stroke: var(--stroke-width) var(--stroke-color);
+    {% if section.settings.italic_font_selection == 'primary' %}
+      font-family: '{{ settings.font_face_family }}';
+    {% elsif section.settings.italic_font_selection == 'alternative' %}
+      font-family: '{{ settings.font_face_family_alternative }}';
+    {% elsif section.settings.italic_font_selection == 'secondary' %}
+      font-family: '{{ settings.font_face_family_sec }}';
+    {% endif %}
+  }
+
+  .scroll-fill-text-{{ section.id }}::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--fill-color);
+    -webkit-text-fill-color: var(--fill-color);
+    -webkit-text-stroke: 0;
+    text-stroke: 0;
+    z-index: 1;
+    
+    /* Default left-to-right animation */
+    clip-path: inset(0 100% 0 0);
+    
+    /* CSS Scroll-driven animation */
+    animation: scroll-fill-{{ section.id }} linear;
+    animation-timeline: --section-{{ section.id }};
+    animation-range: entry 0% exit 100%;
+  }
+
+  /* Direction-specific clip-path animations */
+  .scroll-fill-text-{{ section.id }}[data-direction="left"]::after {
+    clip-path: inset(0 100% 0 0);
+    animation-name: scroll-fill-left-{{ section.id }};
+  }
+  
+  .scroll-fill-text-{{ section.id }}[data-direction="right"]::after {
+    clip-path: inset(0 0 0 100%);
+    animation-name: scroll-fill-right-{{ section.id }};
+  }
+  
+  .scroll-fill-text-{{ section.id }}[data-direction="top"]::after {
+    clip-path: inset(100% 0 0 0);
+    animation-name: scroll-fill-top-{{ section.id }};
+  }
+  
+  .scroll-fill-text-{{ section.id }}[data-direction="bottom"]::after {
+    clip-path: inset(0 0 100% 0);
+    animation-name: scroll-fill-bottom-{{ section.id }};
+  }
+
+  /* Keyframe animations for each direction */
+  @keyframes scroll-fill-left-{{ section.id }} {
+    0% { clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+  
+  @keyframes scroll-fill-right-{{ section.id }} {
+    0% { clip-path: inset(0 0 0 100%); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+  
+  @keyframes scroll-fill-top-{{ section.id }} {
+    0% { clip-path: inset(100% 0 0 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+  
+  @keyframes scroll-fill-bottom-{{ section.id }} {
+    0% { clip-path: inset(0 0 100% 0); }
+    100% { clip-path: inset(0 0 0 0); }
+  }
+
+  /* Fallback for browsers that don't support scroll-driven animations */
+  @supports not (animation-timeline: scroll()) {
+    .scroll-fill-text-{{ section.id }}::after {
+      animation: none;
+      clip-path: inset(0 50% 0 0); /* Show partial fill as fallback */
+    }
+  }
+
+  /* Text sizes */
+  .scroll-fill-text-{{ section.id }}.small { font-size: clamp(2rem, 8vw, 4rem); }
+  .scroll-fill-text-{{ section.id }}.medium { font-size: clamp(3rem, 12vw, 6rem); }
+  .scroll-fill-text-{{ section.id }}.large { font-size: clamp(4rem, 15vw, 8rem); }
+  .scroll-fill-text-{{ section.id }}.extra-large { font-size: clamp(5rem, 18vw, 12rem); }
+
+  /* Text positions */
+  .scroll-fill-text-{{ section.id }}.left { text-align: left; }
+  .scroll-fill-text-{{ section.id }}.center { text-align: center; }
+  .scroll-fill-text-{{ section.id }}.right { text-align: right; }
+
+  @media (max-width: 768px) {
+    .scroll-fill-container-{{ section.id }} { padding: 1rem; }
+    .scroll-fill-text-{{ section.id }} { 
+      -webkit-text-stroke-width: calc(var(--stroke-width) - 1px);
+      text-stroke-width: calc(var(--stroke-width) - 1px);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Scroll Fill Text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text_content",
+      "label": "Text Content",
+      "default": "Amazing Products"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Section Height",
+      "options": [
+        { "value": "25vh", "label": "Small (25vh)" },
+        { "value": "50vh", "label": "Medium (50vh)" },
+        { "value": "75vh", "label": "Large (75vh)" },
+        { "value": "100vh", "label": "Full Height (100vh)" }
+      ],
+      "default": "100vh"
+    },
+    {
+      "type": "select",
+      "id": "italic_font_selection",
+      "label": "Font Selection",
+      "options": [
+        { "value": "primary", "label": "Primary Font" },
+        { "value": "alternative", "label": "Alternative Font" },
+        { "value": "secondary", "label": "Secondary Font" }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text Size",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra Large" }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "select",
+      "id": "animation_direction",
+      "label": "Fill Direction",
+      "options": [
+        { "value": "left", "label": "Left to Right" },
+        { "value": "right", "label": "Right to Left" },
+        { "value": "top", "label": "Top to Bottom" },
+        { "value": "bottom", "label": "Bottom to Top" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "stroke_width",
+      "label": "Stroke Width",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "default": 1,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "stroke_color",
+      "label": "Stroke Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "fill_color",
+      "label": "Fill Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll Fill Text",
+      "settings": {
+        "text_content": "Amazing Products",
+        "section_height": "100vh",
+        "text_position": "center",
+        "text_size": "large",
+        "animation_direction": "left"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,512 @@
+{%- liquid
+  assign section_settings = section.settings
+  assign container_width = settings.cntwd | append: 'px'
+  if section_settings.full_width
+    assign container_width = '100vw'
+  endif
+  
+  for block in section.blocks
+    assign block_settings = block.settings
+    assign selected_page = pages[block_settings.page]
+    assign page_image = block_settings.image | default: selected_page.image
+    
+    if page_image
+      assign image_ratio = 1 | divided_by: page_image.aspect_ratio | times: 100
+      break
+    else
+      assign image_ratio = 100
+    endif
+  endfor
+-%}
+
+{%- capture responsive_sizes -%}
+  (min-width: 1024px) calc({{ container_width }} / {{ section_settings.desktop_columns }}),
+  (min-width: 768px) calc(100vw / {{ section_settings.tablet_columns }}),
+  calc(100vw / {{ section_settings.mobile_columns }})
+{%- endcapture -%}
+
+<section class="simple-pages-section{% if section_settings.hide_mobile %} hide-mobile{% endif %}{% if section_settings.hide_desktop %} hide-desktop{% endif %}"
+  style="
+    --section-bg: {{ section_settings.background_color }};
+    --spacing-top: {{ section_settings.spacing_top }}px;
+    --spacing-bottom: {{ section_settings.spacing_bottom }}px;
+    --spacing-top-mobile: {{ section_settings.spacing_top_mobile }}px;
+    --spacing-bottom-mobile: {{ section_settings.spacing_bottom_mobile }}px;
+    --image-ratio: {{ image_ratio }}%;
+  ">
+  
+  <div class="{% if section_settings.full_width %}container-full{% else %}container{% endif %}">
+    
+    {% if section_settings.title != blank or section_settings.subtitle != blank %}
+      <header class="section-header text-center">
+        {% if section_settings.title != blank %}
+          <h2 class="section-title">{{ section_settings.title }}</h2>
+        {% endif %}
+        {% if section_settings.subtitle != blank %}
+          <div class="section-subtitle">{{ section_settings.subtitle }}</div>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <div class="pages-grid"
+      style="
+        --grid-gap: {{ section_settings.grid_gap }}px;
+        --grid-gap-mobile: {{ section_settings.grid_gap_mobile }}px;
+        --desktop-columns: {{ section_settings.desktop_columns }};
+        --tablet-columns: {{ section_settings.tablet_columns }};
+        --mobile-columns: {{ section_settings.mobile_columns }};
+        --card-border-radius: {{ section_settings.card_border_radius }}px;
+        --text-color: {{ section_settings.text_color }};
+        --text-bg: {{ section_settings.text_background | color_modify: 'alpha', section_settings.text_bg_opacity }};
+        --font-size: {{ section_settings.font_size }}px;
+        --font-weight: {{ section_settings.font_weight }};
+      ">
+      
+      {% for block in section.blocks %}
+        {%- liquid
+          assign block_settings = block.settings
+          assign selected_page = pages[block_settings.page]
+          assign page_image = block_settings.image | default: selected_page.image
+          assign image_alt = page_image.alt | default: block_settings.title | default: selected_page.title
+          assign page_url = block_settings.custom_url | default: selected_page.url
+          assign page_title = block_settings.title | default: selected_page.title
+        -%}
+        
+        <article class="page-card" {{ block.shopify_attributes }}>
+          <a href="{{ page_url }}" class="card-link" title="{{ page_title }}">
+            
+            <div class="card-image">
+              {% if page_image != blank %}
+                {{ page_image | image_url: width: page_image.width | image_tag: 
+                    loading: 'lazy', 
+                    class: 'image-fit', 
+                    alt: image_alt, 
+                    sizes: responsive_sizes, 
+                    widths: '180,320,400,560,740,900,1200' }}
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-image image-fit' }}
+              {% endif %}
+            </div>
+            
+            <div class="card-content">
+              <h3 class="card-title">{{ page_title }}</h3>
+              {% if block_settings.description != blank %}
+                <p class="card-description">{{ block_settings.description }}</p>
+              {% endif %}
+              {% if block_settings.button_text != blank %}
+                <span class="card-button">{{ block_settings.button_text }}</span>
+              {% endif %}
+            </div>
+            
+          </a>
+        </article>
+        
+      {% endfor %}
+      
+      {% if section.blocks.size == 0 %}
+        <div class="empty-state">
+          <p>Add page blocks to display content</p>
+        </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+<style>
+  .simple-pages-section {
+    background: var(--section-bg);
+    padding-top: var(--spacing-top);
+    padding-bottom: var(--spacing-bottom);
+  }
+  
+  @media (max-width: 767px) {
+    .simple-pages-section {
+      padding-top: var(--spacing-top-mobile);
+      padding-bottom: var(--spacing-bottom-mobile);
+    }
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .container-full {
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  .section-header {
+    margin-bottom: 40px;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .section-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.8;
+  }
+  
+  .pages-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--desktop-columns), 1fr);
+    gap: var(--grid-gap);
+  }
+  
+  @media (max-width: 1023px) {
+    .pages-grid {
+      grid-template-columns: repeat(var(--tablet-columns), 1fr);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .pages-grid {
+      grid-template-columns: repeat(var(--mobile-columns), 1fr);
+      gap: var(--grid-gap-mobile);
+    }
+  }
+  
+  .page-card {
+    display: block;
+  }
+  
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  }
+  
+  .card-link:hover {
+    transform: translateY(-2px);
+  }
+  
+  .card-image {
+    position: relative;
+    width: 100%;
+    padding-bottom: var(--image-ratio);
+    overflow: hidden;
+    border-radius: var(--card-border-radius);
+  }
+  
+  .image-fit,
+  .placeholder-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 20px;
+    background: var(--text-bg);
+    color: var(--text-color);
+    border-radius: 0 0 var(--card-border-radius) var(--card-border-radius);
+  }
+  
+  .card-title {
+    font-size: var(--font-size);
+    font-weight: var(--font-weight);
+    margin: 0 0 10px 0;
+  }
+  
+  .card-description {
+    margin: 0 0 15px 0;
+    opacity: 0.9;
+  }
+  
+  .card-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #007acc;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #666;
+  }
+  
+  .hide-mobile {
+    display: block;
+  }
+  
+  .hide-desktop {
+    display: block;
+  }
+  
+  @media (max-width: 767px) {
+    .hide-mobile {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .hide-desktop {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Simple Pages Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Browse our featured pages"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "label": "Desktop Columns",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "tablet_columns",
+      "label": "Tablet Columns",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Grid Gap",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "grid_gap_mobile",
+      "label": "Grid Gap (Mobile)",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "header",
+      "content": "Design Settings"
+    },
+    {
+      "type": "range",
+      "id": "card_border_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Title Font Size",
+      "min": 14,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "label": "Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "text_background",
+      "label": "Content Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_bg_opacity",
+      "label": "Background Opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width Section",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top",
+      "label": "Top Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom Spacing",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "spacing_top_mobile",
+      "label": "Top Spacing (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom_mobile",
+      "label": "Bottom Spacing (Mobile)",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_mobile",
+      "label": "Hide on Mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_desktop",
+      "label": "Hide on Desktop",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "page",
+      "name": "Page Card",
+      "settings": [
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Select Page"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image",
+          "info": "Optional: Override page featured image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom Title",
+          "info": "Optional: Override page title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "info": "Optional: Add a short description"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom URL",
+          "info": "Optional: Override page URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Simple Pages Grid",
+      "blocks": [
+        { "type": "page" },
+        { "type": "page" },
+        { "type": "page" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,597 @@
+{%- assign section_st = section.settings %}
+<div class="fixed-cards-wrapper hide-sm hide-md" style="position: fixed; z-index: 9999; bottom: 50px; right: 30px;">
+  <div class="main{% if section_st.show_one_by_one %} show-sequential{% endif %}">
+    {% for block in section.blocks %}
+      {%- assign block_st = block.settings %}
+      {% if block_st.svg_code != blank %}
+        <a href="{{ block_st.link | default: '#' }}" 
+           class="card card{{ forloop.index }}" 
+           aria-label="{{ block_st.aria_label | default: 'Card ' | append: forloop.index }}"
+           {% if block_st.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+          {{ block_st.svg_code }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+.fixed-cards-wrapper {
+  position: fixed;
+  z-index: 9999;
+  bottom: {{ section_st.dkbp | default: 30 }}px;
+  right: {{ section_st.dkrp | default: 30 }}px;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: repeat({% if section_st.svg_code_size == 1 %}1{% else %}2{% endif %}, 1fr);
+  gap: {{ section_st.card_gap | default: 0.5 }}em;
+}
+
+.main.show-sequential .card {
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInSequential 0.5s ease-out forwards;
+}
+
+.main.show-sequential .card1 { animation-delay: 0.1s; }
+.main.show-sequential .card2 { animation-delay: 0.2s; }
+.main.show-sequential .card3 { animation-delay: 0.3s; }
+.main.show-sequential .card4 { animation-delay: 0.4s; }
+
+@keyframes fadeInSequential {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.card {
+  width: {{ section_st.card_size | default: 90 }}px;
+  height: {{ section_st.card_size | default: 90 }}px;
+  outline: none;
+  border: none;
+  background: {{ section_st.cab | default: '#ffffff' }};
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.09) 0px 1px 3px -1px;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: {{ section_st.dbr | default: 90 }}px;
+}
+
+.card1 {
+  grid-row: 1;
+  grid-column: 1;
+  border-radius: {% if section_st.svg_code_size == 1 %}90px{% elsif section_st.en_card1 %}90px 5px 5px 5px{% endif %};
+}
+
+.card2 {
+  grid-row: 1;
+  grid-column: 2;
+  border-radius: {% if section_st.en_card2 %}5px 90px 5px 5px{% else %}{{ section_st.dbr | default: 90 }}px{% endif %};
+}
+
+.card3 {
+  grid-row: 2;
+  grid-column: 1;
+  border-radius: {% if section_st.en_card3 %}5px 5px 5px 90px{% else %}{{ section_st.dbr | default: 90 }}px{% endif %};
+}
+
+.card4 {
+  grid-row: 2;
+  grid-column: 2;
+  border-radius: {% if section_st.en_card4 %}5px 5px 90px 5px{% else %}{{ section_st.dbr | default: 90 }}px{% endif %};
+}
+
+.card svg {
+  width: {{ section_st.icon_size | default: 24 }}px;
+  height: {{ section_st.icon_size | default: 24 }}px;
+  transition: fill 0.2s ease-in-out;
+}
+
+.card1 svg {
+  fill: {{ section_st.card1_color | default: '#cc39a4' }};
+}
+
+.card2 svg {
+  fill: {{ section_st.card2_color | default: '#03A9F4' }};
+}
+
+.card3 svg {
+  fill: {{ section_st.card3_color | default: '#333333' }};
+}
+
+.card4 svg {
+  fill: {{ section_st.card4_color | default: '#8c9eff' }};
+}
+
+.card1:hover {
+  cursor: pointer;
+  transform: scale({{ section_st.hover_scale | divided_by: 100 }});
+  background-color: {{ section_st.card1_hover_bg | default: '#cc39a4' }};
+}
+
+.card1:hover svg {
+  fill: {{ section_st.card1_hover_color | default: '#ffffff' }};
+}
+
+.card2:hover {
+  cursor: pointer;
+  transform: scale({{ section_st.hover_scale | divided_by: 100 }});
+  background-color: {{ section_st.card2_hover_bg | default: '#03A9F4' }};
+}
+
+.card2:hover svg {
+  fill: {{ section_st.card2_hover_color | default: '#ffffff' }};
+}
+
+.card3:hover {
+  cursor: pointer;
+  transform: scale({{ section_st.hover_scale | divided_by: 100 }});
+  background-color: {{ section_st.card3_hover_bg | default: '#000000' }};
+}
+
+.card3:hover svg {
+  fill: {{ section_st.card3_hover_color | default: '#ffffff' }};
+}
+
+.card4:hover {
+  cursor: pointer;
+  transform: scale({{ section_st.hover_scale | divided_by: 100 }});
+  background-color: {{ section_st.card4_hover_bg | default: '#8c9eff' }};
+}
+
+.card4:hover svg {
+  fill: {{ section_st.card4_hover_color | default: '#ffffff' }};
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .fixed-cards-wrapper {
+    bottom: {{ section_st.mbbp | default: 20 }}px;
+    right: {{ section_st.mbrp | default: 20 }}px;
+  }
+  
+  .card {
+    width: {{ section_st.mbcs | default: 70 }}px;
+    height: {{ section_st.mbcs | default: 70 }}px;
+  }
+  
+  .card svg {
+    width: {{ section_st.mbis | default: 20 }}px;
+    height: {{ section_st.mbis | default: 20 }}px;
+  }
+}
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fixed-cards-wrapper {
+  animation: slideUpFadeIn 0.6s ease-out forwards;
+}
+</style>
+
+{% schema %}
+{
+  "name": "Floating Action Cards",
+  "tag": "section",
+  "class": "floating-cards-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Position Settings"
+    },
+    {
+      "type": "range",
+      "id": "dkbp",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom position",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "dkrp",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Right position",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "mbbp",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile bottom position",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "mbrp",
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile right position",
+      "default": 20
+    },
+        {
+      "type": "number",
+      "id": "svg_code_size",
+      "label": "SVG Card Count(Important)",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Card Settings"
+    },
+    {
+      "type": "range",
+      "id": "card_size",
+      "min": 60,
+      "max": 120,
+      "step": 5,
+      "unit": "px",
+      "label": "Card size",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "mbcs",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile card size",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "min": 16,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Icon size",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "mbis",
+      "min": 14,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Mobile icon size",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 0.2,
+      "max": 2,
+      "step": 0.1,
+      "unit": "em",
+      "label": "Gap between cards",
+      "default": 0.5
+    },
+    {
+      "type": "color_background",
+      "id": "cab",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "dbr",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "px",
+      "label": "Default border radius",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "hover_scale",
+      "min": 100,
+      "max": 130,
+      "step": 5,
+      "label": "Hover scale effect",
+      "default": 110
+    },
+    {
+      "type": "header",
+      "content": "Animation Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_one_by_one",
+      "label": "Show cards one by one (animation)",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Card Corner Settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "en_card1",
+      "label": "Enable special corner for Card 1",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "en_card2",
+      "label": "Enable special corner for Card 2",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "en_card3",
+      "label": "Enable special corner for Card 3",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "en_card4",
+      "label": "Enable special corner for Card 4",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Card 1 Colors"
+    },
+    {
+      "type": "color",
+      "id": "card1_color",
+      "label": "Card 1 icon color",
+      "default": "#cc39a4"
+    },
+    {
+      "type": "color",
+      "id": "card1_hover_bg",
+      "label": "Card 1 hover background",
+      "default": "#cc39a4"
+    },
+    {
+      "type": "color",
+      "id": "card1_hover_color",
+      "label": "Card 1 hover icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card 2 Colors"
+    },
+    {
+      "type": "color",
+      "id": "card2_color",
+      "label": "Card 2 icon color",
+      "default": "#03A9F4"
+    },
+    {
+      "type": "color",
+      "id": "card2_hover_bg",
+      "label": "Card 2 hover background",
+      "default": "#03A9F4"
+    },
+    {
+      "type": "color",
+      "id": "card2_hover_color",
+      "label": "Card 2 hover icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card 3 Colors"
+    },
+    {
+      "type": "color",
+      "id": "card3_color",
+      "label": "Card 3 icon color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "card3_hover_bg",
+      "label": "Card 3 hover background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "card3_hover_color",
+      "label": "Card 3 hover icon color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Card 4 Colors"
+    },
+    {
+      "type": "color",
+      "id": "card4_color",
+      "label": "Card 4 icon color",
+      "default": "#8c9eff"
+    },
+    {
+      "type": "color",
+      "id": "card4_hover_bg",
+      "label": "Card 4 hover background",
+      "default": "#8c9eff"
+    },
+    {
+      "type": "color",
+      "id": "card4_hover_color",
+      "label": "Card 4 hover icon color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Action Card",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "aria_label",
+          "label": "Accessibility label",
+          "info": "Describe what this card does for screen readers"
+        },
+        {
+          "type": "html",
+          "id": "svg_code",
+          "label": "SVG Icon Code",
+          "info": "Paste your SVG code here. Make sure to remove width and height attributes from the SVG tag."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Action Cards",
+      "blocks": [
+        {
+          "type": "card",
+          "settings": {
+            "link": "#",
+            "aria_label": "Contact us",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\"><path d=\"M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5Z\"/><path d=\"m3 5 9 6 9-6\"/></svg>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "link": "#",
+            "aria_label": "Call us",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\"><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z\"/></svg>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "link": "#",
+            "aria_label": "Chat with us",
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10Z\"/></svg>"
+          }
+        },
+        {
+          "type": "card",
+          "settings": {
+            "link": "#",
+            "aria_label": "Share",  
+            "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\"><circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"m8.59 13.51 6.83 3.98\"/><path d=\"m15.41 6.51-6.82 3.98\"/></svg>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+<script>
+(function () {
+  // Wait for DOM to be fully loaded
+  function initCardResize() {
+    const wrapper = document.querySelector('.fixed-cards-wrapper');
+    if (!wrapper) {
+      console.warn('Fixed cards wrapper not found');
+      return;
+    }
+    
+    const cards = wrapper.querySelectorAll('.card');
+    if (!cards.length) {
+      console.warn('No cards found in wrapper');
+      return;
+    }
+
+    // Set default size with better CSS properties
+    cards.forEach(card => {
+      card.style.width = '80px';
+      card.style.height = '80px';
+      card.style.transition = 'width 0.3s ease, height 0.3s ease';
+      // Ensure cards maintain aspect ratio and don't break layout
+      card.style.minWidth = '40px';
+      card.style.minHeight = '40px';
+      card.style.boxSizing = 'border-box';
+    });
+
+    // Throttle scroll events for better performance
+    let isScrolling = false;
+    
+    function resizeCardsOnScroll() {
+      if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+          // Calculate how much of the page has been scrolled
+          const windowHeight = window.innerHeight;
+          const documentHeight = Math.max(
+            document.body.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.clientHeight,
+            document.documentElement.scrollHeight,
+            document.documentElement.offsetHeight
+          );
+          const scrollTop = window.scrollY;
+          const scrollableHeight = documentHeight - windowHeight;
+          
+          // Check if we've reached the bottom (with small tolerance for browser differences)
+          const isAtBottom = scrollTop >= scrollableHeight - 10;
+
+          cards.forEach(card => {
+            if (isAtBottom) {
+              card.style.width = '55px';
+              card.style.height = '55px';
+            } else {
+              card.style.width = '55px';
+              card.style.height = '55px';
+            }
+          });
+          
+          isScrolling = false;
+        });
+      }
+      isScrolling = true;
+    }
+
+    // Add scroll event listener
+    window.addEventListener('scroll', resizeCardsOnScroll, { passive: true });
+    
+    // Initial check in case page is already scrolled
+    resizeCardsOnScroll();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCardResize);
+  } else {
+    initCardResize();
+  }
+})();
+</script>

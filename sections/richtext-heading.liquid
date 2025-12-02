@@ -1,0 +1,499 @@
+<!-- Text Shadow Effects Section -->
+<div class="text-shadow-showcase" id="section-{{ section.id }}">
+  {% if section.settings.section_title != blank %}
+    <header class="showcase-header">
+      <{{ section.settings.title_tag }} class="showcase-title">{{ section.settings.section_title }}</{{ section.settings.title_tag }}>
+    </header>
+  {% endif %}
+  
+  <main class="fw-sec showcase-container">
+    <div class="effects-grid">
+      {% for block in section.blocks %}
+        <div class="text-effect" {{ block.shopify_attributes }}>
+          <h2 class="kug demo-text {{ block.settings.effect_type }}" style="color: {{ block.settings.text_color }};">
+            {{ block.settings.demo_text | default: 'DEMO' }}
+          </h2>
+          {% if block.settings.effect_label != blank %}
+            <h2 class="effect-label">{{ block.settings.effect_label }}</h2>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+</div>
+
+<style>
+#section-{{ section.id }} {
+  padding: {{ section.settings.section_padding_top }}px {{ section.settings.section_padding_horizontal }}px {{ section.settings.section_padding_bottom }}px {{ section.settings.section_padding_horizontal }}px;
+  background: {{ section.settings.background_color }};
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: auto;
+}
+
+#section-{{ section.id }} .text-shadow-showcase {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+#section-{{ section.id }} .showcase-header {
+  margin-bottom: 4rem;
+}
+
+#section-{{ section.id }} .showcase-title {
+  font-size: clamp(1.5rem, 8vw, 2rem);
+  font-weight: 300;
+  color: {{ section.settings.title_color }};
+  margin-bottom: 1rem;
+  letter-spacing: 0.1em;
+}
+
+#section-{{ section.id }} .effects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 4rem 6rem;
+  margin-bottom: 4rem;
+}
+
+#section-{{ section.id }} .text-effect {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+#section-{{ section.id }} .demo-text {
+  font-weight: 500;
+  line-height: 1;
+}
+
+#section-{{ section.id }} .effect-label {
+  font-size: 0.8rem;
+  color: {{ section.settings.label_color }};
+  font-weight: 400;
+  letter-spacing: 0.1em;
+}
+
+/* Text Shadow Effects */
+#section-{{ section.id }} .neon {
+  color: #ffffff;
+  text-shadow: 
+    0 0 5px #00ffff,
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 30px #00ffff;
+  animation: neonFlicker 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neonFlicker {
+  0% { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+  100% { text-shadow: 0 0 2px #00ffff, 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 15px #00ffff; }
+}
+
+#section-{{ section.id }} .depth {
+  color: #1e293b;
+  text-shadow: 
+    1px 1px 0 #94a3b8,
+    2px 2px 0 #64748b,
+    3px 3px 0 #475569,
+    4px 4px 0 #334155,
+    5px 5px 0 #1e293b,
+    6px 6px 0 #0f172a,
+    7px 7px 15px rgba(0, 0, 0, 0.3);
+}
+
+#section-{{ section.id }} .fire {
+  color: #ff4500;
+  text-shadow: 
+    0 0 5px #ff6500,
+    0 -2px 10px #ff8500,
+    0 -4px 15px #ffa500,
+    0 -6px 20px #ffbf00,
+    0 -8px 25px #ffdf00,
+    0 -10px 30px #ffff00;
+  animation: fireFlicker 0.2s ease-in-out infinite;
+}
+
+@keyframes fireFlicker {
+  0%, 100% { 
+    text-shadow: 
+      0 0 5px #ff6500,
+      0 -2px 10px #ff8500,
+      0 -4px 15px #ffa500,
+      0 -6px 20px #ffbf00,
+      0 -8px 25px #ffdf00,
+      0 -10px 30px #ffff00;
+  }
+  50% { 
+    text-shadow: 
+      0 0 8px #ff6500,
+      -1px -3px 12px #ff8500,
+      1px -5px 18px #ffa500,
+      -1px -7px 22px #ffbf00,
+      1px -9px 28px #ffdf00,
+      0 -12px 35px #ffff00;
+  }
+}
+
+#section-{{ section.id }} .chromatic {
+  color: #1e293b;
+  text-shadow: 
+    -3px 0 0 #ef4444,
+    3px 0 0 #06b6d4;
+}
+
+#section-{{ section.id }} .long-shadow {
+  color: #f59e0b;
+  text-shadow: 
+    2px 2px 0 #d97706,
+    4px 4px 0 #b45309,
+    6px 6px 0 #92400e,
+    8px 8px 0 #78350f,
+    10px 10px 0 #451a03,
+    15px 15px 0 #1c0a00,
+    20px 20px 30px rgba(0, 0, 0, 0.4);
+}
+
+#section-{{ section.id }} .outline {
+  color: #fbbf24;
+  text-shadow: 
+    -2px -2px 0 #1e293b,
+    2px -2px 0 #1e293b,
+    -2px 2px 0 #1e293b,
+    2px 2px 0 #1e293b;
+}
+
+#section-{{ section.id }} .retro-game {
+  color: #10b981;
+  text-shadow: 
+    3px 0 0 #1e293b,
+    0 3px 0 #1e293b,
+    -3px 0 0 #1e293b,
+    0 -3px 0 #1e293b,
+    6px 6px 0 #ef4444,
+    6px 6px 8px rgba(0, 0, 0, 0.3);
+  font-family: monospace;
+  font-weight: 900;
+}
+
+#section-{{ section.id }} .letterpress {
+  color: #334155;
+  text-shadow: 
+    2px 2px 0 rgba(255, 255, 255, 1),
+    -1px -1px 0 rgba(0, 0, 0, 0.4),
+    1px 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+#section-{{ section.id }} .rainbow {
+  color: #ffffff;
+  text-shadow: 
+    1px 1px 0 #ff0066,
+    2px 2px 0 #ff3300,
+    3px 3px 0 #ff9900,
+    4px 4px 0 #ffcc00,
+    5px 5px 0 #66ff00,
+    6px 6px 0 #00ff66,
+    7px 7px 0 #00ccff,
+    8px 8px 0 #0066ff,
+    9px 9px 0 #6600ff,
+    10px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+#section-{{ section.id }} .glitch {
+  color: #1e293b;
+  text-shadow: 
+    2px 0 0 #ef4444,
+    -2px 0 0 #06b6d4;
+  animation: glitchJump 0.3s infinite;
+}
+
+@keyframes glitchJump {
+  0%, 14%, 15%, 49%, 50%, 99%, 100% {
+    text-shadow: 2px 0 0 #ef4444, -2px 0 0 #06b6d4;
+    transform: translate(0);
+  }
+  1%, 48%, 51%, 98% {
+    text-shadow: 4px 0 0 #ef4444, -4px 0 0 #06b6d4;
+    transform: translate(-1px, 1px);
+  }
+}
+
+#section-{{ section.id }} .holographic {
+  color: transparent;
+  background: linear-gradient(45deg, #06b6d4, #8b5cf6, #ec4899, #f59e0b, #06b6d4);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-shadow: 
+    0 0 10px rgba(6, 182, 212, 0.4),
+    0 0 20px rgba(139, 92, 246, 0.3),
+    0 0 30px rgba(236, 72, 153, 0.2);
+  animation: holographicShift 4s ease-in-out infinite;
+}
+
+@keyframes holographicShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+#section-{{ section.id }} .soft-blur {
+  color: #1e293b;
+  text-shadow: 
+    0 0 20px #8b5cf6,
+    0 0 40px #8b5cf6,
+    0 0 60px rgba(139, 92, 246, 0.4);
+}
+
+@media (max-width: 768px) {
+  #section-{{ section.id }} .effects-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 3rem;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Randomize glitch effect
+  const glitchText = document.querySelector('#section-{{ section.id }} .glitch');
+  if (glitchText) {
+    function randomGlitch() {
+      const delay = Math.random() * 3000 + 1000;
+      setTimeout(() => {
+        glitchText.style.animationDuration = '0.1s';
+        setTimeout(() => {
+          glitchText.style.animationDuration = '0.3s';
+        }, 200);
+        randomGlitch();
+      }, delay);
+    }
+    randomGlitch();
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Text Shadow Effects",
+  "tag": "section",
+  "class": "text-shadow-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Text Shadows"
+    },
+    {
+      "type": "select",
+      "id": "title_tag",
+      "label": "Title HTML Tag",
+      "options": [
+        {"value": "h1", "label": "H1"},
+        {"value": "h2", "label": "H2"},
+        {"value": "h3", "label": "H3"},
+        {"value": "h4", "label": "H4"}
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f8fafc"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#1e293b"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Effect Label Color",
+      "default": "#64748b"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "section_padding_horizontal",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Horizontal Padding",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text_effect",
+      "name": "Text Effect",
+      "settings": [
+        {
+          "type": "text",
+          "id": "demo_text",
+          "label": "Demo Text",
+          "default": "DEMO"
+        },
+        {
+          "type": "text",
+          "id": "effect_label",
+          "label": "Effect Label",
+          "default": "Effect Name"
+        },
+        {
+          "type": "select",
+          "id": "effect_type",
+          "label": "Effect Type",
+          "options": [
+            {"value": "neon", "label": "Neon Glow"},
+            {"value": "depth", "label": "3D Depth"},
+            {"value": "fire", "label": "Fire Effect"},
+            {"value": "chromatic", "label": "Chromatic Split"},
+            {"value": "long-shadow", "label": "Long Shadow"},
+            {"value": "outline", "label": "Text Outline"},
+            {"value": "retro-game", "label": "Retro Gaming"},
+            {"value": "letterpress", "label": "Letterpress"},
+            {"value": "rainbow", "label": "Rainbow"},
+            {"value": "glitch", "label": "Glitch"},
+            {"value": "holographic", "label": "Holographic"},
+            {"value": "soft-blur", "label": "Soft Blur"}
+          ],
+          "default": "neon"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Base Text Color",
+          "info": "Note: Some effects override this color",
+          "default": "#1e293b"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Fancy Text Collection",
+      "blocks": [
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "NEON",
+            "effect_label": "Neon glow",
+            "effect_type": "neon"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "DEPTH",
+            "effect_label": "3D layers",
+            "effect_type": "depth"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "FIRE",
+            "effect_label": "Flame effect",
+            "effect_type": "fire"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "SPLIT",
+            "effect_label": "Chromatic",
+            "effect_type": "chromatic"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "PIXEL",
+            "effect_label": "Retro gaming",
+            "effect_type": "retro-game"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "PRESS",
+            "effect_label": "Letterpress",
+            "effect_type": "letterpress"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "RAINBOW",
+            "effect_label": "Multi-colour",
+            "effect_type": "rainbow"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "GLITCH",
+            "effect_label": "Digital error",
+            "effect_type": "glitch"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "CAST",
+            "effect_label": "Long shadow",
+            "effect_type": "long-shadow"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "STROKE",
+            "effect_label": "Text outline",
+            "effect_type": "outline"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "HOLO",
+            "effect_label": "Holographic",
+            "effect_type": "holographic"
+          }
+        },
+        {
+          "type": "text_effect",
+          "settings": {
+            "demo_text": "GLOW",
+            "effect_label": "Soft blur",
+            "effect_type": "soft-blur"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

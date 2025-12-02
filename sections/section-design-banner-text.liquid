@@ -1,0 +1,638 @@
+{{ 'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Mrs+Saint+Delafield&display=swap' | stylesheet_tag }}
+
+<style>
+@font-face {
+  src: url("https://fonts.cdnfonts.com/css/cabinet-grotesk") format("woff2");
+  font-family: "PP Neue Montreal", sans-serif;
+  font-weight: 400;
+}
+
+/* Variables for easy customization */
+.section-{{ section.id }} {
+  --primary-font: "PP Neue Montreal", sans-serif;
+  --secondary-font: "Space Mono", mono;
+  --tetriary-font: "Mrs Saint Delafield", serif;
+  --primary-color: {{ section.settings.text_color }};
+  --secondary-color: {{ section.settings.secondary_text_color }};
+  --quote-size: {{ section.settings.quote_size }}vw;
+  --author-size: {{ section.settings.author_size | divided_by: 10 }}rem;
+  --cursor-size: 20px;
+  --ghost-color: #000000;
+  --eye-glow-color: #ffff00;
+  --section-height: clamp(400px, 2vw, 600px);
+  --background-color: {{ section.settings.background_color }};
+}
+
+.section-{{ section.id }} * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.quote-section-{{ section.id }} {
+  width: 100%;
+  height: var(--section-height);
+  overflow: hidden;
+  cursor: none;
+  background-color: var(--background-color);
+  letter-spacing: -0.03em;
+  position: relative;
+  color: var(--primary-color);
+}
+
+{% if section.settings.background_image %}
+.parallax-bg-{{ section.id }} {
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 120%;
+  height: 140%;
+  background-image: url('{{ section.settings.background_image | img_url: '2048x' }}');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  z-index: 1;
+}
+{% endif %}
+
+.section-{{ section.id }}::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(to bottom, {{ section.settings.gradient_start }}, transparent);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.section-{{ section.id }}::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    {{ section.settings.vignette_color }} 70%
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+.canvas-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+/* Content to be revealed */
+.content-{{ section.id }} {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  padding: 20px;
+  text-align: center;
+  color: var(--primary-color);
+  pointer-events: none;
+}
+
+/* Custom cursor */
+.custom-cursor-{{ section.id }} {
+  position: fixed;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 50%;
+  background-color: var(--secondary-color);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  z-index: 9999;
+  transition: width 0.2s, height 0.2s;
+  will-change: transform;
+}
+
+.quote-container-{{ section.id }} {
+  max-width: 90%;
+  overflow: hidden;
+}
+
+.quote-{{ section.id }} {
+  font-family: var(--primary-font);
+  font-size: var(--quote-size);
+  line-height: 0.9;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 5vh;
+  opacity: 1;
+  text-transform: uppercase;
+  color: var(--primary-color);
+}
+
+.author-{{ section.id }} {
+  font-family: var(--secondary-font);
+  font-size: var(--author-size);
+  opacity: 1;
+  margin-top: 2vh;
+  text-transform: uppercase;
+}
+
+.book-{{ section.id }} {
+  font-family: var(--secondary-font);
+  font-size: var(--author-size);
+  opacity: 0.5;
+  margin-top: 1vh;
+}
+
+/* Custom quote with Mrs Delafield font */
+.custom-quote-{{ section.id }} {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate({{ section.settings.custom_quote_rotation }}deg);
+  font-family: var(--tetriary-font);
+  font-size: {{ section.settings.custom_quote_size }}vw;
+  color: {{ section.settings.custom_quote_color }};
+  text-align: center;
+  z-index: 30;
+  width: 80%;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+.info-{{ section.id }} {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-family: monospace;
+  font-size: 12px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 3px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.profile-card-{{ section.id }} {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  max-width: 300px;
+  width: 100%;
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 999;
+  color: var(--primary-color);
+  line-height: inherit;
+}
+
+.profile-image-{{ section.id }} {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info-{{ section.id }} {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--primary-color);
+}
+
+.profile-name-{{ section.id }} {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.profile-twitter-{{ section.id }} {
+  font-size: 12px;
+  color: #71717a;
+}
+
+.profile-twitter-{{ section.id }} a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.profile-twitter-{{ section.id }} a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .section-{{ section.id }} {
+    --quote-size: {{ section.settings.quote_size_mobile }}vw;
+    --custom-quote-size: {{ section.settings.custom_quote_size_mobile }}vw;
+  }
+}
+</style>
+
+<div class="quote-section-{{ section.id }} section-{{ section.id }}">
+  {% if section.settings.background_image %}
+    <div class="parallax-bg-{{ section.id }}"></div>
+  {% endif %}
+  
+  <canvas class="canvas-{{ section.id }}" id="canvas-{{ section.id }}"></canvas>
+  
+  <div class="content-{{ section.id }}">
+    <div class="quote-container-{{ section.id }}">
+      <div class="quote-{{ section.id }}">{{ section.settings.main_quote | newline_to_br }}</div>
+      <div class="author-{{ section.id }}">{{ section.settings.quote_author }}</div>
+      {% if section.settings.book_title %}
+        <div class="book-{{ section.id }}">{{ section.settings.book_title }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if section.settings.custom_quote %}
+    <div class="custom-quote-{{ section.id }}">
+      "{{ section.settings.custom_quote }}"
+    </div>
+  {% endif %}
+
+  {% if section.settings.show_profile_card %}
+    <div class="profile-card-{{ section.id }}">
+      {% if section.settings.profile_image %}
+        <img src="{{ section.settings.profile_image | img_url: '56x56' }}" alt="{{ section.settings.profile_name }}" class="profile-image-{{ section.id }}">
+      {% endif %}
+      <div class="profile-info-{{ section.id }}">
+        <div class="profile-name-{{ section.id }}">{{ section.settings.profile_name }}</div>
+        {% if section.settings.profile_twitter %}
+          <div class="profile-twitter-{{ section.id }}">
+            <a href="{{ section.settings.profile_twitter }}" target="_blank">{{ section.settings.profile_twitter_handle }}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  {% if section.settings.show_info %}
+    <div class="info-{{ section.id }}">
+      Ghost particles: <span id="ghostCount-{{ section.id }}">0</span>
+    </div>
+  {% endif %}
+
+  <div class="custom-cursor-{{ section.id }}"></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const sectionId = "{{ section.id }}";
+  const canvas = document.getElementById(`canvas-${sectionId}`);
+  const ctx = canvas.getContext('2d');
+  const cursor = document.querySelector(`.custom-cursor-${sectionId}`);
+  const section = document.querySelector(`.quote-section-${sectionId}`);
+  const parallaxBg = document.querySelector(`.parallax-bg-${sectionId}`);
+  
+  let ghosts = [];
+  let mouseX = 0;
+  let mouseY = 0;
+  let isMouseInSection = false;
+
+  function resizeCanvas() {
+    const rect = section.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Ghost particle class
+  class Ghost {
+    constructor(x, y) {
+      this.x = x;
+      this.y = y;
+      this.size = Math.random() * 3 + 1;
+      this.speedX = (Math.random() - 0.5) * 2;
+      this.speedY = (Math.random() - 0.5) * 2;
+      this.opacity = Math.random() * 0.5 + 0.3;
+      this.life = 100;
+      this.maxLife = 100;
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.life--;
+      this.opacity = (this.life / this.maxLife) * 0.8;
+      
+      if (this.life <= 0) {
+        return false;
+      }
+      return true;
+    }
+
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.opacity;
+      ctx.fillStyle = '{{ section.settings.ghost_color }}';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // Mouse tracking
+  section.addEventListener('mousemove', (e) => {
+    const rect = section.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+    
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+
+    // Create ghost particles
+    if (Math.random() < 0.3) {
+      ghosts.push(new Ghost(mouseX, mouseY));
+    }
+
+    // Parallax effect
+    if (parallaxBg) {
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const moveX = (mouseX - centerX) / centerX;
+      const moveY = (mouseY - centerY) / centerY;
+      
+      parallaxBg.style.transform = `translate(${moveX * 20}px, ${moveY * 20}px)`;
+    }
+  });
+
+  section.addEventListener('mouseenter', () => {
+    isMouseInSection = true;
+    cursor.style.opacity = '1';
+  });
+
+  section.addEventListener('mouseleave', () => {
+    isMouseInSection = false;
+    cursor.style.opacity = '0';
+  });
+
+  // Animation loop
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Update and draw ghosts
+    ghosts = ghosts.filter(ghost => {
+      const alive = ghost.update();
+      if (alive) {
+        ghost.draw();
+      }
+      return alive;
+    });
+
+    // Update ghost count
+    const ghostCount = document.getElementById(`ghostCount-${sectionId}`);
+    if (ghostCount) {
+      ghostCount.textContent = ghosts.length;
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Interactive Quote Section",
+  "tag": "section",
+  "class": "quote-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "textarea",
+      "id": "main_quote",
+      "label": "Main Quote",
+      "default": "Emptiness\nbreeds\ncreation"
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": "when silence speaks, genius listens"
+    },
+    {
+      "type": "text",
+      "id": "book_title",
+      "label": "Book Title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "custom_quote",
+      "label": "Custom Decorative Quote",
+      "default": "Design is the quiet rebellion against the mundane"
+    },
+    {
+      "type": "header",
+      "content": "Typography Settings"
+    },
+    {
+      "type": "range",
+      "id": "quote_size",
+      "label": "Main Quote Size (Desktop)",
+      "min": 4,
+      "max": 12,
+      "step": 0.5,
+      "default": 8,
+      "unit": "vw"
+    },
+    {
+      "type": "range",
+      "id": "quote_size_mobile",
+      "label": "Main Quote Size (Mobile)",
+      "min": 8,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "vw"
+    },
+    {
+      "type": "range",
+      "id": "author_size",
+      "label": "Author Text Size",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 1,
+      "unit": "rem"
+    },
+    {
+      "type": "range",
+      "id": "custom_quote_size",
+      "label": "Custom Quote Size (Desktop)",
+      "min": 4,
+      "max": 12,
+      "step": 0.5,
+      "default": 7,
+      "unit": "vw"
+    },
+    {
+      "type": "range",
+      "id": "custom_quote_size_mobile",
+      "label": "Custom Quote Size (Mobile)",
+      "min": 6,
+      "max": 16,
+      "step": 1,
+      "default": 10,
+      "unit": "vw"
+    },
+    {
+      "type": "range",
+      "id": "custom_quote_rotation",
+      "label": "Custom Quote Rotation",
+      "min": -15,
+      "max": 15,
+      "step": 1,
+      "default": -5,
+      "unit": "deg"
+    },
+    {
+      "type": "header",
+      "content": "Layout Settings"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section Height",
+      "min": 60,
+      "max": 120,
+      "step": 5,
+      "default": 100,
+      "unit": "vh"
+    },
+    {
+      "type": "header",
+      "content": "Background Settings"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image (optional)"
+    },
+    {
+      "type": "color",
+      "id": "gradient_start",
+      "label": "Top Gradient Color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "vignette_color",
+      "label": "Vignette Color",
+      "default": "rgba(34, 34, 34, 0.85)"
+    },
+    {
+      "type": "header",
+      "content": "Text Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Main Text Color",
+      "default": "#e0e0e0"
+    },
+    {
+      "type": "color",
+      "id": "secondary_text_color",
+      "label": "Secondary Text Color",
+      "default": "rgba(255, 255, 255, 0.5)"
+    },
+    {
+      "type": "color",
+      "id": "custom_quote_color",
+      "label": "Custom Quote Color",
+      "default": "rgba(255, 255, 255, 0.7)"
+    },
+    {
+      "type": "header",
+      "content": "Interactive Elements"
+    },
+    {
+      "type": "color",
+      "id": "ghost_color",
+      "label": "Ghost Particle Color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_info",
+      "label": "Show Ghost Counter",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Profile Card"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_profile_card",
+      "label": "Show Profile Card",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "profile_image",
+      "label": "Profile Image"
+    },
+    {
+      "type": "text",
+      "id": "profile_name",
+      "label": "Profile Name"
+    },
+    {
+      "type": "url",
+      "id": "profile_twitter",
+      "label": "Twitter/X URL"
+    },
+    {
+      "type": "text",
+      "id": "profile_twitter_handle",
+      "label": "Twitter Handle (display text)",
+      "placeholder": "@username"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Interactive Quote Section",
+      "settings": {
+        "main_quote": "Emptiness\nbreeds\ncreation",
+        "quote_author": "when silence speaks, genius listens",
+        "custom_quote": "Design is the quiet rebellion against the mundane",
+        "background_color": "#111111",
+        "text_color": "#e0e0e0",
+        "section_height": 100
+      }
+    }
+  ]
+}
+{% endschema %}

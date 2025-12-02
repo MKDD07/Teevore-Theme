@@ -1,0 +1,1362 @@
+{% comment %} Enhanced Parallax Text Scroll Section - Block Based {% endcomment %}
+{%- assign section_st = section.settings -%}
+{%- assign collection = collections[section_st.collection] -%}
+{% style %}
+.imgFts{position: absolute;top: 0%;left: 0%;width: 100%;height: 100%;object-fit: cover;object-position: var(--ipos, top);}
+  {% for block in section.blocks %}
+    {% assign bs = block.settings %}
+    {% case block.type %}
+      {% when 'parallax_scroll' %}
+        .px{position:relative;overflow:hidden;background:{{bs.section_bg_color}}}
+        .px-scroll{position:relative;z-index:1;white-space:nowrap;overflow:hidden;padding:{{bs.scroll_padding}}px 0;background:{{bs.scroll_bg_color}}}
+        .px-scroll-content{display:inlineas-flex;align-items:center;gap:{{bs.icon_gap}}px;animation:scroll {{bs.scroll_speed}}s linear infinite}
+        .px-scroll-top .px-scroll-content{animation-name:scroll-left}
+        .px-scroll-bottom .px-scroll-content{animation-name:scroll-right}
+        @keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes scroll-right{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+        .px-scroll-item{display:inline-flex;align-items:center;gap:{{bs.text_icon_gap}}px;font-size:{{bs.scroll_font_size}}px;color:{{bs.scroll_text_color}};font-weight:{{bs.scroll_font_weight}};margin-right:{{bs.item_spacing}}px}
+        .px-scroll-icon{width:{{bs.icon_size}}px;height:{{bs.icon_size}}px;fill:{{bs.icon_color}};transform:rotate({{bs.icon_rotation}}deg)}
+        .px-center{position:relative;display:flex;align-items:center;justify-content:center;min-height:{{bs.center_height}}px;margin:{{bs.center_margin_top}}px 0 {{bs.center_margin_bottom}}px;padding:0 {{bs.center_padding_x}}px;overflow:hidden}
+        .px-bg{position:absolute;top:-20%;left:-10%;width:120%;height:140%;object-fit:cover;z-index:1;transition:transform 0.1s ease-out}
+        .px-placeholder{position:absolute;top:0;left:0;width:100%;height:100%;background:#f4f4f4;z-index:1}
+        .px-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:{{bs.overlay_color}};opacity:{{bs.overlay_opacity}};z-index:2}
+        .px-content{position:relative;z-index:3;text-align:{{bs.text_align}};max-width:{{bs.content_max_width}}px;width:100%}
+        .px-heading{margin:0 0 {{bs.heading_margin_bottom}}px;font-size:{{bs.heading_font_size}}px;color:{{bs.heading_color}};font-weight:{{bs.heading_font_weight}};line-height:{{bs.heading_line_height}}}
+        .px-subheading{margin:0;font-size:{{bs.subheading_font_size}}px;color:{{bs.subheading_color}};font-weight:{{bs.subheading_font_weight}};line-height:{{bs.subheading_line_height}}}
+        @media (max-width:768px){
+          .px-scroll{padding:{{bs.scroll_padding_mobile}}px 0}
+          .px-scroll-item{font-size:{{bs.scroll_font_size_mobile}}px}
+          .px-scroll-icon{width:{{bs.icon_size_mobile}}px;height:{{bs.icon_size_mobile}}px}
+          .px-center{min-height:{{bs.center_height_mobile}}px;margin:{{bs.center_margin_top_mobile}}px 0 {{bs.center_margin_bottom_mobile}}px;padding:0 {{bs.center_padding_x_mobile}}px}
+          .px-heading{font-size:{{bs.heading_font_size_mobile}}px;margin-bottom:{{bs.heading_margin_bottom_mobile}}px}
+          .px-subheading{font-size:{{bs.subheading_font_size_mobile}}px}
+          .px-content{max-width:{{bs.content_max_width_mobile}}px}
+        }
+      {% when 'scroll_text_top' %}
+        .st{position:relative;z-index:10;white-space:nowrap;overflow:hidden;padding:{{bs.padding}}px 0;background:{{bs.bg_color}}}
+        {% if bs.overlay_enable %}.st { position: absolute; z-index: 2; bottom: {{ bs.location }}px; transform: rotate({{ bs.rotate }}deg); white-space: nowrap; overflow: hidden; padding: {{ bs.padding }}px 0; background: {{ bs.bg_color }}; }{% endif %}
+        .st-content{display:inline-flex;align-items:center;gap:{{bs.gap}}px;animation:st-left {{bs.speed}}s linear infinite}
+        @keyframes st-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .st-item{display:inline-flex;align-items:center;gap:{{bs.text_gap}}px;font-size:{{bs.font_size}}px;color:{{bs.text_color}};font-weight:{{bs.font_weight}};margin-right:{{bs.spacing}}px}
+        .st-icon{width:{{bs.icon_size}}px;height:{{bs.icon_size}}px;fill:{{bs.icon_color}};transform:rotate({{bs.rotation}}deg)}
+      {% when 'scroll_text_bottom' %}
+        .sb{position:relative;z-index:10;white-space:nowrap;overflow:hidden;padding:{{bs.padding}}px 0;background:{{bs.bg_color}}}
+        .sb-content{display:inline-flex;align-items:center;gap:{{bs.gap}}px;animation:sb-right {{bs.speed}}s linear infinite}
+        @keyframes sb-right{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+        .sb-item{display:inline-flex;align-items:center;gap:{{bs.text_gap}}px;font-size:{{bs.font_size}}px;color:{{bs.text_color}};font-weight:{{bs.font_weight}};margin-right:{{bs.spacing}}px}
+        .sb-icon{width:{{bs.icon_size}}px;height:{{bs.icon_size}}px;fill:{{bs.icon_color}};transform:rotate({{bs.rotation}}deg)}
+      {% when 'parallax_content' %}
+        .pc{min-height:{{bs.height}}px;}
+        .pc-bg{object-fit:cover;height:100%;width:100%;position:absolute;top:0;left:0;}
+        @media (max-width:768px){.pc-bg{height:auto;width:100%;}}
+        .pc-heading{color:{{bs.heading_color}};}
+        .pc-sub{margin:0;font-size:{{bs.sub_size}}px;font-weight:{{bs.sub_weight}};line-height:{{bs.sub_line_height}}}
+    {% endcase %}
+  {% endfor %}
+{% endstyle %}
+{% assign section_st = section.settings %}
+<div class="parallax-section pr  ovhid sec_cov" style ="--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;"{{ section.shopify_attributes }}>
+  {% for block in section.blocks %}
+    {% assign bs = block.settings %}
+    {% case block.type %}
+      {% when 'scroll_text_top' %}
+        <div class="st" {{ block.shopify_attributes }}>
+          <div class="st-content">
+            {% for i in (1..bs.duplicates) %}
+              <div class="st-item">
+                {% if bs.show_icon %}
+                  <svg class="st-icon" viewBox="0 0 24 24">
+                    <path d="{{bs.icon_path}}"/>
+                  </svg>
+                {% endif %}
+                <span>{{ bs.text }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      {% when 'parallax_content' %}
+<div
+  class="pc pr fl f-aic f-jcc m0 p0"
+  data-parallax-speed="{{bs.parallax_speed}}"
+  {{ block.shopify_attributes }}
+>
+  {% if bs.bg_image != blank or bs.bg_imagem != blank %}
+    {%- liquid
+        assign banner_img = bs.bg_image
+        assign banner_imgm = bs.bg_imagem
+        assign banner_imgm_srcset = banner_imgm | image_url: width: banner_imgm.width | image_tag: widths: '360,480,760' | split: 'srcset="' | last | split: '"' | first
+    -%}
+    <picture class="overlay pa all0 of_hidden brad prlxImg" style="--rounded:{{ bs.ibrad }}px;--ipos:{{ bs.image.presentation.focal_point | default: 'center center' }};" data-u-scale="1.3">
+        {% if bs.bg_imagem != blank %}
+            <source media="(max-width: 767px)" srcset="{{ banner_imgm_srcset }}" width="{{ banner_imgm.width }}" height="{{ banner_imgm.height }}">
+        {% endif %}
+        {{ banner_img | image_url: width: banner_img.width | image_tag: class:'imgFt heroImg', width:banner_img.width, height:banner_img.height, widths:"400,600,800,1000,1200,1400,1600,2000,2400,3000" }}
+    </picture>
+  {% endif %}
+  
+  {% if bs.show_overlay %}
+    <div class="pc-overlay pa top0 left0 zi2"></div>
+  {% endif %}
+  
+  <div class="pc-text fw-sec fl f-col f-row-md f-aic-md f-jcc f-jcsb-md zi3 w_100 wd_100 f-ais-md f-acc">
+    <div class="fl f-col f-ais-md f-aic">
+      {% if bs.heading != blank %}
+        <h2 class="pc-heading em_fancy">
+          {{ bs.heading }}{% if section_st.enable_bg_text %}<span class="pa wsp" style="pointer-events: none;top: 50%;transform: translateY(-50%);">{{ bs.heading }}</span>{% endif %}
+        </h2>
+      {% endif %}
+      {% if bs.subheading != blank %}
+        <div class="hide-md hide-sm" style="color:{{bs.sub_color}};">
+          {{ bs.subheading | truncatewords: 30 }}
+        </div>
+      {% endif %}
+    </div>
+    <div class="tc">
+      <a
+        href="{{ collection.url }}"
+        class="btn btn-md btnLink btn-white"
+      >
+        {{- bs.show_view_all -}}
+      </a>
+    </div>
+  </div>
+</div>
+
+      {% when 'scroll_text_bottom' %}
+        <div class="sb" {{ block.shopify_attributes }}>
+          <div class="sb-content">
+            {% for i in (1..bs.duplicates) %}
+              <div class="sb-item">
+                {% if bs.show_icon %}
+                  <svg class="sb-icon" viewBox="0 0 24 24">
+                    <path d="{{bs.icon_path}}"/>
+                  </svg>
+                {% endif %}
+                <span style="pointer-events: none;">{{ bs.text }}</span>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      {% when 'parallax_scroll' %}
+        <div class="px" {{ block.shopify_attributes }}>
+          {% if bs.show_top_scroll %}
+            <div class="px-scroll px-scroll-top">
+              <div class="px-scroll-content">
+                {% for i in (1..10) %}
+                  <div class="px-scroll-item">
+                    <svg class="px-scroll-icon" viewBox="0 0 24 24">
+                      <path d="{{bs.top_icon_path}}"/>
+                    </svg>
+                    <span>{{ bs.top_scroll_text }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="px-center" data-parallax="true">
+            {% if bs.bg_image %}
+              <img
+                src="{{bs.bg_image | image_url: width: 2000}}"
+                alt="{{bs.bg_image.alt | escape}}"
+                class="px-bg"
+                loading="lazy"
+              >
+            {% else %}
+              <div class="px-placeholder">{{ 'hero-apparel-1' | placeholder_svg_tag }}</div>
+            {% endif %}
+            {% if bs.show_overlay %}<div class="px-overlay"></div>{% endif %}
+            <div class="px-content">
+              {% if bs.heading != blank %}
+                <h2 class="px-heading">{{ bs.heading }}</h2>
+              {% endif %}
+              {% if bs.subheading != blank %}
+                <div class="px-subheading">{{ bs.subheading | truncatewords: 30 }}</div>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if bs.show_bottom_scroll %}
+            <div class="px-scroll px-scroll-bottom">
+              <div class="px-scroll-content">
+                {% for i in (1..10) %}
+                  <div class="px-scroll-item">
+                    <svg class="px-scroll-icon" viewBox="0 0 24 24">
+                      <path d="{{bs.bottom_icon_path}}"/>
+                    </svg>
+                    <span>{{ bs.bottom_scroll_text }}</span>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+    {% endcase %}
+  {% endfor %}
+</div>
+{%- capture productslider -%}
+{%- liquid 
+    assign section_st = section.settings
+    assign page_width = settings.cntwd | append: 'px'
+    if section_st.sw
+        assign page_width = '100vw'
+    endif
+-%}
+{%- capture sizes -%}
+ (min-width:1400px) calc({{ page_width }} / {{ section_st.gridxxl }}),(min-width:1024px) calc({{ page_width }} / {{ section_st.grid }}),(min-width:768px) calc(100vw / {{ section_st.gridtb }}), calc(100vw / {{ section_st.gridmb | replace: '.', '_' }})
+{%- endcapture -%}
+<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload zi1{% endif %}" style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
+  {% if section_st.bgimg != blank %}data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>    
+  <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}" id="{{ section.id }}">
+  <div class="section-header-container{% if section_st.elg %} hide-lg hide-sm hide-md{% endif %} fl pr mt20 f-row-md f-col mb30 f-aic{% if section.settings.justify_content == 'start' %} f-jcsb{% else %} f-jcc{% endif %}">
+	{%- render 'sec-title' -%}
+      {%- if section_st.show_view_all != blank -%}
+        <div class="tc"><a href="{{ section_st.collection }}" class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}">{{ section_st.show_view_all }}</a></div>
+    {%- endif -%}</div>
+    
+<slide-section class="grid rwcols-{{ section_st.gridmb | replace: '.', '_' }} rwcols-md-{{ section_st.gridtb }} rwcols-lg-{{ section_st.grid }} rwcols-xxl-{{ section_st.gridxxl }} grid-products swiper"
+      data-swiper='{ 
+        "slidesPerView":"auto", 
+        "loop":{% if section_st.loop %}true{% else %}false{% endif %}, 
+        {% if section_st.autoplay %}"autoplay":{ "delay":"{{ section_st.speed | times: 1000 }}" },{% endif %} 
+        "navigation":{ "nextEl":".swn{{ section.id }}","prevEl":".swp{{ section.id }}" }, 
+        "pagination":{ "el":".swpg{{ section.id }}", "type": "progressbar", "clickable":true } 
+      }'>
+      <div class="swiper-wrapper">
+          {%- if section_st.collection != blank -%}
+                {%- assign collection = collections[section_st.collection] -%}
+                {%- for product in collection.products limit: section_st.rows -%}
+                   <div class="swiper-slide gitem {% render 'animate-data', css:true %}" {% render 'animate-data', i:forloop.index %}>{% render 'product-card-grid', product: product, section_st: section_st, sizes: sizes %}</div>
+                 {%- endfor -%}
+            {%- else -%}
+              {% for i in (1..section_st.rows) %}
+                 <div class="swiper-slide gitem {% render 'animate-data', css:true %}" {% render 'animate-data', i:forloop.index %}>
+                    <div class="grid_bx">
+                      <a href="#" class="grid_lnk">
+                        <div class="grid_img_wr">{% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}{{ 'product-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}</div><br/>
+                        <div class="h4 grid_title">{{ 'homepage.onboarding.product_title' | t }}</div>
+                        <div class="grid_meta"> {% render 'product-price' %} </div>
+                      </a>
+                    </div>
+                  </div>
+              {%- endfor -%} 
+            {%- endif -%}
+        </div>
+        {%- render 'swiper-navigation', id:section.id, section_st:section_st -%}
+    </slide-section>
+  </div>
+</div>
+{%- endcapture -%}
+{{-
+  productslider
+  | strip_newlines
+  | remove: '  '
+  | remove: '	'
+-}}
+<script>
+  (function () {
+    const initParallax = () => {
+      document.querySelectorAll('[data-parallax-bg]').forEach((bg) => {
+        const container = bg.closest('[data-parallax-speed]');
+        const speed = parseFloat(container.dataset.parallaxSpeed) || -0.5;
+        const handleScroll = () => {
+          const rect = container.getBoundingClientRect();
+          const scrolled = window.pageYOffset;
+          const rate = scrolled * speed;
+          if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+            bg.style.transform = `translateY(${rate}px) scale(1.1)`;
+          }
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initParallax);
+    } else {
+      initParallax();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Enhanced Parallax Scroll",
+  "class": "section",
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "select",
+      "id": "align_items",
+      "label": "Align Items",
+      "default": "center",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Start (Top)"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "justify_content",
+      "label": "Justify Content",
+      "default": "center",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "start",
+          "label": "Space Between"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "elg",
+      "label": "Disable Heading AT >1024px",
+      "default": false
+    },
+        {
+      "type": "checkbox",
+      "id": "enable_bg_text",
+      "label": "Give a 200px Solid text below Heading Text Work Only Parallex",
+      "default": true
+    },
+
+    {
+      "type": "select",
+      "id": "italic_font_selection",
+      "label": "Fancy Font Selection",
+      "info": "Choose which font to use for the italic outline effect",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary Font"
+        },
+        {
+          "value": "alternative",
+          "label": "Alternative Font"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary Font"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Select Collection"
+    },
+    {
+      "type": "header",
+      "content": "Grid Appearance ==="
+    },
+    {
+      "type": "select",
+      "id": "prbox_style",
+      "label": "Grid style",
+      "default": "grid_1",
+      "options": [
+        {
+          "value": "grid_1",
+          "label": "Icons - Bottom Center"
+        },
+        {
+          "value": "grid_2",
+          "label": "Info. Hover Image"
+        },
+        {
+          "value": "grid_3",
+          "label": "Icons - Bottom Left"
+        },
+        {
+          "value": "grid_4",
+          "label": "Icons - Top Right"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_color_swatch",
+      "label": "Show color swatch?",
+      "default": true
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor Name?",
+      "default": false
+    },
+    {
+      "type": "paragraph",
+      "content": "Products Per Row ==="
+    },
+     {
+      "type": "range",
+      "id": "gridxxl",
+      "label": "Desktop > 1400px",
+      "default": 4,
+      "min": 2,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "grid",
+      "label": "Desktop",
+      "default": 4,
+      "min": 2,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "gridtb",
+      "label": "Tablet",
+      "default": 3,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "gridmb",
+      "label": "Mobile",
+      "default": 1.4,
+      "min": 1,
+      "max": 3,
+      "step": 0.1
+    },
+    {
+      "type": "range",
+      "id": "rows",
+      "label": "Products limit",
+      "default": 5,
+      "min": 2,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "type": "text",
+      "id": "show_view_all",
+      "label": "Button Text",
+      "info": "Show button below products to visit collection page"
+    },
+    {
+      "type": "select",
+      "id": "btn-style",
+      "label": "Button design",
+      "default": "btn1",
+      "options": [
+        {
+          "label": "Button 1",
+          "value": "btn1"
+        },
+        {
+          "label": "Button 2",
+          "value": "btn2"
+        },
+        {
+          "label": "Button 3",
+          "value": "btn3"
+        },
+        {
+          "label": "Button 4",
+          "value": "btn4"
+        },
+        {
+          "label": "Button 5",
+          "value": "btn5"
+        },
+        {
+          "label": "Button 6",
+          "value": "btn6"
+        },
+        {
+          "label": "Button 7 Gradient",
+          "value": "btn7"
+        },
+        {
+          "label": "Button 8 Gradient",
+          "value": "btn8"
+        },
+        {
+          "label": "Link",
+          "value": "btnLink"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "btn-size",
+      "label": "Button size",
+      "default": "btn-md",
+      "options": [
+        {
+          "label": "Small",
+          "value": "btn-sm"
+        },
+        {
+          "label": "Medium",
+          "value": "btn-md"
+        },
+        {
+          "label": "Large",
+          "value": "btn-lg"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": "Find more options at Theme settings -> Products grid"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings ==="
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel",
+      "label": "Enable carousel",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Infinite loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto-rotate slide",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Change slide every",
+      "default": 5,
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "unit": "Sec"
+    },
+    {
+      "type": "checkbox",
+      "id": "arrow",
+      "label": "Show arrows on desktop?",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "arrowm",
+      "label": "Show arrows on mobile?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dot",
+      "label": "Show dots on desktop?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "dotm",
+      "label": "Show dots on mobile?",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Section Design ==="
+    },
+    {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Fullwidth?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "npd",
+      "label": "No padding?",
+      "default": false,
+      "info": "Remove left/right padding for fullwidth"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background",
+      "default": "#fff"
+    },
+    {
+      "type": "color_background",
+      "id": "bgg",
+      "label": "Gradient background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bgimg",
+      "label": "Background image"
+    },
+    {
+      "type": "color",
+      "id": "overlay",
+      "label": "Image overlay",
+      "default": "#000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_op",
+      "min": 0,
+      "max": 1,
+      "step": 0.1,
+      "label": "Overlay opacity",
+      "unit": "%",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "headings_cl",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing top",
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing bottom",
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing top (mobile)",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "label": "Spacing bottom (mobile)",
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide on mobile?",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hided",
+      "label": "Hide on desktop?",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "scroll_text_top",
+      "name": "Top Scroll Text",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Scroll Text",
+          "default": "PREMIUM QUALITY"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "icon_path",
+          "label": "SVG Icon Path",
+          "default": "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+        },
+        {
+          "type": "range",
+          "id": "location",
+          "label": "Vertical Position (bottom px)",
+          "min": -20,
+          "max": 20,
+          "step": 1,
+          "default": 0
+        },
+
+        { "type": "range", "id": "rotate", "label": "Rotation (deg)", "min": -45, "max": 45, "step": 1, "default": 0 },
+        {
+          "type": "checkbox",
+          "id": "overlay_enable",
+          "label": "Overlay Scrolling Banner",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "duplicates",
+          "min": 5,
+          "max": 15,
+          "step": 1,
+          "label": "Text Duplicates",
+          "default": 10
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 12,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon Size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "min": 0,
+          "max": 360,
+          "step": 15,
+          "unit": "deg",
+          "label": "Icon Rotation",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "speed",
+          "min": 10,
+          "max": 60,
+          "step": 5,
+          "unit": "s",
+          "label": "Speed",
+          "default": 25
+        },
+        {
+          "type": "range",
+          "id": "padding",
+          "min": 5,
+          "max": 50,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding",
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "gap",
+          "min": 20,
+          "max": 100,
+          "step": 10,
+          "unit": "px",
+          "label": "Item Gap",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "text_gap",
+          "min": 2,
+          "max": 30,
+          "step": 2,
+          "unit": "px",
+          "label": "Text-Icon Gap",
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "spacing",
+          "min": 20,
+          "max": 80,
+          "step": 5,
+          "unit": "px",
+          "label": "Item Spacing",
+          "default": 40
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Font Weight",
+          "options": [
+            {
+              "value": "300",
+              "label": "Light"
+            },
+            {
+              "value": "400",
+              "label": "Regular"
+            },
+            {
+              "value": "500",
+              "label": "Medium"
+            },
+            {
+              "value": "600",
+              "label": "Semi Bold"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "500"
+        }
+      ]
+    },
+    {
+      "type": "parallax_scroll",
+      "name": "Complete Parallax Section",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Desktop Background Image",
+          "info": "Recommended size: 1920x800px or higher for best quality"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_imagem",
+          "label": "Mobile Background Image",
+          "info": "Recommended size: 800x600px. Will be used for screens under 768px width"
+        },
+        {
+          "type": "range",
+          "id": "ibrad",
+          "min": 0,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Image Border Radius",
+          "default": 0
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Collection Title"
+        },
+        {
+          "type": "richtext",
+          "id": "subheading",
+          "label": "Subheading",
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Select the collection to link to"
+        },
+        {
+          "type": "text",
+          "id": "show_view_all",
+          "label": "Button Text",
+          "default": "View All"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "Show Overlay",
+          "default": true,
+          "info": "Adds a dark overlay to improve text readability"
+        },
+        {
+          "type": "range",
+          "id": "parallax_speed",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Parallax Speed",
+          "default": 0.5,
+          "info": "Controls the parallax scrolling effect. 0 = no parallax, 1 = maximum parallax"
+        }
+      ]
+    },
+    {
+      "type": "parallax_content",
+      "name": "Parallax Content",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Your Amazing Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "subheading",
+          "label": "Subheading",
+        },
+        {
+          "type": "text",
+          "id": "show_view_all",
+          "label": "Button Text",
+          "info": "Show button below products to visit collection page"
+        },
+        {
+          "id": "collection",
+          "type": "collection",
+          "label": "Select Collection"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "Show Overlay",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Overlay Opacity",
+          "default": 0.5
+        },
+        {
+          "type": "range",
+          "id": "height",
+          "min": 200,
+          "max": 800,
+          "step": 50,
+          "unit": "px",
+          "label": "Height",
+          "default": 400
+        },
+        {
+          "type": "range",
+          "id": "parallax_speed",
+          "min": -1,
+          "max": 1,
+          "step": 0.1,
+          "label": "Parallax Speed",
+          "default": -0.5
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text Alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "range",
+          "id": "max_width",
+          "min": 300,
+          "max": 800,
+          "step": 50,
+          "unit": "px",
+          "label": "Content Max Width",
+          "default": 600
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "label": "Top Margin",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "label": "Bottom Margin",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "padding_x",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "label": "Side Padding",
+          "default": 20
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "heading_size",
+          "min": 20,
+          "max": 80,
+          "step": 2,
+          "unit": "px",
+          "label": "Heading Size",
+          "default": 48
+        },
+        {
+          "type": "select",
+          "id": "heading_weight",
+          "label": "Heading Weight",
+          "options": [
+            {
+              "value": "300",
+              "label": "Light"
+            },
+            {
+              "value": "400",
+              "label": "Regular"
+            },
+            {
+              "value": "500",
+              "label": "Medium"
+            },
+            {
+              "value": "600",
+              "label": "Semi Bold"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "700"
+        },
+        {
+          "type": "range",
+          "id": "heading_line_height",
+          "min": 1.0,
+          "max": 2.0,
+          "step": 0.1,
+          "label": "Heading Line Height",
+          "default": 1.2
+        },
+        {
+          "type": "range",
+          "id": "heading_margin",
+          "min": 0,
+          "max": 50,
+          "step": 5,
+          "unit": "px",
+          "label": "Heading Bottom Margin",
+          "default": 20
+        },
+        {
+          "type": "color",
+          "id": "sub_color",
+          "label": "Subheading Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "sub_size",
+          "min": 12,
+          "max": 30,
+          "step": 1,
+          "unit": "px",
+          "label": "Subheading Size",
+          "default": 18
+        },
+        {
+          "type": "select",
+          "id": "sub_weight",
+          "label": "Subheading Weight",
+          "options": [
+            {
+              "value": "300",
+              "label": "Light"
+            },
+            {
+              "value": "400",
+              "label": "Regular"
+            },
+            {
+              "value": "500",
+              "label": "Medium"
+            },
+            {
+              "value": "600",
+              "label": "Semi Bold"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "range",
+          "id": "sub_line_height",
+          "min": 1.0,
+          "max": 2.0,
+          "step": 0.1,
+          "label": "Subheading Line Height",
+          "default": 1.5
+        }
+      ]
+    },
+    {
+      "type": "scroll_text_bottom",
+      "name": "Bottom Scroll Text",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Scroll Text",
+          "default": "FREE RETURNS"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_icon",
+          "label": "Show Icon",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "icon_path",
+          "label": "SVG Icon Path",
+          "default": "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+        },
+        {
+          "type": "range",
+          "id": "duplicates",
+          "min": 5,
+          "max": 15,
+          "step": 1,
+          "label": "Text Duplicates",
+          "default": 10
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "font_size",
+          "min": 12,
+          "max": 40,
+          "step": 1,
+          "unit": "px",
+          "label": "Font Size",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "icon_size",
+          "min": 12,
+          "max": 40,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon Size",
+          "default": 18
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "min": 0,
+          "max": 360,
+          "step": 15,
+          "unit": "deg",
+          "label": "Icon Rotation",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "speed",
+          "min": 10,
+          "max": 60,
+          "step": 5,
+          "unit": "s",
+          "label": "Speed",
+          "default": 30
+        },
+        {
+          "type": "range",
+          "id": "padding",
+          "min": 5,
+          "max": 50,
+          "step": 5,
+          "unit": "px",
+          "label": "Padding",
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "gap",
+          "min": 20,
+          "max": 100,
+          "step": 10,
+          "unit": "px",
+          "label": "Item Gap",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "text_gap",
+          "min": 2,
+          "max": 30,
+          "step": 2,
+          "unit": "px",
+          "label": "Text-Icon Gap",
+          "default": 12
+        },
+        {
+          "type": "range",
+          "id": "spacing",
+          "min": 20,
+          "max": 80,
+          "step": 5,
+          "unit": "px",
+          "label": "Item Spacing",
+          "default": 40
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Font Weight",
+          "options": [
+            {
+              "value": "300",
+              "label": "Light"
+            },
+            {
+              "value": "400",
+              "label": "Regular"
+            },
+            {
+              "value": "500",
+              "label": "Medium"
+            },
+            {
+              "value": "600",
+              "label": "Semi Bold"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "500"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling Parallex Section"
+    }
+  ]
+}
+{% endschema %}

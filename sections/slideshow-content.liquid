@@ -1,0 +1,1207 @@
+{% comment %}
+  {% comment %}
+  Optimized Creative Showcase Slider Section
+  Performance optimized for Core Web Vitals (LCP, CLS, FID)
+  Usage: sections/creative-slider.liquid
+{% endcomment %}
+
+{%- liquid
+  assign set = section.settings
+  assign slide_count = set.slide_count | default: 3
+  assign preload_count = 2
+  
+  # Performance optimizations
+  assign img_loading = 'lazy'
+  assign img_fetchpriority = 'auto'
+  assign img_decoding = 'async'
+  
+  if section.index <= 1
+    assign img_loading = 'eager'
+    assign img_fetchpriority = 'high'
+  endif
+-%}
+
+<section class="creative-showcase-slider" id="cs-{{ section.id }}" 
+         {% if section.index <= 1 %}data-critical="true"{% endif %}>
+  
+  {%- comment -%} Preload critical resources {%- endcomment -%}
+  {% if section.index <= 1 %}
+    {% for block in section.blocks limit: preload_count %}
+      {% assign blk = block.settings %}
+      {% if blk.slide_image %}
+        <link rel="preload" as="image" 
+              href="{{ blk.slide_image | image_url: width: 1920 }}"
+              {% if forloop.first %}fetchpriority="high"{% endif %}>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  <div class="slider-container">
+    <div class="swiper" data-section-id="{{ section.id }}" data-config='{{ set | json | escape }}'>
+      <div class="swiper-wrapper">
+        
+        {% for block in section.blocks limit: slide_count %}
+          {% assign blk = block.settings %}
+          {% case block.type %}
+            {% when 'slide' %}
+              <div class="swiper-slide" {{ block.shopify_attributes }}
+                   data-slide-index="{{ forloop.index0 }}">
+                
+                {% if blk.slide_video != blank %}
+                  {%- comment -%} Video Slide {%- endcomment -%}
+                  <div class="slide-bg overlay-{{ blk.overlay_style | default: 'dark' }}">
+                    <div class="video-container">
+                      <video {% if forloop.index <= 2 %}preload="metadata"{% else %}preload="none"{% endif %}
+                             autoplay muted loop playsinline
+                             width="1920" height="1080">
+                        <source src="{{ blk.slide_video }}" type="video/mp4">
+                      </video>
+                    </div>
+                    {{ 'slide-content' | render: block: blk }}
+                  </div>
+                  
+                {% else %}
+                  {%- comment -%} Image Slide {%- endcomment -%}
+                  <div class="slide-bg overlay-{{ blk.overlay_style | default: 'dark' }}">
+                    {% assign img_alt = blk.slide_title_1 | default: blk.slide_subtitle_1 | default: 'Slide image' %}
+                    
+                    {%- comment -%} Responsive image with optimized loading {%- endcomment -%}
+                    {% if blk.slide_image %}
+                      {%- capture img_sizes -%}
+                        (max-width: 767px) 100vw,
+                        (max-width: 1024px) 100vw,
+                        100vw
+                      {%- endcapture -%}
+                      
+                      {{ blk.slide_image | 
+                         image_url: width: blk.slide_image.width | 
+                         image_tag: 
+                           loading: img_loading,
+                           fetchpriority: img_fetchpriority,
+                           decoding: img_decoding,
+                           alt: img_alt,
+                           sizes: img_sizes,
+                           widths: '375,768,1024,1366,1920,2560',
+                           class: 'slide-image' }}
+                    {% endif %}
+                    
+                    {{ 'slide-content' | render: block: blk }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+        
+      </div>
+
+      {%- comment -%} Navigation {%- endcomment -%}
+      {% if set.show_navigation %}
+        <div class="slider-navigation">
+          <button class="slider-btn slider-btn-prev" 
+                  type="button" 
+                  aria-label="Previous slide">
+            <span>{{ set.prev_text | default: 'Previous' }}</span>
+          </button>
+          
+          {% if set.show_pagination %}
+            <div class="slider-pagination" role="tablist" aria-label="Slide navigation"></div>
+          {% endif %}
+          
+          <button class="slider-btn slider-btn-next" 
+                  type="button" 
+                  aria-label="Next slide">
+            <span>{{ set.next_text | default: 'Next' }}</span>
+          </button>
+        </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+{%- comment -%} Slide Content Snippet (create as snippets/slide-content.liquid) {%- endcomment -%}
+{% assign blk = block %}
+<div class="slide-content content-pos-{{ blk.content_position | default: 'center' }}">
+  <div class="slide-inner">
+    
+    {%- comment -%} First Heading Block {%- endcomment -%}
+    {% if blk.enable_heading_1 %}
+      <div class="heading-block heading-1 text-{{ blk.heading_1_text_align | default: 'left' }}"
+           data-animation="{{ blk.heading_1_animation | default: 'fadeInUp' }}">
+        
+        {% if blk.slide_subtitle_1 != blank %}
+          <p class="slide-subtitle">{{ blk.slide_subtitle_1 }}</p>
+        {% endif %}
+        
+        {% if blk.slide_title_1 != blank %}
+          <h1 class="slide-title">
+            {% if blk.slide_link_1 != blank %}
+              <a href="{{ blk.slide_link_1 }}" class="slide-link">
+            {% endif %}
+            
+            {% assign title_lines = blk.slide_title_1 | split: '|' %}
+            {% for line in title_lines %}
+              <span class="title-line">{{ line | strip }}</span>
+              {% unless forloop.last %}<br>{% endunless %}
+            {% endfor %}
+            
+            {% if blk.slide_link_1 != blank %}</a>{% endif %}
+          </h1>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {%- comment -%} Second Heading Block {%- endcomment -%}
+    {% if blk.enable_heading_2 %}
+      <div class="heading-block heading-2 text-{{ blk.heading_2_text_align | default: 'left' }}"
+           data-animation="{{ blk.heading_2_animation | default: 'fadeInUp' }}">
+        
+        {% if blk.slide_subtitle_2 != blank %}
+          <p class="slide-subtitle">{{ blk.slide_subtitle_2 }}</p>
+        {% endif %}
+        
+        {% if blk.slide_title_2 != blank %}
+          <h2 class="slide-title">
+            {% if blk.slide_link_2 != blank %}
+              <a href="{{ blk.slide_link_2 }}" class="slide-link">
+            {% endif %}
+            
+            {% assign title_lines = blk.slide_title_2 | split: '|' %}
+            {% for line in title_lines %}
+              <span class="title-line">{{ line | strip }}</span>
+              {% unless forloop.last %}<br>{% endunless %}
+            {% endfor %}
+            
+            {% if blk.slide_link_2 != blank %}</a>{% endif %}
+          </h2>
+        {% endif %}
+      </div>
+    {% endif %}
+    
+  </div>
+</div>
+
+{%- comment -%} Critical CSS (inline for LCP optimization) {%- endcomment -%}
+<style>
+  {% if section.index <= 1 %}
+    .creative-showcase-slider{position:relative;overflow:hidden;min-height:{{ set.slide_height | default: '100vh' }};background:{{ set.bg_color | default: '#000' }}}
+    .slider-container{position:relative;width:100%;height:100%}
+    .swiper{width:100%;height:100%}
+    .swiper-slide{position:relative;display:flex;align-items:center;justify-content:center;width:100%;height:100%;overflow:hidden}
+    .slide-bg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
+    .slide-image{width:100%;height:100%;object-fit:cover;object-position:center}
+    .slide-content{position:relative;z-index:2;width:100%;max-width:1200px;padding:0 20px}
+    .heading-block{opacity:0;transform:translateY(30px);transition:all 0.8s ease}
+    .swiper-slide-active .heading-block{opacity:1;transform:translateY(0)}
+  {% endif %}
+</style>
+
+
+{%- comment -%} Optimized JavaScript with intersection observer {%- endcomment -%}
+<script type="module">
+  class CreativeSlider {
+    constructor(element) {
+      this.element = element;
+      this.config = JSON.parse(element.dataset.config || '{}');
+      this.swiper = null;
+      this.isVisible = false;
+      this.init();
+    }
+
+    init() {
+      // Use Intersection Observer for performance
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !this.isVisible) {
+            this.isVisible = true;
+            this.loadSwiper();
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '50px' });
+
+      observer.observe(this.element);
+    }
+
+    async loadSwiper() {
+      // Dynamically import Swiper only when needed
+      const { Swiper, Navigation, Pagination, Autoplay, Parallax } = await import('{{ "swiper-bundle.min.js" | asset_url }}');
+      
+      this.swiper = new Swiper(this.element, {
+        modules: [Navigation, Pagination, Autoplay, Parallax],
+        speed: this.config.transition_speed || 800,
+        autoplay: this.config.autoplay_delay ? {
+          delay: this.config.autoplay_delay,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        } : false,
+        parallax: true,
+        loop: this.config.loop !== false,
+        lazy: {
+          loadPrevNext: true,
+          loadPrevNextAmount: 1
+        },
+        navigation: {
+          nextEl: '.slider-btn-next',
+          prevEl: '.slider-btn-prev',
+        },
+        pagination: {
+          el: '.slider-pagination',
+          clickable: true,
+          renderBullet: this.renderPaginationBullet.bind(this)
+        },
+        on: {
+          init: () => this.handleSlideChange(),
+          slideChange: () => this.handleSlideChange(),
+          resize: () => this.swiper?.update()
+        }
+      });
+    }
+
+    handleSlideChange() {
+      // Optimized animation handling
+      requestAnimationFrame(() => {
+        const activeSlide = this.element.querySelector('.swiper-slide-active');
+        const headingBlocks = activeSlide?.querySelectorAll('.heading-block') || [];
+        
+        headingBlocks.forEach((block, index) => {
+          block.style.transitionDelay = `${index * 0.1}s`;
+        });
+      });
+    }
+
+    renderPaginationBullet(index, className) {
+      return `<button class="${className}" type="button" role="tab" aria-label="Go to slide ${index + 1}">
+        <span class="bullet-progress"></span>
+      </button>`;
+    }
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', () => {
+    const sliders = document.querySelectorAll('[data-section-id]');
+    sliders.forEach(slider => new CreativeSlider(slider));
+  });
+</script>
+
+{%- comment -%} JSON-LD Schema for SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "{{ section.settings.section_title | default: 'Creative Showcase' | json }}",
+  "description": "{{ section.settings.section_description | default: 'Interactive creative slider showcase' | json }}",
+  "image": [
+    {% for block in section.blocks limit: slide_count %}
+      {% assign blk = block.settings %}
+      {% if blk.slide_image %}
+        "{{ blk.slide_image | image_url: width: 1200 }}"{% unless forloop.last %},{% endunless %}
+      {% endif %}
+    {% endfor %}
+  ],
+  "author": {
+    "@type": "Organization",
+    "name": "{{ shop.name | json }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ shop.name | json }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ shop.brand.logo | image_url: width: 200 }}"
+    }
+  }
+}
+</script>
+{% schema %}
+{
+  "name": "Creative Slider",
+  "tag": "section",
+  "class": "creative-showcase-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "info": "For SEO and accessibility"
+    },
+    {
+      "type": "textarea",
+      "id": "section_description", 
+      "label": "Section Description",
+      "info": "For SEO meta description"
+    },
+    {
+      "type": "range",
+      "id": "slide_count",
+      "label": "Maximum Slides",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "select",
+      "id": "slide_height",
+      "label": "Slide Height",
+      "options": [
+        { "value": "60vh", "label": "Small (60vh)" },
+        { "value": "80vh", "label": "Medium (80vh)" },
+        { "value": "100vh", "label": "Full Screen (100vh)" },
+        { "value": "120vh", "label": "Extra Large (120vh)" }
+      ],
+      "default": "100vh"
+    },
+    {
+      "type": "header",
+      "content": "Animation & Timing"
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "label": "Transition Speed (ms)",
+      "min": 300,
+      "max": 2000,
+      "step": 100,
+      "default": 800,
+      "info": "Faster transitions improve perceived performance"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay_enabled",
+      "label": "Enable Autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "Autoplay Delay (ms)",
+      "min": 200,
+      "max": 1000,
+      "step": 50,
+      "default": 300,
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Loop Slides",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mousewheel_control",
+      "label": "Mouse Wheel Control",
+      "default": false,
+      "info": "Can affect page scroll performance"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "Show Navigation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Show Pagination",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "prev_text",
+      "label": "Previous Button Text",
+      "default": "Previous"
+    },
+    {
+      "type": "text",
+      "id": "next_text", 
+      "label": "Next Button Text",
+      "default": "Next"
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Navigation Color", 
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "pagination_color",
+      "label": "Pagination Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "range",
+      "id": "title_size",
+      "label": "Title Size (Desktop)",
+      "min": 20,
+      "max": 120,
+      "step": 2,
+      "default": 64,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_size_tablet",
+      "label": "Title Size (Tablet)",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "default": 48,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Title Size (Mobile)",
+      "min": 14,
+      "max": 60,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Title Font Weight",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Normal" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ],
+      "default": "600"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size",
+      "label": "Subtitle Size",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "default": 14,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Subtitle Color",
+      "default": "#cccccc"
+    },
+    {
+      "type": "header",
+      "content": "Overlay Settings"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Dark Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "light_overlay_color",
+      "label": "Light Overlay Color", 
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "Performance"
+    },
+    {
+      "type": "checkbox",
+      "id": "preload_images",
+      "label": "Preload First 2 Images",
+      "default": true,
+      "info": "Improves LCP but increases initial page weight"
+    },
+    {
+      "type": "checkbox",
+      "id": "lazy_load_videos",
+      "label": "Lazy Load Videos",
+      "default": true,
+      "info": "Improves initial page load speed"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "slide_image",
+          "label": "Slide Image",
+          "info": "Recommended: 1920x1080px or larger"
+        },
+        {
+          "type": "video",
+          "id": "slide_video",
+          "label": "Slide Video (Optional)",
+          "info": "Video will override image. Keep under 10MB for performance."
+        },
+        {
+          "type": "select",
+          "id": "overlay_style",
+          "label": "Overlay Style",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "dark", "label": "Dark" },
+            { "value": "light", "label": "Light" }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "header",
+          "content": "Content Position"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content Position",
+          "options": [
+            { "value": "top-left", "label": "Top Left" },
+            { "value": "top-center", "label": "Top Center" },
+            { "value": "top-right", "label": "Top Right" },
+            { "value": "center-left", "label": "Center Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "center-right", "label": "Center Right" },
+            { "value": "bottom-left", "label": "Bottom Left" },
+            { "value": "bottom-center", "label": "Bottom Center" },
+            { "value": "bottom-right", "label": "Bottom Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Text Alignment",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "header",
+          "content": "First Heading"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_heading_1",
+          "label": "Enable First Heading",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "slide_title_1",
+          "label": "Title 1",
+          "info": "Use | to create line breaks"
+        },
+        {
+          "type": "text",
+          "id": "slide_subtitle_1",
+          "label": "Subtitle 1"
+        },
+        {
+          "type": "url",
+          "id": "slide_link_1",
+          "label": "Link 1 (Optional)"
+        },
+        {
+          "type": "select",
+          "id": "heading_1_text_align",
+          "label": "Heading 1 Text Align",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "select",
+          "id": "heading_1_animation",
+          "label": "Heading 1 Animation",
+          "options": [
+            { "value": "fadeInUp", "label": "Fade In Up" },
+            { "value": "fadeInDown", "label": "Fade In Down" },
+            { "value": "fadeInLeft", "label": "Fade In Left" },
+            { "value": "fadeInRight", "label": "Fade In Right" },
+            { "value": "fadeIn", "label": "Fade In" }
+          ],
+          "default": "fadeInUp"
+        },
+        {
+          "type": "header",
+          "content": "Second Heading"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_heading_2",
+          "label": "Enable Second Heading",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "slide_title_2",
+          "label": "Title 2",
+          "info": "Use | to create line breaks"
+        },
+        {
+          "type": "text",
+          "id": "slide_subtitle_2",
+          "label": "Subtitle 2"
+        },
+        {
+          "type": "url",
+          "id": "slide_link_2",
+          "label": "Link 2 (Optional)"
+        },
+        {
+          "type": "select",
+          "id": "heading_2_text_align",
+          "label": "Heading 2 Text Align",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "select",
+          "id": "heading_2_animation",
+          "label": "Heading 2 Animation",
+          "options": [
+            { "value": "fadeInUp", "label": "Fade In Up" },
+            { "value": "fadeInDown", "label": "Fade In Down" },
+            { "value": "fadeInLeft", "label": "Fade In Left" },
+            { "value": "fadeInRight", "label": "Fade In Right" },
+            { "value": "fadeIn", "label": "Fade In" }
+          ],
+          "default": "fadeInUp"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Creative Slider",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "enable_heading_1": true,
+            "slide_title_1": "Creative|Showcase",
+            "slide_subtitle_1": "Premium Design"
+          }
+        },
+        {
+          "type": "slide", 
+          "settings": {
+            "enable_heading_1": true,
+            "slide_title_1": "Modern|Experience",
+            "slide_subtitle_1": "Innovative Solutions"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+{%style %}
+  /* Creative Slider Optimized CSS */
+/* Use CSS containment for better performance */
+.creative-showcase-slider {
+  contain: layout style paint;
+  position: relative;
+  overflow: hidden;
+  background: var(--slider-bg, #000);
+  color: var(--slider-text, #fff);
+}
+
+/* Slider container with aspect ratio */
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16/9;
+  min-height: var(--slide-height, 100vh);
+}
+
+/* Swiper optimizations */
+.swiper {
+  width: 100%;
+  height: 100%;
+  /* Use transform3d for GPU acceleration */
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.swiper-wrapper {
+  /* Reduce layout shift */
+  display: flex;
+  transform: translate3d(0, 0, 0);
+}
+
+.swiper-slide {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Optimize for animations */
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Slide background with optimized layering */
+.slide-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  /* Create stacking context */
+  isolation: isolate;
+}
+
+/* Optimized image rendering */
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Optimize image rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  /* Prevent layout shift */
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Video container with performance optimizations */
+.video-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Optimize video performance */
+  will-change: auto;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Overlay optimizations */
+.slide-bg.overlay-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay-color, rgba(0, 0, 0, 0.4));
+  z-index: 1;
+  pointer-events: none;
+  /* Use backdrop-filter for modern browsers */
+  backdrop-filter: brightness(0.8);
+}
+
+.slide-bg.overlay-light::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--light-overlay-color, rgba(255, 255, 255, 0.4));
+  z-index: 1;
+  pointer-events: none;
+  backdrop-filter: brightness(1.2);
+}
+
+/* Content positioning system */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  /* Create containing block for absolute positioning */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-inner {
+  width: 100%;
+  text-align: center;
+}
+
+/* Content positioning variants */
+.content-pos-top-left .slide-content { align-items: flex-start; justify-content: flex-start; }
+.content-pos-top-center .slide-content { align-items: flex-start; justify-content: center; }
+.content-pos-top-right .slide-content { align-items: flex-start; justify-content: flex-end; }
+.content-pos-center-left .slide-content { align-items: center; justify-content: flex-start; }
+.content-pos-center .slide-content { align-items: center; justify-content: center; }
+.content-pos-center-right .slide-content { align-items: center; justify-content: flex-end; }
+.content-pos-bottom-left .slide-content { align-items: flex-end; justify-content: flex-start; }
+.content-pos-bottom-center .slide-content { align-items: flex-end; justify-content: center; }
+.content-pos-bottom-right .slide-content { align-items: flex-end; justify-content: flex-end; }
+
+/* Typography with fluid scaling */
+.heading-block {
+  margin-bottom: 2rem;
+  /* Animation optimization */
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.swiper-slide-active .heading-block {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Text alignment utilities */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* Responsive typography with clamp() */
+.slide-title {
+  font-size: clamp(2rem, 4vw, var(--title-size, 4rem));
+  font-weight: var(--title-weight, 600);
+  color: var(--title-color, #fff);
+  line-height: 1.1;
+  margin: 0 0 1rem 0;
+  /* Optimize text rendering */
+  text-rendering: optimizeLegibility;
+  font-display: swap;
+}
+
+.slide-subtitle {
+  font-size: clamp(0.875rem, 1.5vw, var(--subtitle-size, 1rem));
+  color: var(--subtitle-color, #ccc);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 1.5rem 0;
+  font-weight: 500;
+}
+
+.slide-link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+.slide-link:hover {
+  opacity: 0.8;
+}
+
+.title-line {
+  display: inline-block;
+  /* Stagger animation for multiple lines */
+  transition-delay: calc(var(--line-index, 0) * 0.1s);
+}
+
+/* Navigation with improved accessibility */
+.slider-navigation {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem;
+  border-top: 1px solid var(--nav-color, rgba(255, 255, 255, 0.2));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+}
+
+.slider-btn {
+  background: none;
+  border: none;
+  color: var(--nav-color, #fff);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+  /* Improve touch targets */
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider-btn:hover {
+  opacity: 0.8;
+  transform: translateY(-2px);
+}
+
+.slider-btn:focus {
+  outline: 2px solid var(--nav-color, #fff);
+  outline-offset: 2px;
+}
+
+.slider-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Optimized pagination */
+.slider-pagination {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--pagination-color, rgba(255, 255, 255, 0.5));
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  /* Improve touch targets */
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-pagination-bullet::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: var(--pagination-color, #fff);
+}
+
+.swiper-pagination-bullet-active::before {
+  width: 16px;
+  height: 16px;
+}
+
+.bullet-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid var(--pagination-color, #fff);
+  border-top-color: transparent;
+  animation: progress-ring var(--autoplay-delay, 5000ms) linear infinite;
+  opacity: 0;
+}
+
+.swiper-pagination-bullet-active .bullet-progress {
+  opacity: 1;
+}
+
+@keyframes progress-ring {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Animation variants */
+[data-animation="fadeInUp"] {
+  transform: translateY(50px);
+}
+
+[data-animation="fadeInDown"] {
+  transform: translateY(-50px);
+}
+
+[data-animation="fadeInLeft"] {
+  transform: translateX(-50px);
+}
+
+[data-animation="fadeInRight"] {
+  transform: translateX(50px);
+}
+
+[data-animation="fadeIn"] {
+  transform: translateY(0);
+}
+
+/* Responsive optimizations */
+@media (max-width: 1024px) {
+  .slide-content {
+    padding: 0 15px;
+  }
+  
+  .slider-navigation {
+    padding: 1.5rem;
+  }
+  
+  .slide-title {
+    font-size: clamp(1.75rem, 6vw, 3rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .slide-content {
+    padding: 0 10px;
+  }
+  
+  .slider-navigation {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .slider-btn span {
+    font-size: 0.875rem;
+  }
+  
+  .slide-title {
+    font-size: clamp(1.5rem, 8vw, 2.5rem);
+  }
+  
+  .slide-subtitle {
+    font-size: clamp(0.75rem, 3vw, 0.875rem);
+    margin-bottom: 1rem;
+  }
+  
+  .heading-block {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .heading-block,
+  .slider-btn,
+  .swiper-pagination-bullet {
+    transition: none;
+  }
+  
+  .bullet-progress {
+    animation: none;
+  }
+  
+  [data-animation] {
+    transform: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .slide-bg.overlay-dark::before,
+  .slide-bg.overlay-light::before {
+    backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.8);
+  }
+  
+  .slider-btn {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Print styles */
+@media print {
+  .creative-showcase-slider {
+    height: auto !important;
+    min-height: auto !important;
+    page-break-inside: avoid;
+  }
+  
+  .swiper-slide {
+    position: static !important;
+    display: block !important;
+    height: auto !important;
+    page-break-inside: avoid;
+    margin-bottom: 2rem;
+  }
+  
+  .slider-navigation,
+  .video-container {
+    display: none !important;
+  }
+}
+{% endstyle %}
+ {% endcomment %}

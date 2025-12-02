@@ -1,0 +1,469 @@
+<div id="{{section.id}}" class="shopify-section">
+{% assign section_st = section.settings %}
+<div class="sec_cov" style="--sbg:{{ section_st.bg }};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px">  
+  <div class="{% if section_st.sw %}fw-sec{% if section_st.npd %} npd{% endif %}{% else %}page-width{% endif %} pr" style="--cl:{{ section_st.cl }};--fs:{{ section_st.fs }}px;--fsm:{{ section_st.fsm }}px;--fw:{{ section_st.fw }};--bcl:{{ section_st.bcl }};--fbg:{{ section_st.fbg }};--bd:{{ section_st.bd }};">
+    
+    <div class="banner {{section_st.media_height }} mobile:{{section_st.media_height }} pr">
+      <span class="banner__overlay absolute top-0 left-0 w-full h-full pointer-events-none"></span>
+      
+      <scrolled-images class="scrolled-images block absolute top-0 left-0 w-full h-full overflow-hidden" data-parallax="{{ section_st.parallax_speed | default: 1.5 }}">
+        <div class="scrolled-images__main absolute top-0 left-0 w-full h-full">
+          {% comment %} Build image array {% endcomment %}
+          {% assign all_images = '' %}
+          
+          {% if section_st.image_1 != blank %}
+            {% assign img1 = section_st.image_1 | image_url: width: 720 %}
+            {% assign all_images = all_images | append: img1 | append: ',' %}
+          {% endif %}
+          
+          {% if section_st.image_2 != blank %}
+            {% assign img2 = section_st.image_2 | image_url: width: 720 %}
+            {% assign all_images = all_images | append: img2 | append: ',' %}
+          {% endif %}
+          
+          {% if section_st.image_3 != blank %}
+            {% assign img3 = section_st.image_3 | image_url: width: 720 %}
+            {% assign all_images = all_images | append: img3 | append: ',' %}
+          {% endif %}
+          
+          {% if section_st.image_4 != blank %}
+            {% assign img4 = section_st.image_4 | image_url: width: 720 %}
+            {% assign all_images = all_images | append: img4 | append: ',' %}
+          {% endif %}
+          
+          {% if section_st.image_5 != blank %}
+            {% assign img5 = section_st.image_5 | image_url: width: 720 %}
+            {% assign all_images = all_images | append: img5 | append: ',' %}
+          {% endif %}
+
+          {% assign images = all_images | remove_last: ',' | split: ',' %}
+          
+          {% comment %} Create 3 rows with different starting points {% endcomment %}
+          {% for row in (0..2) %}
+            <div class="scrolled-images__row">
+              {% assign start_pos = row | times: 1 | modulo: images.size %}
+              
+              {% for repeat in (0..2) %}
+                {% for i in (0..images.size) %}
+                  {% assign img_index = i | plus: start_pos | modulo: images.size %}
+                  {% assign current_image = images[img_index] %}
+                  {% if current_image != blank and current_image != '' %}
+                    <lazy-background class="scrolled-images__item" style="background-image: url({{ current_image }});"></lazy-background>
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </scrolled-images>
+      
+      <div class="banner__content overflow-hidden absolute z1 top-0 left-0 w-full h-full">
+<div class="pc-text fw-sec fl f-col f-aic f-jcsb-md h_100 pr zi3 wd_100 f-row-md f-jcc hide-md hide-sm">
+                      <div class="fl f-col" style ="max-width:800px;">
+            {% if section_st.heading != blank %}
+              <h2 class="pc-heading em_fancy ">
+                {{ section_st.heading }}
+              </h2>
+            {% endif %}
+            {% if section_st.subheading != blank %}
+              <div class="sbttl"style="color:white;">
+                {{ section_st.subheading }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<style>
+/* Essential CSS Variables */
+:root {
+  --color-base-background: #ffffff;
+  --color-base-text: #1a1a1a;
+  --color-base-highlight: #3b82f6;
+  --color-base-button: #2563eb;
+  --color-base-button-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  --color-base-button-text: #ffffff;
+  --page-padding: 20px;
+  --border-radius: clamp(4px, 1.578vw, 12px);
+  --animation-primary: 0.5s cubic-bezier(0.3, 1, 0.3, 1);
+  --transform-logical: 1;
+}
+  #{{section.id}} {
+    --color-overlay: 23 23 23;
+    --overlay-opacity: 1.0;
+  }
+.pointer-events-none { pointer-events: none; }
+.absolute { position: absolute; }
+.block { display: block; }
+.flex { display: flex; }
+.hidden { display: none; }
+.overflow-hidden { overflow: hidden; }
+.top-0 { top: 0; }
+.left-0 { left: 0; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+/* Banner Styles */
+.banner {
+  color: rgb(var(--color-base-text));
+}
+
+.banner__overlay {
+  z-index: 0;
+  background-color: rgb(var(--color-overlay) / var(--overlay-opacity));
+}
+
+/* Scrolled Images */
+.scrolled-images__main {
+  --tiles-height: 60vw;
+  --tileswrap-height: calc(var(--tiles-height) * 3.5);
+  transform: translate(-50%, -50%) rotate(50deg);
+  left: 55%;
+  height: var(--tileswrap-height);
+}
+
+@media screen and (min-width: 768px) {
+  .scrolled-images__main {
+    --tileswrap-height: calc(var(--tiles-height) * 2);
+    top: 100%;
+    left: 40%;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .scrolled-images__main {
+    --tileswrap-height: calc(var(--tiles-height) * 1.8);
+    top: 50%;
+  }
+}
+
+.banner__content {
+  scroll-timeline-name: imagescroll;
+  scroll-timeline-axis: vertical;
+  overflow: auto;
+}
+.banner__content {
+  position: relative;
+  z-index: 1;
+}
+
+.scrolled-images__row {
+  display: flex;
+}
+
+.scrolled-images__row:first-child { 
+  opacity: 0.3;
+}
+.scrolled-images__row:nth-child(2) { 
+  opacity: 0.2;
+  animation-direction: reverse;
+}
+.scrolled-images__row:nth-child(3) { 
+  opacity: 0.1;
+}
+
+.scrolled-images__item {
+  --tile-margin: 1vw;
+  background-position: center;
+  background-size: cover;
+  flex: none;
+  transform: rotate(-90deg);
+  margin: var(--tile-margin);
+  height: calc(var(--tileswrap-height) / 4 - var(--tile-margin) * 2);
+  width: calc(var(--tileswrap-height) / 4 - var(--tile-margin) * 2);
+  border-radius: 25px;
+}
+
+</style>
+<script>
+  window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+
+    document.querySelectorAll(".scrolled-images__row").forEach((row, i) => {
+      let speed = (i + 1) * 0.3; // control speed per row
+      row.style.transform = `translateX(${-(scrollY * speed)}px)`;
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Scrolled Images Banner",
+  "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Collection Title"
+        },
+        {
+          "type": "richtext",
+          "id": "subheading",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "show_view_all",
+          "label": "Button Text",
+          "default": "View All"
+        },
+        {
+          "type": "text",
+          "id": "collection",
+          "label": "Collection Handle"
+        },
+        {
+        "type": "header",
+        "content": "Image Settings"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "Image 1",
+        "info": "Required - will be used as fallback"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_2",
+        "label": "Image 2",
+        "info": "Required - will be used as fallback"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_3",
+        "label": "Image 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_4",
+        "label": "Image 4"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_5",
+        "label": "Image 5"
+      },
+        {
+      "type": "select",
+      "id": "media_height",
+      "label": "Media Height",
+      "default": "media--400px",
+      "options": [
+        { "value": "media--400px", "label": "400px" },
+        { "value": "media--450px", "label": "450px" },
+        { "value": "media--500px", "label": "500px" },
+        { "value": "media--550px", "label": "550px" },
+        { "value": "media--600px", "label": "600px" },
+        { "value": "media--650px", "label": "650px" },
+        { "value": "media--700px", "label": "700px" },
+        { "value": "media--750px", "label": "750px" },
+        { "value": "media--800px", "label": "800px" },
+        { "value": "media--850px", "label": "850px" },
+        { "value": "media--900px", "label": "900px" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "fs",
+      "label": "Font Size",
+      "default": 20,
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "fsm",
+      "label": "Font Size (mobile)",
+      "default": 18,
+      "min": 10,
+      "max": 30,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "fw",
+      "label": "Font Weight",
+      "default": "600",
+      "options": [
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" },
+        { "value": "700", "label": "Bold" }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "cl",
+      "label": "Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "bcl",
+      "label": "Box Text Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "bd",
+      "label": "Border Color",
+      "default": "#eee"
+    },
+    {
+      "type": "color",
+      "id": "fbg",
+      "label": "Background Color",
+      "default": "#f4f4f4"
+    },
+        {
+      "type": "checkbox",
+      "id": "sw",
+      "label": "Full width",
+      "default": false
+    },
+    {
+            "type":"checkbox",
+            "id":"npd",
+            "label":"No Padding?",
+            "default": true,
+            "info":"Remove left/right padding for fullwidth"
+    },
+    {
+      "type": "range",
+      "id": "sst",
+      "label": "Top spacing",
+      "default": 30,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "ssb",
+      "label": "Bottom spacing",
+      "default": 80,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "sstm",
+      "label": "Top spacing (mobile)",
+      "default": 15,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "ssbm",
+      "label": "Bottom spacing (mobile)",
+      "default": 30,
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "bg",
+      "label": "Background"
+    },
+    {
+      "type": "range",
+      "id": "parallax_speed",
+      "label": "Parallax Speed",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.1,
+      "default": 1.5
+    },
+    {
+      "type": "range",
+      "id": "spacing_top_desktop",
+      "label": "Top Spacing Desktop",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "spacing_top_mobile",
+      "label": "Top Spacing Mobile",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "animate_delay_base",
+      "label": "Animation Base Delay",
+      "min": 100,
+      "max": 500,
+      "step": 50,
+      "default": 250,
+      "unit": "ms"
+    },
+    {
+      "type": "range",
+      "id": "animate_delay_increment",
+      "label": "Animation Delay Increment",
+      "min": 10,
+      "max": 100,
+      "step": 10,
+      "default": 30,
+      "unit": "ms"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Scrolled Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolled Images Banner",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

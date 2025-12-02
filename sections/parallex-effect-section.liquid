@@ -1,0 +1,504 @@
+{% assign section_st = section.settings %}
+<style>
+  .parallax-container {
+    scroll-behavior: smooth;
+  }
+  
+  .parallax-section {
+    background-attachment: fixed;
+    background-position: {{ section_st.image_position }};
+    background-size: {{ section_st.image_size }};
+    background-repeat: no-repeat;
+    height: {{ section_st.section_height }}vh;
+    width: 100%;
+    color: {{ section_st.text_color }};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: {{ section_st.margin_top }}px;
+    margin-bottom: {{ section_st.margin_bottom }}px;
+  }
+  
+  .parallax-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, {{ section_st.overlay_opacity | divided_by: 100.0 }});
+    z-index: 1;
+  }
+  
+  .topographic-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    opacity: {{ section_st.topo_opacity | divided_by: 100.0 }};
+  }
+  
+  .topo-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 8px,
+        {{ section_st.topo_line_color }} 8px,
+        {{ section_st.topo_line_color }} 9px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 12px,
+        {{ section_st.topo_line_color }} 12px,
+        {{ section_st.topo_line_color }} 13px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 15px,
+        {{ section_st.topo_line_color }} 15px,
+        {{ section_st.topo_line_color }} 16px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 20px,
+        {{ section_st.topo_line_color }} 20px,
+        {{ section_st.topo_line_color }} 21px
+      );
+    animation: topoMove 30s linear infinite;
+  }
+  
+  .altitude-text {
+    position: absolute;
+    color: {{ section_st.text_color }};
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    transform-style: preserve-3d;
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .altitude-1 { top: 15%; left: 20%; font-size: 14px; animation-delay: 0s; }
+  .altitude-2 { top: 25%; right: 25%; font-size: 12px; animation-delay: 0.5s; }
+  .altitude-3 { top: 35%; left: 15%; font-size: 16px; animation-delay: 1s; }
+  .altitude-4 { top: 45%; right: 20%; font-size: 13px; animation-delay: 1.5s; }
+  .altitude-5 { top: 55%; left: 30%; font-size: 15px; animation-delay: 2s; }
+  .altitude-6 { top: 65%; right: 35%; font-size: 11px; animation-delay: 2.5s; }
+  .altitude-7 { top: 75%; left: 25%; font-size: 14px; animation-delay: 3s; }
+  .altitude-8 { top: 20%; left: 60%; font-size: 12px; animation-delay: 3.5s; }
+  .altitude-9 { top: 40%; left: 70%; font-size: 16px; animation-delay: 4s; }
+  .altitude-10 { top: 70%; right: 15%; font-size: 13px; animation-delay: 4.5s; }
+  
+  @keyframes topoMove {
+    0% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(-2px) translateY(-1px); }
+    50% { transform: translateX(1px) translateY(-2px); }
+    75% { transform: translateX(-1px) translateY(1px); }
+    100% { transform: translateX(0) translateY(0); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotateX(0deg); }
+    50% { transform: translateY(-3px) rotateX(5deg); }
+  }
+  
+  .contour-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .contour-line {
+    position: absolute;
+    border: 1px solid {{ section_st.topo_line_color }};
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: pulse 6s ease-in-out infinite;
+  }
+  
+  .contour-1 { width: 200px; height: 100px; top: 20%; left: 10%; animation-delay: 0s; }
+  .contour-2 { width: 300px; height: 150px; top: 30%; right: 15%; animation-delay: 1s; }
+  .contour-3 { width: 250px; height: 120px; top: 50%; left: 20%; animation-delay: 2s; }
+  .contour-4 { width: 180px; height: 90px; top: 60%; right: 25%; animation-delay: 3s; }
+  .contour-5 { width: 220px; height: 110px; top: 40%; left: 50%; animation-delay: 4s; }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+  
+  .parallax-content {
+    text-align: {{ section_st.text_alignment }};
+    z-index: 2;
+    position: relative;
+    padding: 20px;
+    max-width: 1200px;
+  }
+  
+  .parallax-title {
+    margin-bottom: 20px;
+    color: {{ section_st.text_color }};
+  }
+  
+  .parallax-text {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 800px;
+    color: {{ section_st.text_bg_color }};
+  }
+  em,
+  i {
+    {% if section_st.italic_outline %}
+      -webkit-text-stroke: 1px {{ section_st.text_bg_color }};
+      -webkit-text-fill-color: transparent;
+      font-style: normal;
+    {% endif %}
+  }
+  .text-block {
+    padding: {{ section_st.text_padding_top }}px {{ section_st.text_padding_horizontal }}px {{ section_st.text_padding_bottom }}px {{ section_st.text_padding_horizontal }}px;
+    margin-top: {{ section_st.margin_top }}px;
+    margin-bottom: {{ section_st.margin_bottom }}px;
+    background-color: {{ section_st.text_bg_color }};
+    line-height: 1.8;
+  }
+  
+  .text-block p {
+    margin-bottom: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .parallax-section {
+      background-attachment: scroll;
+      height: {{ section_st.mobile_height }}vh;
+    }
+    
+    .parallax-content {
+      padding: 15px;
+    }
+    
+    .text-block {
+      padding: {{ section_st.text_padding_top | divided_by: 2 }}px {{ section_st.text_padding_horizontal | divided_by: 2 }}px {{ section_st.text_padding_bottom | divided_by: 2 }}px {{ section_st.text_padding_horizontal | divided_by: 2 }}px;
+    }
+  }
+</style>
+
+<div class="parallax-container">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'parallax_hero' %}
+        <section class="parallax-section" 
+                 style="background-image: url('{{ block.settings.background_image | img_url: '2048x' }}');">
+          {% if section_st.overlay_opacity > 0 %}
+            <div class="parallax-overlay"></div>
+          {% endif %}
+          
+          {% if section_st.enable_topographic %}
+            <div class="topographic-overlay">
+              <div class="topo-lines"></div>
+              <div class="contour-lines">
+                <div class="contour-line contour-1"></div>
+                <div class="contour-line contour-2"></div>
+                <div class="contour-line contour-3"></div>
+                <div class="contour-line contour-4"></div>
+                <div class="contour-line contour-5"></div>
+              </div>
+              {% if section_st.enable_altitude_text %}
+                <div class="altitude-text altitude-1">{{ section_st.altitude_text_1 | default: "2,847m" }}</div>
+                <div class="altitude-text altitude-2">{{ section_st.altitude_text_2 | default: "1,923m" }}</div>
+                <div class="altitude-text altitude-3">{{ section_st.altitude_text_3 | default: "3,156m" }}</div>
+                <div class="altitude-text altitude-4">{{ section_st.altitude_text_4 | default: "2,634m" }}</div>
+                <div class="altitude-text altitude-5">{{ section_st.altitude_text_5 | default: "4,102m" }}</div>
+                <div class="altitude-text altitude-6">{{ section_st.altitude_text_6 | default: "1,789m" }}</div>
+                <div class="altitude-text altitude-7">{{ section_st.altitude_text_7 | default: "3,421m" }}</div>
+                <div class="altitude-text altitude-8">{{ section_st.altitude_text_8 | default: "2,198m" }}</div>
+                <div class="altitude-text altitude-9">{{ section_st.altitude_text_9 | default: "3,847m" }}</div>
+                <div class="altitude-text altitude-10">{{ section_st.altitude_text_10 | default: "2,756m" }}</div>
+              {% endif %}
+            </div>
+          {% endif %}
+          
+          <div class="parallax-content">
+            {% if block.settings.title != blank %}
+              <div class="parallax-title">{{ block.settings.title }}</div>
+            {% endif %}
+            {% if block.settings.subtitle != blank %}
+              <div class="parallax-text">{{ block.settings.subtitle }}</div>
+            {% endif %}
+          </div>
+        </section>
+        
+      {% when 'text_content' %}
+        <section class="text-block">
+          {% if block.settings.heading != blank %}
+            <h3>{{ block.settings.heading }}</h3>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <div>{{ block.settings.text }}</div>
+          {% endif %}
+        </section>
+    {% endcase %}
+  {% endfor %}
+</div>
+
+<script>
+  // Smooth scroll behavior
+  document.addEventListener('DOMContentLoaded', function() {
+    const parallaxSections = document.querySelectorAll('.parallax-section');
+    
+    function updateParallax() {
+      parallaxSections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const speed = 0.5;
+        const yPos = -(rect.top * speed);
+        section.style.backgroundPositionY = yPos + 'px';
+      });
+    }
+    
+    // Throttle scroll events for better performance
+    let ticking = false;
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+        setTimeout(() => { ticking = false; }, 16);
+      }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Parallax Scrolling",
+  "tag": "section",
+  "class": "parallax-scrolling-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Settings"
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "unit": "vh",
+      "label": "Section height (desktop)",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "min": 30,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Section height (mobile)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Background Image Settings"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "auto", "label": "Original size" }
+      ],
+      "default": "cover",
+      "label": "Image size"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "options": [
+        { "value": "center center", "label": "Center Center" },
+        { "value": "center top", "label": "Center Top" },
+        { "value": "center bottom", "label": "Center Bottom" },
+        { "value": "left center", "label": "Left Center" },
+        { "value": "left top", "label": "Left Top" },
+        { "value": "left bottom", "label": "Left Bottom" },
+        { "value": "right center", "label": "Right Center" },
+        { "value": "right top", "label": "Right Top" },
+        { "value": "right bottom", "label": "Right Bottom" }
+      ],
+      "default": "center center",
+      "label": "Image position"
+    },
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center",
+      "label": "Text alignment"
+    },
+    {
+      "type": "color",
+      "id": "text_bg_color",
+      "label": "Text block background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "text_padding_top",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Text block padding top",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "text_padding_bottom", 
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Text block padding bottom",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "text_padding_horizontal",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Text block padding horizontal",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "Overlay Settings"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 30
+    }
+  ],
+  "blocks": [
+    {
+      "type": "parallax_hero",
+      "name": "Parallax Hero",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background image"
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "Title",
+        },
+        {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Subtitle/Description"
+        }
+      ]
+    },
+    {
+      "type": "text_content",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text content",
+          "default": "<p>Add your text content here. This will appear between parallax sections.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax Scrolling",
+      "blocks": [
+        {
+          "type": "parallax_hero",
+
+        },
+        {
+          "type": "text_content"
+        },
+        {
+          "type": "parallax_hero",
+        },
+        {
+          "type": "text_content"
+        },
+        {
+          "type": "parallax_hero",
+        },
+        {
+          "type": "parallax_hero",
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

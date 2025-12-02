@@ -1,0 +1,259 @@
+{% assign section_st = section.settings %}
+<style>
+#{{ section.id }}{position:relative;height:{{ section_st.section_height }}vh;background:{{ section_st.background_color }};color:{{ section_st.text_color }};overflow:hidden;margin-top:{{ section_st.margin_top }}px;margin-bottom:{{ section_st.margin_bottom }}px}
+#{{ section.id }} .grid-container{display:grid;max-width:992px;width:100%;height:100%;padding:20px;row-gap:20px;column-gap:20px;grid-template-rows:repeat(5,minmax(0,1fr));grid-template-columns:repeat(4,minmax(0,1fr));margin:0 auto;position:relative}
+#{{ section.id }} .grid-container img{border-radius:15px;width:100%;height:100%;object-fit:cover;}
+#{{ section.id }} .top-left{grid-row:1/span 4;grid-column:1/span 1;animation-delay:0s}
+#{{ section.id }} .top-right{grid-row:2/span 3;grid-column:2/span 1;animation-delay:1.5s}
+#{{ section.id }} .bottom-left{grid-row:2/span 3;grid-column:3/span 1;animation-delay:3s}
+#{{ section.id }} .bottom-right{grid-row:2/span 4;grid-column:4/span 1;animation-delay:4.5s}
+#{{ section.id }} .text1{align-self:center;justify-self:center;grid-row:1/span 1;grid-column:2/span 4;text-align:center;z-index:10}
+#{{ section.id }} .text2{align-self:center;justify-self:center;grid-row:5/span 1;grid-column:1/span 3;text-align:center;z-index:10}
+#{{ section.id }} .grid-container img:hover{transform:scale(1.05);z-index:5}
+#{{ section.id }} .text1 i,#{{ section.id }} .text1 em{
+  {% if section_st.italic_fancy_font %}
+    {% if section_st.italic_font_selection == 'primary' %}font-family:'{{ settings.font_face_family }}';{% elsif section_st.italic_font_selection == 'alternative' %}font-family:'{{ settings.font_face_family_alternative }}';{% elsif section_st.italic_font_selection == 'secondary' %}font-family:'{{ settings.font_face_family_sec }}';{% endif %}
+    {% if section_st.italic_outline %}-webkit-text-stroke:1px currentColor;-webkit-text-fill-color:transparent;font-style:normal;{% endif %}
+  {% endif %}
+}
+#{{ section.id }} .text2 i,#{{ section.id }} .text2 em{
+  {% if section_st.italic_fancy_font %}
+    {% if section_st.italic_font_selection == 'primary' %}font-family:'{{ settings.font_face_family }}';{% elsif section_st.italic_font_selection == 'alternative' %}font-family:'{{ settings.font_face_family_alternative }}';{% elsif section_st.italic_font_selection == 'secondary' %}font-family:'{{ settings.font_face_family_sec }}';{% endif %}
+    {% if section_st.italic_outline %}-webkit-text-stroke:1px currentColor;-webkit-text-fill-color:transparent;font-style:normal;{% endif %}
+  {% endif %}
+}
+@keyframes float{0%,100%{transform:translateY(0px)}50%{transform:translateY(-15px)}}
+
+#{{ section.id }} .ft2 {
+  font-size: 60px;
+}
+
+@media (max-width:768px){
+  #{{ section.id }} .grid-container{height:100%;padding:15px;gap:15px}
+  #{{ section.id }} .ft2 {
+    font-size: 48px;
+  }
+}
+
+@media (max-width:480px){
+  #{{ section.id }}{height:400px}
+  #{{ section.id }} .grid-container{width:100%;max-width:100%;height:100%;padding:10px;row-gap:10px;column-gap:10px;grid-template-rows: repeat(4, minmax(0, 1fr));grid-template-columns: repeat(2, minmax(0, 1fr));}
+  #{{ section.id }} .text1{align-self:center;justify-self:end;grid-row:1/span 1;grid-column:2/span 1}
+  #{{ section.id }} .text2{align-self:center;justify-self:start;grid-row:4/span 1;grid-column:1/span 1}
+  #{{ section.id }} .top-left{grid-row:1/span 3;grid-column:1/span 1}
+  #{{ section.id }} .top-right{grid-row:2/span 4;grid-column:2/span 1}
+  #{{ section.id }} .bottom-left{grid-row:1/span 3;grid-column:1/span 1;}
+  #{{ section.id }} .bottom-right{grid-row:2/span 3;grid-column:2/span 1;}
+  #{{ section.id }} .ft2 {
+    font-size: 28px;
+  }
+  {% for block in section.blocks %}
+    {% if block.type == 'image' and block.settings.hide_mobile %}
+      #{{ section.id }} .{{ block.id }}{display:none}
+    {% endif %}
+  {% endfor %}
+}
+
+@media (max-width:320px){#{{ section.id }} .grid-container{height:100%;padding:8px;gap:8px}#{{ section.id }} .grid-container img{border-radius:10px}}
+</style>
+
+<div id="{{ section.id }}" class=" floating-grid-section {{ section_st.tff }}">
+  <div class="grid-container">
+    {% for block in section.blocks %}
+      {% assign bl_set = block.settings %}
+      {% case block.type %}
+        {% when 'text' %}
+          <div class="ft2 {{ bl_set.text_class }}" 
+               {{ block.shopify_attributes }}>
+            {{ bl_set.text }}
+          </div>
+        {% when 'image' %}
+          {% if bl_set.image %}
+            {% assign rotation_value = bl_set.rotation | divided_by: 100.0 %}
+            <img src="{{ bl_set.image | img_url: '800x' }}" 
+                 alt="{{ bl_set.alt_text | default: bl_set.image.alt }}" 
+                 class="{{ bl_set.image_position }} {{ block.id }}" 
+                 style="transform: rotate({{ rotation_value }}deg);"
+                 loading="lazy"
+                 {{ block.shopify_attributes }}>
+          {% endif %}
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Floating Grid Layout",
+  "tag": "section",
+  "class": "floating-grid-layout",
+  "settings": [
+    {
+      "type": "range",
+      "id": "section_height",
+      "label": "Section Height (vh)",
+      "min": 50,
+      "max": 150,
+      "step": 10,
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "italic_outline",
+      "label": "Enable Webkit Outline for Italic Text",
+      "default": false,
+      "info": "Makes italic text outlined instead of filled"
+    },
+    {
+      "type": "checkbox",
+      "id": "italic_fancy_font",
+      "label": "Enable Fancy Italic Font"
+    },
+    {
+      "type": "select",
+      "id": "italic_font_selection",
+      "label": "Fancy Font Selection",
+      "info": "Choose which font to use for the italic outline effect",
+      "options": [
+        {"value": "primary", "label": "Primary Font"},
+        {"value": "alternative", "label": "Alternative Font"},
+        {"value": "secondary", "label": "Secondary Font"}
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "select",
+      "id": "tff",
+      "label": "Font Family",
+      "options": [
+        {"value": "", "label": "Default"},
+        {"value": "font-1", "label": "Font 1"},
+        {"value": "font-2", "label": "Font 2"},
+        {"value": "font-3", "label": "Font 3"}
+      ],
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "label": "Top Margin",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom", 
+      "label": "Bottom Margin",
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text Block",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text Content",
+          "default": "<p>Your Text Here</p>"
+        },
+        {
+          "type": "select",
+          "id": "text_class",
+          "label": "Text Position",
+          "options": [
+            {"value": "text1", "label": "Top Right"},
+            {"value": "text2", "label": "Bottom Left"}
+          ],
+          "default": "text1"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Alt Text"
+        },
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image Position",
+          "options": [
+            {"value": "top-left", "label": "Top Left"},
+            {"value": "top-right", "label": "Top Right"},
+            {"value": "bottom-left", "label": "Bottom Left"},
+            {"value": "bottom-right", "label": "Bottom Right"}
+          ],
+          "default": "top-left"
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "label": "Card Rotation (0.01-5.00 degrees)",
+          "min": 10,
+          "max": 500,
+          "step": 10,
+          "default": 100,
+          "info": "Value will be divided by 100 (e.g., 250 = 2.5 degrees)"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_mobile",
+          "label": "Hide on Mobile (<480px)",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Floating Grid Layout",
+      "blocks": [
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Text 1</p>",
+            "text_class": "text1"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "<p>Text 2</p>",
+            "text_class": "text2"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

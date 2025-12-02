@@ -1,0 +1,227 @@
+<div class="product-showcase grtest">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'product_card' -%}
+        {%- assign product = all_products[block.settings.product] -%}
+        <div class="product-card" 
+             style="
+      grid-row: {{ forloop.index }} / span 1; 
+      grid-column: {% cycle '2', '3' %} / span 1;
+    "
+             {{ block.shopify_attributes }}>
+          
+          {% render 'product-card-grid', product: product, section_st: section.settings, sizes: '135px' %}
+        </div>
+      
+      {%- when 'large_text' -%}
+        <div class="large-text-container" 
+             style="grid-row: {% cycle 'row_cycle': 2, 5 %} / span 1; 
+                    grid-column: {% cycle 'col_cycle': 1, 3 %} / span 2;"
+             {{ block.shopify_attributes }}>
+          
+          {%- if block.settings.text_line_1 != blank -%}
+            <div class="large-text">{{ block.settings.text_line_1 }}</div>
+          {%- endif -%}
+        </div>
+        
+    {%- endcase -%}
+  {%- endfor -%}
+</div>
+
+<style>
+  .product-showcase {
+    display: grid;
+    padding: 72px 116px;
+    grid-template-rows: repeat(10, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    background: #f1f1f1;
+    min-height: 100vh;
+  }
+  
+  .product-card {
+    display: flex;
+    padding: 20px;
+    align-items: flex-start;
+    gap: 22px;
+    justify-self: center;
+    background: {% cycle "#F1F1F1", "#E8E8E8" %}; 
+    border-radius: 12px;
+    box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    margin: 10px;
+    z-index: 2;
+    animation: float 3s ease-in-out infinite;
+    transition: transform 0.3s ease;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Product card grid styles will be handled by the snippet */
+  
+  .large-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 30px;
+  }
+  
+  .large-text-container h1 {
+    color: #414042;
+    font-size: clamp(3rem, 12vw, 5rem);
+    font-weight: 600;
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin: 0;
+    text-align: center;
+  }
+
+  .large-text-container em,
+  .large-text-container i {
+    {% if section.settings.italic_outline %}
+      -webkit-text-stroke: 1px currentColor;
+      -webkit-text-fill-color: transparent;
+      font-style: normal;
+    {% endif %}
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .product-showcase {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      padding: 72px 20px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .product-showcase {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 2rem;
+    }
+    
+    .product-card,
+    .large-text-container {
+      grid-column: 1 !important;
+      grid-row: auto !important;
+      justify-self: stretch;
+    }
+    
+    .large-text-container {
+      position: relative;
+      top: auto;
+    }
+    
+    .large-text {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .product-card {
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+    }
+    
+    .product-info {
+      align-items: center;
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product Showcase",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title"
+    },
+    {
+      "type": "checkbox",
+      "id": "italic_outline",
+      "label": "Enable outline for italic text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "textarea",
+          "id": "product_description",
+          "label": "Custom Product Description",
+          "info": "Leave blank to use product's default description"
+        },
+        {
+          "type": "range",
+          "id": "grid_row",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 1,
+          "label": "Grid Row Position"
+        },
+        {
+          "type": "range",
+          "id": "grid_column",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 1,
+          "label": "Grid Column Position"
+        }
+      ]
+    },
+    {
+      "type": "large_text",
+      "name": "Large Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text_line_1",
+          "label": "Text Line"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Showcase",
+      "blocks": [
+        {
+          "type": "product_card"
+        },
+        {
+          "type": "large_text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

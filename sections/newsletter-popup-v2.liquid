@@ -1,0 +1,754 @@
+{{ 'newsletter-popup.css' | asset_url | stylesheet_tag }}
+
+{%- assign popup_id = 'newsletter-popup-' | append: section.id -%}
+{%- assign show_popup = true -%}
+
+<div
+  id="{{ popup_id }}"
+  class="newsletter-popup-overlay"
+  data-popup-delay="{{ section.settings.popup_delay | default: 3000 }}"
+>
+  <div class="newsletter-popup-container animate-fade-in">
+    <div
+      class="newsletter-popup-content"
+      style="{% if section.settings.background_image %}background-image: url('{{ section.settings.background_image | img_url: '800x600' }}');{% endif %}"
+    >
+      <!-- Close Button -->
+      <button class="newsletter-popup-close" aria-label="Close popup">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Content Layout -->
+      <div class="newsletter-popup-layout {{ section.settings.layout_style }}">
+        <!-- Image Block -->
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'image' -%}
+              {%- if block.settings.image -%}
+                <div class="newsletter-popup-image animate-slide-in-left" {{ block.shopify_attributes }}>
+                  <img
+                    src="{{ block.settings.image | img_url: '400x400' }}"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    loading="lazy"
+                  >
+                </div>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+
+        <!-- Text Content -->
+        <div class="newsletter-popup-text animate-slide-in-right">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'heading' -%}
+                {%- if block.settings.heading != blank -%}
+                  <{{ block.settings.heading_tag | default: 'h2' }}
+                    class="newsletter-popup-heading"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- assign heading_parts = block.settings.heading | split: ' ' -%}
+                    {%- for word in heading_parts -%}
+                      {%- if block.settings.stroke_text and forloop.index <= block.settings.stroke_words -%}
+                        <em class="stroke-text">{{ word }}</em>
+                      {%- else -%}
+                        {{ word }}
+                      {%- endif -%}
+                      {%- unless forloop.last %} {% endunless -%}
+                    {%- endfor -%}
+                  </{{ block.settings.heading_tag | default: 'h2' }}>
+                {%- endif -%}
+
+              {%- when 'subheading' -%}
+                {%- if block.settings.subheading != blank -%}
+                  <{{ block.settings.subheading_tag | default: 'h3' }}
+                    class="newsletter-popup-subheading"
+                    {{ block.shopify_attributes }}
+                  >
+                    {%- assign sub_parts = block.settings.subheading | split: ' ' -%}
+                    {%- for word in sub_parts -%}
+                      {%- if block.settings.stroke_text and forloop.index <= block.settings.stroke_words -%}
+                        <i class="stroke-text">{{ word }}</i>
+                      {%- else -%}
+                        {{ word }}
+                      {%- endif -%}
+                      {%- unless forloop.last %} {% endunless -%}
+                    {%- endfor -%}
+                  </{{ block.settings.subheading_tag | default: 'h3' }}>
+                {%- endif -%}
+
+              {%- when 'paragraph' -%}
+                {%- if block.settings.text != blank -%}
+                  <p class="newsletter-popup-paragraph" {{ block.shopify_attributes }}>
+                    {{ block.settings.text }}
+                  </p>
+                {%- endif -%}
+
+              {%- when 'form' -%}
+                <div class="newsletter-popup-form" {{ block.shopify_attributes }}>
+                  {%- form 'customer', class: 'newsletter-form' -%}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <div class="form-group">
+                      <input
+                        type="email"
+                        name="contact[email]"
+                        class="form-input"
+                        placeholder="{{ block.settings.email_placeholder | default: 'Enter your email' }}"
+                        required
+                        autocomplete="email"
+                      >
+                      <button type="submit" class="form-button">
+                        {{ block.settings.button_text | default: 'Subscribe' }}
+                        <svg class="button-icon" width="16" height="16" viewBox="0 0 16 16">
+                          <path d="M8 1L15 8L8 15M15 8H1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                    {%- if block.settings.show_consent -%}
+                      <label class="consent-checkbox">
+                        <input type="checkbox" required>
+                        <span class="checkmark"></span>
+                        {{ block.settings.consent_text | default: 'I agree to receive marketing emails' }}
+                      </label>
+                    {%- endif -%}
+                  {%- endform -%}
+                </div>
+
+              {%- when 'social' -%}
+                <div class="newsletter-popup-social" {{ block.shopify_attributes }}>
+                  {%- if block.settings.social_title -%}
+                    <p class="social-title">{{ block.settings.social_title }}</p>
+                  {%- endif -%}
+                  {%- render 'social-media' -%}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Newsletter Popup Styles */
+  .newsletter-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .newsletter-popup-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .newsletter-popup-container {
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    transform: scale(0.8) translateY(40px);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .newsletter-popup-overlay.active .newsletter-popup-container {
+    transform: scale(1) translateY(0);
+  }
+
+  .newsletter-popup-content {
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+
+  .newsletter-popup-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(2px);
+  }
+
+  .newsletter-popup-layout {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    min-height: 400px;
+    max-width: 800px;
+  }
+
+  .newsletter-popup-layout.image-left {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .newsletter-popup-layout.image-right {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .newsletter-popup-layout.image-right .newsletter-popup-image {
+    order: 2;
+  }
+
+  .newsletter-popup-layout.no-image {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+  .newsletter-popup-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .newsletter-popup-close:hover {
+    background: rgba(0, 0, 0, 0.2);
+    transform: rotate(90deg);
+  }
+
+  .newsletter-popup-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .newsletter-popup-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .newsletter-popup-text {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .newsletter-popup-heading {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+    color: #1a1a1a;
+  }
+
+  .newsletter-popup-subheading {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 600;
+    margin: 0;
+    color: #4a5568;
+  }
+
+  .newsletter-popup-paragraph {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  /* Stroke Text Effect */
+  .stroke-text {
+    -webkit-text-stroke: 2px currentColor;
+    -webkit-text-fill-color: transparent;
+    font-style: normal;
+    font-weight: inherit;
+  }
+
+  /* Form Styles */
+  .newsletter-popup-form {
+    margin-top: 10px;
+  }
+
+  .form-group {
+    display: flex;
+    gap: 0;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+
+  .form-input {
+    flex: 1;
+    padding: 16px 20px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background: transparent;
+  }
+
+  .form-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .form-button {
+    padding: 16px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .form-button:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    transform: translateX(2px);
+  }
+
+  .button-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .form-button:hover .button-icon {
+    transform: translateX(4px);
+  }
+
+  .consent-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+    font-size: 0.875rem;
+    color: #6b7280;
+    cursor: pointer;
+  }
+
+  .consent-checkbox input {
+    display: none;
+  }
+
+  .checkmark {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .consent-checkbox input:checked + .checkmark {
+    background: #667eea;
+    border-color: #667eea;
+  }
+
+  .consent-checkbox input:checked + .checkmark::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  /* Social Media Styles */
+  .newsletter-popup-social {
+    margin-top: 10px;
+  }
+
+  .social-title {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0 0 15px 0;
+    text-align: center;
+  }
+
+  /* Animation Classes */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out 0.2s both;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.6s ease-out 0.4s both;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.6s ease-out 0.6s both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .newsletter-popup-layout.image-left,
+    .newsletter-popup-layout.image-right {
+      grid-template-columns: 1fr;
+      grid-template-rows: 200px 1fr;
+    }
+
+    .newsletter-popup-layout.image-right .newsletter-popup-image {
+      order: 0;
+    }
+
+    .newsletter-popup-text {
+      padding: 30px 25px;
+      gap: 15px;
+    }
+
+    .form-group {
+      flex-direction: column;
+      border-radius: 12px;
+    }
+
+    .form-input,
+    .form-button {
+      border-radius: 0;
+    }
+
+    .form-input {
+      border-radius: 12px 12px 0 0;
+    }
+
+    .form-button {
+      border-radius: 0 0 12px 12px;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .newsletter-popup-container {
+      max-width: 95vw;
+      border-radius: 15px;
+    }
+
+    .newsletter-popup-text {
+      padding: 25px 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('{{ popup_id }}');
+    const closeBtn = popup.querySelector('.newsletter-popup-close');
+    const delay = parseInt(popup.dataset.popupDelay) || 3000;
+
+    // Show popup after delay if not seen before
+    const popupSeen = localStorage.getItem('newsletter-popup-seen');
+    if (!popupSeen) {
+      setTimeout(() => {
+        popup.classList.add('active');
+      }, delay);
+    }
+
+    // Close popup function
+    function closePopup() {
+      popup.classList.remove('active');
+      localStorage.setItem('newsletter-popup-seen', 'true');
+    }
+
+    // Close button click
+    closeBtn.addEventListener('click', closePopup);
+
+    // Close on overlay click
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && popup.classList.contains('active')) {
+        closePopup();
+      }
+    });
+
+    // Form submission
+    const form = popup.querySelector('.newsletter-form');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Add your form submission logic here
+        const email = form.querySelector('input[name="contact[email]"]').value;
+
+        // Show success message
+        const button = form.querySelector('.form-button');
+        const originalText = button.innerHTML;
+        button.innerHTML = '✓ Subscribed!';
+        button.style.background = '#10b981';
+
+        setTimeout(() => {
+          closePopup();
+        }, 1500);
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Newsletter Popup",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout Style",
+      "options": [
+        {
+          "value": "image-left",
+          "label": "Image Left"
+        },
+        {
+          "value": "image-right",
+          "label": "Image Right"
+        },
+        {
+          "value": "no-image",
+          "label": "Text Only"
+        }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image (Optional)"
+    },
+    {
+      "type": "range",
+      "id": "popup_delay",
+      "label": "Popup Delay (seconds)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading Text",
+          "default": "Stay Updated with Our Newsletter"
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading Tag",
+          "options": [
+            {"value": "h1", "label": "H1"},
+            {"value": "h2", "label": "H2"},
+            {"value": "h3", "label": "H3"}
+          ],
+          "default": "h2"
+        },
+        {
+          "type": "checkbox",
+          "id": "stroke_text",
+          "label": "Enable Stroke Text Effect",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "stroke_words",
+          "label": "Number of Words with Stroke Effect",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 2
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading Text",
+          "default": "Get Exclusive Offers & Updates"
+        },
+        {
+          "type": "select",
+          "id": "subheading_tag",
+          "label": "Subheading Tag",
+          "options": [
+            {"value": "h2", "label": "H2"},
+            {"value": "h3", "label": "H3"},
+            {"value": "h4", "label": "H4"}
+          ],
+          "default": "h3"
+        },
+        {
+          "type": "checkbox",
+          "id": "stroke_text",
+          "label": "Enable Stroke Text Effect",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "stroke_words",
+          "label": "Number of Words with Stroke Effect",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Paragraph Text",
+          "default": "Join thousands of subscribers and be the first to know about our latest products, exclusive deals, and insider tips."
+        }
+      ]
+    },
+    {
+      "type": "form",
+      "name": "Email Form",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "email_placeholder",
+          "label": "Email Placeholder",
+          "default": "Enter your email address"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "Subscribe Now"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_consent",
+          "label": "Show Consent Checkbox",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "consent_text",
+          "label": "Consent Text",
+          "default": "I agree to receive marketing emails and understand I can unsubscribe at any time."
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social Media",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "social_title",
+          "label": "Social Title",
+          "default": "Follow us on social media"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter Popup",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "heading"
+        },
+        {
+          "type": "subheading"
+        },
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "form"
+        },
+        {
+          "type": "social"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,331 @@
+{% capture upsell_bundel %}
+{%- liquid
+    assign section_st = section.settings
+    assign current_product = product
+    assign fbt_products = section_st.products | where: 'available', true
+    assign price = 0
+    assign cm_price_total = 0
+-%}
+{% if fbt_products != blank %}
+{% style %}
+    .fbdata:not(.checked), .fbtImg.disable { opacity:0.3; }
+    .fbtproductImgs { overflow:auto; scrollbar-color:grey transparent; scrollbar-width: thin; }
+    .fbtImgCol { width:100%; }
+    .fbtImgCol img { padding:3px; background:#fff;}
+    .sep-plus { min-width:18px; }
+    .fbdata .fbtlbl { cursor:pointer; }
+    .fbdata .mainPr { pointer-events:none; }
+    .fbdata .price { color:{{ settings.grid_price_cl }}; }
+    .fbtPrice { color:{{ settings.grid_price_cl }}; font-size:120%; }
+    .fbtVriants { padding:5px 10px; } 
+    .ttl_price { font-size:17px; color:{{settings.grid_price_cl_sale}};} 
+    .upsellAddToCart {margin:0 auto; max-width:200px; white-space:nowrap;}
+    .h4, h4{font-size: 19px}
+    
+    /* Grid Layout Styles */
+    .bundle-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        align-items: start;
+    }
+    
+    .products-container {
+        grid-column: span 3;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .product-item {
+        grid-column: span 1;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .bundle-summary {
+        grid-column: span 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: sticky;
+        top: 20px;
+    }
+    
+    .product-card {
+        background: #fff;
+        border-radius: 8px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .product-image-wrapper {
+        margin-bottom: 15px;
+        flex-shrink: 0;
+    }
+    
+    .product-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .bundle-info {
+        background: #fff;
+        border: 2px solid #333;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    
+    .bundle-info h3 {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .bundle-savings {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 15px;
+    }
+    
+    .bundle-requirement {
+        font-size: 0.9rem;
+        color: #999;
+    }
+    
+   @media only screen and (max-width:990px){
+      .bundle-grid { 
+          grid-template-columns: 1fr; 
+      }
+      .products-container { 
+          grid-column: span 1;
+          grid-template-columns: 1fr;
+      }
+      .product-item { 
+          grid-column: span 1; 
+      }
+      .bundle-summary { 
+          grid-column: span 1; 
+          order: -1;
+          padding: 20px;
+      }
+      .bundle-title { font-size: 2rem; }
+      .fbtbtnCol { text-align:center; margin:10px 0 0; background: #fff; padding:25px 30px 30px; border: 1px solid #eee;}   
+   }
+{% endstyle %}
+<div class="sec_cov hide-md{% if section_st.hidem %} hide-sm{% endif %}" style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px">   
+    <div class="{% if section_st.sw %}fw-sec{% else %}page-width{% endif %}" id="{{ section.id }}">
+        <product-bundel>
+            {%- assign product_form_id = 'product-upsell-' | append: section.id -%}
+            {%- form 'product', product, id: product_form_id, class:'form', novalidate:'novalidate', data-type:'add-to-cart-form' -%}
+                <div class="bundle-grid">
+                    <!-- Products Container (Left - spans 3 columns) -->
+                    <div class="products-container">
+                        {% for product in fbt_products %}
+                            {%- assign current_variant = product.selected_or_first_available_variant -%}
+                            {%- liquid
+                                assign index = forloop.index
+                                assign rg_price = current_variant.price
+                                assign price = price | plus:rg_price
+                                assign cm_price = current_variant.compare_at_price | default: current_variant.price
+                                assign cm_price_total = cm_price_total | plus: cm_price
+                                assign is_variants = product.variants | where: 'available', true
+                            -%}
+                            
+                            <div class="product-item {% render 'animate-data', css:true %}" {% render 'animate-data' %}>
+                                <div class="product-card">
+                                    <div class="product-image-wrapper">
+                                        <a class="grid_img" href="{{ product.url }}" title="{{ product.title }}">
+                                            {% assign img_id = 'img' | append: product.id %}
+                                            {{ product.featured_image | image_url: width: 400 | image_tag: loading:'lazy', class:'imgFt fbtImg', id:img_id }}
+                                        </a>
+                                    </div>
+                                    
+                                    <div class="product-details grid_bx">
+                                        <div class="fbdata fl f-jcc f-wrap f-aic gap mb15 checked" style="--gap:15px;">
+                                          
+                                            <div class="product-title grid_title">
+                                                {% if current_product == product %}
+                                                    <span><b class="hide">{{ 'products.upsell.this_item' | t }}:</b> {{ product.title }}</span>
+                                                {% else %}
+                                                    <a href="{{ product.url }}" title="{{ product.title }}">{{ product.title }}</a>
+                                                {% endif %}
+                                            </div>
+                                            
+                                            <div class="fl f-jcc">
+                                              <div class="fl f-aic ml10">
+                                                <span class="price fwsb mr5 fs15 pr_price sale">{{ current_variant.price | money }}</span>
+                                                <s class="cmprice pr_price{% if current_variant.compare_at_price < current_variant.price %} hide{% endif %}">{{ current_variant.compare_at_price | money }}</s>
+                                              </div>
+                                            </div>
+                                            <div class="fl f-acc f-jcsb f-aic gap10">
+                                                <label class="hidden_txt" for="PrSelect-{{ product.id }}">Select Variant</label>
+                                                <select name="items[][id]" id="PrSelect-{{ product.id }}" 
+                                                  class="w_100 mb0 fbtVriants{% if product.variants[0].title == 'Default Title' or is_variants == blank %} hide{% endif %}{% unless current_variant.available %} disable{% endunless %}"
+                                                  data-id="img{{ product.id }}">
+                                                    {%- for variant in product.variants -%}
+                                                        {%- if variant.available -%}
+                                                          <option{% if variant == current_variant %} selected="selected"{% endif %} value="{{ variant.id }}" 
+                                                            {%- if variant.image -%}data-img="{{ variant.image | image_url: width: '250' }}"{% endif %}
+                                                            data-price="{{ variant.price }}"
+                                                            data-cmprice="{{ variant.compare_at_price | default: variant.price }}">{{ variant.title }}</option>
+                                                        {%- endif -%}
+                                                    {%- endfor -%}
+                                                </select>                                                                        <label class="fl fbtlbl mb0{% if current_product == product %} mainPr{% endif %}">
+                                                 <input type="checkbox" id="fbtCk{{ index }}" class="custCheck fbtCheck" checked="checked"><span class="checkbox m0"></span>
+                                            </label>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="bundle-summary {% render 'animate-data', css:true %}" {% render 'animate-data' %}>       
+                        <div class="fbtbtnCol bundle-info">
+                            <div class="mb20">
+                                <div class="bundle-header">
+                              <h3>Your Bundle</h3>
+                             <div class="bundle-discount">Save 30% when you buy 3+ items</div>
+                                <br>
+                             </div>
+                              <h4 class="fwm db h4">{{ 'products.upsell.total' | t }}:</h4>
+                              <span class="fwm fbtTotal mr5 ttl_price">{{ price | money }}</span>
+                              <s class="fbtCmTotal fs15">{{ cm_price_total | money }}</s>
+                            </div>
+                            <div class="pform-error-wrap errors" role="alert" hidden>{{ 'icon-error.svg' | inline_asset_content }} <span class="ml5 pform-error-msg"></span></div>
+                            <button type="submit" name="add" id="AddToCart-{{ section.id }}" class="btn btn7 upsellAddToCart">
+                                <span class="txt">Add to Cart</span>
+                                <div class="loading-overlay__spinner hidden"><svg class="at-icon at-spin"><use xlink:href="#icon-loading"></use></svg></div>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            {%- endform -%}
+        </product-bundel>
+    </div>
+</div>
+<script src="{{ 'upsell-bundle.js' | asset_url }}" defer="defer"></script>
+{% endif %}
+{% endcapture %}
+{{ upsell_bundel | strip_newlines | remove: "  " | remove: "	" }}
+{% schema %}
+  {
+    "name": "Upsell Product Bundle",
+    "class": "upsell-product-bundle",
+    "limit": 1,
+    "settings": [
+      {
+        "type":"paragraph",
+        "content":"[How to display?](https://www.adornthemes.com/knowledge-base/how-to-set-upsell-product-bundle/)"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Build Your Bundle"
+      },	  
+	  {
+         "type": "textarea",
+         "id": "subtitle",
+         "label": "Sub Heading",
+         "default": "Mix and match your favorites and save big!"		
+      },
+      {
+         "id": "products",
+         "type": "product_list",
+         "label": "Select Products"
+      },           	 
+	{
+            "type": "header",
+            "content": "Section Design ==="
+        },
+       {
+            "type":"checkbox",
+            "id":"sw",
+            "label":"Fullwidth?",
+            "default": false           
+        },	        
+        {
+            "type": "color",
+            "id": "bg",
+            "label": "Background",
+            "default":"#fff"	
+        },
+        {
+            "type": "color_background",
+            "id": "bgg",
+            "label": "Gradient background"
+        },	                     
+       {
+            "type": "color",
+            "id": "headings_cl",
+            "label": "Text"
+        },
+		{
+			"type": "range",
+			"id": "sst",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing top",
+			"unit": "px",
+			"default":40
+        },
+		{
+			"type": "range",
+			"id": "ssb",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing bottom",
+			"unit": "px",
+			"default":40
+        },		
+		{
+			"type": "range",
+			"id": "sstm",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing top (mobile)",
+			"unit": "px",
+			"default":15
+        },
+		{
+			"type": "range",
+			"id": "ssbm",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing bottom (mobile)",
+			"unit": "px",
+			"default":15
+        },
+         {
+            "type": "checkbox",
+            "id": "hidem",
+            "label": "Hide on mobile?",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "hided",
+            "label": "Hide on desktop?",
+            "default": false
+        }
+	 ],
+      "presets": [
+        {
+          "name": "Upsell Product Bundle"
+        }
+      ]
+  }
+{% endschema %}

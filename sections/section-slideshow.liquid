@@ -1,0 +1,392 @@
+{% comment %}
+{{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+{{ 'remixicon.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .parallax-section{position:relative;width:100%;height:100vh;overflow:hidden}
+  .parallax-logo{width:150px;height:50px;display:flex;align-items:center}
+  .parallax-logo img{width:100%;height:100%;object-fit:contain}
+  .parallax-menu-toggle{font-size:2.5rem;color:#fff;cursor:pointer;transition:all .3s ease;filter:drop-shadow(0 0 10px rgba(255,255,255,.5))}
+  .parallax-menu-toggle:hover{transform:scale(1.1);color:#00d4ff}
+  .parallax-slider{width:100%;height:100vh}
+  .parallax-slide{position:relative;width:100%;height:100vh;background-size:cover;background-position:center;background-repeat:no-repeat;overflow:hidden}
+  .parallax-slide::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(45deg,rgba(0,0,0,.3),rgba(0,0,0,.1));z-index:1}
+  .parallax-content{position:absolute;top:50%;left:8%;transform:translateY(-50%);color:#fff;z-index:2;max-width:600px}
+  .parallax-subtitle{font-size:1rem;font-weight:300;margin-bottom:10px;opacity:.8;letter-spacing:2px}
+  .parallax-title{font-size:clamp(3rem,8vw,6rem);font-weight:700;line-height:1;margin:20px 0;position:relative;}
+  .parallax-title::before{content:attr(data-bg-text);position:absolute;top:-60px;left:0;font-size:clamp(5rem,12vw,10rem);font-weight:900;-webkit-text-stroke:2px rgba(255,255,255,.2);-webkit-text-fill-color:transparent;z-index:-1}
+  .parallax-description{font-size:1.2rem;font-weight:300;margin:20px 0;opacity:.9}
+  .parallax-btn{display:inline-block;padding:15px 40px;background:transparent;color:#fff;text-decoration:none;border:2px solid rgba(255,255,255,.3);font-size:1.1rem;font-weight:500;letter-spacing:1px;transition:all .4s ease;position:relative;overflow:hidden;backdrop-filter:blur(10px)}
+  .parallax-btn::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;background:linear-gradient(45deg,#00d4ff,#ff6b9d);border-radius:50%;transform:translate(-50%,-50%);transition:all .5s ease;z-index:-1}
+  .parallax-btn:hover{color:#fff;border-color:#00d4ff;transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,212,255,.3)}
+  .parallax-btn:hover::before{width:300px;height:300px}
+  .swiper-button-next,.swiper-button-prev{position:absolute;top:50%;width:60px;height:60px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.3);border-radius:50%;color:#fff;font-size:1.5rem;backdrop-filter:blur(10px);transition:all .3s ease;z-index:10}
+  .swiper-button-next::after,.swiper-button-prev::after{display:none}
+  .swiper-button-next{right:40px}
+  .swiper-button-prev{left:40px}
+  .swiper-button-next:hover,.swiper-button-prev:hover{background:rgba(0,212,255,.2);border-color:#00d4ff;transform:scale(1.1)}
+  .swiper-pagination{position:absolute;right:40px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:15px;z-index:10}
+  .swiper-pagination-bullet{width:12px;height:12px;background:rgba(255,255,255,.3);border:2px solid rgba(255,255,255,.5);border-radius:50%;opacity:1;transition:all .3s ease}
+  .swiper-pagination-bullet-active{background:#00d4ff;border-color:#00d4ff;transform:scale(1.2);box-shadow:0 0 15px rgba(0,212,255,.5)}
+  .parallax-overlay-menu{position:fixed;top:0;left:0;width:100%;height:100vh;background:linear-gradient(135deg,#1a1a1a,#2d2d2d);z-index:9999;transform:translateY(-100%);transition:transform .6s cubic-bezier(.25,.46,.45,.94);overflow-y:auto}
+  .parallax-overlay-menu.active{transform:translateY(0)}
+  .parallax-menu-header{display:flex;justify-content:space-between;align-items:center;padding:20px 5%;border-bottom:1px solid rgba(255,255,255,.1)}
+  .parallax-menu-close{font-size:2.5rem;color:#fff;cursor:pointer;transition:.3s}
+  .parallax-menu-close:hover{color:#ff6b9d;transform:rotate(90deg)}
+  .parallax-menu-content{display:flex;padding:60px 5%;gap:80px;min-height:calc(100vh - 100px)}
+  .parallax-menu-nav{flex:1}
+  .parallax-menu-list{list-style:none;padding:0}
+  .parallax-menu-item{margin:20px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .parallax-menu-item a{display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,.7);font-size:2rem;font-weight:300;text-decoration:none;padding:20px 0;transition:all .3s ease}
+  .parallax-menu-item a:hover{color:#00d4ff;padding-left:20px}
+  .parallax-menu-item i{font-size:1.5rem;transition:.3s}
+  .parallax-menu-item a:hover i{transform:rotate(45deg);color:#ff6b9d}
+  .parallax-menu-contact{flex:1;max-width:400px}
+  .parallax-menu-contact h3{color:#fff;font-size:1.5rem;margin-bottom:20px}
+  .parallax-email-form{display:flex;margin:20px 0;border:1px solid rgba(255,255,255,.3);overflow:hidden}
+  .parallax-email-form input{flex:1;background:transparent;border:none;padding:15px;color:#fff;font-size:1.1rem}
+  .parallax-email-form input::placeholder{color:rgba(255,255,255,.5)}
+  .parallax-email-form button{width:60px;height:60px;background:linear-gradient(45deg,#00d4ff,#ff6b9d);border:none;color:#fff;font-size:1.5rem;cursor:pointer;transition:.3s}
+  .parallax-email-form button:hover{transform:scale(1.05)}
+  .parallax-social{display:flex;gap:15px;margin-top:30px}
+  .parallax-social a{display:flex;align-items:center;justify-content:center;width:50px;height:50px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);border-radius:50%;color:#fff;font-size:1.2rem;text-decoration:none;transition:all .3s ease}
+  .parallax-social a:hover{background:linear-gradient(45deg,#00d4ff,#ff6b9d);border-color:transparent;transform:translateY(-3px)}
+  @media (max-width:768px){
+    .parallax-content{left:5%;max-width:90%}
+    .parallax-title{font-size:clamp(2rem,6vw,4rem)}
+    .parallax-title::before{font-size:clamp(3rem,8vw,6rem);top:-40px}
+    .parallax-menu-content{flex-direction:column;gap:40px;padding:40px 5%}
+    .parallax-menu-contact{max-width:100%}
+    .swiper-button-next,.swiper-button-prev{width:50px;height:50px;font-size:1.2rem}
+    .swiper-button-next{right:20px}
+    .swiper-button-prev{left:20px}
+    .swiper-pagination{right:20px}
+  }
+</style>
+
+<section class="parallax-section">
+  <div class="swiper parallax-slider">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div class="swiper-slide">
+          <div class="parallax-slide" style="background-image:url('{{ block.settings.background_image | img_url: '1920x1080' }}')">
+            <div class="parallax-content" data-swiper-parallax="-300">
+              <div class="parallax-subtitle" data-swiper-parallax="-200">{{ block.settings.subtitle }}</div>
+              <h1 class="parallax-title" data-bg-text="{{ block.settings.bg_text }}" data-swiper-parallax="-400">{{ block.settings.title }}</h1>
+              <p class="parallax-description" data-swiper-parallax="-100">{{ block.settings.description }}</p>
+              {% if block.settings.button_text != blank %}
+                <a href="{{ block.settings.button_url }}" class="parallax-btn" data-swiper-parallax="-150">{{ block.settings.button_text }}</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div class="swiper-button-next"><i class="ri-arrow-right-line"></i></div>
+    <div class="swiper-button-prev"><i class="ri-arrow-left-line"></i></div>
+    <div class="swiper-pagination"></div>
+  </div>
+
+  <div class="parallax-overlay-menu">
+    <div class="parallax-menu-header">
+      <div class="parallax-logo">
+        {% if section.settings.logo %}
+          <img src="{{ section.settings.logo | img_url: '300x' }}" alt="{{ shop.name }}" loading="lazy">
+        {% else %}
+          <div style="background:linear-gradient(45deg,#00d4ff,#ff6b9d);padding:10px 20px;border-radius:25px;color:#fff;font-weight:bold;">{{ shop.name }}</div>
+        {% endif %}
+      </div>
+      <div class="parallax-menu-close">
+        <i class="ri-close-large-fill"></i>
+      </div>
+    </div>
+    
+    <div class="parallax-menu-content">
+      <div class="parallax-menu-nav">
+        <ul class="parallax-menu-list">
+          {% for link in section.settings.menu.links %}
+            <li class="parallax-menu-item">
+              <a href="{{ link.url }}">
+                {{ link.title }}
+                <i class="ri-add-line"></i>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      
+      <div class="parallax-menu-contact">
+        <h3>{{ section.settings.contact_title | default: 'Get Subscribe!' }}</h3>
+        <form class="parallax-email-form" action="/contact" method="post">
+          <input type="email" name="contact[email]" placeholder="{{ section.settings.email_placeholder | default: 'Enter Your E-mail' }}" required>
+          <button type="submit"><i class="ri-arrow-right-up-line"></i></button>
+        </form>
+        
+        <div class="parallax-social">
+          {% if section.settings.facebook_url %}
+            <a href="{{ section.settings.facebook_url }}" target="_blank"><i class="ri-facebook-fill"></i></a>
+          {% endif %}
+          {% if section.settings.twitter_url %}
+            <a href="{{ section.settings.twitter_url }}" target="_blank"><i class="ri-twitter-fill"></i></a>
+          {% endif %}
+          {% if section.settings.instagram_url %}
+            <a href="{{ section.settings.instagram_url }}" target="_blank"><i class="ri-instagram-fill"></i></a>
+          {% endif %}
+          {% if section.settings.linkedin_url %}
+            <a href="{{ section.settings.linkedin_url }}" target="_blank"><i class="ri-linkedin-fill"></i></a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const swiper = new Swiper('.parallax-slider', {
+    direction: '{{ section.settings.slider_direction }}',
+    autoplay: {{ section.settings.autoplay }},
+    loop: {{ section.settings.loop }},
+    speed: {{ section.settings.transition_speed }},
+    parallax: true,
+    mousewheel: {{ section.settings.mousewheel }},
+    keyboard: { enabled: true },
+    effect: '{{ section.settings.effect }}',
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      dynamicBullets: true,
+    },
+    on: {
+      init: function() {
+        this.slides.forEach(slide => {
+          const bgText = slide.querySelector('.parallax-title').getAttribute('data-bg-text');
+          slide.querySelector('.parallax-title').setAttribute('data-bg-text', bgText);
+        });
+      }
+    }
+  });
+
+  const menuToggle = document.querySelector('.parallax-menu-toggle');
+  const menuClose = document.querySelector('.parallax-menu-close');
+  const overlayMenu = document.querySelector('.parallax-overlay-menu');
+
+  menuToggle.addEventListener('click', () => {
+    overlayMenu.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  menuClose.addEventListener('click', () => {
+    overlayMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlayMenu.classList.contains('active')) {
+      overlayMenu.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Parallax Slider",
+  "tag": "section",
+  "class": "parallax-slider-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "select",
+      "id": "slider_direction",
+      "label": "Slider Direction",
+      "options": [
+        { "value": "horizontal", "label": "Horizontal" },
+        { "value": "vertical", "label": "Vertical" }
+      ],
+      "default": "vertical"
+    },
+    {
+      "type": "select",
+      "id": "effect",
+      "label": "Transition Effect",
+      "options": [
+        { "value": "slide", "label": "Slide" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "cube", "label": "Cube" },
+        { "value": "coverflow", "label": "Coverflow" }
+      ],
+      "default": "slide"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Enable Autoplay",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "Enable Loop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mousewheel",
+      "label": "Enable Mousewheel Control",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "transition_speed",
+      "label": "Transition Speed (ms)",
+      "min": 500,
+      "max": 5000,
+      "step": 100,
+      "default": 2500
+    },
+    {
+      "type": "header",
+      "content": "Contact Section"
+    },
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact Title",
+      "default": "Get Subscribe!"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email Placeholder",
+      "default": "Enter Your E-mail"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Links"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "linkedin_url",
+      "label": "LinkedIn URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "© 2024"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Main Title",
+          "default": "Simple Design"
+        },
+        {
+          "type": "text",
+          "id": "bg_text",
+          "label": "Background Text",
+          "default": "INSPIRE"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Create stunning visual experiences with our modern design approach."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Text",
+          "default": "EXPLORE NOW"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Parallax Slider",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle": "© 2024",
+            "title": "Creative Design",
+            "bg_text": "INSPIRE",
+            "description": "Elevate your brand with stunning visual experiences",
+            "button_text": "EXPLORE NOW"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle": "© 2024",
+            "title": "Innovation",
+            "bg_text": "CREATIVE",
+            "description": "Push boundaries with cutting-edge design solutions",
+            "button_text": "DISCOVER MORE"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle": "© 2024",
+            "title": "Excellence",
+            "bg_text": "BRANDING",
+            "description": "Transform your vision into powerful brand experiences",
+            "button_text": "GET STARTED"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+   
+{% endcomment %}
