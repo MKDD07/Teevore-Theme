@@ -1,5 +1,247 @@
 {%- capture footer -%}
 {%- assign section_st = section.settings -%}  
+{%- if section_st.footer_design == 'modern' -%}
+  <style>
+    .footer-modern {
+      background-color: #050505;
+      color: #fff;
+      padding: 0;
+      overflow: hidden;
+      position: relative;
+      font-family: 'Inter', sans-serif;
+    }
+    .teevore-scroll-container {
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      perspective: 1000px;
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+      overflow: hidden;
+    }
+    .teevore-text {
+      font-size: 18vw;
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 2px rgba(255,255,255,0.3);
+      transition: all 0.1s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform, opacity, color;
+      z-index: 10;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 60px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      background: #000;
+      position: relative;
+      z-index: 20;
+    }
+    .footer-col h4 {
+      font-size: 16px;
+      margin-bottom: 25px;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-col ul li {
+      margin-bottom: 15px;
+    }
+    .footer-col ul li a {
+      color: #888;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .footer-col ul li a:hover {
+      color: #fff;
+      transform: translateX(5px);
+    }
+    .footer-newsletter input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      padding: 15px;
+      width: 100%;
+      margin-bottom: 15px;
+      transition: border-color 0.3s;
+    }
+    .footer-newsletter input:focus {
+      border-color: #fff;
+      outline: none;
+    }
+    .footer-newsletter button {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 100%;
+      transition: background 0.3s;
+    }
+    .footer-newsletter button:hover {
+      background: #ddd;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding: 30px;
+      background: #000;
+      color: #444;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+  </style>
+
+  <div class="footer-modern">
+    <div class="teevore-scroll-container">
+      <div class="teevore-text" id="teevoreText">TEEVORE</div>
+      <!-- Particles will be added by JS -->
+    </div>
+    
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/collections/all">Shop All</a></li>
+          <li><a href="/collections/new-arrivals">New Arrivals</a></li>
+          <li><a href="/collections/sale">Sale</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+           <li><a href="/pages/about-us">Our Story</a></li>
+           <li><a href="/pages/sustainability">Sustainability</a></li>
+           <li><a href="/pages/careers">Careers</a></li>
+           <li><a href="/pages/contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+           <li><a href="/policies/privacy-policy">Privacy Policy</a></li>
+           <li><a href="/policies/terms-of-service">Terms of Service</a></li>
+           <li><a href="/policies/shipping-policy">Shipping Policy</a></li>
+           <li><a href="/policies/refund-policy">Refund Policy</a></li>
+        </ul>
+      </div>
+       <div class="footer-col footer-newsletter">
+        <h4>Stay Connected</h4>
+        <p style="color:#888; margin-bottom:20px; font-size:14px;">Join the movement. Get exclusive access to drops and events.</p>
+        {% form 'customer' %}
+           <input type="hidden" name="contact[tags]" value="newsletter">
+           <input type="email" name="contact[email]" placeholder="ENTER YOUR EMAIL" required>
+           <button type="submit">Subscribe</button>
+        {% endform %}
+        <div style="margin-top: 30px; display: flex; gap: 20px;">
+          {% render 'social-media' %}
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; {{ 'now' | date: "%Y" }} Teevore. All rights reserved. Designed by AdornThemes.
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const text = document.getElementById('teevoreText');
+      const container = document.querySelector('.teevore-scroll-container');
+      
+      // Create particles
+      for(let i=0; i<20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random() * 5 + 2;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.opacity = Math.random() * 0.5;
+        container.appendChild(p);
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            window.addEventListener('scroll', handleScroll);
+          } else {
+            window.removeEventListener('scroll', handleScroll);
+          }
+        });
+      }, { threshold: 0 });
+      
+      if(container) observer.observe(container);
+
+      function handleScroll() {
+        if(!container || !text) return;
+        
+        const rect = container.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        
+        // Calculate how far the container is from the center of the viewport
+        const containerCenter = rect.top + rect.height / 2;
+        const viewportCenter = windowHeight / 2;
+        const distanceFromCenter = containerCenter - viewportCenter;
+        
+        // Normalize distance: 0 at center, 1 at edge (roughly)
+        const maxDistance = windowHeight;
+        let progress = 1 - Math.abs(distanceFromCenter / maxDistance);
+        progress = Math.max(0, Math.min(1, progress));
+        
+        // Effects
+        // 1. Scale: 1x to 1.2x
+        const scale = 1 + (progress * 0.2);
+        
+        // 2. Opacity: Fades in as it approaches center
+        const opacity = 0.3 + (progress * 0.7);
+        
+        // 3. Color fill: Fills up as it gets closer to center
+        // We use clip-path or just color transition
+        
+        text.style.transform = `scale(${scale}) translateY(${distanceFromCenter * 0.1}px)`;
+        text.style.opacity = opacity;
+        
+        if (progress > 0.8) {
+           text.style.color = '#fff';
+           text.style.webkitTextStroke = '0px transparent';
+           text.style.textShadow = '0 0 30px rgba(255,255,255,0.5)';
+        } else {
+           text.style.color = 'transparent';
+           text.style.webkitTextStroke = '2px rgba(255,255,255,0.5)';
+           text.style.textShadow = 'none';
+        }
+      }
+    });
+  </script>
+{%- else -%}
 {%- capture ftstyle -%}
     --cl:{{ section_st.cl }};--clh:{{ section_st.clh }};--fs:{{ section_st.fs }}px;--fsm:{{ section_st.fsm }}px;
     --tcl:{{ section_st.tcl }};--ff:var(--{{ section_st.ff }});--tfs:{{ section_st.tfs }}px;--tfsm:{{ section_st.tfsm }}px;
@@ -241,12 +483,23 @@
     </div>
 {%- endif -%}
 </footer>
+{%- endif -%}
 {%- endcapture -%}
 {{- footer | strip_newlines | remove: '  ' | remove: '	' -}}
 {%- schema -%}
 {
   "name": "Footer",
   "settings": [
+    {
+      "type": "select",
+      "id": "footer_design",
+      "label": "Footer Design",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "modern", "label": "Modern (Scroll Effect)" }
+      ],
+      "default": "modern"
+    },
     {
       "type": "paragraph",
       "content": "[preview footer style](https://optimal-demos.myshopify.com/pages/footer-style)"
