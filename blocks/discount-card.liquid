@@ -1,0 +1,648 @@
+{% assign bl_st = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .gift-card-container-{{ bl_st }} {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #414042;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .gift-card-tabs-{{ bl_st }} {
+    display: flex;
+    border-bottom: 1px solid #414042;
+  }
+
+  .gift-card-tab-{{ bl_st }} {
+    flex: 1;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    color: #414042;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .gift-card-tab-{{ bl_st }}.active {
+    background-color: #414042;
+    color: #ffffff;
+  }
+
+  .gift-card-tab-{{ bl_st }}:hover:not(.active) {
+    background-color: #f5f5f5;
+  }
+
+  .gift-card-slider-{{ bl_st }} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gift-card-slides-{{ bl_st }} {
+    display: flex;
+    transition: transform 0.3s ease;
+  }
+
+  .gift-card-slide-{{ bl_st }} {
+    flex: 0 0 100%;
+    padding: 20px;
+  }
+
+  .gift-card-content-{{ bl_st }} {
+    padding: 20px;
+  }
+
+  .gift-card-title-{{ bl_st }} {
+    color: #414042;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+  }
+
+  .gift-card-amount-{{ bl_st }} {
+    color: #414042;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+  }
+
+  .gift-card-code-section-{{ bl_st }} {
+    margin-bottom: 16px;
+  }
+
+  .gift-card-code-label-{{ bl_st }} {
+    color: #414042;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .gift-card-code-wrapper-{{ bl_st }} {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .gift-card-code-{{ bl_st }} {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #414042;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #414042;
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .gift-card-copy-btn-{{ bl_st }} {
+    padding: 10px 16px;
+    background-color: #414042;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+  }
+
+  .gift-card-copy-btn-{{ bl_st }}:hover {
+    background-color: #2a2a2c;
+  }
+
+  .gift-card-copy-btn-{{ bl_st }}.copied {
+    background-color: #ffffff;
+    color: #414042;
+    border: 1px solid #414042;
+  }
+
+  .gift-card-instructions-{{ bl_st }} {
+    color: #414042;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .gift-card-slider-nav-{{ bl_st }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    border-top: 1px solid #414042;
+  }
+
+  .gift-card-nav-btn-{{ bl_st }} {
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: #414042;
+    border: 1px solid #414042;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .gift-card-nav-btn-{{ bl_st }}:hover {
+    background-color: #414042;
+    color: #ffffff;
+  }
+
+  .gift-card-nav-btn-{{ bl_st }}:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .gift-card-nav-btn-{{ bl_st }}:disabled:hover {
+    background-color: #ffffff;
+    color: #414042;
+  }
+
+  .gift-card-dots-{{ bl_st }} {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .gift-card-dot-{{ bl_st }} {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .gift-card-dot-{{ bl_st }}.active {
+    background-color: #414042;
+  }
+
+  @media screen and (max-width: 480px) {
+    .gift-card-container-{{ bl_st }} {
+      max-width: 100%;
+      margin: 0;
+    }
+
+    .gift-card-tab-{{ bl_st }} {
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .gift-card-content-{{ bl_st }},
+    .gift-card-slide-{{ bl_st }} {
+      padding: 16px;
+    }
+
+    .gift-card-title-{{ bl_st }} {
+      font-size: 16px;
+    }
+
+    .gift-card-amount-{{ bl_st }} {
+      font-size: 20px;
+    }
+
+    .gift-card-code-wrapper-{{ bl_st }} {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .gift-card-copy-btn-{{ bl_st }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<gift-card-widget-{{ bl_st }}
+  class="gift-card-container-{{ bl_st }}"
+  data-display-type="{{ block.settings.display_type }}"
+  {{ block.shopify_attributes }}
+>
+  {% if block.settings.display_type == 'tabs' %}
+    <div class="gift-card-tabs-{{ bl_st }}">
+      {% for i in (1..3) %}
+        {% liquid
+          assign card_enabled_key = 'card_' | append: i | append: '_enabled'
+          assign card_enabled = block.settings[card_enabled_key]
+        %}
+        {% if card_enabled %}
+          {% liquid
+            assign card_title_key = 'card_' | append: i | append: '_title'
+            assign card_title = block.settings[card_title_key]
+          %}
+          <button
+            class="gift-card-tab-{{ bl_st }} {% if forloop.first %}active{% endif %}"
+            data-tab="{{ i }}"
+          >
+            {{ card_title }}
+          </button>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="gift-card-content-{{ bl_st }}">
+      {% for i in (1..3) %}
+        {% liquid
+          assign card_enabled_key = 'card_' | append: i | append: '_enabled'
+          assign card_enabled = block.settings[card_enabled_key]
+        %}
+        {% if card_enabled %}
+          {% liquid
+            assign card_title_key = 'card_' | append: i | append: '_title'
+            assign card_amount_key = 'card_' | append: i | append: '_amount'
+            assign card_code_key = 'card_' | append: i | append: '_code'
+            assign card_instructions_key = 'card_' | append: i | append: '_instructions'
+
+            assign card_title = block.settings[card_title_key]
+            assign card_amount = block.settings[card_amount_key]
+            assign card_code = block.settings[card_code_key]
+            assign card_instructions = block.settings[card_instructions_key]
+          %}
+          <div
+            class="gift-card-tab-content-{{ bl_st }}"
+            data-tab-content="{{ i }}"
+            style="{% unless forloop.first %}display: none;{% endunless %}"
+          >
+            <h3 class="gift-card-title-{{ bl_st }}">{{ card_title }}</h3>
+            <div class="gift-card-amount-{{ bl_st }}">{{ card_amount | money }}</div>
+            
+            {% if card_code != blank %}
+              <div class="gift-card-code-section-{{ bl_st }}">
+                <label class="gift-card-code-label-{{ bl_st }}">Gift Card Code</label>
+                <div class="gift-card-code-wrapper-{{ bl_st }}">
+                  <input
+                    type="text"
+                    class="gift-card-code-{{ bl_st }}"
+                    value="{{ card_code }}"
+                    readonly><button
+                    class="gift-card-copy-btn-{{ bl_st }}"
+                    data-copy-text="{{ card_code }}"
+                  >
+                    Copy
+                  </button>
+                </div>
+              </div>
+            {% endif %}
+
+            {% if card_instructions != blank %}
+              <p class="gift-card-instructions-{{ bl_st }}">{{ card_instructions }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  {% else %}
+    <div class="gift-card-slider-{{ bl_st }}">
+      <div class="gift-card-slides-{{ bl_st }}">
+        {% for i in (1..3) %}
+          {% liquid
+            assign card_enabled_key = 'card_' | append: i | append: '_enabled'
+            assign card_enabled = block.settings[card_enabled_key]
+          %}
+          {% if card_enabled %}
+            {% liquid
+              assign card_title_key = 'card_' | append: i | append: '_title'
+              assign card_amount_key = 'card_' | append: i | append: '_amount'
+              assign card_code_key = 'card_' | append: i | append: '_code'
+              assign card_instructions_key = 'card_' | append: i | append: '_instructions'
+
+              assign card_title = block.settings[card_title_key]
+              assign card_amount = block.settings[card_amount_key]
+              assign card_code = block.settings[card_code_key]
+              assign card_instructions = block.settings[card_instructions_key]
+            %}
+            <div class="gift-card-slide-{{ bl_st }}">
+              <h3 class="gift-card-title-{{ bl_st }}">{{ card_title }}</h3>
+              <div class="gift-card-amount-{{ bl_st }}">{{ card_amount | money }}</div>
+              
+              {% if card_code != blank %}
+                <div class="gift-card-code-section-{{ bl_st }}">
+                  <label class="gift-card-code-label-{{ bl_st }}">Gift Card Code</label>
+                  <div class="gift-card-code-wrapper-{{ bl_st }}">
+                    <input
+                      type="text"
+                      class="gift-card-code-{{ bl_st }}"
+                      value="{{ card_code }}"
+                      readonly
+                    >
+                    <button
+                      class="gift-card-copy-btn-{{ bl_st }}"
+                      data-copy-text="{{ card_code }}"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              {% endif %}
+
+              {% if card_instructions != blank %}
+                <p class="gift-card-instructions-{{ bl_st }}">{{ card_instructions }}</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% assign enabled_cards_count = 0 %}
+      {% for i in (1..3) %}
+        {% liquid
+          assign card_enabled_key = 'card_' | append: i | append: '_enabled'
+          assign card_enabled = block.settings[card_enabled_key]
+        %}
+        {% if card_enabled %}
+          {% assign enabled_cards_count = enabled_cards_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+
+      {% if enabled_cards_count > 1 %}
+        <div class="gift-card-slider-nav-{{ bl_st }}">
+          <button class="gift-card-nav-btn-{{ bl_st }}" data-nav="prev" disabled>Previous</button>
+          <button class="gift-card-nav-btn-{{ bl_st }}" data-nav="next">Next</button>
+        </div>
+
+        <div class="gift-card-dots-{{ bl_st }}">
+          {% for i in (1..enabled_cards_count) %}
+            <button
+              class="gift-card-dot-{{ bl_st }} {% if forloop.first %}active{% endif %}"
+              data-slide="{{ forloop.index0 }}"
+            ></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</gift-card-widget-{{ bl_st }}>
+
+<script>
+  (function() {
+    class GiftCardWidget{{ bl_st }} extends HTMLElement {
+      constructor() {
+        super();
+        this.currentSlide = 0;
+        this.totalSlides = 0;
+      }
+
+      connectedCallback() {
+        this.displayType = this.dataset.displayType;
+        this.setupCopyButtons();
+        
+        if (this.displayType === 'tabs') {
+          this.setupTabs();
+        } else {
+          this.setupSlider();
+        }
+      }
+
+      setupCopyButtons() {
+        const copyButtons = this.querySelectorAll('.gift-card-copy-btn-{{ bl_st }}');
+        copyButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const textToCopy = button.dataset.copyText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+              const originalText = button.textContent;
+              button.textContent = 'Copied!';
+              button.classList.add('copied');
+              
+              setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+              }, 2000);
+            });
+          });
+        });
+      }
+
+      setupTabs() {
+        const tabs = this.querySelectorAll('.gift-card-tab-{{ bl_st }}');
+        const tabContents = this.querySelectorAll('.gift-card-tab-content-{{ bl_st }}');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const tabNumber = tab.dataset.tab;
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            tabContents.forEach(content => {
+              content.style.display = 'none';
+            });
+
+            tab.classList.add('active');
+            const targetContent = this.querySelector(`[data-tab-content="${tabNumber}"]`);
+            if (targetContent) {
+              targetContent.style.display = 'block';
+            }
+          });
+        });
+      }
+
+      setupSlider() {
+        const slides = this.querySelectorAll('.gift-card-slide-{{ bl_st }}');
+        this.totalSlides = slides.length;
+
+        if (this.totalSlides <= 1) return;
+
+        const slidesContainer = this.querySelector('.gift-card-slides-{{ bl_st }}');
+        const prevBtn = this.querySelector('[data-nav="prev"]');
+        const nextBtn = this.querySelector('[data-nav="next"]');
+        const dots = this.querySelectorAll('.gift-card-dot-{{ bl_st }}');
+
+        if (prevBtn) {
+          prevBtn.addEventListener('click', () => this.prevSlide());
+        }
+
+        if (nextBtn) {
+          nextBtn.addEventListener('click', () => this.nextSlide());
+        }
+
+        dots.forEach((dot, index) => {
+          dot.addEventListener('click', () => this.goToSlide(index));
+        });
+      }
+
+      prevSlide() {
+        if (this.currentSlide > 0) {
+          this.currentSlide--;
+          this.updateSlider();
+        }
+      }
+
+      nextSlide() {
+        if (this.currentSlide < this.totalSlides - 1) {
+          this.currentSlide++;
+          this.updateSlider();
+        }
+      }
+
+      goToSlide(slideIndex) {
+        this.currentSlide = slideIndex;
+        this.updateSlider();
+      }
+
+      updateSlider() {
+        const slidesContainer = this.querySelector('.gift-card-slides-{{ bl_st }}');
+        const prevBtn = this.querySelector('[data-nav="prev"]');
+        const nextBtn = this.querySelector('[data-nav="next"]');
+        const dots = this.querySelectorAll('.gift-card-dot-{{ bl_st }}');
+
+        if (slidesContainer) {
+          slidesContainer.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+        }
+
+        if (prevBtn) {
+          prevBtn.disabled = this.currentSlide === 0;
+        }
+
+        if (nextBtn) {
+          nextBtn.disabled = this.currentSlide === this.totalSlides - 1;
+        }
+
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === this.currentSlide);
+        });
+      }
+    }
+
+    customElements.define('gift-card-widget-{{ bl_st }}', GiftCardWidget{{ bl_st }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Gift Card Display",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Display Options"
+    },
+    {
+      "type": "select",
+      "id": "display_type",
+      "label": "Display type",
+      "options": [
+        {
+          "value": "tabs",
+          "label": "Tabs"
+        },
+        {
+          "value": "slider",
+          "label": "Slider"
+        }
+      ],
+      "default": "tabs"
+    },
+    {
+      "type": "header",
+      "content": "Gift Card 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_1_enabled",
+      "label": "Enable gift card 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_1_title",
+      "label": "Title",
+      "default": "Birthday Gift"
+    },
+    {
+      "type": "text",
+      "id": "card_1_amount",
+      "label": "Amount",
+      "default": "5000",
+      "info": "Enter amount in cents (5000 = $50.00)"
+    },
+    {
+      "type": "text",
+      "id": "card_1_code",
+      "label": "Gift card code"
+    },
+    {
+      "type": "textarea",
+      "id": "card_1_instructions",
+      "label": "Instructions",
+      "default": "Enter this code at checkout to redeem your gift card."
+    },
+    {
+      "type": "header",
+      "content": "Gift Card 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_2_enabled",
+      "label": "Enable gift card 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "card_2_title",
+      "label": "Title",
+      "default": "Holiday Gift"
+    },
+    {
+      "type": "text",
+      "id": "card_2_amount",
+      "label": "Amount",
+      "default": "10000",
+      "info": "Enter amount in cents (10000 = $100.00)"
+    },
+    {
+      "type": "text",
+      "id": "card_2_code",
+      "label": "Gift card code"
+    },
+    {
+      "type": "textarea",
+      "id": "card_2_instructions",
+      "label": "Instructions",
+      "default": "Enter this code at checkout to redeem your gift card."
+    },
+    {
+      "type": "header",
+      "content": "Gift Card 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "card_3_enabled",
+      "label": "Enable gift card 3",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "card_3_title",
+      "label": "Title",
+      "default": "Special Occasion"
+    },
+    {
+      "type": "text",
+      "id": "card_3_amount",
+      "label": "Amount",
+      "default": "2500",
+      "info": "Enter amount in cents (2500 = $25.00)"
+    },
+    {
+      "type": "text",
+      "id": "card_3_code",
+      "label": "Gift card code"
+    },
+    {
+      "type": "textarea",
+      "id": "card_3_instructions",
+      "label": "Instructions",
+      "default": "Enter this code at checkout to redeem your gift card."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Card Display"
+    }
+  ]
+}
+{% endschema %}
