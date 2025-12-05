@@ -188,8 +188,11 @@
 
     <main id="PageContainer" class="main-content {{ template | split: '.' | first }}" id="MainContent" role="main">{{ content_for_layout }}</main>
 
-    {%- sections 'footer-group' -%}
-    {%- sections 'overlay-group' -%}
+{% unless page.handle == 'task' %}
+  {%- sections 'footer-group' -%}
+  {%- sections 'overlay-group' -%}
+{% endunless %}
+
     {%- if settings.enable_age_varification -%}{% render 'age-check' %}{%- endif -%}
     {%- render 'svg-icons' -%}
     {%- render 'site-bottom', content_for_layout:content_for_layout, is_rtl:is_rtl -%}
