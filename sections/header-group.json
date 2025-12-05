@@ -58,7 +58,6 @@
         "sc_CpBzhV",
         "cl_zFkAVG"
       ],
-      "disabled": true,
       "name": "Promotion Bar",
       "settings": {
         "fontFm": "ft1",
@@ -220,7 +219,6 @@
         "slink_nnVYxz",
         "dd_zjTp6r"
       ],
-      "disabled": true,
       "custom_css": [
         ".fw-sec .mgmenu.mmfull {padding-left: 20px; padding-right: 20px;}"
       ],

@@ -53,7 +53,6 @@
         "text_block_9GXLPN",
         "text_block_VVrgHA"
       ],
-      "disabled": true,
       "custom_css": [],
       "name": "Text with Icons",
       "settings": {
@@ -246,7 +245,6 @@
         "newsletter_6PDjNR",
         "hrline_eUgDHq"
       ],
-      "disabled": true,
       "custom_css": [
         ".newsletter_txt {padding: 18px 24px;}"
       ],

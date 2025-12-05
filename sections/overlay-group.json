@@ -13,7 +13,6 @@
   "sections": {
     "cart-drawer": {
       "type": "cart-drawer",
-      "disabled": true,
       "settings": {}
     },
     "mobile-toolbar": {
@@ -83,7 +82,6 @@
         "filter_TWzMWP",
         "custom_eNk4BX"
       ],
-      "disabled": true,
       "settings": {
         "hdtxt": true,
         "fsicon": 17,
@@ -178,7 +176,6 @@
         "text_4AC6Cc",
         "social_yGLdj9"
       ],
-      "disabled": true,
       "custom_css": [],
       "name": "Newsletter Popup",
       "settings": {
