@@ -183,9 +183,9 @@
           <link rel="stylesheet" href="{{ 'pages.css' | asset_url }}" type="text/css" media="all">
         {%- endif -%}
     {%- endif -%}
-
+{% unless page.handle == 'task' %}
     {%- sections 'header-group' -%}
-
+{% endunless %}
     <main id="PageContainer" class="main-content {{ template | split: '.' | first }}" id="MainContent" role="main">{{ content_for_layout }}</main>
 
 {% unless page.handle == 'task' %}
