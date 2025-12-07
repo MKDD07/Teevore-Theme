@@ -144,7 +144,40 @@
   <div class="gitem fl {% render 'animate-data', css:true %}" {% render 'animate-data' %}>
     {% render 'product-card-grid', product:product, section_st:section_st, sizes:sizes %}
   </div>
+<script>
+  jQuery(document).ready(function($){
 
+    $('.change').on('click', function(){
+
+        $('.grid_img').each(function(){
+            let $wrapper = $(this);
+
+            // Find second image inside the product wrapper
+            let $secondImg = $wrapper.find('img.imgFt.hover').first();
+
+            // If second image exists
+            if($secondImg.length){
+                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
+
+                // Find the featured image (the first visible one)
+                let $featured = $wrapper.find('img').not('.imgFt.hover').first();
+
+                if($featured.length && secondSrc){
+                    // Replace featured image src with second image src
+                    $featured.attr('src', secondSrc);
+                    $featured.attr('data-src', secondSrc);
+
+                    // Remove old classes and add imgFt hover
+                    $featured.removeClass().addClass('imgFt hover');
+                }
+            }
+        });
+
+    });
+
+});
+
+</script>
   {%- comment -%} 
     CUSTOM CODE: Placeholder Logic 
     Fills empty cells for Grid: Desktop(4), Tablet(3), Mobile(2)
