@@ -50,12 +50,6 @@
 {% endif %}
 {% endcapture %}
 {{ newsletter_popup | strip_newlines | remove: "  " | remove: "	" }}
-<style>
-.input-wrapper input,.input-wrapper select,.input-wrapper textarea
-{
-background-color: #f5f5f5;
-}
-</style>
 {% schema %}
   {
     "name": "Newsletter Popup",
