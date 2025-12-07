@@ -275,6 +275,34 @@
       height: 180px;
     }
   }
+  /* Basic styling for your custom slider */
+.mySwiper {
+  width: 100%;
+  height: auto; /* Adjust as needed */
+  padding-bottom: 30px; /* Give space for pagination dots */
+}
+
+.mySwiper .swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+
+  /* Center slide content vertically and horizontally */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Optional: Style for the navigation buttons */
+.mySwiper .swiper-button-next,
+.mySwiper .swiper-button-prev {
+  color: #000; /* Or your brand color */
+}
+
+/* Optional: Style for the pagination dots */
+.mySwiper .swiper-pagination-bullet-active {
+  background: #000; /* Active dot color */
+}
 </style>
     {% if collection.image != blank %}
       {% comment %}
