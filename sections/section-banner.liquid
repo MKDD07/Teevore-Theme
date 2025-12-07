@@ -18,11 +18,9 @@
       <div class="blocks-wrapper-{{section.id}}" style="gap: {{ section_st.blocks_gap }}px;">
         {% for block in section.blocks limit: 2 %}
           {% assign block_st = block.settings %}
-          
-          <div class="block-item-{{section.id}} {% if section.settings.order == 'image' %} image-left{% else %} image-right{% endif %} block-{{ block.type }}" {{ block.shopify_attributes }}>
-
             {% case block.type %}
-              {% when 'media' %}
+{% when 'media' %}
+          <div class="block-item-{{section.id}} {% if section.settings.order == 'image' %} image-left{% else %} image-right{% endif %} block-{{ block.type }}" {{ block.shopify_attributes }}>
 <div class="media-container-{{ section.id }}">
   {% if block_st.media_type == 'image' and block_st.image != blank %}
     <img 
@@ -86,8 +84,9 @@
                     </a>
                   {% endif %}
                 </div>
+                          </div>
             {% endcase %}
-          </div>
+
         {% endfor %}
       </div>
     </div>
