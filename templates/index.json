@@ -1516,26 +1516,6 @@
         "animate_delay_increment": 30
       }
     },
-    "album_LdXQy3": {
-      "type": "album",
-      "name": "Pro Album Scatter",
-      "settings": {
-        "scroll_height": 200,
-        "show_background_grid": true,
-        "main_image": "shopify://shop_images/flux-pro-2.0_A_male_model_in_casual_streetwear_standing_on_a_rural_dirt_pathway_at_sunset_wea-0.jpg",
-        "image_size": 600,
-        "en_ratio": false,
-        "radius_attached": 10,
-        "radius_scattered": 10,
-        "enable_split": true,
-        "split_heading": "TrackLine Collection",
-        "split_text": "<p>As the atmosphere darkens, the pieces scatter. Experience the gritty reality of the soundscape.</p>",
-        "bg_color": "#ffffff",
-        "text_color": "#222222",
-        "anim_style": "style-4",
-        "anim_speed": 50
-      }
-    },
     "section_banner_EHNaci": {
       "type": "section-banner",
       "blocks": {
@@ -1974,7 +1954,6 @@
     "scroling_text_nhJEGa",
     "product_slider_yQdtpy",
     "scroll_section_banner_f9QHWg",
-    "album_LdXQy3",
     "section_banner_EHNaci",
     "background_video_v2_qUMgyG",
     "instagram_rich_text_h6pNwj",
