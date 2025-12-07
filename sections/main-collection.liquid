@@ -95,7 +95,6 @@
 	{%- if section_st.pcount -%}
     <div id="itemsCount" class="tlbr_item">
       <span class="tlbr_pr_cnt collection-product-count light kug" role="status">
-      <button class="btn btn4">Show on model</button>
         {%- if collection.results_count -%}
           Count: {{ 'collections.general.product_count' | t: product_count: collection.terms, count: collection.results_count }}
         {%- elsif collection.products_count == collection.all_products_count -%}
@@ -139,6 +138,7 @@
       (min-width:1024px) calc(({{ page_width }} - {{ settings.grid_space | times: section_st.grid | minus:settings.grid_space }}px) / {{ section_st.grid }}),(min-width:768px) calc((100vw - {{ settings.grid_space | times: section_st.gridtb | minus:section_st.gspace }}px) / {{ section_st.gridtb }}), calc((100vw - {{ settings.grid_spacem | times: section_st.gridmb | minus:settings.grid_spacem }}px) / {{ section_st.gridmb }})
     {%- endif -%}
   {%- endcapture -%}
+      <button class="btn btn4">Show on model</button>
   
   <div class="gitem fl {% render 'animate-data', css:true %}" {% render 'animate-data' %}>
     {% render 'product-card-grid', product:product, section_st:section_st, sizes:sizes %}
