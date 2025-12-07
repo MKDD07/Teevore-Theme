@@ -188,6 +188,267 @@
     {%- comment -%} We render 3 potential fillers (Max needed for a 4-col grid) {%- endcomment -%}
     {%- for i in (1..3) -%}
       <div class="gitem fl filler-{{ i }}" style="display: none;">
+<style>
+  .collection-card-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, visibility 0.5s;
+  }
+  
+  .collection-card-wrapper.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .collection-card-stack {
+    position: relative;
+    width: min(90vw, 400px);
+    height: min(80vh, 600px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease-out;
+  }
+  
+  .collection-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+    color: #333;
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s ease-out, z-index 0s;
+    will-change: transform, opacity;
+    cursor: grab;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: none;
+  }
+  
+  .collection-card.active-card {
+    display: flex;
+  }
+  
+  .discount-badge {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    background-color: #ff3b30;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 50%;
+    font-size: 0.8em;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    animation: bounceIn 0.5s ease-out;
+  }
+  
+  @keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  
+  .card-header-icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #888;
+  }
+  
+  .card-header-icons span {
+    cursor: pointer;
+  }
+  
+  .card-image-container {
+    flex-shrink: 0;
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+  }
+  
+  .card-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+  }
+  
+  .card-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #1a1a1a;
+    line-height: 1.2;
+  }
+  
+  .card-collection-name {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .card-price-info {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+  
+  .card-price {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.6em;
+    font-weight: 600;
+    color: #007aff;
+    margin-right: 10px;
+  }
+  
+  .card-compare-price {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1.1em;
+    color: #999;
+    text-decoration: line-through;
+  }
+  
+  .card-quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .card-quantity-selector label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 28px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 28px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: #007aff;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #007aff;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+  
+  .add-to-cart-btn {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
+  }
+  
+  .add-to-cart-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .card-offset-0 { transform: translate3d(0, 0, 0); opacity: 1; z-index: 5; }
+  .card-offset-1 { transform: translate3d(0, 15px, -10px) scale(0.98); opacity: 0.9; z-index: 4; }
+  .card-offset-2 { transform: translate3d(0, 30px, -20px) scale(0.96); opacity: 0.8; z-index: 3; }
+  .card-offset-3 { transform: translate3d(0, 45px, -30px) scale(0.94); opacity: 0.7; z-index: 2; }
+  .card-offset-4 { transform: translate3d(0, 60px, -40px) scale(0.92); opacity: 0.6; z-index: 1; }
+  .card-offset-hidden { transform: translate3d(0, 100px, -50px) scale(0.8); opacity: 0; z-index: 0; }
+  .card-slide-out { transform: translate3d(0, -100vh, 0) scale(1.1); opacity: 0; z-index: 6; }
+</style>
+
 <div class="collection-card-wrapper" id="collectionStackWrapper">
   <div class="collection-card-stack" id="collectionCardStack">
     {% assign valid_collections = '' %}
@@ -196,13 +457,8 @@
         {% assign valid_collections = valid_collections | append: c.handle | append: ',' %}
       {% endif %}
     {% endfor %}
-
     {% assign valid_array = valid_collections | split: ',' %}
-
-    {% comment %}
-      Iterate through all valid collections to create the full stack.
-      JavaScript will manage which ones are visible.
-    {% endcomment %}
+    
     {% for collection_handle in valid_array %}
       {% assign current_collection = collections[collection_handle] %}
       {% if current_collection.image != blank %}
@@ -211,39 +467,28 @@
              data-collection-title="{{ current_collection.title | escape }}"
              data-collection-image="{{ current_collection.image | img_url: '1024x1024' }}"
              data-collection-url="{{ current_collection.url }}"
-             data-discount-percentage="{% cycle '0', '10', '20', '0', '15' %}" {# Placeholder discount #}
-             data-price="{% cycle '49.99', '29.99', '79.99', '19.99', '59.99' %}" {# Placeholder price #}
-             data-compare-price="{% cycle '59.99', '34.99', '99.99', '24.99', '69.99' %}"> {# Placeholder compare price #}
-
-          <div class="discount-badge" style="display: {% if current_collection.metafields.custom_fields.collection_discount_percentage %} flex {% else %} none {% endif %};">
-            {% comment %}
-              You'd replace 'metafields.custom_fields.collection_discount_percentage' with your actual metafield
-              or logic to determine collection-wide discount.
-              For now, using the data-discount-percentage from JS cycle.
-            {% endcomment %}
+             data-discount-percentage="{% cycle '0', '10', '20', '0', '15' %}"
+             data-price="{% cycle '49.99', '29.99', '79.99', '19.99', '59.99' %}"
+             data-compare-price="{% cycle '59.99', '34.99', '99.99', '24.99', '69.99' %}">
+          <div class="discount-badge">
             <span class="badge-percentage"></span>% OFF
           </div>
-
           <div class="card-header-icons">
             <span class="icon-share">🔗</span>
             <span class="icon-heart">❤️</span>
           </div>
-
           <div class="card-image-container">
             <img src="{{ current_collection.image | img_url: '1024x1024' }}" alt="{{ current_collection.title }}">
           </div>
-
           <div class="card-details">
             <div>
               <h3 class="card-title">{{ current_collection.title }}</h3>
-              <p class="card-collection-name">Collection: {{ current_collection.title }}</p> {# You might put a product type or sub-title here if these were product cards #}
+              <p class="card-collection-name">Collection: {{ current_collection.title }}</p>
             </div>
-
             <div class="card-price-info">
               <span class="card-price"></span>
               <span class="card-compare-price"></span>
             </div>
-
             <div class="card-quantity-selector">
               <label for="qty-{{ current_collection.handle }}">QTY:</label>
               <label class="switch">
@@ -251,19 +496,181 @@
                 <span class="slider"></span>
               </label>
             </div>
-
             <button class="add-to-cart-btn">View Collection</button>
           </div>
         </div>
       {% endif %}
     {% endfor %}
-
+    
     {% if valid_array.size == 0 %}
       <p style="color: white; text-align: center;">No collections with images found to display.</p>
     {% endif %}
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('collectionStackWrapper');
+    const cardStack = document.getElementById('collectionCardStack');
+    const cards = Array.from(cardStack.querySelectorAll('.collection-card'));
+    let currentIndex = 0;
+    let isDragging = false;
+    let startY = 0;
+    let currentY = 0;
+    let translateY = 0;
+
+    function updateCardStack() {
+      cards.forEach((card, index) => {
+        card.style.display = 'none';
+        const offset = index - currentIndex;
+        
+        const price = card.dataset.price;
+        const comparePrice = card.dataset.comparePrice;
+        const discountPercentage = parseInt(card.dataset.discountPercentage, 10);
+        const priceElement = card.querySelector('.card-price');
+        const comparePriceElement = card.querySelector('.card-compare-price');
+        const discountBadge = card.querySelector('.discount-badge');
+        const badgePercentage = card.querySelector('.badge-percentage');
+
+        if (priceElement) priceElement.textContent = `$${parseFloat(price).toFixed(2)}`;
+        if (comparePriceElement) {
+          comparePriceElement.textContent = `$${parseFloat(comparePrice).toFixed(2)}`;
+          comparePriceElement.style.display = (parseFloat(comparePrice) > parseFloat(price) && discountPercentage > 0) ? 'inline' : 'none';
+        }
+        if (discountBadge) {
+          if (discountPercentage > 0) {
+            discountBadge.style.display = 'flex';
+            if (badgePercentage) badgePercentage.textContent = discountPercentage;
+          } else {
+            discountBadge.style.display = 'none';
+          }
+        }
+
+        if (offset === 0) {
+          card.classList.add('active-card');
+          card.classList.remove('card-offset-hidden', 'card-slide-out');
+          card.classList.add('card-offset-0');
+          card.style.transform = `translateY(${translateY}px)`;
+        } else if (offset > 0 && offset < 5) {
+          card.classList.add('active-card');
+          card.classList.remove('card-offset-0', 'card-offset-hidden', 'card-slide-out');
+          card.classList.add(`card-offset-${offset}`);
+        } else {
+          card.classList.remove('active-card');
+          card.classList.remove('card-offset-0', 'card-slide-out');
+          card.classList.add('card-offset-hidden');
+        }
+      });
+    }
+
+    // Auto-show on page load
+    setTimeout(() => {
+      wrapper.classList.add('active');
+      updateCardStack();
+    }, 500);
+
+    // Click outside to close
+    wrapper.addEventListener('click', (e) => {
+      if (!cardStack.contains(e.target)) {
+        wrapper.classList.remove('active');
+        cards.forEach(card => card.classList.remove('card-slide-out', 'active-card', 'card-offset-0', 'card-offset-1', 'card-offset-2', 'card-offset-3', 'card-offset-4', 'card-offset-hidden'));
+      }
+    });
+
+    const activeCard = () => cards[currentIndex];
+
+    function startDrag(e) {
+      if (!activeCard()) return;
+      isDragging = true;
+      startY = e.clientY || e.touches[0].clientY;
+      activeCard().style.transition = 'none';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function doDrag(e) {
+      if (!isDragging || !activeCard()) return;
+      currentY = e.clientY || e.touches[0].clientY;
+      translateY = currentY - startY;
+      translateY = Math.max(-200, translateY);
+      
+      const scaleFactor = 1 - (Math.abs(translateY) / (window.innerHeight * 0.7)) * 0.2;
+      activeCard().style.transform = `translateY(${translateY}px) scale(${scaleFactor})`;
+      activeCard().style.opacity = 1 - (Math.abs(translateY) / (window.innerHeight * 0.7));
+    }
+
+    function endDrag() {
+      if (!isDragging || !activeCard()) return;
+      isDragging = false;
+      activeCard().style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
+      document.body.style.overflow = '';
+
+      const dragThreshold = activeCard().offsetHeight * 0.3;
+      
+      if (translateY < -dragThreshold) {
+        nextCard();
+      } else {
+        activeCard().style.transform = '';
+        activeCard().style.opacity = '';
+      }
+      translateY = 0;
+    }
+
+    function nextCard() {
+      if (currentIndex < cards.length - 1) {
+        const currentAnimatingCard = cards[currentIndex];
+        currentAnimatingCard.style.transition = 'transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.4s ease-out';
+        currentAnimatingCard.classList.add('card-slide-out');
+        
+        setTimeout(() => {
+          currentAnimatingCard.classList.remove('active-card', 'card-slide-out', 'card-offset-0');
+          currentIndex++;
+          updateCardStack();
+        }, 400);
+      } else {
+        wrapper.classList.remove('active');
+      }
+    }
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    cardStack.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      startDrag(e);
+    }, { passive: true });
+
+    cardStack.addEventListener('touchmove', (e) => {
+      touchEndX = e.touches[0].clientX;
+      touchEndY = e.touches[0].clientY;
+      doDrag(e);
+    }, { passive: false });
+
+    cardStack.addEventListener('touchend', () => {
+      endDrag();
+      const dx = touchEndX - touchStartX;
+      const dy = touchEndY - touchStartY;
+      
+      if (Math.abs(dy) > 50 && dy < 0 && Math.abs(dy) > Math.abs(dx)) {
+        nextCard();
+      }
+    });
+
+    cardStack.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-to-cart-btn')) {
+        const card = e.target.closest('.collection-card');
+        if (card) {
+          const collectionUrl = card.dataset.collectionUrl;
+          if (collectionUrl) {
+            window.location.href = collectionUrl;
+          }
+        }
+      }
+    });
+  });
+</script>
       </div>
     {%- endfor -%}
   {%- endif -%}
