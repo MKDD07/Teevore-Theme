@@ -1523,6 +1523,7 @@
           "settings": {
             "media_type": "image",
             "order": "text",
+            "image": "shopify://shop_images/GeneratedImageSeptember04_2025-12_14AM.jpg",
             "video_source": "youtube",
             "video_url": "",
             "media_fit": "cover",
