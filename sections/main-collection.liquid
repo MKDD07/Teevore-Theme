@@ -188,9 +188,82 @@
     {%- comment -%} We render 3 potential fillers (Max needed for a 4-col grid) {%- endcomment -%}
     {%- for i in (1..3) -%}
       <div class="gitem fl filler-{{ i }}" style="display: none;">
-        <div class="custom-filler">
-   {{ 'product-1' | placeholder_svg_tag }}
+<div class="collection-card-wrapper" id="collectionStackWrapper">
+  <div class="collection-card-stack" id="collectionCardStack">
+    {% assign valid_collections = '' %}
+    {% for c in collections %}
+      {% if c.image != blank %}
+        {% assign valid_collections = valid_collections | append: c.handle | append: ',' %}
+      {% endif %}
+    {% endfor %}
+
+    {% assign valid_array = valid_collections | split: ',' %}
+
+    {% comment %}
+      Iterate through all valid collections to create the full stack.
+      JavaScript will manage which ones are visible.
+    {% endcomment %}
+    {% for collection_handle in valid_array %}
+      {% assign current_collection = collections[collection_handle] %}
+      {% if current_collection.image != blank %}
+        <div class="collection-card"
+             data-collection-handle="{{ current_collection.handle }}"
+             data-collection-title="{{ current_collection.title | escape }}"
+             data-collection-image="{{ current_collection.image | img_url: '1024x1024' }}"
+             data-collection-url="{{ current_collection.url }}"
+             data-discount-percentage="{% cycle '0', '10', '20', '0', '15' %}" {# Placeholder discount #}
+             data-price="{% cycle '49.99', '29.99', '79.99', '19.99', '59.99' %}" {# Placeholder price #}
+             data-compare-price="{% cycle '59.99', '34.99', '99.99', '24.99', '69.99' %}"> {# Placeholder compare price #}
+
+          <div class="discount-badge" style="display: {% if current_collection.metafields.custom_fields.collection_discount_percentage %} flex {% else %} none {% endif %};">
+            {% comment %}
+              You'd replace 'metafields.custom_fields.collection_discount_percentage' with your actual metafield
+              or logic to determine collection-wide discount.
+              For now, using the data-discount-percentage from JS cycle.
+            {% endcomment %}
+            <span class="badge-percentage"></span>% OFF
+          </div>
+
+          <div class="card-header-icons">
+            <span class="icon-share">🔗</span>
+            <span class="icon-heart">❤️</span>
+          </div>
+
+          <div class="card-image-container">
+            <img src="{{ current_collection.image | img_url: '1024x1024' }}" alt="{{ current_collection.title }}">
+          </div>
+
+          <div class="card-details">
+            <div>
+              <h3 class="card-title">{{ current_collection.title }}</h3>
+              <p class="card-collection-name">Collection: {{ current_collection.title }}</p> {# You might put a product type or sub-title here if these were product cards #}
+            </div>
+
+            <div class="card-price-info">
+              <span class="card-price"></span>
+              <span class="card-compare-price"></span>
+            </div>
+
+            <div class="card-quantity-selector">
+              <label for="qty-{{ current_collection.handle }}">QTY:</label>
+              <label class="switch">
+                <input type="checkbox" id="qty-{{ current_collection.handle }}" {% if forloop.first %}checked{% endif %}>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <button class="add-to-cart-btn">View Collection</button>
+          </div>
         </div>
+      {% endif %}
+    {% endfor %}
+
+    {% if valid_array.size == 0 %}
+      <p style="color: white; text-align: center;">No collections with images found to display.</p>
+    {% endif %}
+  </div>
+</div>
+
       </div>
     {%- endfor -%}
   {%- endif -%}
