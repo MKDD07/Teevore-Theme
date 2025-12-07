@@ -266,7 +266,7 @@
 {%- endif -%}
                   <div class="fw-sec pa bottom40 left10 gap10 fl f-col contss"> 
                   {%- render 'breadcrumb', section_st: section_st, section:section -%}
-                  {%- if section_st.clttl != blank -%}<h1 class="animate h-animate page-title m0{% if section_st.talign %} tc{% endif %}"style="--hcolor: {{ section_st.h1color }}">{{ collection.title }}</h1>{%- endif -%}
+                  {%- if section_st.clttl != blank -%}<h1 class="h-animate page-title m0{% if section_st.talign %} tc{% endif %}"style="--hcolor: {{ section_st.h1color }}">{{ collection.title }}</h1>{%- endif -%}
                   {% if section_st.enable_description %}
                   {%- if collection.description != blank and section_st.des_pos == "1" -%}<div class="rte"style="--hcolor: {{ section_st.h1color }}"> {{ collection.description }} </div>{%- endif -%}
                 {% endif %}
