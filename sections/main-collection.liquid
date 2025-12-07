@@ -355,21 +355,12 @@ document.addEventListener("DOMContentLoaded", function() {
 {% style %}
     .h-animate {
         display: inline-block;
-        /* Remove overflow: hidden to prevent text clipping */
-        /* overflow: hidden; */ 
-        
-        /* Start state: invisible and pushed down */
         opacity: 0;
-        transform: translateY(20px); /* 100% can sometimes push it too far, 20px is safer for text */
-        
-        /* Smooth transition */
-        transition: transform 0.7s ease-out, opacity 0.7s ease-out;
-        
-        /* Fix for flickering text in some browsers */
+        transform: translateY(20px);
+        transition: transform 2.25h1.7s ease-out, opacity 0.7s ease-out;
         will-change: transform, opacity;
     }
 
-    /* End state: visible and in place */
     .h-animate.loaded {
         opacity: 1;
         transform: translateY(0);
