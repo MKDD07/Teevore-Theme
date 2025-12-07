@@ -203,14 +203,6 @@
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease-out, visibility 0.5s;
-  }
-  
-  .collection-card-wrapper.active {
-    opacity: 1;
-    visibility: visible;
   }
   
   .collection-card-stack {
@@ -221,7 +213,6 @@
     justify-content: center;
     align-items: center;
     transform-style: preserve-3d;
-    transition: transform 0.5s ease-out;
   }
   
   .collection-card {
@@ -238,18 +229,37 @@
     padding: 25px;
     box-sizing: border-box;
     color: #333;
-    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s ease-out, z-index 0s;
-    will-change: transform, opacity;
-    cursor: grab;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: none;
   }
   
-  .collection-card.active-card {
-    display: flex;
+  .collection-card:nth-child(1) { 
+    transform: translate3d(0, 0, 0); 
+    opacity: 1; 
+    z-index: 5; 
+  }
+  .collection-card:nth-child(2) { 
+    transform: translate3d(0, 15px, -10px) scale(0.98); 
+    opacity: 0.9; 
+    z-index: 4; 
+  }
+  .collection-card:nth-child(3) { 
+    transform: translate3d(0, 30px, -20px) scale(0.96); 
+    opacity: 0.8; 
+    z-index: 3; 
+  }
+  .collection-card:nth-child(4) { 
+    transform: translate3d(0, 45px, -30px) scale(0.94); 
+    opacity: 0.7; 
+    z-index: 2; 
+  }
+  .collection-card:nth-child(5) { 
+    transform: translate3d(0, 60px, -40px) scale(0.92); 
+    opacity: 0.6; 
+    z-index: 1; 
+  }
+  .collection-card:nth-child(n+6) { 
+    transform: translate3d(0, 100px, -50px) scale(0.8); 
+    opacity: 0; 
+    z-index: 0; 
   }
   
   .discount-badge {
@@ -269,13 +279,6 @@
     align-items: center;
     width: 60px;
     height: 60px;
-    animation: bounceIn 0.5s ease-out;
-  }
-  
-  @keyframes bounceIn {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); }
   }
   
   .card-header-icons {
@@ -434,80 +437,68 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
+    text-decoration: none;
+    display: block;
+    text-align: center;
   }
   
   .add-to-cart-btn:hover {
     background-color: #0056b3;
   }
-  
-  .card-offset-0 { transform: translate3d(0, 0, 0); opacity: 1; z-index: 5; }
-  .card-offset-1 { transform: translate3d(0, 15px, -10px) scale(0.98); opacity: 0.9; z-index: 4; }
-  .card-offset-2 { transform: translate3d(0, 30px, -20px) scale(0.96); opacity: 0.8; z-index: 3; }
-  .card-offset-3 { transform: translate3d(0, 45px, -30px) scale(0.94); opacity: 0.7; z-index: 2; }
-  .card-offset-4 { transform: translate3d(0, 60px, -40px) scale(0.92); opacity: 0.6; z-index: 1; }
-  .card-offset-hidden { transform: translate3d(0, 100px, -50px) scale(0.8); opacity: 0; z-index: 0; }
-  .card-slide-out { transform: translate3d(0, -100vh, 0) scale(1.1); opacity: 0; z-index: 6; }
 </style>
 
-<div class="collection-card-wrapper" id="collectionStackWrapper">
-  <div class="collection-card-stack" id="collectionCardStack">
-    {% assign valid_collections = '' %}
-    {% for c in collections %}
-      {% if c.image != blank %}
-        {% assign valid_collections = valid_collections | append: c.handle | append: ',' %}
-      {% endif %}
-    {% endfor %}
-    {% assign valid_array = valid_collections | split: ',' %}
-    
-    {% for collection_handle in valid_array %}
-      {% assign current_collection = collections[collection_handle] %}
-      {% if current_collection.image != blank %}
-        <div class="collection-card"
-             data-collection-handle="{{ current_collection.handle }}"
-             data-collection-title="{{ current_collection.title | escape }}"
-             data-collection-image="{{ current_collection.image | img_url: '1024x1024' }}"
-             data-collection-url="{{ current_collection.url }}"
-             data-discount-percentage="{% cycle '0', '10', '20', '0', '15' %}"
-             data-price="{% cycle '49.99', '29.99', '79.99', '19.99', '59.99' %}"
-             data-compare-price="{% cycle '59.99', '34.99', '99.99', '24.99', '69.99' %}">
+<div class="collection-card-wrapper">
+  <div class="collection-card-stack">
+    {% for collection in collections %}
+      {% if collection.image != blank %}
+        <div class="collection-card">
+          {% assign discount = 0 %}
+          {% if collection.metafields.custom.discount %}
+            {% assign discount = collection.metafields.custom.discount %}
+          {% endif %}
+          
+          {% if discount > 0 %}
           <div class="discount-badge">
-            <span class="badge-percentage"></span>% OFF
+            {{ discount }}% OFF
           </div>
+          {% endif %}
+          
           <div class="card-header-icons">
             <span class="icon-share">🔗</span>
             <span class="icon-heart">❤️</span>
           </div>
+          
           <div class="card-image-container">
-            <img src="{{ current_collection.image | img_url: '1024x1024' }}" alt="{{ current_collection.title }}">
+            <img src="{{ collection.image | img_url: '1024x1024' }}" alt="{{ collection.title }}">
           </div>
+          
           <div class="card-details">
             <div>
-              <h3 class="card-title">{{ current_collection.title }}</h3>
-              <p class="card-collection-name">Collection: {{ current_collection.title }}</p>
+              <h3 class="card-title">{{ collection.title }}</h3>
+              <p class="card-collection-name">{{ collection.products_count }} Products</p>
             </div>
+            
             <div class="card-price-info">
-              <span class="card-price"></span>
-              <span class="card-compare-price"></span>
+              {% if collection.products.first %}
+                <span class="card-price">From ${{ collection.products.first.price | money_without_currency }}</span>
+              {% endif %}
             </div>
+            
             <div class="card-quantity-selector">
-              <label for="qty-{{ current_collection.handle }}">QTY:</label>
+              <label for="qty-{{ collection.handle }}">Featured:</label>
               <label class="switch">
-                <input type="checkbox" id="qty-{{ current_collection.handle }}" {% if forloop.first %}checked{% endif %}>
+                <input type="checkbox" id="qty-{{ collection.handle }}" {% if forloop.first %}checked{% endif %}>
                 <span class="slider"></span>
               </label>
             </div>
-            <button class="add-to-cart-btn">View Collection</button>
+            
+            <a href="{{ collection.url }}" class="add-to-cart-btn">View Collection</a>
           </div>
         </div>
       {% endif %}
     {% endfor %}
-    
-    {% if valid_array.size == 0 %}
-      <p style="color: white; text-align: center;">No collections with images found to display.</p>
-    {% endif %}
   </div>
 </div>
-
       </div>
     {%- endfor -%}
   {%- endif -%}
