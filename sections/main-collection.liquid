@@ -332,19 +332,23 @@
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    const heading = document.querySelector(".h-animate");
-    if (!heading) return;
+    // 1. Select ALL elements, not just the first one
+    const headings = document.querySelectorAll(".h-animate");
+    
+    // 2. Loop through each element
+    headings.forEach((heading, index) => {
+        // Force reset (in case class was added in HTML manually)
+        heading.classList.remove("loaded");
 
-    // Force reset on every load
-    heading.classList.remove("loaded");
+        // Force reflow/repaint to ensure the browser realizes the class is gone
+        void heading.offsetWidth;
 
-    // Force reflow so animation restarts
-    void heading.offsetWidth;
-
-    // Add class to trigger animation
-    setTimeout(() => {
-        heading.classList.add("loaded");
-    }, 50);
+        // 3. Add class with a staggered delay (optional, makes it look nicer)
+        // logic: base 50ms + 100ms for every subsequent element
+        setTimeout(() => {
+            heading.classList.add("loaded");
+        }, 50 + (index * 100)); 
+    });
 });
 </script>
 
