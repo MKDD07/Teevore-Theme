@@ -28,7 +28,7 @@
 
     {% assign featured_article = blogs[section_st.blog_handle].articles.first %}
     {% if featured_article %}
-    <div class="bdf pr f-col f-jcsb fl p25 br10" style="background-image: url('{{ featured_article.image | img_url: '1200x1200' }}');">
+    <div class="bdf pr f-col f-jcsb fl p25 br10 scroll-trigger zoomIn" style="background-image: url('{{ featured_article.image | img_url: '1200x1200' }}');">
         <agr style="top: 10px;left: 10px;color: #ffffff;position: absolute;padding: 6px 16px;background: #4f772d; border-radius:{{ settings.btn_rad }}px">{{ featured_article.tags.first }}</agr>
         <div class="title-info zi2" style="color:#fff">
                       <div class="author-info">
