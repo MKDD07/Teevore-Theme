@@ -303,7 +303,8 @@
         "hrline_eUgDHq"
       ],
       "custom_css": [
-        ".newsletter_txt {padding: 18px 24px;}"
+        ".newsletter_txt {padding: 18px 24px;}",
+        ".btn {padding: 10px 20px; gap: 10px;}"
       ],
       "settings": {
         "footer_design": "default",
