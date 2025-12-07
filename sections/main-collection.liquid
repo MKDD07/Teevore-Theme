@@ -108,7 +108,59 @@
 
     {%- endif -%}
 {%- endcapture -%}
-
+<script>
+ jQuery(document).ready(function($){
+    $('.change').on('click', function(){
+        let $button = $(this);
+        
+        // Find ALL grid_img wrappers on the page
+        $('.grid_img').each(function(){
+            let $wrapper = $(this);
+            // Find the featured image (the one without 'imgFt hover')
+            let $featured = $wrapper.find('img').not('.imgFt.hover').first();
+            // Find the second image
+            let $secondImg = $wrapper.find('img.imgFt.hover').first();
+            
+            if($featured.length && $secondImg.length){
+                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
+                
+                // Store original src and class if not already stored
+                if(!$featured.data('original-src')){
+                    $featured.data('original-src', $featured.attr('src'));
+                    $featured.data('original-class', $featured.attr('data-original-class') || $featured.attr('class'));
+                }
+                
+                // Check current state
+                if($featured.attr('src') === $featured.data('original-src')){
+                    // Switch to second image
+                    $featured.attr('src', secondSrc);
+                    if($featured.attr('data-src')){
+                        $featured.attr('data-src', secondSrc);
+                    }
+                    $featured.removeClass().addClass('imgFt hover');
+                } else {
+                    // Switch back to original
+                    let originalSrc = $featured.data('original-src');
+                    let originalClass = $featured.data('original-class');
+                    
+                    $featured.attr('src', originalSrc);
+                    if($featured.attr('data-src')){
+                        $featured.attr('data-src', originalSrc);
+                    }
+                    $featured.removeClass().addClass(originalClass);
+                }
+            }
+        });
+        
+        // Toggle button text
+        if($button.text() === 'Show on model'){
+            $button.text('Product view');
+        } else {
+            $button.text('Show on model');
+        }
+    });
+});
+</script>
 {%- capture products_list -%}
       {%- if collection.products.size == 0 -%}
           <div id="collectionPr" class="collection" id="collectionPr" data-id="{{ section.id }}">
@@ -327,36 +379,7 @@
   {{- collection_page | strip_newlines | remove: '  ' -}}
 </div>
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
-<script>
-  jQuery(document).ready(function($){
-    $('.change').on('click', function(){
 
-        // Loop through each product link
-        $('.grid_img').each(function(){
-            let $wrapper = $(this);
-
-            // Find the second image (imgFt hover)
-            let $secondImg = $wrapper.find('img.imgFt.hover').first();
-
-            if($secondImg.length){
-                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
-
-                // Find the featured image (not imgFt hover)
-                let $featured = $wrapper.find('img').not('.imgFt.hover').first();
-
-                if($featured.length && secondSrc){
-                    // Swap the src and update class
-                    $featured.attr('src', secondSrc);
-                    $featured.attr('data-src', secondSrc);
-                    $featured.removeClass().addClass('imgFt hover');
-                }
-            }
-        });
-
-    });
-});
-
-</script>
 {% schema %}
 {
   "name": "Collection Main",
