@@ -144,40 +144,6 @@
   <div class="gitem fl {% render 'animate-data', css:true %}" {% render 'animate-data' %}>
     {% render 'product-card-grid', product:product, section_st:section_st, sizes:sizes %}
   </div>
-<script>
-  jQuery(document).ready(function($){
-
-    $('.change').on('click', function(){
-
-        $('.grid_img').each(function(){
-            let $wrapper = $(this);
-
-            // Find second image inside the product wrapper
-            let $secondImg = $wrapper.find('img.imgFt.hover').first();
-
-            // If second image exists
-            if($secondImg.length){
-                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
-
-                // Find the featured image (the first visible one)
-                let $featured = $wrapper.find('img').not('.imgFt.hover').first();
-
-                if($featured.length && secondSrc){
-                    // Replace featured image src with second image src
-                    $featured.attr('src', secondSrc);
-                    $featured.attr('data-src', secondSrc);
-
-                    // Remove old classes and add imgFt hover
-                    $featured.removeClass().addClass('imgFt hover');
-                }
-            }
-        });
-
-    });
-
-});
-
-</script>
   {%- comment -%} 
     CUSTOM CODE: Placeholder Logic 
     Fills empty cells for Grid: Desktop(4), Tablet(3), Mobile(2)
@@ -361,275 +327,32 @@
   {{- collection_page | strip_newlines | remove: '  ' -}}
 </div>
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
-<style>
-  /* Inlined CSS for quick setup, move to .scss.liquid for production */
-  .collection-card-wrapper {
-    position: fixed; /* Use fixed for full screen overlay effect */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Hide scrollbars if content overflows */
-    background: rgba(0, 0, 0, 0.4); /* Dim background */
-    backdrop-filter: blur(15px); /* Stronger blur for full-screen */
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 1000; /* Ensure it's on top */
-    transform: translateY(100%); /* Initially off-screen */
-    transition: transform 0.5s ease-out;
-  }
+jQuery(document).ready(function($){
+    $('.change').on('click', function(){
 
-  .collection-card-wrapper.active {
-    transform: translateY(0); /* Slide into view */
-  }
+        $('.grid_img').each(function(){
+            let $wrapper = $(this);
 
-  .collection-card-stack {
-    position: relative;
-    width: min(90vw, 400px); /* Max width for the card, responsive */
-    height: min(80vh, 600px); /* Max height for the card, responsive */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transform-style: preserve-3d; /* For 3D card rotation */
-    transition: transform 0.5s ease-out;
-  }
+            // Find second image inside the wrapper
+            let $secondImg = $wrapper.find('img.imgFt.hover').first();
 
-  .collection-card {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 25px; /* More rounded for iOS feel */
-    background: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    padding: 25px;
-    box-sizing: border-box;
-    color: #333;
-    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s ease-out, z-index 0s; /* More complex easing */
-    will-change: transform, opacity;
-    cursor: grab; /* Indicate draggable */
-    -webkit-user-select: none; /* Prevent text selection during drag */
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    display: none; /* Hide all by default, JS will show current */
-  }
+            if($secondImg.length){
+                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
 
-  .collection-card.active-card {
-    display: flex; /* Show the active card */
-  }
+                // Find the featured image (the one without 'imgFt hover' class)
+                let $featured = $wrapper.find('img').not('.imgFt.hover').first();
 
-  /* Discount Badge */
-  .discount-badge {
-    position: absolute;
-    top: -10px; /* Slightly above the card */
-    left: -10px; /* Slightly to the left */
-    background-color: #ff3b30; /* iOS red */
-    color: white;
-    padding: 8px 15px;
-    border-radius: 50%; /* Circular badge */
-    font-size: 0.8em;
-    font-weight: bold;
-    z-index: 10;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 60px; /* Fixed size */
-    height: 60px; /* Fixed size */
-    animation: bounceIn 0.5s ease-out; /* Simple entry animation */
-  }
+                if($featured.length && secondSrc){
+                    $featured.attr('src', secondSrc);
+                    $featured.attr('data-src', secondSrc);
+                    $featured.removeClass().addClass('imgFt hover');
+                }
+            }
+        });
 
-  @keyframes bounceIn {
-    0% { transform: scale(0); opacity: 0; }
-    60% { transform: scale(1.1); opacity: 1; }
-    100% { transform: scale(1); }
-  }
+    });
+});
 
-
-  /* Card Header for Share/Favorite */
-  .card-header-icons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    color: #888;
-  }
-  .card-header-icons span {
-    cursor: pointer;
-  }
-
-  .card-image-container {
-    flex-shrink: 0; /* Prevent image from shrinking */
-    width: 100%;
-    padding-top: 100%; /* For a square container */
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px; /* Image container border-radius */
-    margin-bottom: 20px;
-    background-color: #f0f0f0; /* Placeholder background */
-  }
-
-  .card-image-container img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* Ensure full image is visible, no cropping */
-    border-radius: 20px;
-  }
-
-  .card-details {
-    flex-grow: 1; /* Allow details to take available space */
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Push buttons to bottom */
-  }
-
-  .card-title {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1.8em;
-    font-weight: 700;
-    margin-bottom: 5px;
-    color: #1a1a1a;
-    line-height: 1.2;
-  }
-
-  .card-collection-name {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1em;
-    color: #666;
-    margin-bottom: 15px;
-  }
-
-  .card-price-info {
-    display: flex;
-    align-items: baseline;
-    margin-bottom: 20px;
-  }
-
-  .card-price {
-    font-family: -apple-system, BlinkMacMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1.6em;
-    font-weight: 600;
-    color: #007aff; /* iOS blue */
-    margin-right: 10px;
-  }
-
-  .card-compare-price {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1.1em;
-    color: #999;
-    text-decoration: line-through;
-  }
-
-  .card-quantity-selector {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 25px;
-    padding: 10px 0;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-  }
-
-  .card-quantity-selector label {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 1em;
-    color: #333;
-    font-weight: 500;
-  }
-
-  /* iOS Style Toggle Switch */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 28px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 28px;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-    border-radius: 50%;
-  }
-
-  input:checked + .slider {
-    background-color: #007aff; /* iOS blue */
-  }
-
-  input:focus + .slider {
-    box-shadow: 0 0 1px #007aff;
-  }
-
-  input:checked + .slider:before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
-    transform: translateX(20px);
-  }
-
-  .add-to-cart-btn {
-    width: 100%;
-    padding: 15px 20px;
-    background-color: #007aff; /* iOS blue */
-    color: white;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
-  }
-
-  .add-to-cart-btn:hover {
-    background-color: #0056b3;
-  }
-
-  /* Utility classes for stack transforms, will be applied by JS */
-  .card-offset-0 { transform: translate3d(0, 0, 0); opacity: 1; z-index: 5; }
-  .card-offset-1 { transform: translate3d(0, 15px, -10px) scale(0.98); opacity: 0.9; z-index: 4; }
-  .card-offset-2 { transform: translate3d(0, 30px, -20px) scale(0.96); opacity: 0.8; z-index: 3; }
-  .card-offset-3 { transform: translate3d(0, 45px, -30px) scale(0.94); opacity: 0.7; z-index: 2; }
-  .card-offset-4 { transform: translate3d(0, 60px, -40px) scale(0.92); opacity: 0.6; z-index: 1; }
-  .card-offset-hidden { transform: translate3d(0, 100px, -50px) scale(0.8); opacity: 0; z-index: 0; }
-  .card-slide-out { transform: translate3d(0, -100vh, 0) scale(1.1); opacity: 0; z-index: 6; } /* For sliding up */
-
-
-</style>
 {% schema %}
 {
   "name": "Collection Main",
