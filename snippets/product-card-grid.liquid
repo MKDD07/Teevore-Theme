@@ -122,6 +122,8 @@
 jQuery(document).ready(function($){
     $('.change').on('click', function(){
 
+        let $button = $(this); // The clicked button
+
         $('.grid_img').each(function(){
             let $wrapper = $(this);
 
@@ -145,12 +147,18 @@ jQuery(document).ready(function($){
                     $featured.attr('src', secondSrc);
                     $featured.attr('data-src', secondSrc);
                     $featured.removeClass().addClass('imgFt hover');
+
+                    // Change button text
+                    $button.text('Product view');
                 } else {
                     // Switch back to original featured image
                     let originalSrc = $featured.data('original-src');
                     $featured.attr('src', originalSrc);
                     $featured.attr('data-src', originalSrc);
                     $featured.removeClass().addClass('{{ image_class }}'); // restore original Liquid class
+
+                    // Change button text
+                    $button.text('Show on model');
                 }
             }
         });
