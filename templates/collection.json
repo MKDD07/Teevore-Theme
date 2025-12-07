@@ -134,7 +134,7 @@
         "climg": true,
         "use_custom_image": true,
         "collection_image": "{{ collection.metafields.custom.heading_image.value }}",
-        "media_height": "media--450px",
+        "media_height": "media--900px",
         "enable_description": false,
         "des_pos": "2",
         "enable_small_description": true,
