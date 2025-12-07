@@ -20,7 +20,7 @@
           {% assign block_st = block.settings %}
             {% case block.type %}
 {% when 'media' %}
-          <div class="block-item-{{section.id}} {% if section.settings.order == 'image' %} image-left{% else %} image-right{% endif %} block-{{ block.type }}" {{ block.shopify_attributes }}>
+          <div class="block-item-{{section.id}} {% if block_st.order == 'image' %} image-left{% else %} image-right{% endif %} block-{{ block.type }}" {{ block.shopify_attributes }}>
 <div class="media-container-{{ section.id }}">
   {% if block_st.media_type == 'image' and block_st.image != blank %}
     <img 
