@@ -188,29 +188,47 @@
     {%- comment -%} We render 3 potential fillers (Max needed for a 4-col grid) {%- endcomment -%}
     {%- for i in (1..3) -%}
       <div class="gitem fl filler-{{ i }}" style="display: none;">
-{% assign valid_collections = '' %}
-{% for c in collections %}
-  {% if c.image != blank %}
-    {% assign valid_collections = valid_collections | append: c.handle | append: ',' %}
-  {% endif %}
-{% endfor %}
+<div class="collection-card-stack-container">
+  <div class="collection-card-stack">
+    {% assign valid_collections = '' %}
+    {% for c in collections %}
+      {% if c.image != blank %}
+        {% assign valid_collections = valid_collections | append: c.handle | append: ',' %}
+      {% endif %}
+    {% endfor %}
 
-{% assign valid_array = valid_collections | split: ',' %}
-{% assign count = valid_array | size %}
+    {% assign valid_array = valid_collections | split: ',' %}
 
-{% if count > 0 %}
-  {% assign random_index = 'now' | date: '%s' | modulo: count %}
-  {% assign random_handle = valid_array[random_index] %}
-  {% assign random_collection = collections[random_handle] %}
+    {% comment %}
+      For this example, let's limit to a few cards for the visual stack.
+      In a real scenario, you might want to show a fixed number or iterate more.
+      Here, we'll pick the first few valid collections.
+    {% endcomment %}
+    {% assign display_limit = 5 %} {# Number of cards to display in the stack #}
+    {% assign cards_displayed = 0 %}
 
-  <div class="random-collection-card">
-    <div class="random-collection-image">
-      <img src="{{ random_collection.image | img_url: '800x800' }}" alt="{{ random_collection.title }}">
-    </div>
-    <h3>{{ random_collection.title }}</h3>
+    {% for collection_handle in valid_array %}
+      {% assign current_collection = collections[collection_handle] %}
+      {% if current_collection.image != blank and cards_displayed < display_limit %}
+        <div class="collection-card" data-collection-handle="{{ current_collection.handle }}">
+          <div class="card-image-wrapper">
+            <img src="{{ current_collection.image | img_url: '800x800' }}" alt="{{ current_collection.title }}">
+          </div>
+          <div class="card-content">
+            <h3>{{ current_collection.title }}</h3>
+            <p>Shop now</p> {# Or add a small description/link #}
+          </div>
+        </div>
+        {% assign cards_displayed = cards_displayed | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+
+    {% if cards_displayed == 0 %}
+      <p>No collections with images found to display.</p>
+    {% endif %}
+
   </div>
-{% endif %}
-
+</div>
       </div>
     {%- endfor -%}
   {%- endif -%}
