@@ -188,8 +188,282 @@
     {%- comment -%} We render 3 potential fillers (Max needed for a 4-col grid) {%- endcomment -%}
     {%- for i in (1..3) -%}
       <div class="gitem fl filler-{{ i }}" style="display: none;">
-<div class="collection-card-stack-container">
-  <div class="collection-card-stack">
+<style>
+  /* Inlined CSS for quick setup, move to .scss.liquid for production */
+  .collection-card-wrapper {
+    position: fixed; /* Use fixed for full screen overlay effect */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Hide scrollbars if content overflows */
+    background: rgba(0, 0, 0, 0.4); /* Dim background */
+    backdrop-filter: blur(15px); /* Stronger blur for full-screen */
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 1000; /* Ensure it's on top */
+    transform: translateY(100%); /* Initially off-screen */
+    transition: transform 0.5s ease-out;
+  }
+
+  .collection-card-wrapper.active {
+    transform: translateY(0); /* Slide into view */
+  }
+
+  .collection-card-stack {
+    position: relative;
+    width: min(90vw, 400px); /* Max width for the card, responsive */
+    height: min(80vh, 600px); /* Max height for the card, responsive */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-style: preserve-3d; /* For 3D card rotation */
+    transition: transform 0.5s ease-out;
+  }
+
+  .collection-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 25px; /* More rounded for iOS feel */
+    background: rgba(255, 255, 255, 0.9); /* Slightly less transparent */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2), 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+    color: #333;
+    transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.6s ease-out, z-index 0s; /* More complex easing */
+    will-change: transform, opacity;
+    cursor: grab; /* Indicate draggable */
+    -webkit-user-select: none; /* Prevent text selection during drag */
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    display: none; /* Hide all by default, JS will show current */
+  }
+
+  .collection-card.active-card {
+    display: flex; /* Show the active card */
+  }
+
+  /* Discount Badge */
+  .discount-badge {
+    position: absolute;
+    top: -10px; /* Slightly above the card */
+    left: -10px; /* Slightly to the left */
+    background-color: #ff3b30; /* iOS red */
+    color: white;
+    padding: 8px 15px;
+    border-radius: 50%; /* Circular badge */
+    font-size: 0.8em;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px; /* Fixed size */
+    height: 60px; /* Fixed size */
+    animation: bounceIn 0.5s ease-out; /* Simple entry animation */
+  }
+
+  @keyframes bounceIn {
+    0% { transform: scale(0); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+
+
+  /* Card Header for Share/Favorite */
+  .card-header-icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    color: #888;
+  }
+  .card-header-icons span {
+    cursor: pointer;
+  }
+
+  .card-image-container {
+    flex-shrink: 0; /* Prevent image from shrinking */
+    width: 100%;
+    padding-top: 100%; /* For a square container */
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px; /* Image container border-radius */
+    margin-bottom: 20px;
+    background-color: #f0f0f0; /* Placeholder background */
+  }
+
+  .card-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Ensure full image is visible, no cropping */
+    border-radius: 20px;
+  }
+
+  .card-details {
+    flex-grow: 1; /* Allow details to take available space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push buttons to bottom */
+  }
+
+  .card-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1.8em;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #1a1a1a;
+    line-height: 1.2;
+  }
+
+  .card-collection-name {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 15px;
+  }
+
+  .card-price-info {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+
+  .card-price {
+    font-family: -apple-system, BlinkMacMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1.6em;
+    font-weight: 600;
+    color: #007aff; /* iOS blue */
+    margin-right: 10px;
+  }
+
+  .card-compare-price {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1.1em;
+    color: #999;
+    text-decoration: line-through;
+  }
+
+  .card-quantity-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+
+  .card-quantity-selector label {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1em;
+    color: #333;
+    font-weight: 500;
+  }
+
+  /* iOS Style Toggle Switch */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 28px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 28px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+    border-radius: 50%;
+  }
+
+  input:checked + .slider {
+    background-color: #007aff; /* iOS blue */
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #007aff;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(20px);
+    -ms-transform: translateX(20px);
+    transform: translateX(20px);
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+    padding: 15px 20px;
+    background-color: #007aff; /* iOS blue */
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 122, 255, 0.3);
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Utility classes for stack transforms, will be applied by JS */
+  .card-offset-0 { transform: translate3d(0, 0, 0); opacity: 1; z-index: 5; }
+  .card-offset-1 { transform: translate3d(0, 15px, -10px) scale(0.98); opacity: 0.9; z-index: 4; }
+  .card-offset-2 { transform: translate3d(0, 30px, -20px) scale(0.96); opacity: 0.8; z-index: 3; }
+  .card-offset-3 { transform: translate3d(0, 45px, -30px) scale(0.94); opacity: 0.7; z-index: 2; }
+  .card-offset-4 { transform: translate3d(0, 60px, -40px) scale(0.92); opacity: 0.6; z-index: 1; }
+  .card-offset-hidden { transform: translate3d(0, 100px, -50px) scale(0.8); opacity: 0; z-index: 0; }
+  .card-slide-out { transform: translate3d(0, -100vh, 0) scale(1.1); opacity: 0; z-index: 6; } /* For sliding up */
+
+
+</style>
+
+<button id="openCollectionStackBtn" style="position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; background-color: #007aff; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; z-index: 1001;">
+  View Collections
+</button>
+
+<div class="collection-card-wrapper" id="collectionStackWrapper">
+  <div class="collection-card-stack" id="collectionCardStack">
     {% assign valid_collections = '' %}
     {% for c in collections %}
       {% if c.image != blank %}
@@ -200,35 +474,269 @@
     {% assign valid_array = valid_collections | split: ',' %}
 
     {% comment %}
-      For this example, let's limit to a few cards for the visual stack.
-      In a real scenario, you might want to show a fixed number or iterate more.
-      Here, we'll pick the first few valid collections.
+      Iterate through all valid collections to create the full stack.
+      JavaScript will manage which ones are visible.
     {% endcomment %}
-    {% assign display_limit = 5 %} {# Number of cards to display in the stack #}
-    {% assign cards_displayed = 0 %}
-
     {% for collection_handle in valid_array %}
       {% assign current_collection = collections[collection_handle] %}
-      {% if current_collection.image != blank and cards_displayed < display_limit %}
-        <div class="collection-card" data-collection-handle="{{ current_collection.handle }}">
-          <div class="card-image-wrapper">
-            <img src="{{ current_collection.image | img_url: '800x800' }}" alt="{{ current_collection.title }}">
+      {% if current_collection.image != blank %}
+        <div class="collection-card"
+             data-collection-handle="{{ current_collection.handle }}"
+             data-collection-title="{{ current_collection.title | escape }}"
+             data-collection-image="{{ current_collection.image | img_url: '1024x1024' }}"
+             data-collection-url="{{ current_collection.url }}"
+             data-discount-percentage="{% cycle '0', '10', '20', '0', '15' %}" {# Placeholder discount #}
+             data-price="{% cycle '49.99', '29.99', '79.99', '19.99', '59.99' %}" {# Placeholder price #}
+             data-compare-price="{% cycle '59.99', '34.99', '99.99', '24.99', '69.99' %}"> {# Placeholder compare price #}
+
+          <div class="discount-badge" style="display: {% if current_collection.metafields.custom_fields.collection_discount_percentage %} flex {% else %} none {% endif %};">
+            {% comment %}
+              You'd replace 'metafields.custom_fields.collection_discount_percentage' with your actual metafield
+              or logic to determine collection-wide discount.
+              For now, using the data-discount-percentage from JS cycle.
+            {% endcomment %}
+            <span class="badge-percentage"></span>% OFF
           </div>
-          <div class="card-content">
-            <h3>{{ current_collection.title }}</h3>
-            <p>Shop now</p> {# Or add a small description/link #}
+
+          <div class="card-header-icons">
+            <span class="icon-share">🔗</span>
+            <span class="icon-heart">❤️</span>
+          </div>
+
+          <div class="card-image-container">
+            <img src="{{ current_collection.image | img_url: '1024x1024' }}" alt="{{ current_collection.title }}">
+          </div>
+
+          <div class="card-details">
+            <div>
+              <h3 class="card-title">{{ current_collection.title }}</h3>
+              <p class="card-collection-name">Collection: {{ current_collection.title }}</p> {# You might put a product type or sub-title here if these were product cards #}
+            </div>
+
+            <div class="card-price-info">
+              <span class="card-price"></span>
+              <span class="card-compare-price"></span>
+            </div>
+
+            <div class="card-quantity-selector">
+              <label for="qty-{{ current_collection.handle }}">QTY:</label>
+              <label class="switch">
+                <input type="checkbox" id="qty-{{ current_collection.handle }}" {% if forloop.first %}checked{% endif %}>
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <button class="add-to-cart-btn">View Collection</button>
           </div>
         </div>
-        {% assign cards_displayed = cards_displayed | plus: 1 %}
       {% endif %}
     {% endfor %}
 
-    {% if cards_displayed == 0 %}
-      <p>No collections with images found to display.</p>
+    {% if valid_array.size == 0 %}
+      <p style="color: white; text-align: center;">No collections with images found to display.</p>
     {% endif %}
-
   </div>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('collectionStackWrapper');
+    const cardStack = document.getElementById('collectionCardStack');
+    const cards = Array.from(cardStack.querySelectorAll('.collection-card'));
+    const openBtn = document.getElementById('openCollectionStackBtn');
+
+    let currentIndex = 0;
+    let isDragging = false;
+    let startY = 0;
+    let currentY = 0;
+    let translateY = 0;
+
+    // Function to apply transforms to cards for the stack effect
+    function updateCardStack() {
+      cards.forEach((card, index) => {
+        card.style.display = 'none'; // Hide all initially, show only active ones
+
+        const offset = index - currentIndex;
+
+        // Populate dynamic data (prices, discounts)
+        const price = card.dataset.price;
+        const comparePrice = card.dataset.comparePrice;
+        const discountPercentage = parseInt(card.dataset.discountPercentage, 10);
+
+        const priceElement = card.querySelector('.card-price');
+        const comparePriceElement = card.querySelector('.card-compare-price');
+        const discountBadge = card.querySelector('.discount-badge');
+        const badgePercentage = card.querySelector('.badge-percentage');
+
+        if (priceElement) priceElement.textContent = `$${parseFloat(price).toFixed(2)}`;
+        if (comparePriceElement) {
+          comparePriceElement.textContent = `$${parseFloat(comparePrice).toFixed(2)}`;
+          comparePriceElement.style.display = (parseFloat(comparePrice) > parseFloat(price) && discountPercentage > 0) ? 'inline' : 'none';
+        }
+
+        if (discountBadge) {
+          if (discountPercentage > 0) {
+            discountBadge.style.display = 'flex';
+            if (badgePercentage) badgePercentage.textContent = discountPercentage;
+          } else {
+            discountBadge.style.display = 'none';
+          }
+        }
+
+
+        if (offset === 0) {
+          card.classList.add('active-card');
+          card.classList.remove('card-offset-hidden', 'card-slide-out');
+          card.classList.add('card-offset-0');
+          card.style.transform = `translateY(${translateY}px)`; // Apply drag transform
+        } else if (offset > 0 && offset < 5) { // Cards behind the current one
+          card.classList.add('active-card'); // Still active to be part of the visual stack
+          card.classList.remove('card-offset-0', 'card-offset-hidden', 'card-slide-out');
+          card.classList.add(`card-offset-${offset}`);
+        } else {
+          card.classList.remove('active-card');
+          card.classList.remove('card-offset-0', 'card-slide-out');
+          card.classList.add('card-offset-hidden'); // Hide cards far behind
+        }
+      });
+    }
+
+    // Function to show the wrapper and first card
+    openBtn.addEventListener('click', () => {
+      wrapper.classList.add('active');
+      currentIndex = 0; // Reset to first card
+      updateCardStack();
+    });
+
+    // Handle closing the wrapper (e.g., clicking outside the card stack)
+    wrapper.addEventListener('click', (e) => {
+      if (!cardStack.contains(e.target) && !openBtn.contains(e.target)) {
+        wrapper.classList.remove('active');
+        // Reset card positions after closing if desired, or let them fade out
+        cards.forEach(card => card.classList.remove('card-slide-out', 'active-card', 'card-offset-0', 'card-offset-1', 'card-offset-2', 'card-offset-3', 'card-offset-4', 'card-offset-hidden'));
+      }
+    });
+
+    // Drag functionality
+    const activeCard = () => cards[currentIndex];
+
+    function startDrag(e) {
+      if (!activeCard()) return;
+      isDragging = true;
+      startY = e.clientY || e.touches[0].clientY;
+      activeCard().style.transition = 'none'; // Disable transition during drag
+      document.body.style.overflow = 'hidden'; // Prevent background scroll
+    }
+
+    function doDrag(e) {
+      if (!isDragging || !activeCard()) return;
+      currentY = e.clientY || e.touches[0].clientY;
+      translateY = currentY - startY;
+
+      // Limit downward drag
+      translateY = Math.max(0, translateY);
+
+      // Scale down slightly as it slides up
+      const scaleFactor = 1 - (translateY / (window.innerHeight * 0.7)) * 0.2; // Max 20% scale reduction
+      activeCard().style.transform = `translateY(${translateY}px) scale(${scaleFactor})`;
+      activeCard().style.opacity = 1 - (translateY / (window.innerHeight * 0.7)); // Fade out as it slides up
+    }
+
+    function endDrag() {
+      if (!isDragging || !activeCard()) return;
+      isDragging = false;
+      activeCard().style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
+      document.body.style.overflow = ''; // Restore background scroll
+
+      const dragThreshold = activeCard().offsetHeight * 0.3; // Slide up if dragged more than 30% of card height
+
+      if (translateY < -dragThreshold) { // If dragged significantly upwards
+        // This condition might not be easily triggered with current drag logic
+        // We'll focus on swiping up to dismiss
+      } else if (translateY < -50) { // If slid up quickly
+          // This path needs refinement for consistent "slide up to change"
+          // For now, let's just use a release mechanism at the top
+      } else if (translateY > dragThreshold) { // If dragged downwards past threshold, reset
+        activeCard().style.transform = ''; // Reset transform
+        activeCard().style.opacity = ''; // Reset opacity
+      } else { // Not enough drag, reset
+        activeCard().style.transform = ''; // Reset transform
+        activeCard().style.opacity = ''; // Reset opacity
+      }
+
+      translateY = 0; // Reset for next drag
+    }
+
+    // Function to handle "swiping up" to change card
+    function nextCard() {
+      if (currentIndex < cards.length - 1) {
+        // Animate the current card out
+        const currentAnimatingCard = cards[currentIndex];
+        currentAnimatingCard.style.transition = 'transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.4s ease-out';
+        currentAnimatingCard.classList.add('card-slide-out');
+
+        // After animation, hide and increment index
+        setTimeout(() => {
+          currentAnimatingCard.classList.remove('active-card', 'card-slide-out', 'card-offset-0');
+          currentIndex++;
+          updateCardStack();
+        }, 400); // Match transition duration
+      } else {
+        // Loop back to the start or show a "no more cards" message
+        alert("No more collections!");
+        wrapper.classList.remove('active'); // Close if no more cards
+      }
+    }
+
+
+    // --- Event Listeners for Swiping ---
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+
+    cardStack.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      startDrag(e); // Also initiate drag for visual feedback
+    }, { passive: true });
+
+    cardStack.addEventListener('touchmove', (e) => {
+      touchEndX = e.touches[0].clientX;
+      touchEndY = e.touches[0].clientY;
+      doDrag(e);
+    }, { passive: false }); // Passive: false to allow preventDefault if needed
+
+    cardStack.addEventListener('touchend', () => {
+      endDrag();
+
+      const dx = touchEndX - touchStartX;
+      const dy = touchEndY - touchStartY;
+
+      // Determine if it was a significant "swipe up"
+      if (Math.abs(dy) > 50 && dy < 0 && Math.abs(dy) > Math.abs(dx)) { // Swiped up
+        nextCard();
+      }
+    });
+
+    // Initial stack setup when DOM is ready
+    updateCardStack();
+
+    // Attach click listener to the "View Collection" button inside each card
+    cardStack.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-to-cart-btn')) {
+        const card = e.target.closest('.collection-card');
+        if (card) {
+          const collectionUrl = card.dataset.collectionUrl;
+          if (collectionUrl) {
+            window.location.href = collectionUrl; // Redirect to collection page
+          }
+        }
+      }
+    });
+
+  });
+</script>
       </div>
     {%- endfor -%}
   {%- endif -%}
@@ -367,117 +875,6 @@
   {{- collection_page | strip_newlines | remove: '  ' -}}
 </div>
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
-{%style %}
-  .collection-card-stack-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 500px; /* Adjust as needed */
-  perspective: 1000px; /* For 3D effects */
-  overflow: hidden; /* Hide overflowing parts of the stack */
-  padding: 20px;
-}
-
-.collection-card-stack {
-  position: relative;
-  width: 300px; /* Width of each card */
-  height: 450px; /* Height of each card */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.collection-card {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px; /* iOS-like rounded corners */
-  background: rgba(255, 255, 255, 0.8); /* Translucent background */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05); /* Soft shadows */
-  backdrop-filter: blur(10px); /* Frosted glass effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  box-sizing: border-box;
-  color: #333;
-  transition: transform 0.4s ease-out, opacity 0.4s ease-out, box-shadow 0.4s ease-out; /* Smooth transitions */
-  will-change: transform, opacity; /* Optimize for animations */
-}
-
-/* Styling for the stack effect */
-.collection-card:nth-child(1) {
-  transform: translateY(0px) rotateX(0deg) scale(1);
-  z-index: 5;
-}
-
-.collection-card:nth-child(2) {
-  transform: translateY(15px) rotateX(2deg) scale(0.98);
-  z-index: 4;
-  opacity: 0.9;
-}
-
-.collection-card:nth-child(3) {
-  transform: translateY(30px) rotateX(4deg) scale(0.96);
-  z-index: 3;
-  opacity: 0.8;
-}
-
-.collection-card:nth-child(4) {
-  transform: translateY(45px) rotateX(6deg) scale(0.94);
-  z-index: 2;
-  opacity: 0.7;
-}
-
-.collection-card:nth-child(5) {
-  transform: translateY(60px) rotateX(8deg) scale(0.92);
-  z-index: 1;
-  opacity: 0.6;
-}
-
-/* Image styling */
-.card-image-wrapper {
-  width: 100%;
-  max-height: 60%; /* Adjust image height */
-  overflow: hidden;
-  border-radius: 15px;
-  margin-bottom: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.card-image-wrapper img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: cover; /* Ensure image covers the area */
-}
-
-/* Content styling */
-.card-content {
-  text-align: center;
-  flex-grow: 1; /* Allow content to take available space */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.card-content h3 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 1.5em;
-  margin: 0 0 10px;
-  font-weight: 600;
-  color: #333;
-}
-
-.card-content p {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 0.9em;
-  color: #666;
-  margin: 0;
-}
-{% endstyle %}
 {% schema %}
 {
   "name": "Collection Main",
