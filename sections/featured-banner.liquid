@@ -6,7 +6,7 @@
     endif
 -%}
 {%- capture info_banner -%}  
-<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload zi1{% endif %}" style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
+<div class="banner-feature sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload zi1{% endif %}" style="--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
    {% if section_st.bgimg != blank %}data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>
         <div class="{% if section_st.sw %}fw-sec{% if section_st.npd %} npd{% endif %}{% else %}page-width{% endif %}">
             <div class="ft_row fl f-aist f-jcsb w_100 row-{{ section.id }} f-col f-row-lg brad of_hidden"  style="--rounded:{{ section_st.sbrad }}px;--bg:{% if section_st.tbgg != blank %}{{ section_st.tbgg }}{% else %}{{ section_st.tbg }}{% endif %};--mwd:{{ section_st.image.width }}px;">				
@@ -83,7 +83,7 @@
 {%- endcapture -%}
 {{ info_banner | strip_newlines | remove: "  " | remove: "	" }}
 {% style %}
-  .w_100 img
+  .banner-feature .w_100 img
 {
 border-radius: {{ section_st.border_radius }}px;height: 100%;object-fit: cover;
 }
