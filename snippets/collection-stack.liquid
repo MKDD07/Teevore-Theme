@@ -1,7 +1,42 @@
+{% comment %}
+  Section: Featured Collections Slider
+  Displays collections in a Swiper slider with custom card styling.
+{% endcomment %}
+
 <style>
+  /* Swiper general styles - include these */
+  .swiper {
+    width: 100%;
+    height: auto; /* Adjust as needed */
+    padding-bottom: 30px; /* Space for pagination */
+    padding-top: 50px; /* Space for top navigation if needed */
+  }
+
+  /* Specific Swiper slide styling for your collection cards */
+  .swiper-slide {
+    display: flex; /* Ensure collection-cards inside are centered */
+    justify-content: center;
+    align-items: center;
+    height: auto; /* Allow content to define height */
+    padding: 10px; /* Padding around the cards inside slides */
+  }
+
+  /* Navigation buttons (arrows) */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #007aff; /* iOS blue for navigation arrows */
+    --swiper-navigation-size: 30px; /* Adjust arrow size */
+  }
+
+  /* Pagination dots */
+  .swiper-pagination-bullet-active {
+    background: #007aff; /* Active dot color */
+  }
+
+  /* --- Your Existing Collection Card Styling (fixed for consistency) --- */
 
   /* Individual collection card styling */
-  .collection-cards {
+  .collection-cards { /* This is the main card container */
     border-radius: 25px; /* Softer rounded corners */
     background: rgba(255, 255, 255, 0.9); /* Translucent background */
     box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08); /* Smoother shadow */
@@ -15,6 +50,8 @@
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
     overflow: hidden; /* Ensure badge doesn't overflow weirdly */
+    width: 100%; /* Ensure card takes full width of its slide */
+    max-width: 350px; /* Max width for individual cards */
   }
 
   .collection-cards:hover {
@@ -83,7 +120,7 @@
     transition: transform 0.3s ease;
   }
 
-  .collection-card:hover .card-image-container img {
+  .collection-cards:hover .card-image-container img { /* Corrected parent selector */
     transform: scale(1.08); /* Zoom in on hover */
   }
 
@@ -228,16 +265,11 @@
     box-shadow: 0 7px 20px rgba(0, 122, 255, 0.4);
   }
 
-  /* Responsive adjustments */
+  /* Responsive adjustments for individual cards */
   @media (max-width: 768px) {
-    .collection-card-grid {
-      grid-template-columns: 1fr; /* Single column on small screens */
-      padding: 15px;
-      gap: 25px;
-    }
-
-    .collection-card {
+    .collection-cards { /* Apply to individual cards */
       padding: 20px;
+      max-width: 300px; /* Smaller max-width on smaller screens */
     }
 
     .card-title {
@@ -254,13 +286,9 @@
   }
 
   @media (max-width: 480px) {
-    .collection-card-grid {
-      padding: 10px;
-      gap: 20px;
-    }
-
-    .collection-card {
+    .collection-cards { /* Apply to individual cards */
       padding: 15px;
+      max-width: 280px; /* Even smaller max-width */
     }
 
     .card-title {
@@ -275,115 +303,79 @@
       height: 180px;
     }
   }
-  /* Basic styling for your custom slider */
-.mySwiper {
-  width: 100%;
-  height: auto; /* Adjust as needed */
-  padding-bottom: 30px; /* Give space for pagination dots */
-}
-
-.mySwiper .swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-
-  /* Center slide content vertically and horizontally */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Optional: Style for the navigation buttons */
-.mySwiper .swiper-button-next,
-.mySwiper .swiper-button-prev {
-  color: #000; /* Or your brand color */
-}
-
-/* Optional: Style for the pagination dots */
-.mySwiper .swiper-pagination-bullet-active {
-  background: #000; /* Active dot color */
-}
 </style>
-    {% if collection.image != blank %}
-      {% comment %}
-        Accessing custom metafield for discount percentage.
-        Make sure you have a 'discount_percentage' metafield defined for collections.
-        Example: In Shopify Admin -> Settings -> Custom data -> Collections -> Add definition.
-        Type: Integer, Decimal, or Single line text if you want to allow "20%".
-        For this code, assuming a number (Integer/Decimal).
-      {% endcomment %}
-      {% assign discount_percentage = 0 %}
-      {% if collection.metafields.custom.discount_percentage %}
-        {% assign discount_percentage = collection.metafields.custom.discount_percentage | plus: 0 %} {# Ensure it's a number #}
-      {% endif %}
 
-      <div class="collection-cards">
-        {% if discount_percentage > 0 %}
-          <div class="discount-badge">
-            {{ discount_percentage }}% OFF
-          </div>
-        {% endif %}
-
-        <div class="card-header-icons">
-          <span class="icon-share">🔗</span>
-          <span class="icon-heart">❤️</span>
-        </div>
-
-        <div class="card-image-container">
-          <img src="{{ collection.image | img_url: '1024x1024' }}" alt="{{ collection.title | escape }}">
-        </div>
-
-        <div class="card-details">
-          <div>
-            <h3 class="card-title">{{ collection.title | escape }}</h3>
-            <p class="card-collection-name">
-              {% if collection.products_count == 0 %}
-                No Products Yet
-              {% elsif collection.products_count == 1 %}
-                {{ collection.products_count }} Product
-              {% else %}
-                {{ collection.products_count }} Products
-              {% endif %}
-            </p>
-          </div>
-
-          <div class="card-price-info">
-            {% comment %}
-              To show a meaningful "From Price" for a collection,
-              you typically need to iterate through its products or
-              store a representative price in a metafield.
-              This example gets the first product's price, which might not be ideal.
-            {% endcomment %}
-            {% if collection.products.first %}
-              {% assign lowest_price = collection.products.first.price %}
-              {% for product in collection.products %}
-                {% if product.price < lowest_price %}
-                  {% assign lowest_price = product.price %}
-                {% endif %}
-              {% endfor %}
-              <span class="card-price">From {{ lowest_price | money_without_currency }}</span>
-            {% else %}
-              <span class="card-price">No Price Info</span>
-            {% endif %}
-
-            {% comment %}
-              If you have a metafield for compare price or an average, you'd put it here.
-              For now, showing an example based on a dummy compare price.
-            {% endcomment %}
-            {% comment %}
-              <span class="card-compare-price">$XX.XX</span>
-            {% endcomment %}
-          </div>
-
-          <div class="card-quantity-selector">
-            <label for="featured-{{ collection.handle }}">Featured:</label>
-            <label class="switch">
-              <input type="checkbox" id="featured-{{ collection.handle }}" {% if collection.metafields.custom.is_featured %}checked{% endif %}>
-              <span class="slider"></span>
-            </label>
-          </div>
-
-          <a href="{{ collection.url }}" class="add-to-cart-btn">View Collection</a>
-        </div>
+<div class="swiper collectionsSlider"> {# Unique class for this specific slider #}
+  <div class="swiper-wrapper">
+    {% for collection in collections %} {# Assuming 'collections' is passed to the section #}
+      <div class="swiper-slide">
+        {% render 'collection-stack', collection: collection %}
       </div>
-    {% endif %}
+    {% endfor %}
+  </div>
+
+  {# Optional: Pagination dots #}
+  <div class="swiper-pagination"></div>
+
+  {# Optional: Navigation buttons #}
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
+
+<script>
+  // Ensure Swiper JS is loaded before initialization
+  // You might already have this in theme.liquid or another JS file
+  // If not, add <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  // to your theme.liquid before this script.
+
+  document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.collectionsSlider', {
+      direction: 'horizontal', // Changed to horizontal for a typical slider experience
+      loop: true,
+      slidesPerView: 1, // Default for mobile
+      spaceBetween: 20, // Space between cards
+      centeredSlides: true, // Keep the active slide centered
+
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+
+      breakpoints: {
+        640: {
+          slidesPerView: 1.5, // Show one and a half cards
+          spaceBetween: 30,
+        },
+        768: {
+          slidesPerView: 2.5, // Show two and a half cards
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 3.5, // Show three and a half cards
+          spaceBetween: 50,
+        },
+      },
+      // If you truly want a "stack-like" *visual* effect, you could explore Swiper's effects:
+      // effect: 'coverflow',
+      // coverflowEffect: {
+      //   rotate: 50,
+      //   stretch: 0,
+      //   depth: 100,
+      //   modifier: 1,
+      //   slideShadows: true,
+      // },
+      // This would require more CSS adjustment to look good with your cards.
+      // I've commented it out as it's a specific effect.
+    });
+  });
+</script>
