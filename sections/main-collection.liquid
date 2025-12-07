@@ -203,8 +203,10 @@
   {% assign random_handle = valid_array[random_index] %}
   {% assign random_collection = collections[random_handle] %}
 
-  <div class="random-collection">
-    <img src="{{ random_collection.image | img_url: 'master' }}" alt="{{ random_collection.title }}">
+  <div class="random-collection-card">
+    <div class="random-collection-image">
+      <img src="{{ random_collection.image | img_url: '800x800' }}" alt="{{ random_collection.title }}">
+    </div>
     <h3>{{ random_collection.title }}</h3>
   </div>
 {% endif %}
