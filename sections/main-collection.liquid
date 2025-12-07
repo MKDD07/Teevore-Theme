@@ -95,6 +95,7 @@
 	{%- if section_st.pcount -%}
     <div id="itemsCount" class="tlbr_item">
       <span class="tlbr_pr_cnt collection-product-count light kug" role="status">
+      <button class="btn btn3">Show on model</button>
         {%- if collection.results_count -%}
           Count: {{ 'collections.general.product_count' | t: product_count: collection.terms, count: collection.results_count }}
         {%- elsif collection.products_count == collection.all_products_count -%}
