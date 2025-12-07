@@ -1,16 +1,7 @@
 <style>
-  /* Base styles for the grid container */
-  .collection-card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjusted min-width for more flexibility */
-    gap: 30px;
-    padding: 20px;
-    max-width: 1200px; /* Max width to center the grid */
-    margin: 0 auto; /* Center the grid */
-  }
 
   /* Individual collection card styling */
-  .collection-card {
+  .collection-cards {
     border-radius: 25px; /* Softer rounded corners */
     background: rgba(255, 255, 255, 0.9); /* Translucent background */
     box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15), 0 8px 20px rgba(0, 0, 0, 0.08); /* Smoother shadow */
@@ -26,7 +17,7 @@
     overflow: hidden; /* Ensure badge doesn't overflow weirdly */
   }
 
-  .collection-card:hover {
+  .collection-cards:hover {
     transform: translateY(-8px); /* Lift up slightly on hover */
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 0 12px 30px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
   }
@@ -298,7 +289,7 @@
         {% assign discount_percentage = collection.metafields.custom.discount_percentage | plus: 0 %} {# Ensure it's a number #}
       {% endif %}
 
-      <div class="collection-card">
+      <div class="collection-cards">
         {% if discount_percentage > 0 %}
           <div class="discount-badge">
             {{ discount_percentage }}% OFF
