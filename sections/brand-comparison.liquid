@@ -9,7 +9,7 @@
         <div class="fl gap30">
           <div class="rounded10 wd40 hide-md hide-sm fl f-col">
             {% render 'sec-title' %}
-            <div class="rounded10 fl ovhid h_100">
+            <div class="rounded10 fl ovhid h_100 scroll-trigger zoomIn">
               {% if section_st.media_type == 'image' and section_st.image != blank %}
                 <img src="{{ section_st.image | image_url: width: 1200 }}" 
                      alt="{{ section_st.image.alt | escape }}" 
