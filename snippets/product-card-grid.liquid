@@ -119,27 +119,38 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  jQuery(document).ready(function($){
+jQuery(document).ready(function($){
     $('.change').on('click', function(){
 
-        // Loop through each product link
         $('.grid_img').each(function(){
             let $wrapper = $(this);
 
-            // Find the second image (imgFt hover)
+            // Find the featured image (the one without 'imgFt hover')
+            let $featured = $wrapper.find('img').not('.imgFt.hover').first();
+
+            // Find the second image
             let $secondImg = $wrapper.find('img.imgFt.hover').first();
 
-            if($secondImg.length){
+            if($featured.length && $secondImg.length){
                 let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
 
-                // Find the featured image (not imgFt hover)
-                let $featured = $wrapper.find('img').not('.imgFt.hover').first();
+                // Store original src in data attribute if not already stored
+                if(!$featured.data('original-src')){
+                    $featured.data('original-src', $featured.attr('src'));
+                }
 
-                if($featured.length && secondSrc){
-                    // Swap the src and update class
+                // Check current state
+                if($featured.attr('src') === $featured.data('original-src')){
+                    // Switch to second image
                     $featured.attr('src', secondSrc);
                     $featured.attr('data-src', secondSrc);
                     $featured.removeClass().addClass('imgFt hover');
+                } else {
+                    // Switch back to original featured image
+                    let originalSrc = $featured.data('original-src');
+                    $featured.attr('src', originalSrc);
+                    $featured.attr('data-src', originalSrc);
+                    $featured.removeClass().addClass('{{ image_class }}'); // restore original Liquid class
                 }
             }
         });
