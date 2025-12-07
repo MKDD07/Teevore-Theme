@@ -109,56 +109,67 @@
     {%- endif -%}
 {%- endcapture -%}
 <script>
- jQuery(document).ready(function($){
-    $('.change').on('click', function(){
-        let $button = $(this);
-        
-        // Find ALL grid_img wrappers on the page
-        $('.grid_img').each(function(){
-            let $wrapper = $(this);
-            // Find the featured image (the one without 'imgFt hover')
-            let $featured = $wrapper.find('img').not('.imgFt.hover').first();
-            // Find the second image
-            let $secondImg = $wrapper.find('img.imgFt.hover').first();
+ document.addEventListener('DOMContentLoaded', function(){
+    const changeButton = document.querySelector('.change');
+    
+    if(changeButton){
+        changeButton.addEventListener('click', function(){
+            // Find ALL grid_img wrappers on the page
+            const gridImgs = document.querySelectorAll('.grid_img');
             
-            if($featured.length && $secondImg.length){
-                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
+            gridImgs.forEach(function(wrapper){
+                // Find the featured image (the one without 'imgFt hover')
+                const allImages = wrapper.querySelectorAll('img');
+                let featured = null;
+                let secondImg = null;
                 
-                // Store original src and class if not already stored
-                if(!$featured.data('original-src')){
-                    $featured.data('original-src', $featured.attr('src'));
-                    $featured.data('original-class', $featured.attr('data-original-class') || $featured.attr('class'));
-                }
-                
-                // Check current state
-                if($featured.attr('src') === $featured.data('original-src')){
-                    // Switch to second image
-                    $featured.attr('src', secondSrc);
-                    if($featured.attr('data-src')){
-                        $featured.attr('data-src', secondSrc);
+                allImages.forEach(function(img){
+                    if(img.classList.contains('imgFt') && img.classList.contains('hover')){
+                        secondImg = img;
+                    } else {
+                        if(!featured) featured = img;
                     }
-                    $featured.removeClass().addClass('imgFt hover');
-                } else {
-                    // Switch back to original
-                    let originalSrc = $featured.data('original-src');
-                    let originalClass = $featured.data('original-class');
+                });
+                
+                if(featured && secondImg){
+                    const secondSrc = secondImg.getAttribute('src') || secondImg.getAttribute('data-src');
                     
-                    $featured.attr('src', originalSrc);
-                    if($featured.attr('data-src')){
-                        $featured.attr('data-src', originalSrc);
+                    // Store original src and class if not already stored
+                    if(!featured.dataset.originalSrc){
+                        featured.dataset.originalSrc = featured.getAttribute('src');
+                        featured.dataset.originalClass = featured.getAttribute('data-original-class') || featured.getAttribute('class');
                     }
-                    $featured.removeClass().addClass(originalClass);
+                    
+                    // Check current state
+                    if(featured.getAttribute('src') === featured.dataset.originalSrc){
+                        // Switch to second image
+                        featured.setAttribute('src', secondSrc);
+                        if(featured.hasAttribute('data-src')){
+                            featured.setAttribute('data-src', secondSrc);
+                        }
+                        featured.className = 'imgFt hover';
+                    } else {
+                        // Switch back to original
+                        const originalSrc = featured.dataset.originalSrc;
+                        const originalClass = featured.dataset.originalClass;
+                        
+                        featured.setAttribute('src', originalSrc);
+                        if(featured.hasAttribute('data-src')){
+                            featured.setAttribute('data-src', originalSrc);
+                        }
+                        featured.className = originalClass;
+                    }
                 }
+            });
+            
+            // Toggle button text
+            if(changeButton.textContent === 'Show on model'){
+                changeButton.textContent = 'Product view';
+            } else {
+                changeButton.textContent = 'Show on model';
             }
         });
-        
-        // Toggle button text
-        if($button.text() === 'Show on model'){
-            $button.text('Product view');
-        } else {
-            $button.text('Show on model');
-        }
-    });
+    }
 });
 </script>
 {%- capture products_list -%}
