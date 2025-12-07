@@ -103,7 +103,7 @@
           "type": "text",
           "settings": {
             "text": "<em>Teevore</em>",
-            "outline": false
+            "outline": true
           }
         }
       },
