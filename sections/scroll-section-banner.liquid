@@ -185,7 +185,7 @@ window.addEventListener("scroll", () => {
   const speeds = [0.2, 0.5, 0.8, 1.2, 1.6]; // one speed per nth-child
 
   document.querySelectorAll(".scrolled-images__row").forEach((row, i) => {
-    let speed = speeds[i] || 0.5; // fallback
+    let speed = speeds[i] || 0.3; // fallback
     row.style.transform = `translateX(${-(scrollY * speed)}px)`;
   });
 });
