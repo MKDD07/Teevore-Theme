@@ -116,7 +116,36 @@
         </countdown-time>
 	{%- endif -%}
 {%- endcapture -%}
+<script>
+  jQuery(document).ready(function($){
+    $('.change').on('click', function(){
 
+        // Loop through each product link
+        $('.grid_img').each(function(){
+            let $wrapper = $(this);
+
+            // Find the second image (imgFt hover)
+            let $secondImg = $wrapper.find('img.imgFt.hover').first();
+
+            if($secondImg.length){
+                let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
+
+                // Find the featured image (not imgFt hover)
+                let $featured = $wrapper.find('img').not('.imgFt.hover').first();
+
+                if($featured.length && secondSrc){
+                    // Swap the src and update class
+                    $featured.attr('src', secondSrc);
+                    $featured.attr('data-src', secondSrc);
+                    $featured.removeClass().addClass('imgFt hover');
+                }
+            }
+        });
+
+    });
+});
+
+</script>
 <product-card class="db grid_bx {{boxstyle}}{% unless product.available %} sold-out style{{ settings.soldout_style }}{% endunless %}">
   {%- if boxstyle == "grid_2" -%}<a class="overly h_100 w_100 pa db" href="{{ product_url }}" aria-label="{{ product.title }}"></a>{%- endif -%}
   <div class="grid_img_wr mb15">
