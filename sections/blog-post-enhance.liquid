@@ -54,7 +54,7 @@
     <div class="bds pr hide-md hide-sm">
       {% assign blog_articles = blogs[section_st.blog_handle].articles | limit: section_st.articles_count %}
       {% for article in blog_articles offset: 1 limit: 3 %}
-        <div class="blog-list-card pr-sm pst" href="{{ article.url }}" style="top:{% cycle 'top0': '50px','80px', '110px' %}; margin-bottom: {% if forloop.last %}0{% else %}20px{% endif %}">{% if article.tags != blank %}<agr style="top: 10px;left: 10px;color: #ffffff;position: absolute;padding: 6px 16px;background: #c1121f; border-radius:{{ settings.btn_rad }}px">{{ article.tags.first }}</agr>{% endif %}
+        <div class="blog-list-card pr-sm pst scroll-trigger fadeInUp" href="{{ article.url }}" style="top:{% cycle 'top0': '50px','80px', '110px' %}; margin-bottom: {% if forloop.last %}0{% else %}20px{% endif %}">{% if article.tags != blank %}<agr style="top: 10px;left: 10px;color: #ffffff;position: absolute;padding: 6px 16px;background: #c1121f; border-radius:{{ settings.btn_rad }}px">{{ article.tags.first }}</agr>{% endif %}
           <div class="image-list-card" style="background-image: url('{{ article.image | img_url: '1200x1200' }}');"></div>
           <div class="container-author fl f-col p0">
             <div class="author-info">
