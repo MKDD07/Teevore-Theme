@@ -326,7 +326,6 @@
     }
   }
 </style>
-
 <script>
   (function() {
     let ticking = false;
@@ -334,13 +333,17 @@
     function updateScrollPosition() {
       const scrollY = window.pageYOffset;
       const rows = document.querySelectorAll('#{{ section.id }} .scrolled-images__row');
-      
+
       rows.forEach((row, index) => {
-        const speed = (index + 1) * 0.3;
-        const direction = index === 1 ? 1 : -1;
+        // This speed will determine how fast each row scrolls horizontally.
+        // Adjusting the multiplier here will change the perceived "scroll inside" speed.
+        const speed = (index === 0 || index === 2) ? 0.2 : 0.4; // Slightly different speeds for rows
+        const direction = (index % 2 === 0) ? -1 : 1; // Alternate directions for rows
+
+        // The translateX moves the entire row horizontally.
         row.style.transform = `translateX(${direction * scrollY * speed}px)`;
       });
-      
+
       ticking = false;
     }
 
@@ -352,7 +355,7 @@
     }
 
     window.addEventListener('scroll', requestTick, { passive: true });
-    updateScrollPosition();
+    updateScrollPosition(); // Call once on load to set initial position
   })();
 </script>
 
