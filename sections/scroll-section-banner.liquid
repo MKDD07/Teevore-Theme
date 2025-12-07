@@ -194,59 +194,74 @@
 
   .scrolled-images__main {
     position: absolute;
-    top: 50%;
-    left: 55%;
-    transform: translate(-50%, -50%) rotate(50deg);
-    --tiles-height: 60vw;
-    --tileswrap-height: calc(var(--tiles-height) * 3.5);
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%) rotate(25deg); /* Adjust rotation for a more dynamic look */
+    /* Use a larger height for the tiles to fill more screen space when rotated */
+    --tiles-size: 60vw; /* Base size for tiles */
+    --tileswrap-width: calc(var(--tiles-size) * 2.5); /* Adjust width to fit rotated grid */
+    --tileswrap-height: calc(var(--tiles-size) * 2.5); /* Adjust height to fit rotated grid */
+    width: var(--tileswrap-width);
     height: var(--tileswrap-height);
     will-change: transform;
+    display: flex; /* Use flexbox to arrange rows */
+    flex-direction: column; /* Stack rows vertically */
+    justify-content: center;
+    align-items: center;
   }
 
   @media screen and (min-width: 768px) {
     .scrolled-images__main {
-      --tileswrap-height: calc(var(--tiles-height) * 2);
-      top: 100%;
-      left: 40%;
-    }
-  }
-
-  @media screen and (min-width: 1024px) {
-    .scrolled-images__main {
-      --tileswrap-height: calc(var(--tiles-height) * 1.8);
-      top: 50%;
+      /* Adjust for desktop if needed, maybe a slightly different rotation or size */
+      transform: translate(-50%, -50%) rotate(20deg);
+      --tiles-size: 40vw; /* Smaller base size for desktop */
+      --tileswrap-width: calc(var(--tiles-size) * 2.5);
+      --tileswrap-height: calc(var(--tiles-size) * 2.5);
     }
   }
 
   .scrolled-images__row {
     display: flex;
+    white-space: nowrap; /* Keep items in a single line */
     will-change: transform;
-    transition: transform 0.1s linear;
+    transition: transform 0.1s linear; /* Keep existing transition */
+    padding: 1vw 0; /* Add some padding between rows */
   }
 
-  .scrolled-images__row[data-row="0"] { 
-    opacity: 0.3;
+  /* Adjust opacity for subtle depth */
+  .scrolled-images__row[data-row="0"] {
+    opacity: 0.5; /* Slightly more visible */
   }
 
-  .scrolled-images__row[data-row="1"] { 
-    opacity: 0.2;
+  .scrolled-images__row[data-row="1"] {
+    opacity: 0.7; /* Main focus row */
   }
 
-  .scrolled-images__row[data-row="2"] { 
-    opacity: 0.1;
+  .scrolled-images__row[data-row="2"] {
+    opacity: 0.5; /* Slightly more visible */
   }
 
   .scrolled-images__item {
-    --tile-margin: 1vw;
-    flex: none;
-    width: calc(var(--tileswrap-height) / 4 - var(--tile-margin) * 2);
-    height: calc(var(--tileswrap-height) / 4 - var(--tile-margin) * 2);
+    --tile-margin: 0.8vw; /* Adjust margin between tiles */
+    --tile-dimension: 20vw; /* Define a base dimension for the square tiles */
+    width: var(--tile-dimension);
+    height: var(--tile-dimension);
     margin: var(--tile-margin);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    border-radius: 25px;
-    transform: rotate(-90deg);
+    border-radius: 15px; /* Slightly less rounded for a sharper look */
+    transform: rotate(0deg); /* Remove the individual item rotation for a cleaner grid */
+    overflow: hidden; /* Ensure content inside item is clipped */
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Add a subtle shadow */
+  }
+
+  @media screen and (min-width: 768px) {
+    .scrolled-images__item {
+      --tile-dimension: 15vw; /* Adjust for desktop tile size */
+      border-radius: 20px;
+    }
   }
 
   /* Banner Content */
