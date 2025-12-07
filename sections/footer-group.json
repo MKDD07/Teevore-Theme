@@ -119,7 +119,7 @@
         "fsm": 95,
         "fw": "300",
         "cl": "#ffffff",
-        "space": 35,
+        "space": 100,
         "icon": "none",
         "custom_svg": "",
         "icns": 16,
@@ -131,9 +131,9 @@
         "overlay_op": 0,
         "sst": 0,
         "ssb": 0,
-        "sstm": 5,
+        "sstm": 0,
         "ssbm": 0,
-        "msb": 5,
+        "msb": 0,
         "hidem": false,
         "hided": false
       }
