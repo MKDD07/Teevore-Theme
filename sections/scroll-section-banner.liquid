@@ -190,7 +190,7 @@ window.addEventListener("scroll", () => {
     let speed = speeds[i] || 0.3; // fallback
 
     // reduce speed by half on mobile
-    if (isMobile) speed = speed / 2;
+    if (isMobile) speed = speed / 3;
 
     row.style.transform = `translateX(${-(scrollY * speed)}px)`;
   });
