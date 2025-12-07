@@ -83,7 +83,7 @@
         "speed": 5,
         "sw": true,
         "npd": true,
-        "bg": "#190306",
+        "bg": "#222222",
         "bgg": "",
         "overlay": "#535353",
         "overlay_op": 0,
@@ -92,6 +92,48 @@
         "ssb": 0,
         "sstm": 0,
         "ssbm": 0,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "scroling_text_XU99UU": {
+      "type": "scroling-text",
+      "blocks": {
+        "text_r49fhJ": {
+          "type": "text",
+          "settings": {
+            "text": "<em>Teevore</em>",
+            "outline": false
+          }
+        }
+      },
+      "block_order": [
+        "text_r49fhJ"
+      ],
+      "name": "Scrolling Text",
+      "settings": {
+        "ff": "ft1",
+        "rotate_enable": false,
+        "rotate_deg": 2,
+        "fs": 144,
+        "fsm": 95,
+        "fw": "300",
+        "cl": "#ffffff",
+        "space": 35,
+        "icon": "none",
+        "custom_svg": "",
+        "icns": 16,
+        "speed": 40,
+        "speedm": 15,
+        "bg": "#222222",
+        "bgg": "",
+        "overlay": "#fdca40",
+        "overlay_op": 0,
+        "sst": 0,
+        "ssb": 0,
+        "sstm": 5,
+        "ssbm": 0,
+        "msb": 5,
         "hidem": false,
         "hided": false
       }
@@ -268,7 +310,7 @@
         "fsm": 12,
         "icn": "#ffffff",
         "ifs": 21,
-        "bg": "#190306",
+        "bg": "#222222",
         "bgg": "",
         "bgrep": "inherit",
         "bgpos": "center_center",
@@ -281,6 +323,7 @@
   },
   "order": [
     "text_with_icons_kKUiAT",
+    "scroling_text_XU99UU",
     "footer"
   ]
 }
