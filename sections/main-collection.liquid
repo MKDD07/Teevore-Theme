@@ -327,22 +327,25 @@
   {{- collection_page | strip_newlines | remove: '  ' -}}
 </div>
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
-jQuery(document).ready(function($){
+<script>
+  jQuery(document).ready(function($){
     $('.change').on('click', function(){
 
+        // Loop through each product link
         $('.grid_img').each(function(){
             let $wrapper = $(this);
 
-            // Find second image inside the wrapper
+            // Find the second image (imgFt hover)
             let $secondImg = $wrapper.find('img.imgFt.hover').first();
 
             if($secondImg.length){
                 let secondSrc = $secondImg.attr('src') || $secondImg.attr('data-src');
 
-                // Find the featured image (the one without 'imgFt hover' class)
+                // Find the featured image (not imgFt hover)
                 let $featured = $wrapper.find('img').not('.imgFt.hover').first();
 
                 if($featured.length && secondSrc){
+                    // Swap the src and update class
                     $featured.attr('src', secondSrc);
                     $featured.attr('data-src', secondSrc);
                     $featured.removeClass().addClass('imgFt hover');
@@ -353,6 +356,7 @@ jQuery(document).ready(function($){
     });
 });
 
+</script>
 {% schema %}
 {
   "name": "Collection Main",
