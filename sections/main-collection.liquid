@@ -188,13 +188,22 @@
     {%- comment -%} We render 3 potential fillers (Max needed for a 4-col grid) {%- endcomment -%}
     {%- for i in (1..3) -%}
       <div class="gitem fl filler-{{ i }}" style="display: none;">
-<div class="swiper mySwiper"> 
+<div class="swiper collectionsSlider"> {# Unique class for this specific slider #}
   <div class="swiper-wrapper">
-    {% for collection in collections %}
+    {% for collection in collections %} {# Assuming 'collections' is passed to the section #}
       <div class="swiper-slide">
-        {% render 'collection-stack' %}
+        {% render 'collection-stack', collection: collection %}
       </div>
     {% endfor %}
+  </div>
+
+  {# Optional: Pagination dots #}
+  <div class="swiper-pagination"></div>
+
+  {# Optional: Navigation buttons #}
+  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev"></div>
+</div>
   </div>
   <div class="swiper-pagination"></div>
   <div class="swiper-button-next"></div>
