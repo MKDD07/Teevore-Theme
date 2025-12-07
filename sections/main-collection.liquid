@@ -228,7 +228,7 @@
         </div>
 {%- endcapture -%}
 
-<div class="fl pr f-col conts row-gap {% render 'animate-data', css:true %}{% if section_st.talign %} tc{% endif %} mb20" style="--gap:20px;--gapm:15px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }}">     
+<div class="fl pr f-col conts row-gap scroll-trigger zoomIn{% if section_st.talign %} tc{% endif %} mb20" style="--gap:20px;--gapm:15px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }}">     
 {%- if section_st.climg -%}
   {%- liquid
     assign selected_image = null
