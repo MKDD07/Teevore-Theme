@@ -1522,6 +1522,7 @@
           "type": "media",
           "settings": {
             "media_type": "image",
+            "order": "text",
             "video_source": "youtube",
             "video_url": "",
             "media_fit": "cover",
@@ -1529,12 +1530,7 @@
             "video_aspect_ratio": 55,
             "media_height": 600,
             "media_height_tablet": 400,
-            "media_height_mobile": 300
-          }
-        },
-        "content_Cd3nY8": {
-          "type": "content",
-          "settings": {
+            "media_height_mobile": 300,
             "subheading": "<p>Subheading</p>",
             "heading": "<h2>Your Main Heading</h2>",
             "text": "<p>Add your descriptive text here. This rich text field allows you to format your content with bold, italic, links, and more.</p>",
@@ -1553,6 +1549,7 @@
           "type": "media",
           "settings": {
             "media_type": "image",
+            "order": "image",
             "image": "shopify://shop_images/Lucid_Origin_Shot_from_a_slightly_low_angle_looking_up_a_young_2.jpg",
             "video_source": "youtube",
             "video_url": "https://www.youtube.com/watch?v=gapBX5mlCjU",
@@ -1561,32 +1558,25 @@
             "video_aspect_ratio": 60,
             "media_height": 600,
             "media_height_tablet": 400,
-            "media_height_mobile": 400
-          }
-        },
-        "content_mzEQQ8": {
-          "type": "content",
-          "settings": {
-            "subheading": "",
-            "heading": "<h2><em>Seriously Not Serious</em></h2>",
-            "text": "<p>Turn heads and spark smiles with tees that speak your vibe. Our \"I’m Not Sleeping, I’m Just Resting My Eyes\" t-shirt blends laid-back comfort with retro charm — perfect for everyday chill and casual sarcasm.</p><p></p>",
+            "media_height_mobile": 400,
+            "subheading": "<p>Subheading</p>",
+            "heading": "<h2>Your Main Heading</h2>",
+            "text": "<p>Add your descriptive text here. This rich text field allows you to format your content with bold, italic, links, and more.</p>",
             "text_align": "left",
-            "content_padding": 30,
+            "content_padding": 40,
             "content_padding_tablet": 30,
-            "content_padding_mobile": 0,
-            "btntxt": "Shop the Fun Edit",
-            "url": "shopify://collections/seriously-not-serious",
+            "content_padding_mobile": 20,
+            "btntxt": "Shop Now",
+            "url": "",
             "newtab": false,
             "btn_size": "btn-md",
-            "btn_style": "btnLink"
+            "btn_style": "btn1"
           }
         }
       },
       "block_order": [
         "media_ygnGyx",
-        "content_Cd3nY8",
-        "media_FgQM6X",
-        "content_mzEQQ8"
+        "media_FgQM6X"
       ],
       "custom_css": [
         ".btnLink {width: fit-content;}"
@@ -1595,7 +1585,6 @@
       "settings": {
         "sw": true,
         "npd": true,
-        "order": "image",
         "italic_fancy_font": true,
         "italic_outline": false,
         "italic_font_selection": "secondary",
@@ -1625,6 +1614,7 @@
           "type": "media",
           "settings": {
             "media_type": "image",
+            "order": "image",
             "image": "shopify://shop_images/Lucid_Realism_A_side_profile_shot_at_eye_level_the_young_man_s_2_dc34fb08-082e-47b9-b769-37a7e84ae34c.jpg",
             "video_source": "custom",
             "video_url": "https://cdn.shopify.com/videos/c/o/v/db072c294c75419785dc53aa8622dfce.mp4",
@@ -1633,30 +1623,24 @@
             "video_aspect_ratio": 60,
             "media_height": 600,
             "media_height_tablet": 400,
-            "media_height_mobile": 400
-          }
-        },
-        "content_BFmr96": {
-          "type": "content",
-          "settings": {
-            "subheading": "",
-            "heading": "<h2><em>Powered Up Graphics</em></h2>",
-            "text": "<p>At <strong>Teevore</strong>, we design clothing that empowers self-expression and bold identity. Each piece blends comfort, quality, and fearless style for those who lead with confidence.<br/><br/></p>",
+            "media_height_mobile": 400,
+            "subheading": "<p>Subheading</p>",
+            "heading": "<h2>Your Main Heading</h2>",
+            "text": "<p>Add your descriptive text here. This rich text field allows you to format your content with bold, italic, links, and more.</p>",
             "text_align": "left",
-            "content_padding": 30,
+            "content_padding": 40,
             "content_padding_tablet": 30,
-            "content_padding_mobile": 0,
-            "btntxt": "Shop Hero Tees",
-            "url": "shopify://collections/legends-of-marvel",
+            "content_padding_mobile": 20,
+            "btntxt": "Shop Now",
+            "url": "",
             "newtab": false,
             "btn_size": "btn-md",
-            "btn_style": "btnLink"
+            "btn_style": "btn1"
           }
         }
       },
       "block_order": [
-        "media_nH74BE",
-        "content_BFmr96"
+        "media_nH74BE"
       ],
       "custom_css": [
         ".btnLink {width: fit-content;}"
@@ -1665,7 +1649,6 @@
       "settings": {
         "sw": true,
         "npd": true,
-        "order": "text",
         "italic_fancy_font": false,
         "italic_outline": false,
         "italic_font_selection": "secondary",
