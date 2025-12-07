@@ -245,6 +245,21 @@
             "width": "wd40"
           }
         },
+        "custom_QwWFnM": {
+          "type": "custom",
+          "settings": {
+            "hidem": true,
+            "title": "",
+            "logo-wd": 200,
+            "inline_text": "",
+            "text_width": 200,
+            "socials": false,
+            "socttl": "Stay Connected",
+            "payicon": false,
+            "issep": false,
+            "width": "wd20"
+          }
+        },
         "newsletter_6PDjNR": {
           "type": "newsletter",
           "settings": {
@@ -283,6 +298,7 @@
         "menu_geWQfi",
         "hrline_pFJVVg",
         "image_ViEpEH",
+        "custom_QwWFnM",
         "newsletter_6PDjNR",
         "hrline_eUgDHq"
       ],
