@@ -234,16 +234,15 @@
             "hidem": false,
             "socials": true,
             "socttl": "Stay Connected",
-            "title": "",
+            "title": "About Us",
             "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
-            "logo": "shopify://shop_images/Group_13.png",
             "url1": "",
             "logo-wd": 300,
             "logomr": true,
             "url2": "",
             "logo-wd2": 300,
             "issep": true,
-            "width": "wd60"
+            "width": "wd40"
           }
         },
         "newsletter_6PDjNR": {
