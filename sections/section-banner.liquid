@@ -66,9 +66,6 @@
     {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
   {% endif %}
 </div>
-
-              
-              {% when 'content' %}
                 <div class="content-container-{{section.id}} fw-sec pt20" style="text-align: {{ block_st.text_align }};">
                 {% if block_st.subheading != blank %}
                   <div class="blk-subheading hide-sm">{{ block_st.subheading }}</div>
