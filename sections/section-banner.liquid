@@ -113,6 +113,7 @@
   {% endif %}
 }.blocks-wrapper-{{section.id}} { display: flex; flex-direction: column; align-items: stretch; width: 100%; min-height: 400px; }
 .blocks-wrapper-{{section.id}}.image-right { flex-direction: row-reverse; }
+.blocks-wrapper-{{section.id}}.image-left { flex-direction: row; }
 .block-item-{{section.id}} { flex: 1; width: 100%; display: flex; align-items: center; justify-content: center; }
 .media-container-{{section.id}} { width: 100%; height: {{ section.blocks[0].settings.media_height | default: 600 }}px; border-radius: {{ section_st.media_radius }}; overflow: hidden; position: relative; }
 @media (max-width: 768px) { .media-container-{{section.id}} { border-radius: {{ section_st.media_radius_mobile }}; } }
