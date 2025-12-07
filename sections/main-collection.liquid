@@ -638,29 +638,6 @@
 </div>
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
 <style>
-  /* Inlined CSS for quick setup, move to .scss.liquid for production */
-  .collection-card-wrapper {
-    position: fixed; /* Use fixed for full screen overlay effect */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Hide scrollbars if content overflows */
-    background: rgba(0, 0, 0, 0.4); /* Dim background */
-    backdrop-filter: blur(15px); /* Stronger blur for full-screen */
-    -webkit-backdrop-filter: blur(15px);
-    z-index: 1000; /* Ensure it's on top */
-    transform: translateY(100%); /* Initially off-screen */
-    transition: transform 0.5s ease-out;
-  }
-
-  .collection-card-wrapper.active {
-    transform: translateY(0); /* Slide into view */
-  }
-
   .collection-card-stack {
     position: relative;
     width: min(90vw, 400px); /* Max width for the card, responsive */
