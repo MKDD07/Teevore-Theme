@@ -1523,17 +1523,17 @@
           "settings": {
             "media_type": "image",
             "order": "text",
-            "image": "shopify://shop_images/GeneratedImageSeptember04_2025-12_14AM.jpg",
+            "image": "shopify://shop_images/flux-pro-2.0_A_male_model_in_casual_streetwear_standing_on_a_rural_dirt_pathway_at_sunset_wea-0.jpg",
             "video_source": "youtube",
             "video_url": "",
             "media_fit": "cover",
             "media_position": "center",
             "video_aspect_ratio": 55,
-            "media_height": 600,
+            "media_height": 800,
             "media_height_tablet": 400,
             "media_height_mobile": 300,
             "subheading": "<p>Subheading</p>",
-            "heading": "<h2>Your Main Heading</h2>",
+            "heading": "<h2><em>Your Main Heading</em></h2>",
             "text": "<p>Add your descriptive text here. This rich text field allows you to format your content with bold, italic, links, and more.</p>",
             "text_align": "left",
             "content_padding": 40,
@@ -1543,7 +1543,7 @@
             "url": "",
             "newtab": false,
             "btn_size": "btn-md",
-            "btn_style": "btn1"
+            "btn_style": "btnLink"
           }
         },
         "media_FgQM6X": {
@@ -1551,14 +1551,14 @@
           "settings": {
             "media_type": "image",
             "order": "image",
-            "image": "shopify://shop_images/Lucid_Origin_Shot_from_a_slightly_low_angle_looking_up_a_young_2.jpg",
+            "image": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
             "video_source": "youtube",
             "video_url": "https://www.youtube.com/watch?v=gapBX5mlCjU",
             "media_fit": "cover",
-            "media_position": "center",
+            "media_position": "top",
             "video_aspect_ratio": 60,
-            "media_height": 600,
-            "media_height_tablet": 400,
+            "media_height": 900,
+            "media_height_tablet": 600,
             "media_height_mobile": 400,
             "subheading": "<p>Subheading</p>",
             "heading": "<h2>Your Main Heading</h2>",
@@ -1571,7 +1571,7 @@
             "url": "",
             "newtab": false,
             "btn_size": "btn-md",
-            "btn_style": "btn1"
+            "btn_style": "btnLink"
           }
         }
       },
@@ -1589,7 +1589,7 @@
         "italic_fancy_font": true,
         "italic_outline": false,
         "italic_font_selection": "secondary",
-        "media_radius": "0 25px 0 0",
+        "media_radius": "",
         "media_radius_mobile": "25px",
         "bg": "#ffffff",
         "bgg": "",
@@ -1601,70 +1601,6 @@
         "blocks_gap": 0,
         "sst": 36,
         "ssb": 0,
-        "sstm": 20,
-        "ssbm": 0,
-        "hidem": false,
-        "hided": false,
-        "section_link": ""
-      }
-    },
-    "section_banner_qkdNTE": {
-      "type": "section-banner",
-      "blocks": {
-        "media_nH74BE": {
-          "type": "media",
-          "settings": {
-            "media_type": "image",
-            "order": "image",
-            "image": "shopify://shop_images/Lucid_Realism_A_side_profile_shot_at_eye_level_the_young_man_s_2_dc34fb08-082e-47b9-b769-37a7e84ae34c.jpg",
-            "video_source": "custom",
-            "video_url": "https://cdn.shopify.com/videos/c/o/v/db072c294c75419785dc53aa8622dfce.mp4",
-            "media_fit": "cover",
-            "media_position": "center",
-            "video_aspect_ratio": 60,
-            "media_height": 600,
-            "media_height_tablet": 400,
-            "media_height_mobile": 400,
-            "subheading": "<p>Subheading</p>",
-            "heading": "<h2>Your Main Heading</h2>",
-            "text": "<p>Add your descriptive text here. This rich text field allows you to format your content with bold, italic, links, and more.</p>",
-            "text_align": "left",
-            "content_padding": 40,
-            "content_padding_tablet": 30,
-            "content_padding_mobile": 20,
-            "btntxt": "Shop Now",
-            "url": "",
-            "newtab": false,
-            "btn_size": "btn-md",
-            "btn_style": "btn1"
-          }
-        }
-      },
-      "block_order": [
-        "media_nH74BE"
-      ],
-      "custom_css": [
-        ".btnLink {width: fit-content;}"
-      ],
-      "name": "Section Banner",
-      "settings": {
-        "sw": true,
-        "npd": true,
-        "italic_fancy_font": false,
-        "italic_outline": false,
-        "italic_font_selection": "secondary",
-        "media_radius": "0 0 0 25px",
-        "media_radius_mobile": "25px",
-        "bg": "#ffffff",
-        "bgg": "",
-        "overlay": "#222222",
-        "overlay_op": 0.5,
-        "rounded": 0,
-        "section_padding": "",
-        "section_margin": "0px 0px 70px",
-        "blocks_gap": 0,
-        "sst": 0,
-        "ssb": 40,
         "sstm": 20,
         "ssbm": 0,
         "hidem": false,
@@ -2018,7 +1954,6 @@
     "product_slider_yQdtpy",
     "scroll_section_banner_f9QHWg",
     "section_banner_EHNaci",
-    "section_banner_qkdNTE",
     "background_video_v2_qUMgyG",
     "instagram_rich_text_h6pNwj",
     "175396395790ca3829",
