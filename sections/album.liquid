@@ -264,7 +264,11 @@
   /* Image Composite */
   .image-composite {
     width: var(--img-size);
+    {% if section.settings.en_ratio %}
     height: var(--img-size);
+    {% else %}
+    height: auto;
+    {% endif %}
     position: relative;
     display: flex;
     flex-shrink: 0;
