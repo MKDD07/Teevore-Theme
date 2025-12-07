@@ -330,14 +330,27 @@
   {{- collection_page | strip_newlines | remove: '  ' -}}
 </div>
 <script src="{{ 'collections.js' | asset_url }}" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const heading = document.querySelector(".h-animate");
+    if (heading) {
+        setTimeout(() => {
+            heading.classList.add("loaded");
+        }, 200);
+    }
+});
+</script>
+
 {% style %}
-  .animate {
+.h-animate {
     display: inline-block;
+    overflow: hidden;
     transform: translateY(100%);
     opacity: 0;
-    transition: transform 1.7s ease-out, opacity 0.7s ease-out;
+    transition: transform 0.7s ease-out, opacity 0.7s ease-out;
 }
-.animate {
+
+.h-animate.loaded {
     transform: translateY(0);
     opacity: 1;
 }
