@@ -106,6 +106,7 @@
     </div>
     {%- endif -%}
 {%- endcapture -%}
+      <button class="btn btn4">Show on model</button>
 
 {%- capture products_list -%}
       {%- if collection.products.size == 0 -%}
@@ -138,7 +139,6 @@
       (min-width:1024px) calc(({{ page_width }} - {{ settings.grid_space | times: section_st.grid | minus:settings.grid_space }}px) / {{ section_st.grid }}),(min-width:768px) calc((100vw - {{ settings.grid_space | times: section_st.gridtb | minus:section_st.gspace }}px) / {{ section_st.gridtb }}), calc((100vw - {{ settings.grid_spacem | times: section_st.gridmb | minus:settings.grid_spacem }}px) / {{ section_st.gridmb }})
     {%- endif -%}
   {%- endcapture -%}
-      <button class="btn btn4">Show on model</button>
   
   <div class="gitem fl {% render 'animate-data', css:true %}" {% render 'animate-data' %}>
     {% render 'product-card-grid', product:product, section_st:section_st, sizes:sizes %}
