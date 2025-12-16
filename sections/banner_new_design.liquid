@@ -1,6 +1,3 @@
-{{ 'section-banner.css' | asset_url | stylesheet_tag }}
-{%- render 'style-loader', array:'component-media-video-button.css' -%}
-
 {%- capture section_styles -%}
 {%- capture __css -%}
 {%- if section.settings.color_base   != "rgba(0,0,0,0)" -%}--color-base-section:{{ section.settings.color_base }};color:{{ section.settings.color_base }};{%- endif -%}
