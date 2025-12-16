@@ -124,6 +124,14 @@
     object-fit: cover;
     display: block;
   }
+.image-grid-item {
+    transition: transform 0.5s ease-in-out; /* smooth animation */
+    will-change: transform; /* improves performance */
+}
+
+.image-grid-item:hover {
+    transform: scale(1.1); /* zoom in */
+}
 
 .image-overlay {
     position: absolute;
@@ -146,7 +154,7 @@
     content: "";
     display: flex;
     /* Fixed background syntax with alpha */
-    background: #fff;
+    background: rgb(var(--color-box-background-block, 255, 255, 255) / 0.6);
     border-radius: max(calc(var(--custom-image-radius, var(--radius, 10px)) - 10px), 0px);
     position: absolute;
     top: 0;
@@ -155,9 +163,8 @@
     bottom: 0;
     z-index: -1;
     transition: all var(--duration-large) var(--animation-bezier);
-    opacity: 70%;
-    border-radius: 15px;
 }
+
   .image-overlay-title {
     font-size: 2.5em; /* Adjust as needed */
     font-weight: bold;
