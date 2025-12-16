@@ -228,38 +228,6 @@
             "mar": 15
           }
         },
-        "image_ViEpEH": {
-          "type": "image",
-          "settings": {
-            "hidem": false,
-            "socials": true,
-            "socttl": "Stay Connected",
-            "title": "About Us",
-            "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
-            "url1": "",
-            "logo-wd": 300,
-            "logomr": true,
-            "url2": "",
-            "logo-wd2": 300,
-            "issep": true,
-            "width": "wd40"
-          }
-        },
-        "custom_QwWFnM": {
-          "type": "custom",
-          "settings": {
-            "hidem": true,
-            "title": "",
-            "logo-wd": 200,
-            "inline_text": "",
-            "text_width": 200,
-            "socials": false,
-            "socttl": "Stay Connected",
-            "payicon": false,
-            "issep": false,
-            "width": "wd20"
-          }
-        },
         "newsletter_6PDjNR": {
           "type": "newsletter",
           "settings": {
@@ -283,18 +251,35 @@
           "type": "image",
           "settings": {
             "hidem": false,
-            "socials": true,
-            "socttl": "Stay Connected",
-            "title": "Download App",
-            "txt": "Revone App is now available on App Store & Google Play. Get it now.",
+            "socials": false,
+            "socttl": "",
+            "title": "",
+            "txt": "",
             "logo": "shopify://shop_images/Lucid_Origin_A_confident_male_model_wearing_a_bright_yellow_ts_0.jpg",
             "url1": "",
-            "logo-wd": 200,
+            "logo-wd": 400,
             "logomr": true,
             "url2": "",
             "logo-wd2": 200,
             "issep": true,
             "width": "wd25"
+          }
+        },
+        "image_ViEpEH": {
+          "type": "image",
+          "settings": {
+            "hidem": false,
+            "socials": true,
+            "socttl": "Stay Connected",
+            "title": "About Us",
+            "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
+            "url1": "",
+            "logo-wd": 300,
+            "logomr": true,
+            "url2": "",
+            "logo-wd2": 300,
+            "issep": true,
+            "width": "wd40"
           }
         },
         "hrline_eUgDHq": {
@@ -315,10 +300,9 @@
         "menu_pizTUw",
         "menu_geWQfi",
         "hrline_pFJVVg",
-        "image_ViEpEH",
-        "custom_QwWFnM",
         "newsletter_6PDjNR",
         "image_V89mmG",
+        "image_ViEpEH",
         "hrline_eUgDHq"
       ],
       "custom_css": [
