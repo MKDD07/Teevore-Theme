@@ -299,36 +299,88 @@
                                 {% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class: 'payment_item' }}{% endfor %}          
                             {% endif %}
                         </div>
-                    {% when 'image' %}
-                        <div class="gitem ft_block wd50-md {{ block_st.width }}-lg{% if block_st.hidem %} hide-sm{% endif %}{% if block_st.issep %} sp{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %} {{ block.shopify_attributes }}>
-                            <div class="fll f-wrap mb20">
-                                {% if block_st.logo %}
-                                    {% capture sizes %}{{ block_st.logo-wd }}px{% endcapture %}
-                                    <p class="glitch-image mb10{% if block_st.logomr %} mr15{% endif %}" style="max-width:{{ block_st.logo-wd }}px">
-                                      {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
-                                      {{ block_st.logo | image_url: width: block_st.logo.width | image_tag: loading:'lazy', class:'imgFl glitch-image', sizes: sizes, widths:"100,250,400,550,700" }}
-                                      {% if block_st.url1 != blank %}</a>{% endif %}
-                                    </p>
-                                {% endif %}
-                                {% if block_st.logo2 %}
-                                    {% capture sizes_2 %}{{ block_st.logo-wd2 }}px{% endcapture %}
-                                    <p class="glitch-image mb10{% if block_st.logomr %} mr15{% endif %}" style="max-width:{{ block_st.logo-wd }}px">
-                                      {% if block_st.url2 != blank %}<a target="_blank" href="{{ block_st.url2 }}">{% endif %}
-                                      {{ block_st.logo2 | image_url: width: block_st.logo2.width | image_tag: loading:'lazy', class:'imgFl glitch-image', sizes: sizes_2, widths:"100,250,400,550,700" }}
-                                      {% if block_st.url2 != blank %}</a>{% endif %}
-                                    </p>
-                                {% endif %}
-                            </div>  
-                      {{ block_title }}
-                            {% if block_st.txt != blank %}<div class="mb15">{{ block_st.txt }}</div>{% endif %}
-                                                      {% if block_st.socials %}
-                                    <div class="socials mt20 mb20">
-                                        {%- if block_st.socttl != blank -%}<h3 class="h4 mb15">{{ block_st.socttl }}</h3>{%- endif -%}
-                                        {% render 'social-media' %}
-                                    </div>
-                                {% endif %}
-                        </div>
-                    {% when 'menu' %}
+{% when 'image' %}
+<div class="gitem ft_block wd50-md {{ block_st.width }}-lg{% if block_st.hidem %} hide-sm{% endif %}{% if block_st.issep %} sp{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %} {{ block.shopify_attributes }}>
+  <div class="fll f-wrap mb20">
+    {% if block_st.image_design == 'stacked' %}
+    {# Stacked Image Design #}
+    {% if block_st.image1 %}
+    <div class="mb15">
+      {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
+      <img src="{{ block_st.image1 | image_url: width: 700 }}" alt="{{ block_st.image1.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
+      {% if block_st.url1 != blank %}</a>{% endif %}
+      {% if block_st.caption1 != blank %}<p class="caption mt5">{{ block_st.caption1 }}</p>{% endif %}
+    </div>
+    {% endif %}
+    {% if block_st.image2 %}
+    <div class="mb15">
+      {% if block_st.url2 != blank %}<a target="_blank" href="{{ block_st.url2 }}">{% endif %}
+      <img src="{{ block_st.image2 | image_url: width: 700 }}" alt="{{ block_st.image2.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
+      {% if block_st.url2 != blank %}</a>{% endif %}
+      {% if block_st.caption2 != blank %}<p class="caption mt5">{{ block_st.caption2 }}</p>{% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    {# Design as per image (side-by-side or individual) #}
+    <div class="flex-container">
+      {% if block_st.image1 %}
+      <div class="image-wrapper mb15 {% if block_st.image2 %}mr15{% endif %}" style="flex: 1;">
+        {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
+        <img src="{{ block_st.image1 | image_url: width: 700 }}" alt="{{ block_st.image1.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
+        {% if block_st.url1 != blank %}</a>{% endif %}
+        {% if block_st.caption1 != blank %}<p class="caption mt5">{{ block_st.caption1 }}</p>{% endif %}
+        {% if block_st.headline1 != blank %}<h3 class="h4 mt10">{{ block_st.headline1 }}</h3>{% endif %}
+        {% if block_st.subtext1 != blank %}<p class="mt5">{{ block_st.subtext1 }}</p>{% endif %}
+        {% if block_st.button_label1 != blank and block_st.button_url1 != blank %}
+        <a href="{{ block_st.button_url1 }}" class="button mt10">{{ block_st.button_label1 }}</a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if block_st.image2 %}
+      <div class="image-wrapper mb15" style="flex: 1;">
+        {% if block_st.url2 != blank %}<a target="_blank" href="{{ block_st.url2 }}">{% endif %}
+        <img src="{{ block_st.image2 | image_url: width: 700 }}" alt="{{ block_st.image2.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
+        {% if block_st.url2 != blank %}</a>{% endif %}
+        {% if block_st.caption2 != blank %}<p class="caption mt5">{{ block_st.caption2 }}</p>{% endif %}
+        {% if block_st.headline2 != blank %}<h3 class="h4 mt10">{{ block_st.headline2 }}</h3>{% endif %}
+        {% if block_st.subtext2 != blank %}<p class="mt5">{{ block_st.subtext2 }}</p>{% endif %}
+        {% if block_st.button_label2 != blank and block_st.button_url2 != blank %}
+        <a href="{{ block_st.button_url2 }}" class="button mt10">{{ block_st.button_label2 }}</a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    {% if block_st.logo %}
+    {% capture sizes %}{{ block_st.logo-wd }}px{% endcapture %}
+    <p class="glitch-image mb10{% if block_st.logomr %} mr15{% endif %}" style="max-width:{{ block_st.logo-wd }}px">
+      {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
+      {{ block_st.logo | image_url: width: block_st.logo.width | image_tag: loading:'lazy', class:'imgFl glitch-image', sizes: sizes, widths:"100,250,400,550,700" }}
+      {% if block_st.url1 != blank %}</a>{% endif %}
+    </p>
+    {% endif %}
+    {% if block_st.logo2 %}
+    {% capture sizes_2 %}{{ block_st.logo-wd2 }}px{% endcapture %}
+    <p class="glitch-image mb10{% if block_st.logomr %} mr15{% endif %}" style="max-width:{{ block_st.logo-wd }}px">
+      {% if block_st.url2 != blank %}<a target="_blank" href="{{ block_st.url2 }}">{% endif %}
+      {{ block_st.logo2 | image_url: width: block_st.logo2.width | image_tag: loading:'lazy', class:'imgFl glitch-image', sizes: sizes_2, widths:"100,250,400,550,700" }}
+      {% if block_st.url2 != blank %}</a>{% endif %}
+    </p>
+    {% endif %}
+  </div>
+  {{ block_title }}
+  {% if block_st.txt != blank %}<div class="mb15">{{ block_st.txt }}</div>{% endif %}
+  {% if block_st.socials %}
+  <div class="socials mt20 mb20">
+    {%- if block_st.socttl != blank -%}<h3 class="h4 mb15">{{ block_st.socttl }}</h3>{%- endif -%}
+    {% render 'social-media' %}
+  </div>
+  {% endif %}
+</div>
+{% when 'menu' %}
                         <div class="gitem ft_block wd20-md {{ block_st.width }}-lg ft_links{% if block_st.hidem %} hide-sm{% endif %}{% if block_st.issep %} sp{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %} {{ block.shopify_attributes }}>
                             {%- if block_st.title != blank -%}<h3 class="h4 js-toggle fl f-aic f-jcsb">{{ block_st.title }} <svg class="hide-md hide-lg at-icon arw ml_auto"><use xlink:href="#icon-arrow"></use></svg></h3>{%- endif -%}
                             <ul>
@@ -1212,114 +1264,202 @@
         }
       ]
     },
+{
+  "type": "image",
+  "name": "Image Block",
+  "settings": [
     {
-      "type": "image",
-      "name": "Image Block",
-      "settings": [
-        {
-          "type": "checkbox",
-          "id": "hidem",
-          "label": "Hide in mobile?",
-          "default": false
-        },
-        {
-          "type": "checkbox",
-          "id": "socials",
-          "label": "Show Socials?",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "socttl",
-          "label": "Socials Title",
-          "default": "Stay Connected"
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title",
-          "default": "Download App"
-        },
-        {
-          "type": "textarea",
-          "id": "txt",
-          "label": "Text",
-          "default": "Revone App is now available on App Store & Google Play. Get it now. "
-        },
-        {
-          "type": "image_picker",
-          "id": "logo",
-          "label": "Upload Image"
-        },
-        {
-          "type": "text",
-          "id": "url1",
-          "label": "Image Url"
-        },
-        {
-          "type": "range",
-          "id": "logo-wd",
-          "label": "Image Max Width",
-          "default": 200,
-          "min": 100,
-          "max": 1000,
-          "step": 25,
-          "unit": "px"
-        },
-        {
-          "type": "checkbox",
-          "id": "logomr",
-          "label": "Enable image right padding",
-          "default": true
-        },
-        {
-          "type": "image_picker",
-          "id": "logo2",
-          "label": "Upload Image"
-        },
-        {
-          "type": "text",
-          "id": "url2",
-          "label": "Image Url"
-        },
-        {
-          "type": "range",
-          "id": "logo-wd2",
-          "label": "Image Max Width",
-          "default": 200,
-          "min": 100,
-          "max": 1000,
-          "step": 25,
-          "unit": "px"
-        },
-        {
-          "type": "checkbox",
-          "id": "issep",
-          "label": "Show Sepration Border Desktop?",
-          "default": true
-        },
-        {
-          "type": "select",
-          "id": "width",
-          "label": "Block Width",
-          "default": "wd25",
-          "info": "Total width of all block must not exceed 100%",
-          "options": [
-            { "value": "wd16", "label": "16.67%" },
-            { "value": "wd20", "label": "20%" },
-            { "value": "wd25", "label": "25%" },
-            { "value": "wd30", "label": "30%" },
-            { "value": "wd33", "label": "33%" },
-            { "value": "wd40", "label": "40%" },
-            { "value": "wd50", "label": "50%" },
-            { "value": "wd60", "label": "60%" },
-            { "value": "wd66", "label": "66%" },
-            { "value": "wd75", "label": "75%" },
-            { "value": "wd100", "label": "100%" }
-          ]
-        }
-      ]
+      "type": "checkbox",
+      "id": "hidem",
+      "label": "Hide in mobile?",
+      "default": false
     },
+    {
+      "type": "checkbox",
+      "id": "socials",
+      "label": "Show Socials?",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "socttl",
+      "label": "Socials Title",
+      "default": "Stay Connected"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Download App"
+    },
+    {
+      "type": "textarea",
+      "id": "txt",
+      "label": "Text",
+      "default": "Revone App is now available on App Store & Google Play. Get it now. "
+    },
+    {
+      "type": "select",
+      "id": "image_design",
+      "label": "Image Layout Design",
+      "default": "side_by_side",
+      "options": [
+        { "value": "side_by_side", "label": "Side by Side (as per image)" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "info": "Choose how the two images are displayed."
+    },
+    {
+      "type": "header",
+      "content": "Image 1 Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image1",
+      "label": "Upload Image 1"
+    },
+    {
+      "type": "text",
+      "id": "url1",
+      "label": "Image 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "caption1",
+      "label": "Image 1 Caption (for Stacked layout)"
+    },
+    {
+      "type": "text",
+      "id": "headline1",
+      "label": "Image 1 Headline (for Side by Side layout)",
+      "default": "New In Weekly"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext1",
+      "label": "Image 1 Subtext (for Side by Side layout)",
+      "default": "Fresh drops. Nonstop style"
+    },
+    {
+      "type": "text",
+      "id": "button_label1",
+      "label": "Image 1 Button Label (for Side by Side layout)"
+    },
+    {
+      "type": "url",
+      "id": "button_url1",
+      "label": "Image 1 Button URL (for Side by Side layout)"
+    },
+    {
+      "type": "header",
+      "content": "Image 2 Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Upload Image 2"
+    },
+    {
+      "type": "text",
+      "id": "url2",
+      "label": "Image 2 URL"
+    },
+    {
+      "type": "text",
+      "id": "caption2",
+      "label": "Image 2 Caption (for Stacked layout)"
+    },
+    {
+      "type": "text",
+      "id": "headline2",
+      "label": "Image 2 Headline (for Side by Side layout)",
+      "default": "Style Starts Here"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext2",
+      "label": "Image 2 Subtext (for Side by Side layout)",
+      "default": "Shop the collection"
+    },
+    {
+      "type": "text",
+      "id": "button_label2",
+      "label": "Image 2 Button Label (for Side by Side layout)",
+      "default": "Shop the collection"
+    },
+    {
+      "type": "url",
+      "id": "button_url2",
+      "label": "Image 2 Button URL (for Side by Side layout)"
+    },
+    {
+      "type": "header",
+      "content": "Legacy Logo Settings (if still needed)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Upload Legacy Logo 1"
+    },
+    {
+      "type": "range",
+      "id": "logo-wd",
+      "label": "Legacy Logo 1 Max Width",
+      "default": 200,
+      "min": 100,
+      "max": 1000,
+      "step": 25,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "logomr",
+      "label": "Enable legacy logo right padding",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "logo2",
+      "label": "Upload Legacy Logo 2"
+    },
+    {
+      "type": "range",
+      "id": "logo-wd2",
+      "label": "Legacy Logo 2 Max Width",
+      "default": 200,
+      "min": 100,
+      "max": 1000,
+      "step": 25,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "issep",
+      "label": "Show Separation Border Desktop?",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Block Width",
+      "default": "wd50",
+      "info": "Total width of all block must not exceed 100%",
+      "options": [
+        { "value": "wd16", "label": "16.67%" },
+        { "value": "wd20", "label": "20%" },
+        { "value": "wd25", "label": "25%" },
+        { "value": "wd30", "label": "30%" },
+        { "value": "wd33", "label": "33%" },
+        { "value": "wd40", "label": "40%" },
+        { "value": "wd50", "label": "50%" },
+        { "value": "wd60", "label": "60%" },
+        { "value": "wd66", "label": "66%" },
+        { "value": "wd75", "label": "75%" },
+        { "value": "wd100", "label": "100%" }
+      ]
+    }
+  ]
+},
     {
       "type": "newsletter",
       "name": "Newsletter Signup",
