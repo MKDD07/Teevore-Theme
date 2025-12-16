@@ -125,12 +125,19 @@
     display: block;
   }
 .image-grid-item {
-    transition: transform 0.5s ease-in-out; /* smooth animation */
-    will-change: transform; /* improves performance */
+    position: relative;
+    overflow: hidden;       /* hide the part of image outside container */
 }
 
-.image-grid-item:hover {
-    transform: scale(1.1); /* zoom in */
+.image-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;      /* maintain aspect ratio, cover container */
+    transition: transform 0.5s ease-in-out; /* smooth zoom animation */
+}
+
+.image-grid-item:hover img {
+    transform: scale(1.1);  /* zoom in on hover */
 }
 
 .image-overlay {
