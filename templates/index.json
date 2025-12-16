@@ -847,104 +847,52 @@
         "pdl": 15
       }
     },
-    "banner_new_design_drmRKB": {
-      "type": "banner-new-design",
+    "banner_new_design_dgrM8d": {
+      "type": "banner_new_design",
       "blocks": {
-        "collection_slide_h7T8Wh": {
-          "type": "collection_slide",
+        "image_item_6BTRKT": {
+          "type": "image_item",
           "settings": {
-            "collection": "shaurya-collection",
-            "pre_heading": "",
-            "custom_title": "",
-            "custom_description": "",
-            "desc_word_limit": 25,
-            "nav_title": ""
+            "title": "Big Sale",
+            "subtitle": "Get up to 50% off your favorite styles — only for a limited time!",
+            "link_url": "",
+            "overlay_background": "#F0E1D5",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
           }
         },
-        "collection_slide_7gNfTz": {
-          "type": "collection_slide",
+        "image_item_rXHRH8": {
+          "type": "image_item",
           "settings": {
-            "collection": "t-shirts",
-            "custom_image": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_with_a_slender_build__0.jpg",
-            "pre_heading": "",
-            "custom_title": "",
-            "custom_description": "",
-            "desc_word_limit": 25,
-            "nav_title": ""
+            "title": "New Drop",
+            "subtitle": "Discover the latest arrivals — trend-forward, fresh, and ready to wear.",
+            "link_url": "",
+            "overlay_background": "#f0e1d5",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
           }
         },
-        "collection_slide_xNfya9": {
-          "type": "collection_slide",
+        "image_item_KaXRpR": {
+          "type": "image_item",
           "settings": {
-            "collection": "urban-wear",
-            "custom_image": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_with_a_slender_build__1.jpg",
-            "pre_heading": "",
-            "custom_title": "",
-            "custom_description": "",
-            "desc_word_limit": 25,
-            "nav_title": ""
+            "title": "Summer Vibes",
+            "subtitle": "Breezy fabrics, bright colors, and effortless looks for sunny days.",
+            "link_url": "",
+            "overlay_background": "#fdf8bb",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
           }
         }
       },
       "block_order": [
-        "collection_slide_h7T8Wh",
-        "collection_slide_7gNfTz",
-        "collection_slide_xNfya9"
+        "image_item_6BTRKT",
+        "image_item_rXHRH8",
+        "image_item_KaXRpR"
       ],
-      "name": "Hero News Slider",
+      "name": "Image Grid with Text Overlay",
       "settings": {
-        "bg_color": "#222222",
-        "text_color": "#ffffff",
-        "accent_color": "#ffffff"
-      }
-    },
-    "product_slider_v2_GjWzmr": {
-      "type": "product-slider-v2",
-      "disabled": true,
-      "name": "Products Slider with Image",
-      "settings": {
-        "title": "",
-        "background_image": false,
-        "subtitle": "",
-        "align_items": "center",
-        "justify_content": "center",
-        "elg": false,
-        "italic_font_selection": "primary",
-        "collection": "color-theory-collection",
-        "prbox_style": "grid_1",
-        "wd": "60",
-        "show_color_swatch": true,
-        "show_vendor": false,
-        "gridxxl": 4,
-        "grid": 3,
-        "gridtb": 2,
-        "gridmb": 1.4,
-        "rows": 5,
-        "show_view_all": "",
-        "btn-style": "btn1",
-        "btn-size": "btn-md",
-        "carousel": false,
-        "loop": true,
-        "autoplay": false,
-        "speed": 5,
-        "arrow": true,
-        "arrowm": false,
-        "dot": false,
-        "dotm": true,
-        "sw": true,
-        "npd": true,
-        "bg": "#ffffff",
-        "bgg": "",
-        "bgimg": "shopify://shop_images/Lucid_Origin_A_confident_young_white_man_seated_casually_in_a__1_1.jpg",
-        "overlay": "#000000",
-        "overlay_op": 0,
-        "headings_cl": "",
-        "sst": 40,
-        "ssb": 40,
-        "sstm": 15,
-        "ssbm": 15,
-        "hidem": false,
-        "hided": false
+        "desktop_columns": 3,
+        "sticky_mobile": true
       }
     },
     "product_slider_wgByjd": {
@@ -1943,8 +1891,7 @@
     "product_slider_YDUKFX",
     "featured_banner_UVCKif",
     "collection_list2_Nhz7Qe",
-    "banner_new_design_drmRKB",
-    "product_slider_v2_GjWzmr",
+    "banner_new_design_dgrM8d",
     "product_slider_wgByjd",
     "scrolling_parallex_rkz8YK",
     "scrolling_parallex_gNkwXJ",
