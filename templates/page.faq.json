@@ -83,6 +83,13 @@
     "faq_rfcnFQ": {
       "type": "faq",
       "blocks": {
+        "ttl_KCnxnN": {
+          "type": "ttl",
+          "settings": {
+            "title": "FAQ's Title Text",
+            "content_svg": ""
+          }
+        },
         "faqs_ihzxF7": {
           "type": "faqs",
           "settings": {
@@ -106,78 +113,19 @@
             "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
             "open": false
           }
-        },
-        "newsletter_fgPUJm": {
-          "type": "newsletter",
-          "settings": {
-            "title": "",
-            "subtitle": "Sign up to stay in the loop. Receive updates,<br> access to exclusive deals, and more.",
-            "style": "1",
-            "fs": 22,
-            "fsm": 18,
-            "fst": 14,
-            "fstm": 13,
-            "cl": "#000",
-            "tf_bg": "#eee",
-            "tf_txt": "#000",
-            "btncl": "#fff",
-            "btnbg": "#000",
-            "btnclh": "#fff",
-            "btnbgh": "#86BBBF",
-            "sw": false,
-            "npd": true,
-            "bg": "#fff",
-            "bgg": "",
-            "overlay": "#3d4246",
-            "overlay_op": 0,
-            "headings_cl": "",
-            "sst": 40,
-            "ssb": 40,
-            "sstm": 15,
-            "ssbm": 15,
-            "hidem": false,
-            "hided": false
-          }
-        },
-        "contact_form_L6pAEb": {
-          "type": "contact_form",
-          "settings": {
-            "title": "",
-            "details": "",
-            "page_width": 1000,
-            "layout": "1",
-            "show_phone": false,
-            "show_subject": false,
-            "btn-style": "btn1",
-            "bg": "#fff",
-            "color_fill": "#fff",
-            "bgg": "",
-            "overlay": "#3d4246",
-            "overlay_op": 0,
-            "headings_cl": "",
-            "sst": 40,
-            "ssb": 40,
-            "sstm": 15,
-            "ssbm": 15,
-            "hidem": false,
-            "hided": false
-          }
         }
       },
       "block_order": [
+        "ttl_KCnxnN",
         "faqs_ihzxF7",
         "faqs_NVNaBL",
-        "faqs_fapTam",
-        "newsletter_fgPUJm",
-        "contact_form_L6pAEb"
+        "faqs_fapTam"
       ],
       "name": "FAQs",
       "settings": {
         "title": "",
-        "subtitle": "Provides answers to a list of typical questions that users might ask",
-        "enable_small_card": true,
-        "enable_faq_only": true,
-        "italic_font_selection": "primary",
+        "subtitle": "",
+        "sw": false,
         "page_width": 1000,
         "accor": false,
         "acc_style": "1",
@@ -192,21 +140,12 @@
         "an": "#444",
         "fst": 13,
         "fsmt": 13,
-        "bdr": "#eee",
         "links": false,
-        "lfs": 14,
-        "lfsm": 14,
-        "lfw": "600",
-        "lcl": "#444",
-        "lclh": "#000",
-        "lbg": "#fff",
-        "lbd": "#eee",
-        "sw": false,
         "bg": "#fff",
         "bgg": "",
         "overlay": "#3d4246",
         "overlay_op": 0,
-        "headings_cl": "",
+        "bdr": "#eee",
         "sst": 40,
         "ssb": 40,
         "sstm": 15,
