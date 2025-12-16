@@ -1519,6 +1519,9 @@
         "text_wieVmL",
         "button_bCFWyR"
       ],
+      "custom_css": [
+        "p{font-family: 'ITC Avant Garde';}"
+      ],
       "name": "Images Collage with Text",
       "settings": {
         "image1": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
