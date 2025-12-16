@@ -11,67 +11,6 @@
   "type": "header",
   "name": "Header Group",
   "sections": {
-    "17659028877ff8931f": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_bb74c82_Hmbb7j": {
-          "type": "ai_gen_block_bb74c82",
-          "settings": {
-            "heading": "Frequently Asked Questions",
-            "subheading": "Find answers to common questions below",
-            "heading_alignment": "center",
-            "heading_size": 32,
-            "subheading_size": 16,
-            "heading_margin": 40,
-            "max_width": 900,
-            "item_spacing": 15,
-            "first_open": true,
-            "allow_multiple": false,
-            "question_1": "What is your return policy?",
-            "answer_1": "<p>We offer a 30-day return policy on all items. Products must be unused and in original packaging.</p>",
-            "question_2": "How long does shipping take?",
-            "answer_2": "<p>Standard shipping takes 5-7 business days. Express shipping is available for 2-3 business days delivery.</p>",
-            "question_3": "Do you ship internationally?",
-            "answer_3": "<p>Yes, we ship to most countries worldwide. International shipping times vary by location.</p>",
-            "question_4": "What payment methods do you accept?",
-            "answer_4": "<p>We accept all major credit cards, PayPal, and other secure payment methods.</p>",
-            "question_5": "How can I track my order?",
-            "answer_5": "<p>Once your order ships, you'll receive a tracking number via email to monitor your delivery.</p>",
-            "question_6": "",
-            "answer_6": "",
-            "question_7": "",
-            "answer_7": "",
-            "question_8": "",
-            "answer_8": "",
-            "question_9": "",
-            "answer_9": "",
-            "question_10": "",
-            "answer_10": "",
-            "background_color": "#ffffff",
-            "heading_color": "#111111",
-            "subheading_color": "#666666",
-            "item_background": "#ffffff",
-            "border_color": "#eeeeee",
-            "border_hover_color": "#111111",
-            "border_width": 1,
-            "border_radius": 8,
-            "question_color": "#111111",
-            "question_hover_color": "#000000",
-            "question_size": 16,
-            "question_padding": 20,
-            "answer_color": "#666666",
-            "answer_size": 14,
-            "icon_color": "#111111",
-            "icon_size": 24
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_bb74c82_Hmbb7j"
-      ],
-      "settings": {}
-    },
     "promotion_bar_w3fybd": {
       "type": "promotion-bar",
       "blocks": {
@@ -328,7 +267,6 @@
     }
   },
   "order": [
-    "17659028877ff8931f",
     "promotion_bar_w3fybd",
     "mobile_social_bar_mVmVUr",
     "header_menu_inline_BfEpq8"
