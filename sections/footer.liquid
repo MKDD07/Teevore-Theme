@@ -398,7 +398,7 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
   {% if block_st.txt != blank %}<div class="mb15">{{ block_st.txt }}</div>{% endif %}
   {% if block_st.socials %}
  {% if block.settings.enable_newsletter %}
-  <div class="footer-col footer-newsletter" {{ block.shopify_attributes }}>
+  <div class="footer-col footer-newsletter mt30" {{ block.shopify_attributes }}>
   {% render 'newsletter-form', verticle:true %}
 {% if block_st.txt != blank %}<p style="margin-top: 20px;">{{ block_st.news_txt }}</p>{% endif %}
             </div>
