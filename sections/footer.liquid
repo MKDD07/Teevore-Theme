@@ -303,7 +303,6 @@
 <div class="gitem ft_block wd50-md {{ block_st.width }}-lg{% if block_st.hidem %} hide-sm{% endif %}{% if block_st.issep %} sp{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %} {{ block.shopify_attributes }}>
   <div class="fll f-wrap mb20">
     {% if block_st.image_design == 'stacked' %}
-    {# Stacked Image Design #}
     {% if block_st.image1 %}
     <div class="mb15">
       {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
@@ -322,7 +321,7 @@
     {% endif %}
 
     {% else %}
-    <div class="flex-container">
+    <div class="flex-container fl">
       {% if block_st.image1 %}
       <div class="image-wrapper mb15 {% if block_st.image2 %}mr15{% endif %}" style="flex: 1;">
         {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
