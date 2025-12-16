@@ -338,14 +338,14 @@
       <div class="image-wrapper pr mb15 {% if block_st.image2 %}mr15{% endif %}" style="flex: 1;">
         {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
         <img src="{{ block_st.image1 | image_url: width: 700 }}" alt="{{ block_st.image1.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
-        {% if block_st.url1 != blank %}</a>{% endif %}
+        {% if block_st.url1 != blank %}</a>{% endif %}       <div class="pa pard">
         {% if block_st.caption1 != blank %}<p class="caption mt5">{{ block_st.caption1 }}</p>{% endif %}
         {% if block_st.headline1 != blank %}<h3 class="h4 mt10">{{ block_st.headline1 }}</h3>{% endif %}
         {% if block_st.subtext1 != blank %}<p class="mt5">{{ block_st.subtext1 }}</p>{% endif %}
         {% if block_st.button_label1 != blank and block_st.button_url1 != blank %}
         <a href="{{ block_st.button_url1 }}" class="button mt10">{{ block_st.button_label1 }}</a>
         {% endif %}
-      </div>
+      </div>    </div>
       {% endif %}
 
       {% if block_st.image2 %}
