@@ -9,8 +9,19 @@
     flex-direction: column;
     align-items: center;
   left: 50%;text-align: center;
-  transform: translateX(-50%); width: 100%;
+  transform: translateX(-50%); width: 100%;-
     }
+.pard::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, black 100%, rgba(0,0,0,0) 0%);
+    z-index: -1;
+}
+
 {% endstyle %}
 {%- if section_st.footer_design == 'modern' -%}
   <style>
