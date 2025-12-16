@@ -4,6 +4,11 @@
       .image-wrapper img
     {
     border-radius: 15px;}
+    .pard{
+        bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+    }
 {% endstyle %}
 {%- if section_st.footer_design == 'modern' -%}
   <style>
@@ -346,7 +351,7 @@
         {% if block_st.url2 != blank %}<a target="_blank" href="{{ block_st.url2 }}">{% endif %}
         <img src="{{ block_st.image2 | image_url: width: 700 }}" alt="{{ block_st.image2.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
         {% if block_st.url2 != blank %}</a>{% endif %}
-        <div class="pa">
+        <div class="pa pard">
         {% if block_st.caption2 != blank %}<p class="caption mt5">{{ block_st.caption2 }}</p>{% endif %}
         {% if block_st.headline2 != blank %}<h3 class="h4 mt10">{{ block_st.headline2 }}</h3>{% endif %}
         {% if block_st.subtext2 != blank %}<p class="mt5">{{ block_st.subtext2 }}</p>{% endif %}
