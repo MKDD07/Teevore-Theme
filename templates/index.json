@@ -1871,6 +1871,39 @@
         "hidem": false,
         "hided": false
       }
+    },
+    "newsletter_J86iEF": {
+      "type": "newsletter",
+      "name": "Newsletter",
+      "settings": {
+        "title": "Newsletter",
+        "subtitle": "Sign up to stay in the loop. Receive updates,<br> access to exclusive deals, and more.",
+        "style": "1",
+        "fs": 22,
+        "fsm": 18,
+        "fst": 14,
+        "fstm": 13,
+        "cl": "#000",
+        "tf_bg": "#eee",
+        "tf_txt": "#000",
+        "btncl": "#fff",
+        "btnbg": "#000",
+        "btnclh": "#fff",
+        "btnbgh": "#86BBBF",
+        "sw": false,
+        "npd": true,
+        "bg": "#fff",
+        "bgg": "",
+        "overlay": "#3d4246",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 15,
+        "ssbm": 15,
+        "hidem": false,
+        "hided": false
+      }
     }
   },
   "order": [
@@ -1896,6 +1929,7 @@
     "instagram_rich_text_h6pNwj",
     "175396395790ca3829",
     "social_overlays_9xf7qe",
-    "faq_6mwa9x"
+    "faq_6mwa9x",
+    "newsletter_J86iEF"
   ]
 }

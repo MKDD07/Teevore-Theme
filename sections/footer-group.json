@@ -279,6 +279,24 @@
             "btnbgh": "#333333"
           }
         },
+        "image_V89mmG": {
+          "type": "image",
+          "settings": {
+            "hidem": false,
+            "socials": true,
+            "socttl": "Stay Connected",
+            "title": "Download App",
+            "txt": "Revone App is now available on App Store & Google Play. Get it now.",
+            "logo": "shopify://shop_images/Lucid_Origin_A_confident_male_model_wearing_a_bright_yellow_ts_0.jpg",
+            "url1": "",
+            "logo-wd": 200,
+            "logomr": true,
+            "url2": "",
+            "logo-wd2": 200,
+            "issep": true,
+            "width": "wd25"
+          }
+        },
         "hrline_eUgDHq": {
           "type": "hrline",
           "settings": {
@@ -300,13 +318,14 @@
         "image_ViEpEH",
         "custom_QwWFnM",
         "newsletter_6PDjNR",
+        "image_V89mmG",
         "hrline_eUgDHq"
       ],
       "custom_css": [
         ".newsletter_txt {padding: 18px 24px;}",
         ".btn {padding: 10px 20px; gap: 10px;}",
         ".fll {align-items: center;}",
-        ".input-wrapper button span{display: flex;}"
+        ".input-wrapper button span {display: flex;}"
       ],
       "settings": {
         "footer_design": "default",
