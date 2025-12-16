@@ -156,7 +156,12 @@
     opacity: 100%;
     bottom: 20px;
     border-radius: 15px;
-}.image-overlay::before {
+}
+.image-grid-item:hover image-overlay {
+    background-color: #222; /* dark background on hover */
+    color: #fff; /* text becomes white */
+}
+.image-overlay::before {
 
     content: "";
     display: flex;
