@@ -125,9 +125,11 @@
     display: block;
   }
 
-  .image-overlay {
+.image-overlay {
     position: absolute;
-    width: 100%;
+    width: 90%;
+    left: 50%;                /* horizontally center */
+    transform: translateX(-50%); /* adjust for centering */
     padding: 20px;
     text-align: center;
     box-sizing: border-box;
@@ -137,7 +139,7 @@
     align-items: center;
     backdrop-filter: saturate(180%) blur(20px);
     opacity: 100%;
-  }
+}
 
   .image-overlay-title {
     font-size: 2.5em; /* Adjust as needed */
