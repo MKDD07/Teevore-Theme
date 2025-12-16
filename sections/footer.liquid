@@ -401,18 +401,12 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
     {% render 'social-media' %}
   </div>  {% if block.settings.enable_newsletter %}
               <div class="footer-col footer-newsletter" {{ block.shopify_attributes }}>
-              {%- if block_st.title != blank -%}<h4>{{ block_st.title }}</h4>{%- endif -%}
-              {%- if block_st.txt != blank -%}<p style="color:#888; margin-bottom:20px; font-size:14px;">{{ block_st.txt }}</p>{%- endif -%}
               {% form 'customer' %}
                  <input type="hidden" name="contact[tags]" value="newsletter">
                  <input type="email" name="contact[email]" placeholder="ENTER YOUR EMAIL" required>
                  <button type="submit">Subscribe</button>
               {% endform %}
-              {%- if block_st.socials -%}
-                <div style="margin-top: 30px; display: flex; gap: 20px;">
-                  {% render 'social-media' %}
-                </div>
-              {%- endif -%}
+
             </div>
           {% endif %}
   {% endif %}
