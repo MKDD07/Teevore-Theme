@@ -141,25 +141,6 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "newsletter_6PDjNR": {
-          "type": "newsletter",
-          "settings": {
-            "hidem": false,
-            "title": "Newsletter",
-            "txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
-            "rich_txt": "",
-            "socials": false,
-            "socttl": "Stay Connected",
-            "issep": false,
-            "width": "wd40",
-            "tf_bg": "#ffffff",
-            "tf_txt": "#000000",
-            "btncl": "#ffffff",
-            "btnbg": "#333333",
-            "btnclh": "#ffffff",
-            "btnbgh": "#333333"
-          }
-        },
         "image_tG48PE": {
           "type": "image",
           "disabled": true,
@@ -294,6 +275,25 @@
             "width": "wd20"
           }
         },
+        "newsletter_6PDjNR": {
+          "type": "newsletter",
+          "settings": {
+            "hidem": false,
+            "title": "Newsletter",
+            "txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
+            "rich_txt": "",
+            "socials": false,
+            "socttl": "Stay Connected",
+            "issep": false,
+            "width": "wd40",
+            "tf_bg": "#ffffff",
+            "tf_txt": "#000000",
+            "btncl": "#ffffff",
+            "btnbg": "#333333",
+            "btnclh": "#ffffff",
+            "btnbgh": "#333333"
+          }
+        },
         "image_V89mmG": {
           "type": "image",
           "settings": {
@@ -334,7 +334,6 @@
         }
       },
       "block_order": [
-        "newsletter_6PDjNR",
         "image_tG48PE",
         "image_overlay_GUXiry",
         "menu_CjaxxX",
@@ -345,6 +344,7 @@
         "hrline_pFJVVg",
         "image_ViEpEH",
         "liquid_BeG93a",
+        "newsletter_6PDjNR",
         "image_V89mmG",
         "hrline_eUgDHq"
       ],
