@@ -1523,7 +1523,7 @@
           "type": "media",
           "settings": {
             "media_type": "image",
-            "order": "text",
+            "direction": "row",
             "image": "shopify://shop_images/flux-pro-2.0_A_male_model_in_casual_streetwear_standing_on_a_rural_dirt_pathway_at_sunset_wea-0.jpg",
             "video_source": "youtube",
             "video_url": "",
@@ -1551,7 +1551,7 @@
           "type": "media",
           "settings": {
             "media_type": "image",
-            "order": "image",
+            "direction": "row-reverse",
             "image": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
             "video_source": "youtube",
             "video_url": "https://www.youtube.com/watch?v=gapBX5mlCjU",
