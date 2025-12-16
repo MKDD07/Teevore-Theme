@@ -397,17 +397,15 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
   {{ block_title }}
   {% if block_st.txt != blank %}<div class="mb15">{{ block_st.txt }}</div>{% endif %}
   {% if block_st.socials %}
-  <div class="socials mt20 mb20">
-    {%- if block_st.socttl != blank -%}<h3 class="h4 mb15">{{ block_st.socttl }}</h3>{%- endif -%}
-    {% render 'social-media' %}
-  </div>  {% if block.settings.enable_newsletter %}
-              <div class="footer-col footer-newsletter" {{ block.shopify_attributes }}>
-                
-                                {% render 'newsletter-form', verticle:true %}
-
+ {% if block.settings.enable_newsletter %}
+  <div class="footer-col footer-newsletter" {{ block.shopify_attributes }}>
+  {% render 'newsletter-form', verticle:true %}
 {% if block_st.txt != blank %}<p style="margin-top: 20px;">{{ block_st.news_txt }}</p>{% endif %}
             </div>
-          {% endif %}
+          {% endif %}  <div class="socials mt20 mb20">
+    {%- if block_st.socttl != blank -%}<h3 class="h4 mb15">{{ block_st.socttl }}</h3>{%- endif -%}
+    {% render 'social-media' %}
+  </div> 
   {% endif %}
 </div>
 {% when 'menu' %}
