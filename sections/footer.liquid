@@ -1,5 +1,10 @@
 {%- capture footer -%}
 {%- assign section_st = section.settings -%}  
+{% style %}
+      .image-wrapper img
+    {
+    border-radius: 15px;}
+{% endstyle %}
 {%- if section_st.footer_design == 'modern' -%}
   <style>
     .footer-modern {
@@ -9,9 +14,6 @@
       overflow: hidden;
       position: relative;
     }
-    .image-wrapper img
-    {
-    border-radius: 15px;}
     .teevore-scroll-container {
       height: 60vh;
       display: flex;
