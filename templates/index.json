@@ -1507,9 +1507,9 @@
             "btntxt1": "",
             "url1": "",
             "newtab2": false,
-            "btn-style": "btn1",
+            "btn-style": "btn4",
             "btn-style1": "btn1",
-            "btn-size": "btn-md",
+            "btn-size": "btn-sm",
             "mb": 30
           }
         }
