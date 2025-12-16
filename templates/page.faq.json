@@ -80,76 +80,58 @@
         "sw": false
       }
     },
-    "faq_rfcnFQ": {
+    "faq_ycWURw": {
       "type": "faq",
       "blocks": {
-        "ttl_KCnxnN": {
+        "ttl_ackxJb": {
           "type": "ttl",
           "settings": {
-            "title": "FAQ's Title Text",
+            "title": "General Questions",
             "content_svg": ""
           }
         },
-        "faqs_ihzxF7": {
+        "faqs_DwB8QQ": {
           "type": "faqs",
           "settings": {
-            "title": "Is Revone compatible with Shopify Online Store 2.0?",
-            "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
-            "open": false
-          }
-        },
-        "faqs_NVNaBL": {
-          "type": "faqs",
-          "settings": {
-            "title": "Is Revone compatible with Shopify Online Store 2.0?",
-            "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
-            "open": false
-          }
-        },
-        "faqs_fapTam": {
-          "type": "faqs",
-          "settings": {
-            "title": "Is Revone compatible with Shopify Online Store 2.0?",
-            "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
+            "title": "What is your return policy?",
+            "answer": "<p>We offer a 30-day return policy on all items. Products must be unused and in their original packaging.</p>",
             "open": false
           }
         }
       },
       "block_order": [
-        "ttl_KCnxnN",
-        "faqs_ihzxF7",
-        "faqs_NVNaBL",
-        "faqs_fapTam"
+        "ttl_ackxJb",
+        "faqs_DwB8QQ"
       ],
-      "name": "FAQs",
+      "name": "Modern FAQ",
       "settings": {
-        "title": "",
-        "subtitle": "",
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find answers to common questions about our products and services",
         "sw": false,
-        "page_width": 1000,
-        "accor": false,
+        "page_width": 900,
+        "accor": true,
         "acc_style": "1",
-        "tcl": "#222222",
-        "tfs": 22,
+        "tcl": "#000000",
+        "tfs": 24,
         "tfsm": 20,
         "tfw": "600",
-        "qu": "#444",
-        "fs": 14,
-        "fsm": 14,
+        "qu": "#333333",
+        "fs": 16,
+        "fsm": 15,
         "fw": "600",
-        "an": "#444",
-        "fst": 13,
-        "fsmt": 13,
+        "an": "#666666",
+        "fst": 14,
+        "fsmt": 14,
         "links": false,
-        "bg": "#fff",
+        "bg": "#ffffff",
         "bgg": "",
-        "overlay": "#3d4246",
+        "overlay": "#000000",
         "overlay_op": 0,
-        "bdr": "#eee",
-        "sst": 40,
-        "ssb": 40,
-        "sstm": 15,
-        "ssbm": 15,
+        "bdr": "#e5e5e5",
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 40,
+        "ssbm": 40,
         "hidem": false,
         "hided": false
       }
@@ -159,6 +141,6 @@
     "breadcrumb",
     "banner",
     "main",
-    "faq_rfcnFQ"
+    "faq_ycWURw"
   ]
 }
