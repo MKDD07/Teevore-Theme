@@ -1596,7 +1596,7 @@
         "bgg": "",
         "overlay": "#222222",
         "overlay_op": 0.5,
-        "rounded": 0,
+        "rounded": 15,
         "section_padding": "",
         "section_margin": "72px 0px 0px",
         "blocks_gap": 0,
