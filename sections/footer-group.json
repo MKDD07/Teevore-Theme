@@ -141,6 +141,25 @@
     "footer": {
       "type": "footer",
       "blocks": {
+        "newsletter_6PDjNR": {
+          "type": "newsletter",
+          "settings": {
+            "hidem": false,
+            "title": "Newsletter",
+            "txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
+            "rich_txt": "",
+            "socials": false,
+            "socttl": "Stay Connected",
+            "issep": false,
+            "width": "wd40",
+            "tf_bg": "#ffffff",
+            "tf_txt": "#000000",
+            "btncl": "#ffffff",
+            "btnbg": "#333333",
+            "btnclh": "#ffffff",
+            "btnbgh": "#333333"
+          }
+        },
         "image_tG48PE": {
           "type": "image",
           "disabled": true,
@@ -239,23 +258,40 @@
             "mar": 15
           }
         },
-        "newsletter_6PDjNR": {
-          "type": "newsletter",
+        "image_ViEpEH": {
+          "type": "image",
           "settings": {
             "hidem": false,
-            "title": "Newsletter",
-            "txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
-            "rich_txt": "",
-            "socials": false,
+            "socials": true,
             "socttl": "Stay Connected",
-            "issep": false,
-            "width": "wd40",
-            "tf_bg": "#ffffff",
-            "tf_txt": "#000000",
-            "btncl": "#ffffff",
-            "btnbg": "#333333",
-            "btnclh": "#ffffff",
-            "btnbgh": "#333333"
+            "title": "About Us",
+            "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
+            "image_design": "side_by_side",
+            "url1": "",
+            "caption1": "",
+            "headline1": "New In Weekly",
+            "subtext1": "Fresh drops. Nonstop style",
+            "button_label1": "",
+            "button_url1": "",
+            "url2": "",
+            "caption2": "",
+            "headline2": "Style Starts Here",
+            "subtext2": "Shop the collection",
+            "button_label2": "Shop the collection",
+            "button_url2": "",
+            "logo-wd": 300,
+            "logomr": true,
+            "logo-wd2": 300,
+            "issep": true,
+            "width": "wd40"
+          }
+        },
+        "liquid_BeG93a": {
+          "type": "liquid",
+          "settings": {
+            "title": "",
+            "liquid": "",
+            "width": "wd20"
           }
         },
         "image_V89mmG": {
@@ -285,34 +321,6 @@
             "logomr": true,
             "logo-wd2": 200,
             "issep": true,
-            "width": "wd30"
-          }
-        },
-        "image_ViEpEH": {
-          "type": "image",
-          "settings": {
-            "hidem": false,
-            "socials": true,
-            "socttl": "Stay Connected",
-            "title": "About Us",
-            "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
-            "image_design": "side_by_side",
-            "url1": "",
-            "caption1": "",
-            "headline1": "New In Weekly",
-            "subtext1": "Fresh drops. Nonstop style",
-            "button_label1": "",
-            "button_url1": "",
-            "url2": "",
-            "caption2": "",
-            "headline2": "Style Starts Here",
-            "subtext2": "Shop the collection",
-            "button_label2": "Shop the collection",
-            "button_url2": "",
-            "logo-wd": 300,
-            "logomr": true,
-            "logo-wd2": 300,
-            "issep": true,
             "width": "wd40"
           }
         },
@@ -326,6 +334,7 @@
         }
       },
       "block_order": [
+        "newsletter_6PDjNR",
         "image_tG48PE",
         "image_overlay_GUXiry",
         "menu_CjaxxX",
@@ -334,9 +343,9 @@
         "menu_pizTUw",
         "menu_geWQfi",
         "hrline_pFJVVg",
-        "newsletter_6PDjNR",
-        "image_V89mmG",
         "image_ViEpEH",
+        "liquid_BeG93a",
+        "image_V89mmG",
         "hrline_eUgDHq"
       ],
       "custom_css": [
