@@ -1,169 +1,175 @@
-{% liquid
-  assign section_st = section.settings
-  assign is_women_template = false
-  if request.path contains '/collections/women' or template contains 'girls_collections'
-    assign is_women_template = true
-  endif
-%}
-
-<div 
-  class="faq-section sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} has-bg-img{% endif %}"
-  style="
-    --section-bg: {% if is_women_template %}#f1f1f1{% elsif section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }}{% endif %};
-    --section-spacing-top: {{ section_st.sst }}px;
-    --section-spacing-bottom: {{ section_st.ssb }}px;
-    --section-spacing-top-mobile: {{ section_st.sstm }}px;
-    --section-spacing-bottom-mobile: {{ section_st.ssbm }}px;
-    --overlay-color: {{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};
-    --title-color: {% if is_women_template %}#222{% else %}{{ section_st.tcl }}{% endif %};
-    --question-color: {% if is_women_template %}#222{% else %}{{ section_st.qu }}{% endif %};
-    --answer-color: {% if is_women_template %}#222{% else %}{{ section_st.an }}{% endif %};
-    --border-color: {% if is_women_template %}#d9d9d9{% else %}{{ section_st.bdr }}{% endif %};
-    --question-font-size: {{ section_st.fs }}px;
-    --question-font-size-mobile: {{ section_st.fsm }}px;
-    --answer-font-size: {{ section_st.fst }}px;
-    --answer-font-size-mobile: {{ section_st.fsmt }}px;
-    --faq-max-width: {{ section_st.page_width }}px;
-  "
+{% assign section_st = section.settings %}
+<div
+  class="faq-cc sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload{% endif %}"
+  style="{% unless request.path contains '/collections/women' or template contains  'girls_collections' %}--sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{{ section_st.bg }};{% endif %};{% else %}--sbg:#f1f1f1;{% endunless %}--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px;--overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};"
   {% if section_st.bgimg != blank %}
-    data-bg-image="{{ section_st.bgimg | image_url: width: 2400 }}"
+    data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}"
+    data-sizes="auto" data-parent-fit="contain"
   {% endif %}
 >
-  <div class="{% if section_st.sw %}container-fluid{% else %}page-width{% endif %}">
-    
-    {%- comment -%} Section Header {%- endcomment -%}
-    {% if section_st.title != blank or section_st.subtitle != blank %}
-      <div class="faq-header text-center">
-        {% if section_st.title != blank %}
-          <h2 class="faq-main-title">{{ section_st.title }}</h2>
-        {% endif %}
-        {% if section_st.subtitle != blank %}
-          <div class="faq-subtitle">{{ section_st.subtitle }}</div>
-        {% endif %}
-      </div>
-    {% endif %}
+  <div class="{% if section_st.sw %}fw-sec fl f-col f-row-md{% else %}page-width{% endif %}{% unless section_st.enable_small_card %}wd100{% endunless %}">
+    {% render 'sec-title' %}
 
-    {%- liquid
-      assign has_links = false
-      assign has_newsletter = false
-      assign has_contact_form = false
-      
+    {% liquid
+      assign is_links = false
+     assign has_newsletter = false
+     assign has_contact_form = false
       for block in section.blocks
         if block.type == 'ttl' or block.type == 'link'
           if section_st.links
-            assign has_links = true
+            assign is_links = true
           endif
         elsif block.type == 'newsletter'
           assign has_newsletter = true
-        elsif block.type == 'contact_form'
+       elsif block.type == 'contact_form'
           assign has_contact_form = true
         endif
       endfor
-    -%}
+    %}
 
-    <div class="faq-layout{% if has_links %} has-sidebar{% endif %}">
-      
-      {%- comment -%} Sidebar Links {%- endcomment -%}
-      {%- if has_links -%}
-        <aside class="faq-sidebar">
-          <nav class="faq-nav">
-            {% for block in section.blocks %}
-              {% if block.type == 'ttl' or block.type == 'link' %}
-                <a 
-                  href="{% if block.type == 'link' %}{{ block.settings.link }}{% else %}#faq-{{ block.id }}{% endif %}"
-                  class="faq-nav-link"
-                  {% if block.type == 'ttl' %}data-scroll-to="faq-{{ block.id }}"{% endif %}
-                >
-                  {{ block.settings.title }}
-                  <svg class="link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                  </svg>
-                </a>
-              {% endif %}
-            {% endfor %}
-          </nav>
-        </aside>
-      {%- endif -%}
-
-      <div class="faq-content-wrapper">
-        <div class="faq-main{% if has_newsletter or has_contact_form %} has-form{% endif %}">
-          
-          {%- comment -%} FAQ Items {%- endcomment -%}
-          <div 
-            id="faq-{{ section.id }}" 
-            class="faq-list{% if section_st.accor %} is-accordion{% endif %}"
-          >
-            {% for block in section.blocks %}
-              {% case block.type %}
-                
-                {% when 'spacing' %}
-                  <div 
-                    class="faq-spacer{% if block.settings.enable_bb %} has-border{% endif %}"
-                    style="margin-top: {{ block.settings.mtt }}px; margin-bottom: {{ block.settings.mbb }}px;"
-                  ></div>
-
-                {% when 'ttl' %}
-                  <div class="faq-category" id="faq-{{ block.id }}" {{ block.shopify_attributes }}>
-                    <div class="faq-category-inner">
-                      {% if block.settings.content_svg != blank %}
-                        <span class="faq-category-icon">{{ block.settings.content_svg }}</span>
-                      {% endif %}
-                      <h3 class="faq-category-title">{{ block.settings.title }}</h3>
-                    </div>
-                  </div>
-
-                {% when 'faqs' %}
-                  <div 
-                    class="faq-item{% if block.settings.open %} is-open{% endif %}{% unless section_st.accor %} is-static{% endunless %}" 
-                    {{ block.shopify_attributes }}
-                    data-faq-item
-                  >
-                    <div class="faq-question-wrapper"{% if section_st.accor %} onclick="toggleFAQ(this)"{% endif %}>
-                      <h4 class="faq-question">{{ block.settings.title }}</h4>
-                      {% if section_st.accor %}
-                        <span class="faq-toggle">
-                          {% if section_st.acc_style == '2' %}
-                            <svg class="toggle-icon" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                              <path d="M10 15l-5-5h10l-5 5z"/>
-                            </svg>
-                          {% else %}
-                            <span class="toggle-plus-minus"></span>
-                          {% endif %}
-                        </span>
-                      {% endif %}
-                    </div>
-                    <div class="faq-answer{% if block.settings.open or section_st.accor == false %} is-visible{% endif %}">
-                      <div class="faq-answer-content">
-                        {{ block.settings.answer }}
-                      </div>
-                    </div>
-                  </div>
-
-              {% endcase %}
-            {% endfor %}
-          </div>
-
+    {%- if is_links -%}
+      <div class="fl f-ais gap f-col f-row-md" style="--gap:50px;--gapm:20px;">
+        <div
+          class="wd40 faqLinks {% render 'animate-data', css:true %}"
+          style="--cl:{{ section_st.lcl }};--clh:{{ section_st.lclh }};--fs:{{ section_st.lfs }}px;--fsm:{{ section_st.lfsm }}px;--fw:{{ section_st.lfw }};--bg:{{ section_st.lbg }};--bd:{{ section_st.lbd }};--icns:14px;"
+        >
+          {% for block in section.blocks %}
+            {% assign blk_st = block.settings %}
+            {% if block.type == 'ttl' or block.type == 'link' %}
+              <a
+                href="{% if block.type == 'link' %}{{ block.settings.link }}{% else %}#tt{{ block.id }}{% endif %}"
+                class="rgTxt fl f-aic f-jcsb"
+              >
+                {{ block.settings.title }}
+                <svg class="at-icon" viewBox="0 0 24 24" xmlns="https://www.w3.org/2000/svg">
+                  <path d="m19.389 11.123c-.331 0-.6.269-.6.6v6.222c0 1.63-1.326 2.956-2.956 2.956h-9.777c-1.63 0-2.956-1.326-2.956-2.956v-9.777c0-1.63 1.326-2.956 2.956-2.956h6.222c.332 0 .6-.269.6-.6s-.269-.6-.6-.6h-6.222c-2.292 0-4.156 1.864-4.156 4.155v9.777c0 2.291 1.864 4.155 4.156 4.155h9.777c2.291 0 4.155-1.864 4.155-4.155v-6.222c0-.331-.269-.6-.6-.6z"/>
+                  <path d="m21.5 1.9h-4.802c-.331 0-.6.269-.6.6s.269.6.6.6h3.354l-7.672 7.671c-.234.233-.234.614 0 .848.117.117.271.176.424.176s.307-.059.424-.176l7.671-7.671v3.384c0 .331.269.6.6.6s.6-.269.6-.6v-4.832c0-.331-.269-.6-.6-.6z"/>
+                </svg>
+              </a>
+            {% endif %}
+          {% endfor %}
         </div>
+    {%- endif -%}
 
-        {%- comment -%} Newsletter/Contact Form {%- endcomment -%}
-        {% if has_newsletter or has_contact_form %}
-          <aside class="faq-form-sidebar">
-            {% for block in section.blocks %}
-              {% if block.type == 'newsletter' %}
-                <div class="faq-newsletter-block" {{ block.shopify_attributes }}>
-                  {% render 'news-letter-snippet', block: block %}
-                </div>
-              {% elsif block.type == 'contact_form' %}
-                <div class="faq-contact-block" {{ block.shopify_attributes }}>
-                  {% render 'contact-form-snippet', block: block %}
-                </div>
-              {% endif %}
-            {% endfor %}
-          </aside>
-        {% endif %}
+    <div class="{% if section_st.enable_small_card %}resp-flex col-md-2 col-1{% else %}col-1 {% endif %}">
+      <div
+        id="faq{{ section.id }}"
+        class="{% if is_links %}fl1{% endif %}{% if section_st.accor %} accor{% else %} no-accor{% endif %}{% if has_newsletter or has_contact_form %} wd100 wd60-md{% else %} col-100{% endif %}"
+        style="width: stretch; max-width:{{ section_st.page_width }}px;--cl:{% unless request.path contains '/collections/women' or template contains  'girls_collections' %} {{ section_st.an }};{% else %} #222;{% endunless %} --fs:{{ section_st.fst }}px;--fsm:{{ section_st.fsmt }}px;--qcl:{{ section_st.qu }};--qfs:{{ section_st.fs }}px;--qfsm:{{ section_st.fsm }}px;--qfw:{{ section_st.fw }};--bdr:{{ section_st.bdr }};"
+      >
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'spacing' %}
+            <div style="margin-bottom: {{ block.settings.mbb }}px; margin-top: {{ block.settings.mtt }}px; {% if block_st.enable_bb %}border-bottom: 1px solid var(--bdr);{% endif %}"></div>
+            {% when 'ttl' %}
+              <div class="faq-title fl gap10 f-acc" id="tt{{ block.id }}" {{ block.shopify_attributes }}>
+                <span style="margin-right; 10px">{{block.settings.content_svg }}</span>
+                <h2 style="color:{{ section_st.tcl }};font-size:{{ section_st.tfs }}px;font-weight:{{ section_st.tfw }};font-family:'{{settings.font_face_family_sec }}';">
+                  {{ block.settings.title }}
+                </h2>
+              </div>
+            {% when 'faqs' %}
+              <div class="faq-item{% if block.settings.open %} open{% endif %}" {{ block.shopify_attributes }}>
+                {% if section_st.accor %}
+                  <div class="faq-question" onclick="toggleFAQ(this)">
+                    <h3 class="rgTxt mb5 ft1 fwsb {% render 'animate-data', css:true, text:true %}" style="color:">
+                      {{ block.settings.title }}
+                    </h3>
+                    <span class="faq-icon">
+                      {% if section_st.acc_style == '2' %}
+                        <svg class="svg" width="20" height="20" viewBox="0 0 20 20"
+                            xmlns="https://www.w3.org/2000/svg"
+                            fill="{% if section.settings.icon_color != blank %}{{ section.settings.icon_color }}{% else %}currentColor{% endif %}">
+                          <path d="M10 15l-5-5h10l-5 5z" />
+                        </svg>
+                      {% else %}
+                        <span class="plus-minus">+</span>
+                      {% endif %}
+                    </span>
+                  </div>
+                  <div
+                    class="faq-answer"
+                    {% if block.settings.open %}
+                      style="display:block;"
+                    {% endif %}
+                  >
+                    {{ block.settings.answer }}
+                  </div>
+                {% else %}
+                  <div class="faq-question">
+                    <h3 class="rgTxt mb5 ft2 fwm {% render 'animate-data', css:true, text:true %}">
+                      >{{ block.settings.title }}
+                    </h3>
+                  </div>
+                  <div class="faq-answer" style="display:block;">
+                    {{ block.settings.answer }}
+                  </div>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
       </div>
 
+      {% if has_newsletter or has_contact_form %}
+        <div class="wd100 wd40-md hide-md hide-sm">
+          {% for block in section.blocks %}
+            {% assign blk_st = block.settings %}
+            {% if block.type == 'newsletter' %}
+              <div {{ block.shopify_attributes }}>
+                {% render 'news-letter-snippet', block: block %}
+              </div>
+                 {% elsif block.type == 'contact_form' %}
+                 <div {{ block.shopify_attributes }}>
+          		<div class="contact-page sec_cov{% if blk_st.hidem %} hide-sm{% endif %}{% if blk_st.hided %} hide-md hide-lg{% endif %}{% if blk_st.bgimg != blank %} bgImg lazyload{% endif %}" style="--sbg:{% if blk_st.bgg != blank %}{{ blk_st.bgg }}{% else %}{{ blk_st.bg }}{% endif %};--sst:{{ blk_st.sst }}px;--ssb:{{ blk_st.ssb }}px;--sstm:{{ blk_st.sstm }}px;--ssbm:{{ blk_st.ssbm }}px;--cl:{{ blk_st.cl }};--cl:{{blk_st.headings_cl }};--overlay:{{ blk_st.overlay | color_modify: 'alpha', blk_st.overlay_op }};"
+   {% if blk_st.bgimg != blank %}data-bgset="{{ blk_st.bgimg | image_url: width: blk_st.bgimg.width | image_tag: widths: '400,600,800,1000,1400,1600,2000,2400,3000' | split: 'srcset="' | last | split: '"' | first }}" data-sizes="auto" data-parent-fit="contain"{% endif %}>  	
+  <div class="page-width" style="--page-width:{{ blk_st.page_width }}px;">        
+      {% if page.content.size > 0 %}{{ page.content }}{% endif %}    
+
+      {% if blk_st.title != blank %}<div class="mb10 sec-ttl tc" style="padding-bottom:0 !important">{{ blk_st.title }}</div>{% endif %}
+      {% if blk_st.details %}<div class="rte tc mb30">{{ blk_st.details }}</div>{% endif %}
+    
+      <div class="grid contact{{ blk_st.layout }}{% if blk_st.layout == "2" %} f-wrap{% endif %}">
+        
+        <div class="gitem{% if blk_st.layout == "1" %} wd66-md{% endif %}">          
+          <div class="contact-frm form-vertical {% render 'animate-data', css:true %}">
+            {% form 'contact' %}
+            {% if form.posted_successfully? %}<p class="border form-success">{{ 'contact.form.post_success' | t }}</p>{% endif %}
+
+            {{ form.errors | default_errors }}
+            {% # theme-check-disable UndefinedObject %}
+                <div class="fl f-col f-row-md col-gap" style="--gap:15px;">
+                  <div class="fl1 f-col f-row-md">
+                    <input type="text" id="ContactFormName" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+                  </div>       
+                  <div class="fl1">
+                    <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}">
+                  </div>              
+                </div>
+                {% unless blk_st.show_phone %}
+                <input type="tel" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" placeholder="{{ 'contact.form.phone' | t }}" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+                {% endunless %} 
+                {% unless blk_st.show_subject %}
+                <input type="text" id="ContactFormSubject" name="contact[email subject]" placeholder="{{ 'contact.form.subject' | t }}" value="{% if form[subject] %}{{ form[subject] }}{% endif %}">
+                {% endunless %}
+                <textarea rows="10" id="ContactFormMessage" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                <input type="submit" class="btn {{ blk_st.btn-style }}" value="{{ 'contact.form.submit' | t }}">
+            {% # theme-check-enable UndefinedObject %}
+            {% endform %}
+          </div>        
+        </div>    
+      </div>       
+  </div>
+</div>
+	</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
+
+    {%- if is_links -%}
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
@@ -171,439 +177,168 @@
   function toggleFAQ(element) {
     const faqItem = element.closest('.faq-item');
     const answer = faqItem.querySelector('.faq-answer');
-    const isOpen = faqItem.classList.contains('is-open');
-    
-    // Close all other FAQs if accordion mode
-    const accordionMode = faqItem.closest('.faq-list').classList.contains('is-accordion');
-    if (accordionMode && !isOpen) {
-      const allItems = faqItem.closest('.faq-list').querySelectorAll('.faq-item');
-      allItems.forEach(item => {
-        if (item !== faqItem) {
-          item.classList.remove('is-open');
-          const otherAnswer = item.querySelector('.faq-answer');
-          if (otherAnswer) otherAnswer.classList.remove('is-visible');
-        }
-      });
-    }
-    
-    // Toggle current FAQ
-    faqItem.classList.toggle('is-open');
-    answer.classList.toggle('is-visible');
-  }
+    const icon = element.querySelector('.plus-minus');
 
-  // Smooth scroll for sidebar links
-  document.addEventListener('DOMContentLoaded', function() {
-    const scrollLinks = document.querySelectorAll('[data-scroll-to]');
-    scrollLinks.forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('data-scroll-to');
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-  });
+    if (answer.style.display === 'block') {
+      answer.style.display = 'none';
+      faqItem.classList.remove('open');
+      if (icon) icon.textContent = '+';
+    } else {
+      answer.style.display = 'block';
+      faqItem.classList.add('open');
+      if (icon) icon.textContent = '-';
+    }
+  }
 </script>
 
 <style>
-  .faq-section {
-    background: var(--section-bg);
-    padding-top: var(--section-spacing-top);
-    padding-bottom: var(--section-spacing-bottom);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .faq-section.has-bg-img::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: var(--bg-image);
-    background-size: cover;
-    background-position: center;
-    z-index: 0;
-  }
-
-  .faq-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--overlay-color);
-    z-index: 1;
-  }
-
-  .faq-section > .page-width,
-  .faq-section > .container-fluid {
-    position: relative;
-    z-index: 2;
-  }
-
-  /* Header */
-  .faq-header {
-    margin-bottom: 50px;
-  }
-
-  .faq-main-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--title-color);
-    margin-bottom: 15px;
-    line-height: 1.2;
-  }
-
-  .faq-subtitle {
-    font-size: 1.1rem;
-    color: var(--answer-color);
-    opacity: 0.8;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  /* Layout */
-  .faq-layout {
-    display: flex;
-    gap: 50px;
-    align-items: flex-start;
-  }
-
-  .faq-layout.has-sidebar {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-  }
-
-  .faq-content-wrapper {
-    flex: 1;
-    display: flex;
-    gap: 40px;
-  }
-
-  .faq-main {
-    flex: 1;
-    max-width: var(--faq-max-width);
-  }
-
-  .faq-main.has-form {
-    max-width: 100%;
-  }
-
-  /* Sidebar Navigation */
-  .faq-sidebar {
-    position: sticky;
-    top: 100px;
-  }
-
-  .faq-nav {
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid var(--border-color);
-  }
-
-  .faq-nav-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    color: var(--question-color);
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
-
-  .faq-nav-link:hover {
-    background: rgba(0, 0, 0, 0.05);
-    transform: translateX(5px);
-  }
-
-  .link-icon {
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .faq-nav-link:hover .link-icon {
-    opacity: 1;
-  }
-
-  /* FAQ List */
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-
-  /* FAQ Item */
   .faq-item {
-    border-bottom: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    border-bottom: 1px solid {% unless request.path contains '/collections/women' or template contains 'girls_collections' %}
+        var(--bdr)
+    {% else %}
+       #d9d9d9
+    {% endunless %};
+    padding: 15px 0;
   }
+  .faq-cc .em_fancy {
+      -webkit-text-stroke: 1px {{section_st.tcl}};
+      -webkit-text-fill-color: transparent;}
+.faq-cc .sec-ttl .sbttl {
+    color: {% unless request.path contains '/collections/women' or template contains 'girls_collections' %}
+        {{ section_st.tcl }}
+    {% else %}
+       #222 
+    {% endunless %};
+}
 
-  .faq-item:last-child {
-    border-bottom: none;
-  }
-
-  .faq-question-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 0;
+.faq-question {
     cursor: pointer;
-    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: {% unless request.path contains '/collections/women' or template contains 'girls_collections' %}var(--qcl){% else %}#222{% endunless %};
+    font-size: var(--qfs);
+    font-weight: var(--qfw);
+}
+
+
+  .faq-answer {
+    display: none;
+    padding-top: 15px;
+    color: var(--cl);
+    font-size: var(--fs);
   }
 
-  .faq-item.is-static .faq-question-wrapper {
+  .no-accor .faq-question {
     cursor: default;
   }
 
-  .faq-question {
-    color: var(--question-color);
-    font-size: var(--question-font-size);
-    font-weight: {{ section_st.fw }};
-    margin: 0;
-    line-height: 1.4;
-    flex: 1;
-    transition: color 0.3s ease;
+  .no-accor .faq-answer {
+    display: block !important;
   }
 
-  .faq-item:not(.is-static):hover .faq-question {
-    color: var(--title-color);
+  .faq-icon {
+    font-size: 18px;
+    font-weight: bold;
   }
 
-  /* Toggle Icon */
-  .faq-toggle {
-    flex-shrink: 0;
-    width: 28px;
-    height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
+  .faq-title h3 {
+    margin: 20px 0 10px 0;
   }
 
-  .faq-item.is-open .faq-toggle {
-    background: var(--question-color);
-    color: white;
-  }
-
-  .toggle-plus-minus::before {
-    content: '+';
-    font-size: 20px;
-    font-weight: 300;
-    transition: transform 0.3s ease;
-  }
-
-  .faq-item.is-open .toggle-plus-minus::before {
-    content: '−';
-  }
-
-  .toggle-icon {
-    transition: transform 0.3s ease;
-  }
-
-  .faq-item.is-open .toggle-icon {
-    transform: rotate(180deg);
-  }
-
-  /* Answer */
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .faq-answer.is-visible {
-    max-height: 2000px;
-  }
-
-  .faq-answer-content {
-    padding-bottom: 20px;
-    color: var(--answer-color);
-    font-size: var(--answer-font-size);
-    line-height: 1.7;
-  }
-
-  /* Category */
-  .faq-category {
-    margin: 40px 0 20px;
-  }
-
-  .faq-category:first-child {
-    margin-top: 0;
-  }
-
-  .faq-category-inner {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .faq-category-icon {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .faq-category-title {
-    font-size: {{ section_st.tfs }}px;
-    font-weight: {{ section_st.tfw }};
-    color: var(--title-color);
-    margin: 0;
-  }
-
-  /* Spacer */
-  .faq-spacer.has-border {
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  /* Form Sidebar */
-  .faq-form-sidebar {
-    width: 350px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 100px;
-  }
-
-  /* Mobile Styles */
   @media (max-width: 768px) {
-    .faq-section {
-      padding-top: var(--section-spacing-top-mobile);
-      padding-bottom: var(--section-spacing-bottom-mobile);
-    }
-
-    .faq-main-title {
-      font-size: 2rem;
-    }
-
-    .faq-subtitle {
-      font-size: 1rem;
-    }
-
-    .faq-layout.has-sidebar {
-      grid-template-columns: 1fr;
-    }
-
-    .faq-sidebar {
-      position: static;
-      order: 2;
-    }
-
-    .faq-content-wrapper {
-      flex-direction: column;
-    }
-
-    .faq-form-sidebar {
-      width: 100%;
-      position: static;
-    }
-
     .faq-question {
-      font-size: var(--question-font-size-mobile);
+      font-size: var(--qfsm);
     }
 
-    .faq-answer-content {
-      font-size: var(--answer-font-size-mobile);
+    .faq-answer {
+      font-size: var(--fsm);
     }
 
-    .faq-category-title {
-      font-size: {{ section_st.tfsm }}px;
-    }
-
-    .faq-header {
-      margin-bottom: 30px;
-    }
-
-    .faq-layout {
-      gap: 30px;
-    }
-  }
-
-  /* Visibility Classes */
-  @media (max-width: 768px) {
-    .hide-sm {
-      display: none !important;
-    }
-  }
-
-  @media (min-width: 769px) {
-    .hide-md,
-    .hide-lg {
-      display: none !important;
+    .faq-title h3 {
+      font-size: var(--tfsm) !important;
     }
   }
 </style>
 
 {% schema %}
 {
-  "name": "Modern FAQ Section",
+  "name": "FAQ",
   "disabled_on": {
     "groups": ["header", "footer", "custom.overlay"]
   },
   "settings": [
     {
-      "type": "header",
-      "content": "Section Header"
-    },
-    {
       "type": "text",
       "id": "title",
-      "label": "Heading",
-      "default": "Frequently Asked Questions"
+      "label": "Heading"
     },
     {
       "type": "textarea",
       "id": "subtitle",
-      "label": "Subheading",
-      "default": "Find answers to common questions about our products and services"
+      "label": "Sub heading",
+      "default": "Provides answers to a list of typical questions that users might ask"
     },
-    {
-      "type": "header",
-      "content": "Layout Settings"
+        {
+      "type": "checkbox",
+      "id": "enable_small_card",
+      "label": "Enable 50% For Home Screen",
+      "default": true,
+      "info": "Only Work for Home Screen Dont Touch"
     },
     {
       "type": "checkbox",
-      "id": "sw",
-      "label": "Full width container",
-      "default": false
+      "id": "enable_faq_only",
+      "label": "Dont Touch FAQ Divider",
+      "default": true,
+      "info": "FAQ Important"
+    },
+    
+    {
+      "type": "select",
+      "id": "italic_font_selection",
+      "label": "Fancy Font Selection",
+      "info": "Choose which font to use for the italic outline effect",
+      "options": [
+        {
+          "value": "primary",
+          "label": "Primary Font"
+        },
+        {
+          "value": "alternative",
+          "label": "Alternative Font"
+        },
+        {
+          "value": "secondary",
+          "label": "Secondary Font"
+        }
+      ],
+      "default": "primary"
     },
     {
       "type": "range",
       "id": "page_width",
-      "label": "FAQ content max width",
-      "default": 900,
+      "label": "FAQ's Max width",
+      "default": 1000,
       "min": 600,
-      "max": 1400,
-      "step": 50,
+      "max": 2000,
+      "step": 20,
       "unit": "px"
     },
     {
       "type": "header",
-      "content": "Accordion Settings"
+      "content": "FAQ Design ==="
     },
     {
       "type": "checkbox",
       "id": "accor",
-      "label": "Enable accordion",
-      "default": true,
-      "info": "When enabled, only one FAQ can be open at a time"
+      "label": "Enable accordion?",
+      "default": false
     },
     {
       "type": "select",
       "id": "acc_style",
-      "label": "Toggle icon style",
+      "label": "Icons",
       "default": "1",
       "options": [
         {
@@ -612,35 +347,39 @@
         },
         {
           "value": "2",
-          "label": "Arrow"
+          "label": "Up/Down Arrows"
         }
       ]
     },
     {
-      "type": "header",
-      "content": "Category Titles"
+      "type": "paragraph",
+      "content": "----------------------------------------------"
+    },
+    {
+      "type": "paragraph",
+      "content": "Titles ==="
     },
     {
       "type": "color",
       "id": "tcl",
       "label": "Color",
-      "default": "#000000"
+      "default": "#222222"
     },
     {
       "type": "range",
       "id": "tfs",
-      "min": 16,
-      "max": 48,
+      "min": 10,
+      "max": 100,
       "step": 1,
       "label": "Font size",
       "unit": "px",
-      "default": 24
+      "default": 22
     },
     {
       "type": "range",
       "id": "tfsm",
-      "min": 14,
-      "max": 36,
+      "min": 9,
+      "max": 100,
       "step": 1,
       "label": "Font size (mobile)",
       "unit": "px",
@@ -652,41 +391,61 @@
       "label": "Font weight",
       "default": "600",
       "options": [
-        {"value": "400", "label": "Regular"},
-        {"value": "500", "label": "Medium"},
-        {"value": "600", "label": "Semi Bold"},
-        {"value": "700", "label": "Bold"}
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
       ]
     },
     {
-      "type": "header",
-      "content": "Questions"
+      "type": "paragraph",
+      "content": "----------------------------------------------"
+    },
+    {
+      "type": "paragraph",
+      "content": "Questions ==="
     },
     {
       "type": "color",
       "id": "qu",
       "label": "Color",
-      "default": "#333333"
+      "default": "#444"
     },
     {
       "type": "range",
       "id": "fs",
-      "min": 12,
-      "max": 28,
+      "min": 10,
+      "max": 40,
       "step": 1,
       "label": "Font size",
       "unit": "px",
-      "default": 16
+      "default": 14
     },
     {
       "type": "range",
       "id": "fsm",
-      "min": 12,
-      "max": 24,
+      "min": 10,
+      "max": 40,
       "step": 1,
       "label": "Font size (mobile)",
       "unit": "px",
-      "default": 15
+      "default": 14
     },
     {
       "type": "select",
@@ -694,27 +453,84 @@
       "label": "Font weight",
       "default": "600",
       "options": [
-        {"value": "400", "label": "Regular"},
-        {"value": "500", "label": "Medium"},
-        {"value": "600", "label": "Semi Bold"},
-        {"value": "700", "label": "Bold"}
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
       ]
     },
     {
-      "type": "header",
-      "content": "Answers"
+      "type": "paragraph",
+      "content": "----------------------------------------------"
+    },
+    {
+      "type": "paragraph",
+      "content": "Answers ==="
     },
     {
       "type": "color",
       "id": "an",
       "label": "Color",
-      "default": "#666666"
+      "default": "#444"
     },
     {
       "type": "range",
       "id": "fst",
-      "min": 12,
-      "max": 20,
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "label": "Font size",
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "fsmt",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "label": "Font size (mobile)",
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "color",
+      "id": "bdr",
+      "label": "Borders",
+      "default": "#eee"
+    },
+    {
+      "type": "header",
+      "content": "Link List ==="
+    },
+    {
+      "type": "checkbox",
+      "id": "links",
+      "label": "Enable?",
+      "default": false,
+      "info": "show for faq's titles"
+    },
+    {
+      "type": "range",
+      "id": "lfs",
+      "min": 10,
+      "max": 40,
       "step": 1,
       "label": "Font size",
       "unit": "px",
@@ -722,50 +538,97 @@
     },
     {
       "type": "range",
-      "id": "fsmt",
-      "min": 12,
-      "max": 18,
+      "id": "lfsm",
+      "min": 10,
+      "max": 40,
       "step": 1,
       "label": "Font size (mobile)",
       "unit": "px",
       "default": 14
     },
     {
+      "type": "select",
+      "id": "lfw",
+      "label": "Font weight",
+      "default": "600",
+      "options": [
+        {
+          "value": "300",
+          "label": "Light"
+        },
+        {
+          "value": "400",
+          "label": "Regular"
+        },
+        {
+          "value": "500",
+          "label": "Medium"
+        },
+        {
+          "value": "600",
+          "label": "Semi Bold"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "lcl",
+      "label": "Color",
+      "default": "#444"
+    },
+    {
+      "type": "color",
+      "id": "lclh",
+      "label": "Hover Color",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "lbg",
+      "label": "Background",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "lbd",
+      "label": "Border",
+      "default": "#eee"
+    },
+    {
       "type": "header",
-      "content": "Sidebar Links"
+      "content": "Section Design ==="
     },
     {
       "type": "checkbox",
-      "id": "links",
-      "label": "Enable sidebar navigation",
-      "default": false,
-      "info": "Shows navigation links for FAQ categories"
-    },
-    {
-      "type": "header",
-      "content": "Design"
+      "id": "sw",
+      "label": "Fullwidth?",
+      "default": false
     },
     {
       "type": "color",
       "id": "bg",
-      "label": "Background color",
-      "default": "#ffffff"
+      "label": "Background",
+      "default": "#fff"
     },
     {
       "type": "color_background",
       "id": "bgg",
-      "label": "Background gradient"
+      "label": "Gradient Background"
     },
     {
       "type": "image_picker",
       "id": "bgimg",
-      "label": "Background image"
+      "label": "Background Image"
     },
     {
       "type": "color",
       "id": "overlay",
-      "label": "Image overlay color",
-      "default": "#000000"
+      "label": "Image Overlay",
+      "default": "#3d4246"
     },
     {
       "type": "range",
@@ -773,195 +636,600 @@
       "min": 0,
       "max": 1,
       "step": 0.1,
-      "label": "Overlay opacity",
+      "label": "Overlay Opacity",
+      "unit": "%",
       "default": 0
     },
     {
       "type": "color",
-      "id": "bdr",
-      "label": "Border color",
-      "default": "#e5e5e5"
-    },
-    {
-      "type": "header",
-      "content": "Spacing"
+      "id": "headings_cl",
+      "label": "Text"
     },
     {
       "type": "range",
       "id": "sst",
       "min": 0,
-      "max": 120,
+      "max": 100,
       "step": 5,
-      "label": "Top spacing",
+      "label": "Spacing Top",
       "unit": "px",
-      "default": 60
+      "default": 40
     },
     {
       "type": "range",
       "id": "ssb",
       "min": 0,
-      "max": 120,
+      "max": 100,
       "step": 5,
-      "label": "Bottom spacing",
+      "label": "Spacing Bottom",
       "unit": "px",
-      "default": 60
+      "default": 40
     },
     {
       "type": "range",
       "id": "sstm",
       "min": 0,
-      "max": 80,
+      "max": 100,
       "step": 5,
-      "label": "Top spacing (mobile)",
+      "label": "Spacing Top (mobile)",
       "unit": "px",
-      "default": 40
+      "default": 15
     },
     {
       "type": "range",
       "id": "ssbm",
       "min": 0,
-      "max": 80,
+      "max": 100,
       "step": 5,
-      "label": "Bottom spacing (mobile)",
+      "label": "Spacing Bottom (mobile)",
       "unit": "px",
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "Visibility"
+      "default": 15
     },
     {
       "type": "checkbox",
       "id": "hidem",
-      "label": "Hide on mobile",
+      "label": "Hide on Mobile?",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "hided",
-      "label": "Hide on desktop",
+      "label": "Hide on Desktop?",
       "default": false
     }
   ],
   "blocks": [
     {
       "type": "ttl",
-      "name": "Category Title",
+      "name": "FAQ's Title",
       "settings": [
         {
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "General Questions"
+          "default": "FAQ's Title Text"
         },
-        {
-          "type": "html",
+               {
+          "type": "textarea",
           "id": "content_svg",
-          "label": "Icon SVG (optional)"
+          "label": "SVG Icon",
         }
       ]
     },
     {
       "type": "faqs",
-      "name": "FAQ Item",
+      "name": "FAQs",
       "settings": [
         {
           "type": "text",
           "id": "title",
           "label": "Question",
-          "default": "What is your return policy?"
+          "default": "Is Revone compatible with Shopify Online Store 2.0?"
         },
         {
           "type": "richtext",
           "id": "answer",
           "label": "Answer",
-          "default": "<p>We offer a 30-day return policy on all items. Products must be unused and in their original packaging.</p>"
+          "default": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>"
         },
         {
           "type": "checkbox",
           "id": "open",
-          "label": "Open by default",
+          "label": "Enable auto open?",
           "default": false
         }
       ]
     },
-    {
+          {
       "type": "spacing",
-      "name": "Spacer",
+      "name": "Block",
       "settings": [
-        {
-          "type": "range",
+		{
+          "type": "text",
           "id": "mtt",
-          "min": 0,
-          "max": 80,
-          "step": 5,
-          "label": "Top margin",
-          "unit": "px",
-          "default": 20
+          "label": "Margin Top",
+          "default": "10"
         },
         {
-          "type": "range",
+          "type": "text",
           "id": "mbb",
-          "min": 0,
-          "max": 80,
-          "step": 5,
-          "label": "Bottom margin",
-          "unit": "px",
-          "default": 20
+          "label": "Margin Bottom",
+          "default": "10"
         },
         {
           "type": "checkbox",
           "id": "enable_bb",
-          "label": "Add border",
+          "label": "Enable Bottom Border",
           "default": false
         }
-      ]
-    },
+		]
+		},
     {
       "type": "link",
-      "name": "External Link",
+      "name": "Other Link",
       "settings": [
         {
           "type": "text",
           "id": "title",
-          "label": "Link text",
-          "default": "Contact Support"
+          "label": "Title",
+          "default": "Other Link",
+          "info": "display with link list"
         },
         {
           "type": "url",
           "id": "link",
-          "label": "Link URL"
+          "label": "Link"
         }
       ]
     },
     {
       "type": "newsletter",
       "name": "Newsletter",
-      "limit": 1,
       "settings": [
         {
           "type": "richtext",
           "id": "title",
-          "label": "Heading"
+          "label": "Heading",
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "Subheading",
+          "default": "Sign up to stay in the loop. Receive updates,<br/> access to exclusive deals, and more."
+        },
+        {
+          "type": "paragraph",
+          "content": "Any customers who sign up will have an account created for them in Shopify. [View customers](/admin/customers?query=&accepts_marketing=1)"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Select Style",
+          "default": "1",
+          "options": [
+            { "value": "1", "label": "Style 1" },
+            { "value": "2", "label": "Style 2" },
+            { "value": "3", "label": "Style 3" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Appearance Text ==="
+        },
+        {
+          "type": "range",
+          "id": "fs",
+          "label": "Heading font",
+          "default": 22,
+          "min": 10,
+          "max": 50,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "fsm",
+          "label": "Heading font (mobile)",
+          "default": 18,
+          "min": 10,
+          "max": 50,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "fst",
+          "label": "Subheading font",
+          "default": 14,
+          "min": 10,
+          "max": 30,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "fstm",
+          "label": "Subheading font (mobile)",
+          "default": 13,
+          "min": 10,
+          "max": 30,
+          "step": 1,
+          "unit": "px"
+        },
+        {
+          "type": "color",
+          "id": "cl",
+          "label": "Color",
+          "default": "#000"
+        },
+          {
+          "type": "header",
+          "content": "Appearance Form ==="
+        },
+        {
+          "type": "color",
+          "id": "tf_bg",
+          "label": "Textfield background",
+          "default": "#eee"
+        },
+        {
+          "type": "color",
+          "id": "tf_txt",
+          "label": "Textfield text",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "btncl",
+          "label": "Button text",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "btnbg",
+          "label": "Button background",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "btnclh",
+          "label": "Button hover Text",
+          "default": "#fff"
+        },
+        {
+          "type": "color",
+          "id": "btnbgh",
+          "label": "Button hover background",
+          "default": "#86BBBF"
+        },
+        {
+          "type": "header",
+          "content": "Section Design ==="
+        },
+        {
+          "type": "checkbox",
+          "id": "sw",
+          "label": "Fullwidth?",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "npd",
+          "label": "No Padding?",
+          "default": true,
+          "info": "Remove left/right padding for fullwidth"
+        },
+        {
+          "type": "color",
+          "id": "bg",
+          "label": "Background",
+          "default": "#fff"
+        },
+        {
+          "type": "color_background",
+          "id": "bgg",
+          "label": "Gradient background"
+        },
+        {
+          "type": "image_picker",
+          "id": "bgimg",
+          "label": "Background image"
+        },
+        {
+          "type": "color",
+          "id": "overlay",
+          "label": "Image overlay",
+          "default": "#3d4246"
+        },
+        {
+          "type": "range",
+          "id": "overlay_op",
+          "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "Overlay opacity",
+          "unit": "%",
+          "default": 0
+        },
+        {
+          "type": "color",
+          "id": "headings_cl",
+          "label": "Text"
+        },
+        {
+          "type": "range",
+          "id": "sst",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Spacing top",
+          "unit": "px",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "ssb",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Spacing bottom",
+          "unit": "px",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "sstm",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Spacing top (mobile)",
+          "unit": "px",
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "ssbm",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "label": "Spacing bottom (mobile)",
+          "unit": "px",
+          "default": 15
+        },
+        {
+          "type": "checkbox",
+          "id": "hidem",
+          "label": "Hide on mobile?",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hided",
+          "label": "Hide on desktop?",
+          "default": false
         }
       ]
     },
     {
-      "type": "contact_form",
-      "name": "Contact Form",
-      "limit": 1,
-      "settings": [
+		"type": "contact_form",
+        "name": "Contact",
+        "limit":1,
+        "settings": 
+      [
+ {
+        "type": "richtext",
+        "id": "title",
+        "label": "Heading",
+      },
+      {
+        "type": "richtext",
+        "id": "details",
+        "label": "Sub Heading"
+      },      
+      {
+            "type": "range",
+            "id": "page_width",
+            "label": "Container Width",
+            "default": 1000,
+            "min": 700,
+            "max": 1800,
+            "step": 100,
+            "unit": "px"
+       },   
+      {
+          "type": "select",
+          "id": "layout",
+          "label": "Select Style",
+          "default": "1",
+          "options": [
+            {
+            "value": "1",
+            "label": "Style 1"
+            },        
+            {
+            "value": "2",
+            "label": "Style 2"
+            }
+          ]
+       },   
+      {
+          "type": "checkbox",
+          "id": "show_phone",
+          "label": "Hide phone?",
+          "default":false
+      },
+      {
+          "type": "checkbox",
+          "id": "show_subject",
+          "label": "Hide subject?",
+          "default":false
+      },
+      {
+            "type": "select",
+            "id": "btn-style",
+            "label": "Button design",
+            "default": "btn1",
+            "options": [
+            {
+              "label": "Button 1",
+              "value": "btn1"
+            },
+            {
+              "label": "Button 2",
+              "value": "btn2"
+            },
+            {
+              "label": "Button 3",
+              "value": "btn3"
+            },
+            {
+              "label": "Button 4",
+              "value": "btn4"
+            },
+           {
+              "label": "Button 5",
+              "value": "btn5"
+            },
+            {
+              "label": "Button 6",
+              "value": "btn6"
+            },
+             {
+                      "label": "Button 7 Gradient",
+                      "value": "btn7"
+                  },
+                  {
+                      "label": "Button 8 Gradient",
+                      "value": "btn8"
+                  },
+            {
+              "label": "Link",
+              "value": "btnLink"
+            }  
+          ]
+       },
+      {
+            "type": "header",
+            "content": "Section Design ==="
+        },      
         {
-          "type": "richtext",
-          "id": "title",
-          "label": "Heading"
+            "type": "color",
+            "id": "bg",
+            "label": "Background",
+            "default":"#fff"	
+        },
+                {
+            "type": "color",
+            "id": "color_fill",
+            "label": "SVG Color",
+            "default":"#fff"	
+        },
+        {
+            "type": "color_background",
+            "id": "bgg",
+            "label": "Gradient background"
+        },	
+        {
+            "type": "image_picker",
+            "id": "bgimg",
+            "label": "Background image"
+          }, 
+        {
+            "type": "color",
+            "id": "overlay",
+            "label": "Image overlay",
+            "default": "#3d4246"
+        },
+        {
+            "type": "range",
+            "id": "overlay_op",
+            "min": 0,
+            "max": 1,
+            "step": 0.1,
+            "label": "Overlay opacity",
+            "unit": "%",
+            "default": 0
+        },
+       {
+            "type": "color",
+            "id": "headings_cl",
+            "label": "Text"
+        },
+		{
+			"type": "range",
+			"id": "sst",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing top",
+			"unit": "px",
+			"default":40
+        },
+		{
+			"type": "range",
+			"id": "ssb",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing bottom",
+			"unit": "px",
+			"default":40
+        },		
+		{
+			"type": "range",
+			"id": "sstm",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing top (mobile)",
+			"unit": "px",
+			"default":15
+        },
+		{
+			"type": "range",
+			"id": "ssbm",
+			"min": 0,
+			"max": 100,
+			"step": 5,
+			"label": "Spacing bottom (mobile)",
+			"unit": "px",
+			"default":15
+        },
+         {
+            "type": "checkbox",
+            "id": "hidem",
+            "label": "Hide on mobile?",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "hided",
+            "label": "Hide on desktop?",
+            "default": false
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Modern FAQ",
+      "name": "FAQs",
+      "blocks": [
+        {
+          "type": "faqs"
+        },
+        {
+          "type": "faqs"
+        },
+        {
+          "type": "faqs"
+        },
+        {
+          "type": "newsletter"
+        },
+        {
+          "type": "contact_form"
+        }
+      ]
     }
   ]
 }
