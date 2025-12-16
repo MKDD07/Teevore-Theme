@@ -857,7 +857,7 @@
             "title": "Big Sale",
             "subtitle": "Get up to 50% off your favorite styles — only for a limited time!",
             "link_url": "",
-            "overlay_background": "#F0E1D5",
+            "overlay_background": "#f0e1d5",
             "title_color": "#333333",
             "subtitle_color": "#666666"
           }
@@ -895,7 +895,7 @@
       "name": "Image Grid with Text Overlay",
       "settings": {
         "desktop_columns": 3,
-        "sticky_mobile": true
+        "sticky_mobile": false
       }
     },
     "product_slider_wgByjd": {
