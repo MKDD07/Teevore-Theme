@@ -1467,6 +1467,83 @@
         "animate_delay_increment": 30
       }
     },
+    "images_with_text_ebJcnF": {
+      "type": "images-with-text",
+      "blocks": {
+        "text_3px67P": {
+          "type": "text",
+          "settings": {
+            "ttl": "<h3><em>Confident & Casual</em></h3>",
+            "htag": "h2",
+            "tff": "kug",
+            "fs": 24,
+            "fsm": 18,
+            "fw": "700",
+            "lh": 1.6,
+            "cl": "#000",
+            "mb": 15
+          }
+        },
+        "text_wieVmL": {
+          "type": "text",
+          "settings": {
+            "ttl": "<p>Find your everyday comfort with our premium, ultra-soft tees designed for effortless style.</p>",
+            "htag": "p",
+            "tff": "kug",
+            "fs": 14,
+            "fsm": 14,
+            "fw": "300",
+            "lh": 1.4,
+            "cl": "#000",
+            "mb": 25
+          }
+        },
+        "button_bCFWyR": {
+          "type": "button",
+          "settings": {
+            "btntxt": "SHOP NOW",
+            "url": "shopify://collections",
+            "newtab1": false,
+            "btntxt1": "",
+            "url1": "",
+            "newtab2": false,
+            "btn-style": "btn1",
+            "btn-style1": "btn1",
+            "btn-size": "btn-md",
+            "mb": 30
+          }
+        }
+      },
+      "block_order": [
+        "text_3px67P",
+        "text_wieVmL",
+        "button_bCFWyR"
+      ],
+      "name": "Images Collage with Text",
+      "settings": {
+        "image1": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
+        "image2": "shopify://shop_images/flux-pro-2.0_A_male_model_in_casual_streetwear_standing_on_a_rural_dirt_pathway_at_sunset_wea-0.jpg",
+        "style": "3",
+        "brad": 10,
+        "img_width": 60,
+        "order": "order0",
+        "maxwd": 400,
+        "lefta": true,
+        "v_pos": "f-aic",
+        "sw": false,
+        "npd": false,
+        "bg": "#fff",
+        "bgg": "",
+        "overlay": "#000",
+        "overlay_op": 0,
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 25,
+        "ssbm": 25,
+        "hidem": false,
+        "hided": false
+      }
+    },
     "section_banner_EHNaci": {
       "type": "section-banner",
       "blocks": {
@@ -1904,6 +1981,7 @@
     "scroling_text_nhJEGa",
     "product_slider_yQdtpy",
     "scroll_section_banner_f9QHWg",
+    "images_with_text_ebJcnF",
     "section_banner_EHNaci",
     "background_video_v2_qUMgyG",
     "instagram_rich_text_h6pNwj",
