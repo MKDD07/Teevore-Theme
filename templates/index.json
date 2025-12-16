@@ -1520,7 +1520,7 @@
         "button_bCFWyR"
       ],
       "custom_css": [
-        "p{font-family: 'ITC Avant Garde';}"
+        "p {font-family: \"ITC Avant Garde\";}"
       ],
       "name": "Images Collage with Text",
       "settings": {
@@ -1545,99 +1545,6 @@
         "ssbm": 25,
         "hidem": false,
         "hided": false
-      }
-    },
-    "section_banner_EHNaci": {
-      "type": "section-banner",
-      "blocks": {
-        "media_ygnGyx": {
-          "type": "media",
-          "settings": {
-            "media_type": "image",
-            "direction": "row",
-            "image": "shopify://shop_images/flux-pro-2.0_A_male_model_in_casual_streetwear_standing_on_a_rural_dirt_pathway_at_sunset_wea-0.jpg",
-            "video_source": "youtube",
-            "video_url": "",
-            "media_fit": "cover",
-            "media_position": "top",
-            "video_aspect_ratio": 55,
-            "media_height": 900,
-            "media_height_tablet": 600,
-            "media_height_mobile": 300,
-            "subheading": "",
-            "heading": "<h3><em>Confident & Casual</em></h3>",
-            "text": "<p>Find your everyday comfort with our premium, ultra-soft tees designed for effortless style.</p>",
-            "text_align": "left",
-            "content_padding": 40,
-            "content_padding_tablet": 30,
-            "content_padding_mobile": 20,
-            "btntxt": "Shop Now",
-            "url": "",
-            "newtab": false,
-            "btn_size": "btn-md",
-            "btn_style": "btnLink"
-          }
-        },
-        "media_FgQM6X": {
-          "type": "media",
-          "settings": {
-            "media_type": "image",
-            "direction": "row-reverse",
-            "image": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
-            "video_source": "youtube",
-            "video_url": "https://www.youtube.com/watch?v=gapBX5mlCjU",
-            "media_fit": "cover",
-            "media_position": "top",
-            "video_aspect_ratio": 60,
-            "media_height": 900,
-            "media_height_tablet": 600,
-            "media_height_mobile": 400,
-            "subheading": "",
-            "heading": "<h2><em>Made for Every Moment</em></h2>",
-            "text": "<p>Light, breathable t-shirts built for comfort, confidence, and all-day wear.</p>",
-            "text_align": "left",
-            "content_padding": 40,
-            "content_padding_tablet": 30,
-            "content_padding_mobile": 20,
-            "btntxt": "",
-            "url": "",
-            "newtab": false,
-            "btn_size": "btn-md",
-            "btn_style": "btnLink"
-          }
-        }
-      },
-      "block_order": [
-        "media_ygnGyx",
-        "media_FgQM6X"
-      ],
-      "custom_css": [
-        ".btnLink {width: fit-content;}"
-      ],
-      "name": "Section Banner",
-      "settings": {
-        "sw": true,
-        "npd": true,
-        "italic_fancy_font": true,
-        "italic_outline": false,
-        "italic_font_selection": "secondary",
-        "media_radius": "",
-        "media_radius_mobile": "25px",
-        "bg": "#ffffff",
-        "bgg": "",
-        "overlay": "#222222",
-        "overlay_op": 0.5,
-        "rounded": 15,
-        "section_padding": "",
-        "section_margin": "72px 0px 0px",
-        "blocks_gap": 0,
-        "sst": 36,
-        "ssb": 0,
-        "sstm": 20,
-        "ssbm": 0,
-        "hidem": false,
-        "hided": false,
-        "section_link": ""
       }
     },
     "background_video_v2_qUMgyG": {
@@ -1985,7 +1892,6 @@
     "product_slider_yQdtpy",
     "scroll_section_banner_f9QHWg",
     "images_with_text_ebJcnF",
-    "section_banner_EHNaci",
     "background_video_v2_qUMgyG",
     "instagram_rich_text_h6pNwj",
     "175396395790ca3829",
