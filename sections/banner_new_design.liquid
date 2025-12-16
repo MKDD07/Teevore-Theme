@@ -152,10 +152,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    backdrop-filter: saturate(180%) blur(20px);
-    opacity: 100%;
+filter: blur(2px);    opacity: 70%;
     bottom: 20px;
-    border-radius: 15px;
+    border-radius: 15px; background: #fff;
+
 }
 .image-grid-item:hover .image-overlay, .image-grid-item:hover .image-overlay-title {
     background-color: #222; /* dark background on hover */
@@ -164,18 +164,6 @@
 }
 
 .image-overlay::before {
-
-    content: "";
-    display: flex;
-    /* Fixed background syntax with alpha */
-    background: rgb(var(--color-box-background-block, 255, 255, 255) / 0.6);
-    border-radius: max(calc(var(--custom-image-radius, var(--radius, 10px)) - 10px), 0px);
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
     transition: background-color 0.4s ease, color 0.4s ease; /* smooth transition */
 }
 
