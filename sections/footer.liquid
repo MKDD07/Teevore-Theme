@@ -345,7 +345,7 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
     {% else %}
     <div class="flex-container fl">
       {% if block_st.image1 %}
-      <div class="image-wrapper pr mb15 {% if block_st.image2 %}mr15{% endif %}" style="flex: 1;">
+      <div class="image-wrapper pr mb15 {% if block_st.image2 %}mr15{% endif %}" style="flex: 1; height: max-content;">
         {% if block_st.url1 != blank %}<a target="_blank" href="{{ block_st.url1 }}">{% endif %}
         <img src="{{ block_st.image1 | image_url: width: 700 }}" alt="{{ block_st.image1.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
         {% if block_st.url1 != blank %}</a>{% endif %}       <div class="pa pard">
@@ -359,7 +359,7 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
       {% endif %}
 
       {% if block_st.image2 %}
-      <div class="image-wrapper pr mb15" style="flex: 1;">
+      <div class="image-wrapper pr mb15" style="flex: 1;height: max-content;">
         {% if block_st.url2 != blank %}<a target="_blank" href="{{ block_st.url2 }}">{% endif %}
         <img src="{{ block_st.image2 | image_url: width: 700 }}" alt="{{ block_st.image2.alt }}" loading="lazy" class="imgFl glitch-image" style="max-width: 100%;">
         {% if block_st.url2 != blank %}</a>{% endif %}
