@@ -147,6 +147,8 @@
           "settings": {
             "hidem": false,
             "socials": true,
+            "enable_newsletter": true,
+            "news_txt": "",
             "socttl": "Stay Connected",
             "title": "",
             "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
@@ -244,6 +246,8 @@
           "settings": {
             "hidem": false,
             "socials": true,
+            "enable_newsletter": true,
+            "news_txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
             "socttl": "Stay Connected",
             "title": "About Us",
             "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
@@ -280,6 +284,8 @@
           "settings": {
             "hidem": false,
             "socials": false,
+            "enable_newsletter": true,
+            "news_txt": "",
             "socttl": "",
             "title": "",
             "txt": "",
