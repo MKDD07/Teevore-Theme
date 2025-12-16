@@ -401,9 +401,10 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
     {% render 'social-media' %}
   </div>  {% if block.settings.enable_newsletter %}
               <div class="footer-col footer-newsletter" {{ block.shopify_attributes }}>
+                
                                 {% render 'newsletter-form', verticle:true %}
 
-
+{% if block_st.txt != blank %}<p>{{ block_st.news_txt }}</p>{% endif %}
             </div>
           {% endif %}
   {% endif %}
@@ -498,7 +499,6 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
                                     </div>
                                 {% endif %}
                                 {% if block_st.rich_txt != blank %}{{ block_st.rich_txt }}{% endif %}
-
                             </div>                  
                         </div>
                     {% when 'image_card' %}
@@ -1313,6 +1313,11 @@ background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%
       "id": "enable_newsletter",
       "label": "Show New Letter",
       "default": true
+    },
+            {
+      "type": "text",
+      "id": "news_txt",
+      "label": "Newsletter Description"
     },
     {
       "type": "text",
