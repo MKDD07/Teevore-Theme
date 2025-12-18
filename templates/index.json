@@ -396,12 +396,12 @@
             "grid_position": "1",
             "grid_alignment": "center",
             "cl": "#666666",
-            "fs": 20,
+            "fs": 24,
             "fsm": 18,
             "fw": 500,
             "lh": 1.3,
             "mb": 15,
-            "tff": "font1"
+            "tff": ""
           }
         },
         "heading_bWTwpy": {
