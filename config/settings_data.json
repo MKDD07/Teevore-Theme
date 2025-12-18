@@ -330,7 +330,7 @@
     "snow_style": "style1",
     "sn-product": true,
     "product_btn_video": "https://cdn.shopify.com/videos/c/o/v/750d676ebe6a4a5d9041961d033f03de.mp4",
-    "enable_fancy_font": false,
+    "enable_fancy_font": true,
     "enable_stroke": false,
     "fancy_font": "secondary",
     "font_face_family": "Whispering",
