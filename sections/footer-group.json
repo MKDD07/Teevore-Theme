@@ -102,7 +102,7 @@
         "text_r49fhJ": {
           "type": "text",
           "settings": {
-            "text": "<em>Teevore</em>",
+            "text": "Teevore",
             "outline": true
           }
         }
@@ -112,12 +112,12 @@
       ],
       "name": "Scrolling Text",
       "settings": {
-        "ff": "ft1",
+        "ff": "ft3",
         "rotate_enable": false,
         "rotate_deg": 2,
         "fs": 144,
         "fsm": 95,
-        "fw": "300",
+        "fw": "500",
         "cl": "#ffffff",
         "space": 100,
         "icon": "none",
