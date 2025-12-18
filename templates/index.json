@@ -395,13 +395,13 @@
             "subheading": "More Than Clothes",
             "grid_position": "1",
             "grid_alignment": "center",
-            "cl": "#666666",
-            "fs": 20,
+            "cl": "#222222",
+            "fs": 32,
             "fsm": 16,
-            "fw": 500,
+            "fw": 900,
             "lh": 1,
             "mb": 0,
-            "tff": ""
+            "tff": "ft2"
           }
         },
         "heading_bWTwpy": {
