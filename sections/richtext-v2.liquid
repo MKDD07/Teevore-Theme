@@ -146,7 +146,7 @@ grid-row: auto !important;
           <div class="richtext-column fl f-col grid-item grid-pos-{{ blk_st.grid_position | default: 1 }} grid-align-{{ blk_st.grid_alignment | default: 'center' }} {% if section_st.enable_left_border %}has-left-border{% endif %}">
             {% case block.type %}
               {% when 'heading' %}
-                <h1 class="kug {{ blk_st.tff }} {{ section_st.tagg }}" {{ block.shopify_attributes }} style="--cl:{{ blk_st.cl | default: '#333333' }}; --lh:{{ blk_st.lh | default: 1.2 }};--mb:{{ blk_st.mb | default: 20 }}px;">
+                <h1 class="{{ blk_st.tff }} {{ section_st.tagg }}" {{ block.shopify_attributes }} style="--cl:{{ blk_st.cl | default: '#333333' }}; --lh:{{ blk_st.lh | default: 1.2 }};--mb:{{ blk_st.mb | default: 20 }}px;">
                   {{ blk_st.heading }}
                 </h1>
               {% when 'subheading' %}
