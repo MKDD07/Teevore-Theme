@@ -87,7 +87,7 @@
         assign banner_imgm = bs.bg_imagem
         assign banner_imgm_srcset = banner_imgm | image_url: width: banner_imgm.width | image_tag: widths: '360,480,760' | split: 'srcset="' | last | split: '"' | first
     -%}
-    <picture class="overlay pa all0 of_hidden brad prlxImg" style="--rounded:{{ bs.ibrad }}px;--ipos:{{ bs.image.presentation.focal_point | default: 'bottom center' }};" data-u-scale="1.3">
+    <picture class="overlay pa all0 of_hidden brad prlxImg scroll-trigger zoomIn" style="--rounded:{{ bs.ibrad }}px;--ipos:{{ bs.image.presentation.focal_point | default: 'bottom center' }};" data-u-scale="1.3">
         {% if bs.bg_imagem != blank %}
             <source media="(max-width: 767px)" srcset="{{ banner_imgm_srcset }}" width="{{ banner_imgm.width }}" height="{{ banner_imgm.height }}">
         {% endif %}
