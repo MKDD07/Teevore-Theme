@@ -3,7 +3,7 @@
 {% style %}
 .richtext-container {
 display: grid;
-background-image: url("{{section.settings.block.image}}");  background-size: cover;
+background-image: url("{{section.settings.block_image}}");  background-size: cover;
   background-position: center;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -248,6 +248,11 @@ grid-row: auto !important;
         }
       ],
       "default": "2"
+    },
+    {
+    "type": "image_picker",
+    "id": "block_image",
+    "label": "Background Image For Text Clipping"
     },
     {
       "type": "range",
