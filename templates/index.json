@@ -967,7 +967,7 @@
         "parallax_content_cdpCdP": {
           "type": "parallax_content",
           "settings": {
-            "bg_image": "shopify://shop_images/Lucid_Origin_A_confident_young_man_wearing_a_plain_white_tshir_2.jpg",
+            "bg_image": "shopify://shop_images/Lucid_Origin_A_modern_fashion_editorial_photo_of_a_single_youn_1.jpg",
             "heading": "{{ block.settings.collection.title }}",
             "subheading": "<p>Comfortable, everyday T-shirts that fit effortlessly into your style.</p>",
             "show_view_all": "View All",
