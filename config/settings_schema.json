@@ -937,7 +937,7 @@
         "label": "H1 Font Size",
         "default": 32,
         "min": 10,
-        "max": 100,
+        "max": 200,
         "step": 2,
         "unit": "px"
       },
