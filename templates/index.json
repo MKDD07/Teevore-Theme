@@ -577,7 +577,7 @@
       "name": "Frontline",
       "settings": {
         "title": "{{ section.settings.collection.title }}",
-        "background_image": true,
+        "background_image": false,
         "subtitle": "Explore the latest trends and timeless classics",
         "align_items": "start",
         "justify_content": "start",
