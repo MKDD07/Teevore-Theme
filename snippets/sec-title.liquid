@@ -60,12 +60,51 @@
   </div>
 {%- endif -%}
 {% style %}
-  .bgd{
-  background: #222;position:absolute;width:100%; height: 100%;z-index:-1;
-  }
-.teevore em::before{
-  content:"";
-  background: {{settings.color_text}};position:absolute;width:100%; height: 100%;z-index:-1;
+.teevore em {
+  font-style: normal;
+  position: relative;
+  color: {{settings.color_bg_text}};
+  display: inline-block;
+  overflow: hidden;
 }
-.teevore em {font-style: normal;position:relative;color:{{settings.color_bg_text}};}
+
+.teevore em::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0; /* start at 0 */
+  height: 100%;
+  background: {{settings.color_text}};
+  z-index: -1;
+  transition: width 0.8s ease-in-out;
+}
+
+/* Active when in viewport */
+.teevore em.in-view::before {
+  width: 100%;
+}
+
 {% endstyle %}
+{% javascript %}
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const items = document.querySelectorAll(".teevore em");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target); // run once
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  items.forEach(item => observer.observe(item));
+});
+</script>
+
+{% endjavascript %}
