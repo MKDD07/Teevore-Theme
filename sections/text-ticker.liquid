@@ -125,16 +125,22 @@
     background-color: transparent;
   }
 
+  .marquee-layer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+  }
+
   .marquee-track {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     white-space: nowrap;
     will-change: transform;
-    padding: 0;
   }
 
   .marquee-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
@@ -143,11 +149,7 @@
 
   /* BACKGROUND LAYER (Faded, Behind) */
   .marquee-background-layer {
-    position: absolute;
     top: 50%;
-    left: 0;
-    width: 120vw;
-    margin-left: -10vw;
     transform: translateY(-50%) rotate({{ section.settings.rotation_angle }}deg);
     z-index: 1;
     pointer-events: none;
@@ -164,16 +166,16 @@
 
   /* FOREGROUND LAYER (Yellow Strip) */
   .marquee-foreground-layer {
-    position: relative;
+    top: 50%;
+    transform: translateY(-50%) rotate({{ section.settings.rotation_angle }}deg);
     z-index: 2;
     background-color: {{ section.settings.bg_color }};
-    width: 120vw;
-    margin-left: -10vw;
-    transform: rotate({{ section.settings.rotation_angle }}deg);
     padding: 15px 0;
     box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-    display: flex;
-    align-items: center;
+  }
+
+  .marquee-foreground-layer .marquee-track {
+    padding: 0;
   }
 
   .marquee-foreground-layer .marquee-item img {
@@ -188,40 +190,42 @@
   .marquee-foreground-layer .marquee-item img:hover {
     opacity: 0.7;
   }
+
+  .marquee-item span {
+    font-weight: bold;
+    font-size: 24px;
+    opacity: 0.3;
+  }
 </style>
 
 <div class="marquee-section-wrapper">
   
   <!-- BACKGROUND MARQUEE (Moves Reverse) -->
-  <div class="marquee-background-layer">
-    <div class="marquee-track" id="MarqueeTrackBack-{{ section.id }}">
-      {% for i in (1..8) %}
-        {% for block in section.blocks %}
-          {% if block.settings.image != blank %}
-            <div class="marquee-item">
-              {{ block.settings.image | image_url: height: 300 | image_tag: loading: 'lazy', alt: block.settings.alt_text }}
-            </div>
-          {% endif %}
-        {% endfor %}
+  <div class="marquee-layer marquee-background-layer">
+    <div class="marquee-track" data-marquee="background-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.settings.image != blank %}
+          <div class="marquee-item">
+            {{ block.settings.image | image_url: height: 300 | image_tag: loading: 'lazy', alt: block.settings.alt_text }}
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
 
   <!-- FOREGROUND MARQUEE (Moves Normal) -->
-  <div class="marquee-foreground-layer">
-    <div class="marquee-track" id="MarqueeTrackFront-{{ section.id }}">
-      {% for i in (1..8) %}
-        {% for block in section.blocks %}
-          {% if block.settings.image != blank %}
-            <div class="marquee-item">
-              {{ block.settings.image | image_url: height: 200 | image_tag: alt: block.settings.alt_text, loading: 'lazy' }}
-            </div>
-          {% else %}
-            <div class="marquee-item">
-               <span style="font-weight:bold; font-size: 24px; opacity: 0.3;">LOGO</span>
-            </div>
-          {% endif %}
-        {% endfor %}
+  <div class="marquee-layer marquee-foreground-layer">
+    <div class="marquee-track" data-marquee="foreground-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.settings.image != blank %}
+          <div class="marquee-item">
+            {{ block.settings.image | image_url: height: 200 | image_tag: alt: block.settings.alt_text, loading: 'lazy' }}
+          </div>
+        {% else %}
+          <div class="marquee-item">
+            <span>LOGO</span>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -229,84 +233,74 @@
 </div>
 
 <script>
-  (function() {
-    const trackFront = document.getElementById('MarqueeTrackFront-{{ section.id }}');
-    const trackBack = document.getElementById('MarqueeTrackBack-{{ section.id }}');
-    
-    if (!trackFront || !trackBack) return;
+(function() {
+  const foregroundTrack = document.querySelector('[data-marquee="foreground-{{ section.id }}"]');
+  const backgroundTrack = document.querySelector('[data-marquee="background-{{ section.id }}"]');
+  
+  if (!foregroundTrack || !backgroundTrack) return;
 
-    // Settings
-    const baseSpeed = {{ section.settings.base_speed }};
-    const sensitivity = {{ section.settings.scroll_sensitivity }};
-    
-    // State
-    let posFront = 0;
-    let posBack = 0;
-    
-    let targetSpeed = baseSpeed;
-    let currentSpeed = baseSpeed;
-    
-    let lastScrollY = window.scrollY;
-    let lastTime = performance.now();
+  const settings = {
+    baseSpeed: {{ section.settings.base_speed }},
+    sensitivity: {{ section.settings.scroll_sensitivity }}
+  };
 
-    function animate(currentTime) {
-      const deltaTime = Math.min((currentTime - lastTime) / 16, 2); // Cap at 2x for performance
-      lastTime = currentTime;
+  // Clone content for seamless loop
+  function setupMarquee(track) {
+    const content = track.innerHTML;
+    // Triple the content for smooth infinite scroll
+    track.innerHTML = content + content + content;
+  }
 
-      // 1. Calculate Scroll Velocity
-      const newScrollY = window.scrollY;
-      const scrollDelta = newScrollY - lastScrollY;
-      lastScrollY = newScrollY;
+  setupMarquee(foregroundTrack);
+  setupMarquee(backgroundTrack);
 
-      // 2. Adjust Speed based on Scroll
-      targetSpeed = baseSpeed + (scrollDelta * (sensitivity * 0.1));
+  let foregroundPos = 0;
+  let backgroundPos = 0;
+  let currentSpeed = settings.baseSpeed;
+  let targetSpeed = settings.baseSpeed;
+  let lastScrollY = window.scrollY;
 
-      // 3. Smooth Lerp
-      currentSpeed += (targetSpeed - currentSpeed) * 0.1;
+  function animate() {
+    // Calculate scroll delta
+    const newScrollY = window.scrollY;
+    const scrollDelta = newScrollY - lastScrollY;
+    lastScrollY = newScrollY;
 
-      // 4. Return to Base Speed (Friction)
-      targetSpeed += (baseSpeed - targetSpeed) * 0.05;
+    // Adjust target speed based on scroll
+    targetSpeed = settings.baseSpeed + (scrollDelta * settings.sensitivity * 0.1);
 
-      // 5. Update Positions (adjusted for deltaTime for smooth animation)
-      const speed = currentSpeed * deltaTime;
-      
-      // Front moves Left (negative)
-      posFront -= speed;
-      
-      // Back moves Right (positive) - Opposite Direction
-      posBack += speed * 0.8; // Slightly slower for visual interest
+    // Smooth interpolation
+    currentSpeed += (targetSpeed - currentSpeed) * 0.1;
 
-      // 6. Infinite Loop Logic
-      const widthFront = trackFront.scrollWidth / 2;
-      const widthBack = trackBack.scrollWidth / 2;
+    // Decay back to base speed
+    targetSpeed += (settings.baseSpeed - targetSpeed) * 0.05;
 
-      // Reset Front (moving left)
-      if (posFront <= -widthFront) {
-        posFront += widthFront;
-      }
-      if (posFront > 0) {
-        posFront -= widthFront;
-      }
+    // Update positions
+    foregroundPos -= currentSpeed;
+    backgroundPos += currentSpeed * 0.6; // Opposite direction, slightly slower
 
-      // Reset Back (moving right)
-      if (posBack >= 0) {
-        posBack -= widthBack;
-      }
-      if (posBack < -widthBack) {
-        posBack += widthBack;
-      }
+    // Get track widths (divide by 3 since we tripled content)
+    const foregroundWidth = foregroundTrack.scrollWidth / 3;
+    const backgroundWidth = backgroundTrack.scrollWidth / 3;
 
-      // 7. Apply Transforms
-      trackFront.style.transform = `translate3d(${posFront}px, 0, 0)`;
-      trackBack.style.transform = `translate3d(${posBack}px, 0, 0)`;
-
-      requestAnimationFrame(animate);
+    // Loop foreground (moving left)
+    if (foregroundPos <= -foregroundWidth) {
+      foregroundPos += foregroundWidth;
     }
 
-    // Initialize positions
-    posBack = -trackBack.scrollWidth / 2; 
+    // Loop background (moving right)
+    if (backgroundPos >= backgroundWidth) {
+      backgroundPos -= backgroundWidth;
+    }
+
+    // Apply transforms
+    foregroundTrack.style.transform = `translate3d(${foregroundPos}px, 0, 0)`;
+    backgroundTrack.style.transform = `translate3d(${backgroundPos}px, 0, 0)`;
 
     requestAnimationFrame(animate);
+  }
 
-  })();
+  // Start animation
+  requestAnimationFrame(animate);
+})();
 </script>
