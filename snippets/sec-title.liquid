@@ -86,7 +86,6 @@
 }
 
 {% endstyle %}
-{% javascript %}
   <script>
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll(".teevore em");
@@ -106,5 +105,3 @@ document.addEventListener("DOMContentLoaded", function () {
   items.forEach(item => observer.observe(item));
 });
 </script>
-
-{% endjavascript %}
