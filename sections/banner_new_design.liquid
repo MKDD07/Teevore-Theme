@@ -176,6 +176,7 @@
   .image-overlay-subtitle {
     font-size: 1.1em; /* Adjust as needed */
     line-height: 1.4;
+    text-transcate: 10;
   }
 
   /* Desktop Styles */
@@ -262,7 +263,7 @@
           {{ block.settings.title }}
         </h2>
         <p class="image-overlay-subtitle">
-          {{ block.settings.subtitle }}
+          {{ block.settings.subtitle | truncatewords: 8 }}
         </p>
       </div>
     </a>
