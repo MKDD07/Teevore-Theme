@@ -199,6 +199,19 @@
 </style>
 
 <div class="marquee-section-wrapper">
+  
+  <!-- BACKGROUND MARQUEE (Moves Reverse) -->
+  <div class="marquee-layer marquee-background-layer">
+    <div class="marquee-track" data-marquee="background-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.settings.image != blank %}
+          <div class="marquee-item">
+            {{ block.settings.image | image_url: height: 300 | image_tag: loading: 'lazy', alt: block.settings.alt_text }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
 
   <!-- FOREGROUND MARQUEE (Moves Normal) -->
   <div class="marquee-layer marquee-foreground-layer">
