@@ -669,10 +669,12 @@
         "logo_FVGz9p",
         "logo_7QPJxk"
       ],
+      "disabled": true,
       "name": "Scroll Logo Marquee",
       "settings": {
         "bg_color": "#ffe97d",
         "rotation_angle": -3,
+        "section_height": 200,
         "base_speed": 0.5,
         "scroll_sensitivity": 2.5,
         "logo_height": 40,
