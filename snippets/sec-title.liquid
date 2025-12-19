@@ -21,7 +21,7 @@
   {%- endif -%}
   <div class="sec-ttl {{ settings.title_align }} {% if section.settings.enable_faq_only %}col-md-2 col-1{% endif %}" {{ title_styles }}>
     {%- if section.settings.title != blank -%}
-      <{{ settings.sttltag | default: 'h2' }} class="{{ fancy_font }}" {{ background_image }}>
+      <{{ settings.sttltag | default: 'h2' }} class="{{ fancy_font }}" {{ background_image }}><span></span>
         {%- if settings.sttlstl == '2' -%}
           <span class="dbi pr">
         {%- endif -%}
