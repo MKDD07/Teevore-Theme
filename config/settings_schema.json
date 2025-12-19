@@ -911,6 +911,12 @@
         "label": "Color",
         "default": "#111"
       },
+            {
+        "type": "color",
+        "id": "color_bg_text",
+        "label": "Color",
+        "default": "#111"
+      },
       {
         "type": "select",
         "id": "hd_font",
