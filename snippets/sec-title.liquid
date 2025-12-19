@@ -60,9 +60,12 @@
   </div>
 {%- endif -%}
 {% style %}
+  .bgd{
+  background: #222;position:absolute;width:100%; height: 100%;z-index:-1;
+  }
 .teevore em::before{
   content:"";
-  background: #222;position:absolute;width:auto; height: 100%;z-index:-1;
+  background: #222;position:absolute;width:100%; height: 100%;z-index:-1;
 }
 .teevore em {font-style: normal;}
 {% endstyle %}
