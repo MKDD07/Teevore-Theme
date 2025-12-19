@@ -612,7 +612,7 @@
         "dot": false,
         "dotm": false,
         "sw": false,
-        "npd": false,
+        "npd": true,
         "bg": "#ffffff",
         "bgg": "",
         "overlay": "#3d4246",
