@@ -572,7 +572,7 @@
       ],
       "name": "Collection List",
       "settings": {
-        "title": "Our Collection",
+        "title": "<p>Our <em>Collection</em></p>",
         "subtitle": "",
         "pretitle_show": true,
         "italic_fancy_font": false,
