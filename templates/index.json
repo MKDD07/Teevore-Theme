@@ -386,67 +386,6 @@
         "btn-size": "btn-md"
       }
     },
-    "text_ticker_DTHFxJ": {
-      "type": "text-ticker",
-      "blocks": {
-        "text_c6xRaA": {
-          "type": "text",
-          "settings": {
-            "text": "Scrolling text",
-            "font_size": 36
-          }
-        },
-        "image_mCbP6J": {
-          "type": "image",
-          "settings": {
-            "image_height": 60,
-            "url": ""
-          }
-        },
-        "text_nLWQFr": {
-          "type": "text",
-          "settings": {
-            "text": "Scrolling text",
-            "font_size": 36
-          }
-        },
-        "image_PkcgeC": {
-          "type": "image",
-          "settings": {
-            "image_height": 60,
-            "url": ""
-          }
-        }
-      },
-      "block_order": [
-        "text_c6xRaA",
-        "image_mCbP6J",
-        "text_nLWQFr",
-        "image_PkcgeC"
-      ],
-      "name": "Ticker Text",
-      "settings": {
-        "top_spacing": "normal",
-        "top_spacing_none_index": false,
-        "h_space": 80,
-        "image_hover": "image-hover-none",
-        "image_roundness": 0,
-        "ticker_time": 20,
-        "direction": "ticker--animation-to-left",
-        "enable_dual_ticker": true,
-        "swap_dual_ticker": false,
-        "dual_ticker_opacity": 30,
-        "black_and_white": true,
-        "show_lines": false,
-        "background": "color",
-        "color_background": "rgba(0,0,0,0)",
-        "gradient": "",
-        "v_padding": 10,
-        "color_base": "rgba(0,0,0,0)",
-        "color_accent": "rgba(0,0,0,0)",
-        "color_lines": "rgba(0,0,0,0)"
-      }
-    },
     "richtext_v2_maBnQ4": {
       "type": "richtext-v2",
       "blocks": {
@@ -687,6 +626,57 @@
         "hided": false,
         "pdr": 5,
         "pdl": 15
+      }
+    },
+    "text_ticker_C67tKr": {
+      "type": "text-ticker",
+      "blocks": {
+        "logo_pmHpt6": {
+          "type": "logo",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "logo_4mVkYY": {
+          "type": "logo",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "logo_86x3Kg": {
+          "type": "logo",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "logo_FVGz9p": {
+          "type": "logo",
+          "settings": {
+            "alt_text": ""
+          }
+        },
+        "logo_7QPJxk": {
+          "type": "logo",
+          "settings": {
+            "alt_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_pmHpt6",
+        "logo_4mVkYY",
+        "logo_86x3Kg",
+        "logo_FVGz9p",
+        "logo_7QPJxk"
+      ],
+      "name": "Scroll Logo Marquee",
+      "settings": {
+        "bg_color": "#ffe97d",
+        "rotation_angle": -3,
+        "base_speed": 0.5,
+        "scroll_sensitivity": 2.5,
+        "logo_height": 40,
+        "logo_gap": 80
       }
     },
     "scroling_text_fdeDHJ": {
@@ -1955,6 +1945,7 @@
     "slideshow_9343dN",
     "richtext_v2_maBnQ4",
     "collection_list2_Nhz7Qe",
+    "text_ticker_C67tKr",
     "scroling_text_fdeDHJ",
     "product_slider_AJHwjn",
     "banner_new_design_dgrM8d",
@@ -1972,7 +1963,6 @@
     "images_with_text_ebJcnF",
     "background_video_v2_qUMgyG",
     "instagram_rich_text_h6pNwj",
-    "text_ticker_DTHFxJ",
     "175396395790ca3829",
     "social_overlays_9xf7qe",
     "faq_6mwa9x"

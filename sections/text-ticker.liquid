@@ -3,9 +3,13 @@
   "name": "Scroll Logo Marquee",
   "settings": [
     {
+      "type": "header",
+      "content": "Visual Settings"
+    },
+    {
       "type": "color",
       "id": "bg_color",
-      "label": "Background Color",
+      "label": "Strip Background Color",
       "default": "#ffe97d"
     },
     {
@@ -17,6 +21,21 @@
       "unit": "deg",
       "label": "Tilt Angle",
       "default": -3
+    },
+    {
+      "type": "range",
+      "id": "section_height",
+      "min": 100,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Section Total Height",
+      "default": 200,
+      "info": "Increase this to see more of the faded background logos."
+    },
+    {
+      "type": "header",
+      "content": "Movement Settings"
     },
     {
       "type": "range",
@@ -34,8 +53,11 @@
       "max": 10,
       "step": 0.1,
       "label": "Scroll Sensitivity",
-      "info": "How much faster it goes when scrolling",
-      "default": 2.5
+      "default": 3.0
+    },
+    {
+      "type": "header",
+      "content": "Logo Settings"
     },
     {
       "type": "range",
@@ -78,7 +100,7 @@
   ],
   "presets": [
     {
-      "name": "Scroll Logo Marquee",
+      "name": "Dual Scroll Marquee",
       "blocks": [
         {"type": "logo"},
         {"type": "logo"},
@@ -93,68 +115,110 @@
 
 <style>
   .marquee-section-wrapper {
-    overflow: hidden;
-    padding: 60px 0; /* Space for the tilt so it doesn't clip */
-    width: 100%;
     position: relative;
-    background: transparent;
-  }
-
-  .marquee-tilted-container {
-    background-color: {{ section.settings.bg_color }};
-    transform: rotate({{ section.settings.rotation_angle }}deg) scale(1.05); /* Scale ensures edges are covered when rotated */
     width: 100%;
-    padding: 20px 0;
+    overflow: hidden;
+    height: {{ section.settings.section_height }}px;
     display: flex;
     align-items: center;
-    /* Create a wide surface for the track */
-    width: 120vw; 
-    margin-left: -10vw;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    justify-content: center;
+    background-color: transparent; /* Or white depending on your theme */
   }
 
+  /* --- SHARED STYLES --- */
   .marquee-track {
     display: flex;
     align-items: center;
     white-space: nowrap;
-    will-change: transform; /* Performance optimization */
+    will-change: transform;
+    padding: 0;
   }
 
   .marquee-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: {{ section.settings.logo_gap }}px;
     flex-shrink: 0;
+    margin-right: {{ section.settings.logo_gap }}px;
   }
 
-  .marquee-item img {
+  /* --- BACKGROUND LAYER (Faded, Behind) --- */
+  .marquee-background-layer {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 120vw;
+    margin-left: -10vw;
+    transform: translateY(-50%) rotate({{ section.settings.rotation_angle }}deg);
+    z-index: 1;
+    pointer-events: none; /* Let clicks pass through */
+  }
+
+  .marquee-background-layer .marquee-item img {
+    height: {{ section.settings.logo_height | times: 1.5 }}px; /* Background logos slightly bigger */
+    width: auto;
+    display: block;
+    opacity: 0.12; /* Faded */
+    filter: grayscale(100%);
+    mix-blend-mode: luminosity; /* User request */
+  }
+
+  /* --- FOREGROUND LAYER (Yellow Strip) --- */
+  .marquee-foreground-layer {
+    position: relative;
+    z-index: 2;
+    background-color: {{ section.settings.bg_color }};
+    width: 120vw;
+    margin-left: -10vw;
+    transform: rotate({{ section.settings.rotation_angle }}deg);
+    padding: 15px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+  }
+
+  .marquee-foreground-layer .marquee-item img {
     height: {{ section.settings.logo_height }}px;
     width: auto;
     object-fit: contain;
     display: block;
-    /* Convert black logos to pure black if needed, or keep original */
     filter: grayscale(100%) contrast(1.2); 
     transition: opacity 0.3s;
   }
   
-  .marquee-item img:hover {
+  .marquee-foreground-layer .marquee-item img:hover {
     opacity: 0.7;
   }
 </style>
 
 <div class="marquee-section-wrapper">
-  <div class="marquee-tilted-container">
-    <div class="marquee-track" id="MarqueeTrack-{{ section.id }}">
-      <!-- We render the blocks twice to ensure there is enough content to loop visually before JS takes over -->
-      {% for i in (1..4) %}
+  
+  <!-- BACKGROUND MARQUEE (Moves Reverse) -->
+  <div class="marquee-background-layer">
+    <div class="marquee-track" id="MarqueeTrackBack-{{ section.id }}">
+      {% for i in (1..6) %}
+        {% for block in section.blocks %}
+          {% if block.settings.image != blank %}
+            <div class="marquee-item">
+              {{ block.settings.image | image_url: height: 300 | image_tag: loading: 'lazy' }}
+            </div>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- FOREGROUND MARQUEE (Moves Normal) -->
+  <div class="marquee-foreground-layer">
+    <div class="marquee-track" id="MarqueeTrackFront-{{ section.id }}">
+      {% for i in (1..6) %}
         {% for block in section.blocks %}
           {% if block.settings.image != blank %}
             <div class="marquee-item">
               {{ block.settings.image | image_url: height: 200 | image_tag: alt: block.settings.alt_text, loading: 'lazy' }}
             </div>
           {% else %}
-             <!-- Placeholder for setup -->
+            <!-- Placeholder -->
             <div class="marquee-item">
                <span style="font-weight:bold; font-size: 24px; opacity: 0.3;">LOGO</span>
             </div>
@@ -163,81 +227,84 @@
       {% endfor %}
     </div>
   </div>
+
 </div>
 
 <script>
   (function() {
-    const track = document.getElementById('MarqueeTrack-{{ section.id }}');
-    if (!track) return;
+    const trackFront = document.getElementById('MarqueeTrackFront-{{ section.id }}');
+    const trackBack = document.getElementById('MarqueeTrackBack-{{ section.id }}');
+    
+    if (!trackFront || !trackBack) return;
 
-    // Settings from Liquid
+    // Settings
     const baseSpeed = {{ section.settings.base_speed }};
     const sensitivity = {{ section.settings.scroll_sensitivity }};
     
-    // State variables
-    let currentPos = 0;
+    // State
+    let posFront = 0;
+    let posBack = 0;
+    
     let targetSpeed = baseSpeed;
     let currentSpeed = baseSpeed;
-    let lastScrollY = window.scrollY;
-    let isHovered = false;
-
-    // Calculate width of one full set of items (approximate)
-    // In a real loop, we just keep moving and reset when the first item is fully off-screen
-    // A simpler approach for infinite scrolling:
     
+    let lastScrollY = window.scrollY;
+
     function animate() {
-      // 1. Determine scroll velocity
+      // 1. Calculate Scroll Velocity
       const newScrollY = window.scrollY;
       const scrollDelta = newScrollY - lastScrollY;
       lastScrollY = newScrollY;
 
-      // 2. Add scroll velocity to speed
-      // If scrolling down (positive delta), speed increases.
-      // If scrolling up (negative delta), speed decreases or reverses.
-      // We multiply by sensitivity.
+      // 2. Adjust Speed based on Scroll
+      // Scrolling down adds speed, Scrolling up subtracts speed
       targetSpeed = baseSpeed + (scrollDelta * (sensitivity * 0.1));
 
-      // 3. Smoothness (Linear Interpolation - Lerp)
-      // This makes the speed ramp up and down smoothly instead of jerking
+      // 3. Smooth Lerp
       currentSpeed += (targetSpeed - currentSpeed) * 0.1;
 
-      // 4. Always try to return to base speed (Friction)
-      // If user stops scrolling, targetSpeed should drift back to baseSpeed
+      // 4. Return to Base Speed (Friction)
       targetSpeed += (baseSpeed - targetSpeed) * 0.05;
 
-      // 5. Update Position
-      currentPos -= currentSpeed;
-
-      // 6. Logic for Infinite Loop
-      // If we've moved far enough left (negative), reset to 0
-      // We use the scrollWidth / 2 because we duplicated items enough times
-      // to cover the screen.
-      const trackWidth = track.scrollWidth;
-      const windowWidth = window.innerWidth;
+      // 5. Update Positions
+      // Front moves Left (negative)
+      posFront -= currentSpeed;
       
-      // If the track has moved more than half its width, reset
-      // This assumes we have enough duplicates (which we did in Liquid loop)
-      if (currentPos <= -(trackWidth / 2)) {
-        currentPos = 0;
-      }
-      
-      // If we move too far right (reverse scroll), reset to the middle
-      if (currentPos > 0) {
-        currentPos = -(trackWidth / 2);
-      }
+      // Back moves Right (positive) - Opposite Direction
+      posBack += currentSpeed; 
+      // Note: If you want Back to simply be slower but same direction, change += to -= and multiply currentSpeed by 0.5
 
-      // 7. Apply Transform
-      track.style.transform = `translate3d(${currentPos}px, 0, 0)`;
+      // 6. Infinite Loop Logic
+      const widthFront = trackFront.scrollWidth / 2; // Assuming we duplicated enough
+      const widthBack = trackBack.scrollWidth / 2;
+
+      // Reset Front
+      if (posFront <= -widthFront) posFront = 0;
+      if (posFront > 0) posFront = -widthFront;
+
+      // Reset Back
+      if (posBack <= -widthBack) posBack = 0;
+      if (posBack > 0) posBack = -widthBack; 
+      // Since Back moves positive usually, we need to check if it goes past 0 towards right?
+      // Actually, standard logic: keep it within -width to 0.
+      // If moving right (positive), we start at -width and move to 0.
+      
+      // Fix for Right Movement (Background):
+      // If we move right, posBack increases. If it hits 0 (start), snap back to -widthBack (end)
+      if (posBack >= 0) posBack = -widthBack;
+      if (posBack < -widthBack) posBack = 0;
+
+      // 7. Apply Transforms
+      trackFront.style.transform = `translate3d(${posFront}px, 0, 0)`;
+      trackBack.style.transform = `translate3d(${posBack}px, 0, 0)`;
 
       requestAnimationFrame(animate);
     }
 
-    // Start the loop
-    requestAnimationFrame(animate);
+    // Initialize positions to avoid jump
+    posBack = -trackBack.scrollWidth / 2; 
 
-    // Optional: Pause on hover?
-    // track.addEventListener('mouseenter', () => currentSpeed = 0); 
-    // track.addEventListener('mouseleave', () => currentSpeed = baseSpeed);
+    requestAnimationFrame(animate);
 
   })();
 </script>
