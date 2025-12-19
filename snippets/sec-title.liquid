@@ -63,24 +63,29 @@
 .teevore em {
   font-style: normal;
   position: relative;
-  color: {{settings.color_bg_text}};
   display: inline-block;
-  overflow: hidden;
+  color: {{settings.color_bg_text}};
+  z-index: 1;
+
+  line-height: 1;        /* 🔥 LOCK LINE */
+  vertical-align: middle;
 }
 
 .teevore em::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0;
+  bottom: 0;             /* 🔥 USE BOTTOM */
+  
   width: 0;
   height: 100%;
+
   background: {{settings.color_text}};
   z-index: -1;
-  transition: width 0.8s ease-in-out;
+
+  transition: width 0.8s ease;
 }
 
-/* Active when in viewport */
 .teevore em.in-view::before {
   width: 100%;
 }
