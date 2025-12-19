@@ -19,7 +19,7 @@
     em_fancy
   {%- endcapture -%}
   {%- endif -%}
-  <div class="sec-ttl {{ settings.title_align }} {% if section.settings.enable_faq_only %}col-md-2 col-1{% endif %}" {{ title_styles }}>
+  <div class="teevore sec-ttl {{ settings.title_align }} {% if section.settings.enable_faq_only %}col-md-2 col-1{% endif %}" {{ title_styles }}>
     {%- if section.settings.title != blank -%}
       <{{ settings.sttltag | default: 'h2' }} class="{{ fancy_font }}pr" {{ background_image }}>
         {%- if settings.sttlstl == '2' -%}
@@ -63,7 +63,7 @@
   .bgd{
   background: #222;position:absolute;width:100%; height: 100%;z-index:-1;
   }
-em::before{
+.teevore em::before{
   content:"";
   background: #222;position:absolute;width:100%; height: 100%;z-index:-1;
 }
