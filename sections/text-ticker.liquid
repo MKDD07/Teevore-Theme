@@ -122,10 +122,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: transparent; /* Or white depending on your theme */
+    background-color: transparent;
   }
 
-  /* --- SHARED STYLES --- */
   .marquee-track {
     display: flex;
     align-items: center;
@@ -142,7 +141,7 @@
     margin-right: {{ section.settings.logo_gap }}px;
   }
 
-  /* --- BACKGROUND LAYER (Faded, Behind) --- */
+  /* BACKGROUND LAYER (Faded, Behind) */
   .marquee-background-layer {
     position: absolute;
     top: 50%;
@@ -151,19 +150,19 @@
     margin-left: -10vw;
     transform: translateY(-50%) rotate({{ section.settings.rotation_angle }}deg);
     z-index: 1;
-    pointer-events: none; /* Let clicks pass through */
+    pointer-events: none;
   }
 
   .marquee-background-layer .marquee-item img {
-    height: {{ section.settings.logo_height | times: 1.5 }}px; /* Background logos slightly bigger */
+    height: {{ section.settings.logo_height | times: 1.5 }}px;
     width: auto;
     display: block;
-    opacity: 0.12; /* Faded */
+    opacity: 0.12;
     filter: grayscale(100%);
-    mix-blend-mode: luminosity; /* User request */
+    mix-blend-mode: luminosity;
   }
 
-  /* --- FOREGROUND LAYER (Yellow Strip) --- */
+  /* FOREGROUND LAYER (Yellow Strip) */
   .marquee-foreground-layer {
     position: relative;
     z-index: 2;
@@ -196,11 +195,11 @@
   <!-- BACKGROUND MARQUEE (Moves Reverse) -->
   <div class="marquee-background-layer">
     <div class="marquee-track" id="MarqueeTrackBack-{{ section.id }}">
-      {% for i in (1..6) %}
+      {% for i in (1..8) %}
         {% for block in section.blocks %}
           {% if block.settings.image != blank %}
             <div class="marquee-item">
-              {{ block.settings.image | image_url: height: 300 | image_tag: loading: 'lazy' }}
+              {{ block.settings.image | image_url: height: 300 | image_tag: loading: 'lazy', alt: block.settings.alt_text }}
             </div>
           {% endif %}
         {% endfor %}
@@ -211,14 +210,13 @@
   <!-- FOREGROUND MARQUEE (Moves Normal) -->
   <div class="marquee-foreground-layer">
     <div class="marquee-track" id="MarqueeTrackFront-{{ section.id }}">
-      {% for i in (1..6) %}
+      {% for i in (1..8) %}
         {% for block in section.blocks %}
           {% if block.settings.image != blank %}
             <div class="marquee-item">
               {{ block.settings.image | image_url: height: 200 | image_tag: alt: block.settings.alt_text, loading: 'lazy' }}
             </div>
           {% else %}
-            <!-- Placeholder -->
             <div class="marquee-item">
                <span style="font-weight:bold; font-size: 24px; opacity: 0.3;">LOGO</span>
             </div>
@@ -249,15 +247,18 @@
     let currentSpeed = baseSpeed;
     
     let lastScrollY = window.scrollY;
+    let lastTime = performance.now();
 
-    function animate() {
+    function animate(currentTime) {
+      const deltaTime = Math.min((currentTime - lastTime) / 16, 2); // Cap at 2x for performance
+      lastTime = currentTime;
+
       // 1. Calculate Scroll Velocity
       const newScrollY = window.scrollY;
       const scrollDelta = newScrollY - lastScrollY;
       lastScrollY = newScrollY;
 
       // 2. Adjust Speed based on Scroll
-      // Scrolling down adds speed, Scrolling up subtracts speed
       targetSpeed = baseSpeed + (scrollDelta * (sensitivity * 0.1));
 
       // 3. Smooth Lerp
@@ -266,33 +267,34 @@
       // 4. Return to Base Speed (Friction)
       targetSpeed += (baseSpeed - targetSpeed) * 0.05;
 
-      // 5. Update Positions
+      // 5. Update Positions (adjusted for deltaTime for smooth animation)
+      const speed = currentSpeed * deltaTime;
+      
       // Front moves Left (negative)
-      posFront -= currentSpeed;
+      posFront -= speed;
       
       // Back moves Right (positive) - Opposite Direction
-      posBack += currentSpeed; 
-      // Note: If you want Back to simply be slower but same direction, change += to -= and multiply currentSpeed by 0.5
+      posBack += speed * 0.8; // Slightly slower for visual interest
 
       // 6. Infinite Loop Logic
-      const widthFront = trackFront.scrollWidth / 2; // Assuming we duplicated enough
+      const widthFront = trackFront.scrollWidth / 2;
       const widthBack = trackBack.scrollWidth / 2;
 
-      // Reset Front
-      if (posFront <= -widthFront) posFront = 0;
-      if (posFront > 0) posFront = -widthFront;
+      // Reset Front (moving left)
+      if (posFront <= -widthFront) {
+        posFront += widthFront;
+      }
+      if (posFront > 0) {
+        posFront -= widthFront;
+      }
 
-      // Reset Back
-      if (posBack <= -widthBack) posBack = 0;
-      if (posBack > 0) posBack = -widthBack; 
-      // Since Back moves positive usually, we need to check if it goes past 0 towards right?
-      // Actually, standard logic: keep it within -width to 0.
-      // If moving right (positive), we start at -width and move to 0.
-      
-      // Fix for Right Movement (Background):
-      // If we move right, posBack increases. If it hits 0 (start), snap back to -widthBack (end)
-      if (posBack >= 0) posBack = -widthBack;
-      if (posBack < -widthBack) posBack = 0;
+      // Reset Back (moving right)
+      if (posBack >= 0) {
+        posBack -= widthBack;
+      }
+      if (posBack < -widthBack) {
+        posBack += widthBack;
+      }
 
       // 7. Apply Transforms
       trackFront.style.transform = `translate3d(${posFront}px, 0, 0)`;
@@ -301,7 +303,7 @@
       requestAnimationFrame(animate);
     }
 
-    // Initialize positions to avoid jump
+    // Initialize positions
     posBack = -trackBack.scrollWidth / 2; 
 
     requestAnimationFrame(animate);
