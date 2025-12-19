@@ -611,7 +611,7 @@
         "arrowm": false,
         "dot": false,
         "dotm": false,
-        "sw": true,
+        "sw": false,
         "npd": false,
         "bg": "#ffffff",
         "bgg": "",
