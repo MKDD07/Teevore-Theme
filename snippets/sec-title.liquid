@@ -60,7 +60,7 @@
   </div>
 {%- endif -%}
 {% style %}
-.teevore em-{{ section.id }} {
+.teevore em {
   font-style: normal;
   position: relative;
   display: inline-block;
@@ -71,7 +71,7 @@
   vertical-align: middle;
 }
 
-.teevore em-{{ section.id }}::before {
+.teevore em::before {
   content: "";
   position: absolute;
   left: 0;
@@ -86,10 +86,11 @@
   transition: width 0.8s ease;
 }
 
-.teevore em-{{ section.id }}.in-view::before {
+.teevore em.in-view::before {
   width: 100%;
 }
-
+.teevore pa{display: flex;
+    align-items: center;gap:10px;}
 {% endstyle %}
   <script>
 document.addEventListener("DOMContentLoaded", function () {
