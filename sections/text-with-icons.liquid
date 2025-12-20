@@ -12,7 +12,7 @@
                       {% for block in section.blocks limit: section.blocks.size %}
                 {%- assign blk_st = block.settings -%}
                 <div class="swiper-slide gitem rgTxt {% render 'animate-data', css:true %}" style="height: 230px; --cl: {% unless request.path contains '/collections/women' or template contains 'girls_collections' %} #fff; {% else %} {{ section_st.cl }}; {% endunless %}"{% render 'animate-data' %} {{ block.shopify_attributes }}>
-                    <a {% if blk_st.url != blank %}href="{{ blk_st.url }}"{% else %}role="link" aria-disabled="true"{% endif %} class="brad db{% if section_st.box %} at_boxes pd30{% endif %}{% if section_st.style == 'stl2' %} fl f-jcc{% elsif section_st.style == 'stl3'%} fl f-jcc f-aic{% endif %}" style="height: -webkit-fill-available; {% unless forloop.last %}border-right: 1px solid #e2efff;{% endunless %}">
+                    <a {% if blk_st.url != blank %}href="{{ blk_st.url }}"{% else %}role="link" aria-disabled="true"{% endif %} class="brad db{% if section_st.box %} at_boxes pd30{% endif %}{% if section_st.style == 'stl2' %} fl f-jcc{% elsif section_st.style == 'stl3'%} fl f-jcc f-aic{% endif %}" style="height: -webkit-fill-available; {% unless forloop.last %}border-right: 1px solid #e2efff;{% endunless %} border-top: #e2efff">
                         {% if section_st.showicn %}
                         <div class="at_box_icons{% if section_st.style == 'stl1' %} mb15{% else %} mr15{% endif %}{% if section_st.style == 'stl2' %} mt4{% endif %}">
                             {% if blk_st.image != blank %}
