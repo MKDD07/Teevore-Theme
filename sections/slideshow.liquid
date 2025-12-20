@@ -116,15 +116,32 @@
                                                 <a class="wd100" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a>
                                                 </span>
                                             {% endif %}
-                                            {% capture 'fancy' %}
-                                            <span class="top-key"></span>
-                                            <span class="text">Buy Tickets</span>
-                                            <span class="bottom-key-1"></span>
-                                            <span class="bottom-key-2"></span>
-                                            {% endcapture %}
-                                            <a class="{% if block_set.enable_overlay_click %} hide{% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}{% if section_st.btn-style == btn8 %}{{ fancy }} {% endif %}</a>
-                                            <a class="{% if block_set.enable_overlay_click %} hide{% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}" href="{{ block_set.link2 }}" {% if block_set.newtab1 %} target="_blank"{% endif %}>{{ block_set.btn2 }}</a>
-                                            
+{% capture fancy %}
+  <span class="top-key"></span>
+  <span class="text">Buy Tickets</span>
+  <span class="bottom-key-1"></span>
+  <span class="bottom-key-2"></span>
+{% endcapture %}
+
+<a
+  class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
+  href="{{ block_set.link }}"
+  {% if block_set.newtab %}target="_blank"{% endif %}
+>
+  {{ block_set.btn }}
+  {% if section_st.btn-style == 'btn8' %}
+    {{ fancy }}
+  {% endif %}
+</a>
+
+<a
+  class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}"
+  href="{{ block_set.link2 }}"
+  {% if block_set.newtab1 %}target="_blank"{% endif %}
+>
+  {{ block_set.btn2 }}
+</a>
+
                                         </div>
                                     {% elsif block.type == 'video' %}
                                         {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a></div>{% endif %}
