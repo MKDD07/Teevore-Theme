@@ -236,7 +236,7 @@
         "hrline_pFJVVg": {
           "type": "hrline",
           "settings": {
-            "lineclr": "#414042",
+            "lineclr": "#e2efff",
             "hidem": true,
             "mar": 15
           }
@@ -314,7 +314,7 @@
         "hrline_eUgDHq": {
           "type": "hrline",
           "settings": {
-            "lineclr": "#414042",
+            "lineclr": "#e2efff",
             "hidem": true,
             "mar": 0
           }
