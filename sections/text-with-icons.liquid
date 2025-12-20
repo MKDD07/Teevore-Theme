@@ -27,7 +27,7 @@
                         {% endif %}
                         <div class="fl1">
                             {% if blk_st.title != blank %}<{{ section_st.htag }} class="kug {{ section_st.tff }} rgTxt{% if section_st.style == 'stl1' %} mb5{% else %} mb0{% endif %}" style="--fs:{{ section_st.tfs }}px;--fsm:{{ section_st.tfsm }}px;--fw:{{ section_st.tfw }};--lh:1.2; --cl: {% unless request.path contains '/collections/women' or template contains 'girls_collections' %} {{ section_st.cl }}; {% else %} #222; {% endunless %}">{{ blk_st.title }}</{{ section_st.htag }}>{% endif %}
-                            {% if section_st.style != 'stl3' and blk_st.text != blank %}<span class="mb0 rgTxt" style="--fs:{{ section_st.fs }}px;--fsm:{{ section_st.fsm  }}px;">{{ blk_st.text }}</span>{% endif %}
+                            {% if section_st.style != 'stl3' and blk_st.text != blank %}<span class="mb0 rgTxt" style="--fs:{{ section_st.fs }}px;--fsm:{{ section_st.fsm  }}px; --cl: {{ section_st.cl }};">{{ blk_st.text }}</span>{% endif %}
                         </div>
                     </a>
                 </div>
