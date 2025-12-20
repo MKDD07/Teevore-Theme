@@ -747,7 +747,7 @@
         "rows": 50,
         "show_view_all": "View all",
         "btn-style": "btn8",
-        "btn-size": "btn-md",
+        "btn-size": "btn-sm",
         "carousel": false,
         "loop": false,
         "autoplay": false,
