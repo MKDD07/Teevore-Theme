@@ -124,7 +124,10 @@
                                     {% elsif block.type == 'video' %}
                                         {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }} " href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a></div>{% endif %}
                                     {% else %}
-                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><span class="btn {{ section_st.btn-size }} {{ section_st.btn-style }} hello" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</span></div>{% endif %}
+                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><span class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" {% if block_set.newtab %} target="_blank"{% endif %}>  <span class="top-key"></span>
+  <span class="text">Buy Tickets</span>
+  <span class="bottom-key-1"></span>
+  <span class="bottom-key-2"></span>{{ block_set.btn }}</span></div>{% endif %}
                                     {% endif %}            
                                 </div>
                             </div>
