@@ -109,6 +109,12 @@
                                     {% if block_set.hd3 != blank %}
                                         <div class="stxt ft4 {{ block_set.ff }} mb{{ block_set.mbm }} mb{{ block_set.mb }}-md{% if block_set.hideh3 %} hide-sm{% endif %}" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.fs }}px;--fsm:{{ block_set.fsm }}px;--lh:{{ block_set.lh }};--tfw:{{ block_set.fw }};">{{ block_set.hd3 }}</div>
                                     {% endif %}
+                                    {% capture fancy %}
+  <span class="top-key"></span>
+  <span class="text">Buy Tickets</span>
+  <span class="bottom-key-1"></span>
+  <span class="bottom-key-2"></span>
+{% endcapture %}
                                     {% if block_set.display_btn %}
                                         <div class="btnWrap">
                                             {% if block_set.enable_overlay_click %}
@@ -118,12 +124,7 @@
   {% endif %}</a>
                                                 </span>
                                             {% endif %}
-{% capture fancy %}
-  <span class="top-key"></span>
-  <span class="text">Buy Tickets</span>
-  <span class="bottom-key-1"></span>
-  <span class="bottom-key-2"></span>
-{% endcapture %}
+
 
 <a
   class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
