@@ -746,7 +746,7 @@
         "gridmb": 1.5,
         "rows": 50,
         "show_view_all": "View all",
-        "btn-style": "btn8",
+        "btn-style": "btnLink",
         "btn-size": "btn-sm",
         "carousel": false,
         "loop": false,
