@@ -139,7 +139,9 @@
   href="{{ block_set.link2 }}"
   {% if block_set.newtab1 %}target="_blank"{% endif %}
 >
-  {{ block_set.btn2 }}
+  {{ block_set.btn2 }}  {% if section_st.btn-style == 'btn8' %}
+    {{ fancy }}
+  {% endif %}
 </a>
 
                                         </div>
