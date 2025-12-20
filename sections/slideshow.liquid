@@ -104,64 +104,27 @@
                                         <p class="stxt ft4 {{ block_set.pff }} mb{{ block_set.pmbm }} mb{{ block_set.pmb }}-md" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.pfs }}px;--fsm:{{ block_set.pfsm }}px;--lh:{{ block_set.plh }};--tfw:{{ block_set.pfw }}">{{ block_set.hd1 }}</p>
                                     {% endif %}
                                     {% if block_set.title != blank %}
-                                        <{{ block_set.htag }} class="stxt.ss_txt .stxt{% if settings.enable_fancy_font %}kug{% endif %} {{ block_set.tff }} mb{{ block_set.tmbm }} mb{{ block_set.tmb }}-md" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.tfs }}px;--fsm:{{ block_set.tfsm }}px;--lh:{{ block_set.tlh }};--tfw:{{ block_set.tfw }};--to:{{block_set.to}};">{{ block_set.title }}</{{ block_set.htag }}>
+                                        <{{ block_set.htag }} class="stxt{% if settings.enable_fancy_font %}kug{% endif %} {{ block_set.tff }} mb{{ block_set.tmbm }} mb{{ block_set.tmb }}-md" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.tfs }}px;--fsm:{{ block_set.tfsm }}px;--lh:{{ block_set.tlh }};--tfw:{{ block_set.tfw }};--to:{{block_set.to}};">{{ block_set.title }}</{{ block_set.htag }}>
                                     {% endif %}
                                     {% if block_set.hd3 != blank %}
                                         <div class="stxt ft4 {{ block_set.ff }} mb{{ block_set.mbm }} mb{{ block_set.mb }}-md{% if block_set.hideh3 %} hide-sm{% endif %}" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.fs }}px;--fsm:{{ block_set.fsm }}px;--lh:{{ block_set.lh }};--tfw:{{ block_set.fw }};">{{ block_set.hd3 }}</div>
                                     {% endif %}
                                     {% if block_set.display_btn %}
-                                      <div class="btnWrap">
-  {% if block_set.enable_overlay_click %}
-    <span class="pa top0 left0">
-      <a
-        class="wd100"
-        href="{{ block_set.link }}"
-        {% if block_set.newtab %}target="_blank"{% endif %}
-      >
-        {{ block_set.btn }}
-      </a>
-    </span>
-  {% endif %}
-{% capture fancy %}
-    <span class="top-key"></span>
-  <span class="text">Buy Tickets</span>
-  <span class="bottom-key-1"></span>
-  <span class="bottom-key-2"></span>
-{% endcapture %}
-  <a
-    class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
-    href="{{ block_set.link }}"
-    {% if block_set.newtab %}target="_blank"{% endif %}
-  >
-    {{ block_set.btn }}
-
-    {% if section_st.btn-style == 'btn8' %}
-      {{ fancy }}
-    {% endif %}
-  </a>
-
-  <a
-    class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}"
-    href="{{ block_set.link2 }}"
-    {% if block_set.newtab1 %}target="_blank"{% endif %}
-  >
-    {{ block_set.btn2 }}
-
-    {% if section_st.btn-style == 'btn8' %}
-      {{ fancy }}
-    {% endif %}
-  </a>
-</div>
-
+                                        <div class="btnWrap">
+                                            {% if block_set.enable_overlay_click %}
+                                                <span class="pa top0 left0">
+                                                <a class="wd100" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a>
+                                                </span>
+                                            {% endif %}
+                                            
+                                            <a class="{% if block_set.enable_overlay_click %} hide{% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a>
+                                            <a class="{% if block_set.enable_overlay_click %} hide{% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}" href="{{ block_set.link2 }}" {% if block_set.newtab1 %} target="_blank"{% endif %}>{{ block_set.btn2 }}</a>
+                                            
+                                        </div>
                                     {% elsif block.type == 'video' %}
-                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}     {% if section_st.btn-style == 'btn8' %}
-      {{ fancy }}
-    {% endif %}</a></div>{% endif %}
+                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a></div>{% endif %}
                                     {% else %}
-                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><span class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}
-
-</span>{{ fancy }}
-</div>{% endif %}
+                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><span class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</span></div>{% endif %}
                                     {% endif %}            
                                 </div>
                             </div>
@@ -177,7 +140,7 @@
     {% if section.blocks.size == 0 %}<div class="placeholder-noblocks">{{ 'homepage.onboarding.no_content' | t }}</div>{% endif %}
 </div>
 {%- endcapture -%}
-{{ slideshow | strip_newlines | remove: "  " | remove: "	" }}}
+{{ slideshow | strip_newlines | remove: "  " | remove: "	" }}
 {%style %}
 
 .slideshow .swiper-pagination-bullet {
