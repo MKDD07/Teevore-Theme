@@ -1,283 +1,173 @@
 {%- capture slideshow -%}
-  {%- liquid
-    assign section_st = section.settings
-    assign nav_arrow = section_st.arrowc
-    assign nav_bg = section_st.arrowbg
-    assign nav_dots_active = section_st.dots
-    assign nav_dots = section_st.dots | color_modify: 'alpha', 0.5
-  -%}
+ {% assign section_st = section.settings %} 
+ {% capture navstl %}
+	--arw: {{ section_st.arrowc }};--arwbg:{{ section_st.arrowbg}};--dotsa:{{ section_st.dots }};--dots:{{ section_st.dots | color_modify:'alpha', 0.5 }};
+ {% endcapture %}
 
-  <div
-    class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}"
-    style="--sbg:{{ section_st.bg }}; --sst:{{ section_st.sst }}px; --ssb:{{ section_st.ssb }}px; --sstm:{{ section_st.sstm }}px; --ssbm:{{ section_st.ssbm }}px;"
-  >
+<div class="sec_cov{% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}"  style="--sbg:{{ section_st.bg }};--sst:{{ section_st.sst }}px;--ssb:{{ section_st.ssb }}px;--sstm:{{ section_st.sstm }}px;--ssbm:{{ section_st.ssbm }}px"> 
     {% if section.blocks.size > 0 %}
-      <div
-        class="oss_wrap ovhid{% if section_st.section_width %} page-width{% endif %}"
-        style="--arw:{{ nav_arrow }}; --arwbg:{{ nav_bg }}; --dotsa:{{ nav_dots_active }}; --dots:{{ nav_dots }}; {% if section_st.section_width %}max-width:{{ section_st.box-width }}px; margin:0 auto;{% endif %}"
-      >
-        {%- capture height -%}
-          {%- if section_st.ht == '1' -%}
-            {%- for block in section.blocks -%}
-              {%- assign block_set = block.settings -%}
-              {%- if block_set.image != blank -%}
-                --slht:{{ 1 | divided_by: block_set.image.aspect_ratio | times: 100 }}%;
-                {%- if block_set.imagem != blank -%}
-                  --slhtm:{{ 1 | divided_by: block_set.imagem.aspect_ratio | times: 100 }}%;
-                {%- else -%}
-                  --slhtm:{{ 1 | divided_by: block_set.image.aspect_ratio | times: 100 }}%;
-                {%- endif -%}
-                {%- break -%}
-              {%- else -%}
-                --slht:40%; --slhtm:40%;
-              {%- endif -%}
-            {%- endfor -%}
-          {%- else -%}
-            --slht:{{ section_st.htd }}px; --slhtt:{{ section_st.htt }}px; --slhtm:{{ section_st.htm }}px;
-          {%- endif -%}
-        {%- endcapture -%}
+        <div class="oss_wrap ovhid{% if section_st.section_width %} page-width{% endif %}" style="{{ navstl }}{% if section_st.section_width %}max-width:{{ section_st.box-width }}px; margin:0 auto{% endif %}">
+            {%- capture height -%}
+                {% if section_st.ht == '1' %}
+                    {% for block in section.blocks %}
+                        {% assign block_set = block.settings %}
+                        {% if block_set.image != blank %}
+                            --slht:{{ 1 | divided_by: block_set.image.aspect_ratio | times: 100 }}%;
+                            {% if block_set.imagem != blank %}
+                                --slhtm:{{ 1 | divided_by: block_set.imagem.aspect_ratio | times: 100 }}%;
+                            {% else %}
+                                --slhtm:{{ 1 | divided_by: block_set.image.aspect_ratio | times: 100 }}%;
+                            {% endif %}
+                            {% break %}
+                        {% else %}
+                            --slht:40%;--slhtm:40%;
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    --slht:{{ section_st.htd }}px;--slhtt:{{ section_st.htt }}px;--slhtm:{{ section_st.htm }}px;
+                {% endif %}
+            {%- endcapture -%}
+            <slide-section class="slideshow swiper pr of_hidden ctStyle brad" style="{{ height }}--brad:{{ section_st.sbrad  }}px;"
+              data-swiper='{ "slidesPerView":"1", "loop":{{ section_st.loop }}, {% if section_st.autoplay %}"autoplay":{ "delay":"{{ section_st.speed | times: 1000 }}" },{% endif %} "effect":"{% if section_st.fade %}fade{% else %}slide{% endif %}","preloadImages":false, "lazy":true, "navigation":{ "nextEl":".swn{{ section.id }}","prevEl":".swp{{ section.id }}" },"pagination":{ "el":".swpg{{ section.id }}","clickable":true }}'>
+              
+                <div class="swiper-wrapper">
+                {% for block in section.blocks %}
+                    {%- liquid
+                        assign block_set = block.settings
+                       assign sindex = forloop.index
+                        if block_set.video_url.type == "youtube"
+                            assign videotype = "youtube"
+                        elsif block_set.video_url.type == "vimeo"
+                            assign videotype = "vimeo"
+                        else
+                            assign videotype = "video"
+                        endif
+                    %}
+                    <div class="swiper-slide sslide{% if section_st.ht == '1' %} im{% else %} ct{% endif %} w_100 of_hidden" data-type="{{ block.type }}" {% if block.type == 'video' %} data-video="{{ videotype }}"{% endif %} data-slide="{{ sindex }}" id="{{ block.id }}" {{ block.shopify_attributes }}>
+                        {% if block_set.display_btn != true and block_set.link != blank and block.type != 'video' %}<a href="{{ block_set.link }}" class="ss_link">{% endif %}
+                        {% if block.type == 'image' and block_set.image != blank %}
+                            {%- liquid
+                                assign img_class = "ssimg imgFt"
+                                assign lazy_img = 'lazy'
+                                assign banner_img = block_set.image
+                                assign banner_imgm = block_set.imagem
+                                assign banner_img_fp = banner_imgm.presentation.focal_point
+                                assign banner_img_src = banner_imgm | image_url: width: banner_imgm.width | image_tag: widths: '400,560,780,1000' | split: 'srcset="' | last | split: '"' | first
+                        
+                                if banner_imgm != blank and banner_imgm.presentation.focal_point != blank
+                                   assign img_class = "ssimg imgFt mbFocal"
+                                endif
+                                if section_st.imganim
+                                   assign img_class = img_class | append: ' anim'
+                                endif
+                               if section.index < 2 and forloop.first
+                                  assign lazy_img = 'eager'
+                               endif
+                            -%}
+                            {% if block_set.image != blank %}
+                            <picture class="" {% if banner_imgm != blank and banner_img_fp != blank %}style="--fp:{{ banner_img_fp }}"{% endif %}>
+                                {% if block_set.imagem != blank %}
+                                    <source media="(max-width: 767px)" srcset="{{ banner_img_src }}" width="{{ banner_imgm.width }}" height="{{ banner_imgm.height }}">
+                                {% endif %}
+                                {{ banner_img | image_url: width: banner_img.width | image_tag: class:img_class, loading: lazy_img, siezs:"100vw", widths:"400,600,800,1000,1200,1400,1600,2000,2400,3000" }}
+                            </picture>
+                            {% endif %}
+                        {% elsif block.type == 'video' and block_set.video_url != blank %}
+                            {% if block_set.video_url.type == "youtube" %}
+                                <iframe class="embed-player slide-media" width="980" height="520" src="https://www.youtube.com/embed/{{ block_set.video_url.id }}?enablejsapi=1&controls=0&fs=0&iv_load_policy=3&rel=0&showinfo=0&loop=1&playlist={{ block_set.video_url.id }}&playsinline=1&autoplay=1&mute=1" allow="autoplay" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            {% elsif block_set.video_url.type == "vimeo" %}
+                                <iframe class="embed-player slide-media" src="https://player.vimeo.com/video/{{ block_set.video_url.id }}?api=1&byline=0&portrait=0&title=0&background=1&mute=1&loop=1&autoplay=0&id={{ block_set.video_url.id }}" width="980" height="520" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                            {% endif %}
+                        {% elsif block.type == 'video' and block_set.video != blank %}
+                            {{ block_set.video | video_tag: image_size:"2000x", loop:true, controls:false, muted:true, autoplay:true, playsinline: true }}
+                        {% else %}
+                            <div class="ss_img js">
+                                <div class="ph_bg">{% capture current %}{% cycle 1, 2 %}{% endcapture %}{{ 'hero-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}</div>
+                            </div>
+                        {% endif %}
+                        {%- capture box_style -%}
+                            {% if block_set.isbox %}
+                                --bg:{{ block_set.tbg | color_modify: 'alpha', block_set.opt }};--pd:50px;                               
+                            {% else %}
+                                --bg:transparent;--pd:0;--frm:none;
+                            {% endif %}
+                            {% if block_set.isboxm %}
+                                --bgm:{{ block_set.tbg | color_modify: 'alpha', block_set.opt }};--pdm:20px;                               
+                            {% else %}
+                                --bgm:transparent;--pdm:0;--frcl:transparent;--frmm:none;
+                            {% endif %}                            
+                        {%- endcapture -%}
+                        <div class="ss_txt-wrap w_100 h_100 mobile-margin" style="--ibg:{{ block_set.ovr | color_modify: 'alpha', block_set.ovropt }};--brad:{{ block_set.brad }}px;--twd:{{block_set.twd}}px;">
+                            <div class="page-width fl h_100 {{ block_set.txtpos }} {{ block_set.txtposm }}" style="max-width:{{ block_set.contwd }}px;{{ box_style }}">
+                                <div class="ss_txt{% if block_set.text-left %} tl-md{% else %} tc{% endif %}{% if section_st.txtanimation %} anim {{ section_st.animation-style }}{% endif %}">
+                                    {% if block_set.hd1 != blank %}
+                                        <p class="stxt ft4 {{ block_set.pff }} mb{{ block_set.pmbm }} mb{{ block_set.pmb }}-md" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.pfs }}px;--fsm:{{ block_set.pfsm }}px;--lh:{{ block_set.plh }};--tfw:{{ block_set.pfw }}">{{ block_set.hd1 }}</p>
+                                    {% endif %}
+                                    {% if block_set.title != blank %}
+                                        <{{ block_set.htag }} class="stxt.ss_txt .stxt{% if settings.enable_fancy_font %}kug{% endif %} {{ block_set.tff }} mb{{ block_set.tmbm }} mb{{ block_set.tmb }}-md" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.tfs }}px;--fsm:{{ block_set.tfsm }}px;--lh:{{ block_set.tlh }};--tfw:{{ block_set.tfw }};--to:{{block_set.to}};">{{ block_set.title }}</{{ block_set.htag }}>
+                                    {% endif %}
+                                    {% if block_set.hd3 != blank %}
+                                        <div class="stxt ft4 {{ block_set.ff }} mb{{ block_set.mbm }} mb{{ block_set.mb }}-md{% if block_set.hideh3 %} hide-sm{% endif %}" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.fs }}px;--fsm:{{ block_set.fsm }}px;--lh:{{ block_set.lh }};--tfw:{{ block_set.fw }};">{{ block_set.hd3 }}</div>
+                                    {% endif %}
+                                    {% capture fancy %}
+                                    <span class="top-key"></span>
+                                    <span class="text">Buy Tickets</span>
+                                    <span class="bottom-key-1"></span>
+                                    <span class="bottom-key-2"></span>
+                                    {% endcapture %}
+                                    {% if block_set.display_btn %}
+                                        <div class="btnWrap">
+                                            {% if block_set.enable_overlay_click %}
+                                                <span class="pa top0 left0">
+                                                <a class="wd100" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}  {% if section_st.btn-style == 'btn8' %}
+    {{ fancy }}
+  {% endif %}</a>
+                                                </span>
+                                            {% endif %}
 
-        <slide-section
-          class="slideshow swiper pr of_hidden ctStyle brad"
-          style="{{ height }} --brad:{{ section_st.sbrad }}px;"
-          data-swiper='{ "slidesPerView":"1", "loop":{{ section_st.loop }}, {% if section_st.autoplay %}"autoplay":{ "delay":"{{ section_st.speed | times: 1000 }}" },{% endif %} "effect":"{% if section_st.fade %}fade{% else %}slide{% endif %}", "preloadImages":false, "lazy":true, "navigation":{ "nextEl":".swn{{ section.id }}", "prevEl":".swp{{ section.id }}" }, "pagination":{ "el":".swpg{{ section.id }}", "clickable":true } }'
-        >
-          <div class="swiper-wrapper">
-            {%- for block in section.blocks -%}
-              {%- liquid
-                assign block_set = block.settings
-                assign sindex = forloop.index
-                assign videotype = 'video'
-                if block_set.video_url.type == 'youtube'
-                  assign videotype = 'youtube'
-                elsif block_set.video_url.type == 'vimeo'
-                  assign videotype = 'vimeo'
-                endif
-                
-                assign btn_fancy_html = ''
-              -%}
 
-              {%- capture btn_fancy_html -%}
-                 <span class="top-key"></span><span class="text">Buy Tickets</span><span class="bottom-key-1"></span><span class="bottom-key-2"></span>
-              {%- endcapture -%}
+<a
+  class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
+  href="{{ block_set.link }}"
+  {% if block_set.newtab %}target="_blank"{% endif %}
+>
+  {{ block_set.btn }}
+  {% if section_st.btn-style == 'btn8' %}
+    {{ fancy }}
+  {% endif %}
+</a>
 
-              <div
-                class="swiper-slide sslide{% if section_st.ht == '1' %} im{% else %} ct{% endif %} w_100 of_hidden"
-                data-type="{{ block.type }}"
-                {% if block.type == 'video' %}data-video="{{ videotype }}"{% endif %}
-                data-slide="{{ sindex }}"
-                id="{{ block.id }}"
-                {{ block.shopify_attributes }}
-              >
-                {% comment %} Global Link Wrapper (if not video and not button mode) {% endcomment %}
-                {%- if block_set.display_btn != true and block_set.link != blank and block.type != 'video' -%}
-                  <a href="{{ block_set.link }}" class="ss_link">
-                {%- endif -%}
+<a
+  class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}"
+  href="{{ block_set.link2 }}"
+  {% if block_set.newtab1 %}target="_blank"{% endif %}
+>
+  {{ block_set.btn2 }}  {% if section_st.btn-style == 'btn8' %}
+    {{ fancy }}
+  {% endif %}
+</a>
 
-                {%- if block.type == 'image' and block_set.image != blank -%}
-                  {%- liquid
-                    assign img_class = 'ssimg imgFt'
-                    assign lazy_img = 'lazy'
-                    assign banner_img = block_set.image
-                    assign banner_imgm = block_set.imagem
-                    assign banner_img_fp = banner_imgm.presentation.focal_point
-                    
-                    # Manually construct srcset for mobile if needed, though image_tag handles most usually
-                    assign banner_img_src = banner_imgm | image_url: width: banner_imgm.width | image_tag: widths: '400,560,780,1000' | split: 'srcset="' | last | split: '"' | first
-
-                    if banner_imgm != blank and banner_imgm.presentation.focal_point != blank
-                      assign img_class = 'ssimg imgFt mbFocal'
-                    endif
-                    if section_st.imganim
-                      assign img_class = img_class | append: ' anim'
-                    endif
-                    if section.index < 2 and forloop.first
-                      assign lazy_img = 'eager'
-                    endif
-                  -%}
-
-                  <picture class="" {% if banner_imgm != blank and banner_img_fp != blank %}style="--fp:{{ banner_img_fp }}"{% endif %}>
-                    {%- if block_set.imagem != blank -%}
-                      <source
-                        media="(max-width: 767px)"
-                        srcset="{{ banner_img_src }}"
-                        width="{{ banner_imgm.width }}"
-                        height="{{ banner_imgm.height }}"
-                      >
-                    {%- endif -%}
-                    {{ banner_img | image_url: width: banner_img.width | image_tag: class: img_class, loading: lazy_img, sizes: '100vw', widths: '400,600,800,1000,1200,1400,1600,2000,2400,3000' }}
-                  </picture>
-
-                {%- elsif block.type == 'video' and block_set.video_url != blank -%}
-                  {%- if block_set.video_url.type == 'youtube' -%}
-                    <iframe
-                      class="embed-player slide-media"
-                      width="980"
-                      height="520"
-                      src="https://www.youtube.com/embed/{{ block_set.video_url.id }}?enablejsapi=1&controls=0&fs=0&iv_load_policy=3&rel=0&showinfo=0&loop=1&playlist={{ block_set.video_url.id }}&playsinline=1&autoplay=1&mute=1"
-                      allow="autoplay"
-                      frameborder="0"
-                      webkitallowfullscreen
-                      mozallowfullscreen
-                      allowfullscreen
-                    ></iframe>
-                  {%- elsif block_set.video_url.type == 'vimeo' -%}
-                    <iframe
-                      class="embed-player slide-media"
-                      src="https://player.vimeo.com/video/{{ block_set.video_url.id }}?api=1&byline=0&portrait=0&title=0&background=1&mute=1&loop=1&autoplay=0&id={{ block_set.video_url.id }}"
-                      width="980"
-                      height="520"
-                      frameborder="0"
-                      webkitallowfullscreen
-                      mozallowfullscreen
-                      allowfullscreen
-                    ></iframe>
-                  {%- endif -%}
-
-                {%- elsif block.type == 'video' and block_set.video != blank -%}
-                  {{ block_set.video | video_tag: image_size: '2000x', loop: true, controls: false, muted: true, autoplay: true, playsinline: true }}
-                
-                {%- else -%}
-                  <div class="ss_img js">
-                    <div class="ph_bg">
-                      {%- capture current -%}{% cycle 1, 2 %}{%- endcapture -%}
-                      {{ 'hero-apparel-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                                        </div>
+                                    {% elsif block.type == 'video' %}
+                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a></div>{% endif %}
+                                    {% else %}
+                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><span class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</span></div>{% endif %}
+                                    {% endif %}            
+                                </div>
+                            </div>
+                        </div>             
+                        {% if block_set.display_btn != true and block_set.link != blank and block.type != 'video' %}</a>{% endif %}
                     </div>
-                  </div>
-                {%- endif -%}
-
-                {%- capture box_style -%}
-                    {% if block_set.isbox %}
-                        --bg:{{ block_set.tbg | color_modify: 'alpha', block_set.opt }}; --pd:50px;
-                    {% else %}
-                        --bg:transparent; --pd:0; --frm:none;
-                    {% endif %}
-                    {% if block_set.isboxm %}
-                        --bgm:{{ block_set.tbg | color_modify: 'alpha', block_set.opt }}; --pdm:20px;
-                    {% else %}
-                        --bgm:transparent; --pdm:0; --frcl:transparent; --frmm:none;
-                    {% endif %}
-                {%- endcapture -%}
-
-                <div
-                  class="ss_txt-wrap w_100 h_100 mobile-margin"
-                  style="--ibg:{{ block_set.ovr | color_modify: 'alpha', block_set.ovropt }}; --brad:{{ block_set.brad }}px; --twd:{{ block_set.twd }}px;"
-                >
-                  <div
-                    class="page-width fl h_100 {{ block_set.txtpos }} {{ block_set.txtposm }}"
-                    style="max-width:{{ block_set.contwd }}px; {{ box_style }}"
-                  >
-                    <div class="ss_txt{% if block_set.text-left %} tl-md{% else %} tc{% endif %}{% if section_st.txtanimation %} anim {{ section_st.animation-style }}{% endif %}">
-                      {%- if block_set.hd1 != blank -%}
-                        <p
-                          class="stxt ft4 {{ block_set.pff }} mb{{ block_set.pmbm }} mb{{ block_set.pmb }}-md"
-                          style="--cl:{{ block_set.pcl }}; --fs:{{ block_set.pfs }}px; --fsm:{{ block_set.pfsm }}px; --lh:{{ block_set.plh }}; --tfw:{{ block_set.pfw }}"
-                        >
-                          {{ block_set.hd1 }}
-                        </p>
-                      {%- endif -%}
-
-                      {%- if block_set.title != blank -%}
-                        <{{ block_set.htag }}
-                          class="stxt ss_txt{% if settings.enable_fancy_font %} kug{% endif %} {{ block_set.tff }} mb{{ block_set.tmbm }} mb{{ block_set.tmb }}-md"
-                          style="--cl:{{ block_set.pcl }}; --fs:{{ block_set.tfs }}px; --fsm:{{ block_set.tfsm }}px; --lh:{{ block_set.tlh }}; --tfw:{{ block_set.tfw }}; --to:{{ block_set.to }};"
-                        >
-                          {{ block_set.title }}
-                        </{{ block_set.htag }}>
-                      {%- endif -%}
-
-                      {%- if block_set.hd3 != blank -%}
-                        <div
-                          class="stxt ft4 {{ block_set.ff }} mb{{ block_set.mbm }} mb{{ block_set.mb }}-md{% if block_set.hideh3 %} hide-sm{% endif %}"
-                          style="--cl:{{ block_set.pcl }}; --fs:{{ block_set.fs }}px; --fsm:{{ block_set.fsm }}px; --lh:{{ block_set.lh }}; --tfw:{{ block_set.fw }};"
-                        >
-                          {{ block_set.hd3 }}
-                        </div>
-                      {%- endif -%}
-
-                      {%- if block_set.display_btn -%}
-                        <div class="btnWrap">
-                          {%- if block_set.enable_overlay_click -%}
-                            <span class="pa top0 left0">
-                              <a
-                                class="wd100"
-                                href="{{ block_set.link }}"
-                                {% if block_set.newtab %}target="_blank"{% endif %}
-                              >
-                                {{ block_set.btn }}
-                                {% if section_st.btn-style == 'btn8' %}{{ btn_fancy_html }}{% endif %}
-                              </a>
-                            </span>
-                          {%- endif -%}
-
-                          {%- if block_set.btn != blank -%}
-                            <a
-                              class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
-                              href="{{ block_set.link }}"
-                              {% if block_set.newtab %}target="_blank"{% endif %}
-                            >
-                              {{ block_set.btn }}
-                              {% if section_st.btn-style == 'btn8' %}{{ btn_fancy_html }}{% endif %}
-                            </a>
-                          {%- endif -%}
-
-                          {%- if block_set.btn2 != blank -%}
-                            <a
-                              class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}"
-                              href="{{ block_set.link2 }}"
-                              {% if block_set.newtab1 %}target="_blank"{% endif %}
-                            >
-                              {{ block_set.btn2 }}
-                              {% if section_st.btn-style == 'btn8' %}{{ btn_fancy_html }}{% endif %}
-                            </a>
-                          {%- endif -%}
-                        </div>
-
-                      {%- elsif block.type == 'video' -%}
-                        {%- if block_set.btn != blank -%}
-                          <div class="{% if block_set.enable_overlay_click %}hide {% endif %}btnWrap">
-                            <a
-                              class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
-                              href="{{ block_set.link }}"
-                              {% if block_set.newtab %}target="_blank"{% endif %}
-                            >
-                              {{ block_set.btn }}
-                            </a>
-                          </div>
-                        {%- endif -%}
-
-                      {%- else -%}
-                        {%- if block_set.btn != blank -%}
-                          <div class="{% if block_set.enable_overlay_click %}hide {% endif %}btnWrap">
-                            <span
-                              class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
-                              {% if block_set.newtab %}target="_blank"{% endif %}
-                            >
-                              {{ block_set.btn }}
-                            </span>
-                          </div>
-                        {%- endif -%}
-                      {%- endif -%}
-                    </div>
-                  </div>
+                {% endfor %}
                 </div>
-
-                {%- if block_set.display_btn != true and block_set.link != blank and block.type != 'video' -%}
-                  </a>
-                {%- endif -%}
-              </div>
-            {%- endfor -%}
-          </div>
-          {% render 'swiper-navigation', id: section.id, section_st: section_st %}
-        </slide-section>
-      </div>
+                {% render 'swiper-navigation', id:section.id, section_st:section_st %}
+            </slide-section>
+        </div>
     {% endif %}
-    {% if section.blocks.size == 0 %}
-      <div class="placeholder-noblocks">{{ 'homepage.onboarding.no_content' | t }}</div>
-    {% endif %}
-  </div>
+    {% if section.blocks.size == 0 %}<div class="placeholder-noblocks">{{ 'homepage.onboarding.no_content' | t }}</div>{% endif %}
+</div>
 {%- endcapture -%}
-{{ slideshow | strip_newlines | remove: "  " | remove: "	" }}
+{{ slideshow | strip_newlines | remove: "  " | remove: "	" }}}
 {%style %}
 
 .slideshow .swiper-pagination-bullet {
