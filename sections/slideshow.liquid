@@ -113,7 +113,9 @@
                                         <div class="btnWrap">
                                             {% if block_set.enable_overlay_click %}
                                                 <span class="pa top0 left0">
-                                                <a class="wd100" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a>
+                                                <a class="wd100" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}  {% if section_st.btn-style == 'btn8' %}
+    {{ fancy }}
+  {% endif %}</a>
                                                 </span>
                                             {% endif %}
 {% capture fancy %}
