@@ -110,37 +110,44 @@
                                         <div class="stxt ft4 {{ block_set.ff }} mb{{ block_set.mbm }} mb{{ block_set.mb }}-md{% if block_set.hideh3 %} hide-sm{% endif %}" style="--cl:{{ block_set.pcl }};--fs:{{ block_set.fs }}px;--fsm:{{ block_set.fsm }}px;--lh:{{ block_set.lh }};--tfw:{{ block_set.fw }};">{{ block_set.hd3 }}</div>
                                     {% endif %}
                                     {% if block_set.display_btn %}
-                                        <div class="btnWrap">
-                                            {% if block_set.enable_overlay_click %}
-                                                <span class="pa top0 left0">
-                                                <a class="wd100" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}
-    </a>
-                                                </span>
-                                            {% endif %}
-
-
-<a
-  class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
-  href="{{ block_set.link }}"
-  {% if block_set.newtab %}target="_blank"{% endif %}
->
-  {{ block_set.btn }}
-  {% if section_st.btn-style == 'btn8' %}
-    {{ fancy }}
+                                      <div class="btnWrap">
+  {% if block_set.enable_overlay_click %}
+    <span class="pa top0 left0">
+      <a
+        class="wd100"
+        href="{{ block_set.link }}"
+        {% if block_set.newtab %}target="_blank"{% endif %}
+      >
+        {{ block_set.btn }}
+      </a>
+    </span>
   {% endif %}
-</a>
 
-<a
-  class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}"
-  href="{{ block_set.link2 }}"
-  {% if block_set.newtab1 %}target="_blank"{% endif %}
->
-  {{ block_set.btn2 }}  {% if section_st.btn-style == 'btn8' %}
-    {{ fancy }}
-  {% endif %}
-</a>
+  <a
+    class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style }}"
+    href="{{ block_set.link }}"
+    {% if block_set.newtab %}target="_blank"{% endif %}
+  >
+    {{ block_set.btn }}
 
-                                        </div>
+    {% if section_st.btn-style == 'btn8' %}
+      {{ fancy }}
+    {% endif %}
+  </a>
+
+  <a
+    class="{% if block_set.enable_overlay_click %}hide {% endif %}btn {{ section_st.btn-size }} {{ section_st.btn-style1 }}"
+    href="{{ block_set.link2 }}"
+    {% if block_set.newtab1 %}target="_blank"{% endif %}
+  >
+    {{ block_set.btn2 }}
+
+    {% if section_st.btn-style == 'btn8' %}
+      {{ fancy }}
+    {% endif %}
+  </a>
+</div>
+
                                     {% elsif block.type == 'video' %}
                                         {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a></div>{% endif %}
                                     {% else %}
