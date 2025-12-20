@@ -149,7 +149,9 @@
 </div>
 
                                     {% elsif block.type == 'video' %}
-                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}</a></div>{% endif %}
+                                        {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><a class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" href="{{ block_set.link }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}     {% if section_st.btn-style == 'btn8' %}
+      {{ fancy }}
+    {% endif %}</a></div>{% endif %}
                                     {% else %}
                                         {% if block_set.btn != blank %}<div class="{% if block_set.enable_overlay_click %} hide {% endif %}btnWrap"><span class="btn {{ section_st.btn-size }} {{ section_st.btn-style }}" {% if block_set.newtab %} target="_blank"{% endif %}>{{ block_set.btn }}     {% if section_st.btn-style == 'btn8' %}
       {{ fancy }}
