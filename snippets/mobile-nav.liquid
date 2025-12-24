@@ -65,7 +65,7 @@
       {% if secSt.spnav %}
           {% for link in linklists[secSt.mbmenu].links %}
               {% render 'mm-mobile-links', link: link, arrow:arrow, arrowbk:arrowbk %}
-              {% render 'mm-mobile-links', link: link, arrow:arrow, arrowbk:arrowbk %}
+              
           {% endfor %}
       {% else %}
           {%- for block in section.blocks -%}
