@@ -205,6 +205,7 @@
     "gift-btn": "btn3",
     "coupon": true,
     "pr_recomand": true,
+    "mobnav_text_color": "#086be2",
     "searchdwt": "#086be2",
     "searchdw": "#fff",
     "search_ttl": "Search...",
