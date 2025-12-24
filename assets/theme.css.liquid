@@ -633,7 +633,7 @@ button.loading .at-spin { display:inline-block; }
 .mobNav a { {% if settings.nav_case %}text-transform:uppercase;{% endif %} color:{{settings.mbNavcl}}; text-decoration:none; padding:15px 10px; font-weight:{{settings.mmfw}}; display:flex; align-items:center; border-radius: 10px;{% cycle 'background': '#101010', '#1a1a11' %};}
 .mobNav .backto { background-color:{{settings.navttlbg}}; cursor:pointer; color:{{settings.navttl}}; position:sticky; top:0; z-index:3; border-top:0;}
 .mobNav .snav{ font-size: 14px;}
-.mobNav a{font-size: 20px;}
+.mobNav a{font-size: {{settings.nav_size}}px;}
 {% if settings.mmsub %}
     .mobNav .subLinks { overflow:hidden; }
     .mobNav .subLinks:not(.active) { display:none; }
