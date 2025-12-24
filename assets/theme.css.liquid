@@ -630,7 +630,17 @@ button.loading .at-spin { display:inline-block; }
 .mobNav .lbl { color:#ffffff; font-size:10px; font-weight:400; letter-spacing:0; line-height:1; text-transform:uppercase; display:inline-block; vertical-align:middle; padding:2px 4px; margin-left:5px;
         border-radius:3px; margin-left:5px; }
 .mobNav .backto,
-.mobNav a { {% if settings.nav_case %}text-transform:uppercase;{% endif %} color:{{settings.mbNavcl}}; text-decoration:none; padding:15px 10px; font-weight:{{settings.mmfw}}; display:flex; align-items:center; border-radius: 10px;{% cycle 'background': '#101010', '#1a1a11' %};}
+.mobNav a {
+  text-transform: {% if settings.mobnav_uppercase %}uppercase{% else %}none{% endif %};
+  color: {{ settings.mobnav_text_color }};
+  text-decoration: none;
+  padding: {{ settings.mobnav_padding_vertical }}px {{ settings.mobnav_padding_horizontal }}px;
+  font-weight: {{ settings.mobnav_font_weight }};
+  display: flex;
+  align-items: center;
+  border-radius: {{ settings.mobnav_border_radius }}px;
+}
+
 .mobNav .backto { background-color:{{settings.navttlbg}}; cursor:pointer; color:{{settings.navttl}}; position:sticky; top:0; z-index:3; border-top:0;}
 .mobNav .snav{ font-size: 14px;}
 .mobNav a{font-size: {{settings.nav_size}}px;}
