@@ -88,8 +88,8 @@
                                   {% endif %}
                                   {% if blk_st.display_btn %}
                                       <div class="btnWrap">
-                                          <a class="hide-md hide-sm btn {{ blk_st.btn-size }} {{ blk_st.btn-style }}" href="{{ blk_st.link }}" {% if blk_st.newtab %} target="_blank"{% endif %}>{{ blk_st.btn }}</a>
-                                          <a class="hide-md hide-sm btn {{ blk_st.btn-size }} {{ blk_st.btn-style1 }}" href="{{ blk_st.link2 }}" {% if blk_st.newtab1 %} target="_blank"{% endif %}>{{ blk_st.btn2 }}</a>
+                                          <a class="hide hide-md hide-sm btn {{ blk_st.btn-size }} {{ blk_st.btn-style }}" href="{{ blk_st.link }}" {% if blk_st.newtab %} target="_blank"{% endif %}>{{ blk_st.btn }}</a>
+                                          <a class="hide hide-md hide-sm btn {{ blk_st.btn-size }} {{ blk_st.btn-style1 }}" href="{{ blk_st.link2 }}" {% if blk_st.newtab1 %} target="_blank"{% endif %}>{{ blk_st.btn2 }}</a>
                                       </div>
                                   {% elsif block.type == 'video' %}
                                       {% if blk_st.btn != blank %}<div class="btnWrap"><a class="btn {{ blk_st.btn-size }} {{ blk_st.btn-style }}" href="{{ blk_st.link }}" {% if blk_st.newtab %} target="_blank"{% endif %}>{{ blk_st.btn }}</a></div>{% endif %}
