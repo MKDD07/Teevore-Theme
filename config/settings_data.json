@@ -206,6 +206,7 @@
     "coupon": true,
     "pr_recomand": true,
     "mobnav_text_color": "#086be2",
+    "mobnav_font_size": 17,
     "mobnav_icon_color": "#086be2",
     "searchdwt": "#086be2",
     "searchdw": "#fff",
