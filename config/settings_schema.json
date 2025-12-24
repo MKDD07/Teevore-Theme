@@ -2622,7 +2622,33 @@
       "id": "mobnav_uppercase",
       "label": "Uppercase text",
       "default": true
-    }
+    },
+    {
+  "type": "range",
+  "id": "mobnav_font_size",
+  "label": "Font size",
+  "min": 12,
+  "max": 22,
+  "step": 1,
+  "unit": "px",
+  "default": 14
+},
+{
+  "type": "range",
+  "id": "mobnav_icon_size",
+  "label": "Icon size",
+  "min": 10,
+  "max": 30,
+  "step": 1,
+  "unit": "px",
+  "default": 14
+},
+{
+  "type": "color",
+  "id": "mobnav_icon_color",
+  "label": "Icon color",
+  "default": "#222222"
+}
   ]
 },
   {
