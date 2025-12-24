@@ -633,14 +633,24 @@ button.loading .at-spin { display:inline-block; }
 .mobNav a {
   text-transform: {% if settings.mobnav_uppercase %}uppercase{% else %}none{% endif %};
   color: {{ settings.mobnav_text_color }};
+  font-size: {{ settings.mobnav_font_size }}px;
+  font-weight: {{ settings.mobnav_font_weight }};
   text-decoration: none;
   padding: {{ settings.mobnav_padding_vertical }}px {{ settings.mobnav_padding_horizontal }}px;
-  font-weight: {{ settings.mobnav_font_weight }};
   display: flex;
   align-items: center;
+  gap: 8px;
   border-radius: {{ settings.mobnav_border_radius }}px;
 }
 
+#mobNav .at-icon {
+  display: inline-block;
+  width: {{ settings.mobnav_icon_size }}px;
+  height: {{ settings.mobnav_icon_size }}px;
+  vertical-align: middle;
+  fill: {{ settings.mobnav_icon_color }};
+  flex-shrink: 0;
+}
 .mobNav .backto { background-color:{{settings.navttlbg}}; cursor:pointer; color:{{settings.navttl}}; position:sticky; top:0; z-index:3; border-top:0;}
 .mobNav .snav{ font-size: 14px;}
 .mobNav a{font-size: {{settings.nav_size}}px;}
