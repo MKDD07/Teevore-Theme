@@ -215,8 +215,10 @@
         --ft3:"{{ settings.font3_shopify.family }}",{{ settings.font3_shopify.fallback_families }};
     {% elsif settings.font3_source == 'google' %}
         --ft3:"{{ settings.font3_google | strip }}";
-    {% else %}
+    {% elsif settings.font3_source == 'local' %}
         --ft3:"{{ settings.font3_local | strip }}";
+    {%  else %}
+      --ft3:"{{ settings.font_face_family_sec | strip }}";
     {% endif %}
     --site_gutter:15px;
     --grid_gutter:15px;
