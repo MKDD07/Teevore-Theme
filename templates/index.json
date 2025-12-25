@@ -386,21 +386,6 @@
         "btn-size": "btn-md"
       }
     },
-    "countdown_counter_LEVDDt": {
-      "type": "countdown-counter",
-      "name": "Flash Sale Countdown",
-      "settings": {
-        "title": "FLASH SALE :",
-        "subtitle": "UP TO 40% OFF!",
-        "end_date": "2025-12-31T23:59",
-        "link_text": "SHOP CLEARANCE",
-        "link": "shopify://collections/polo-t-shirt",
-        "bg_color": "#ffffff",
-        "text_color": "#086be2",
-        "btn_bg": "#086be2",
-        "btn_text": "#ffffff"
-      }
-    },
     "richtext_v2_maBnQ4": {
       "type": "richtext-v2",
       "blocks": {
@@ -495,6 +480,21 @@
         "image_wrapper_width": 60,
         "image_wrapper_height": 60,
         "image_block_margin": 20
+      }
+    },
+    "countdown_counter_LEVDDt": {
+      "type": "countdown-counter",
+      "name": "Flash Sale Countdown",
+      "settings": {
+        "title": "FLASH SALE :",
+        "subtitle": "UP TO 40% OFF!",
+        "end_date": "2025-12-31T23:59",
+        "link_text": "SHOP CLEARANCE",
+        "link": "shopify://collections/polo-t-shirt",
+        "bg_color": "#ffffff",
+        "text_color": "#086be2",
+        "btn_bg": "#086be2",
+        "btn_text": "#ffffff"
       }
     },
     "collection_list2_Nhz7Qe": {
@@ -1960,8 +1960,8 @@
   },
   "order": [
     "slideshow_9343dN",
-    "countdown_counter_LEVDDt",
     "richtext_v2_maBnQ4",
+    "countdown_counter_LEVDDt",
     "collection_list2_Nhz7Qe",
     "text_ticker_C67tKr",
     "scroling_text_fdeDHJ",
