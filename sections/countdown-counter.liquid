@@ -1,331 +1,158 @@
 {% comment %}
-  Enhanced Flash Sale Countdown Section
-  Multiple design styles with animated subtitle and customizable fonts
+  Flash Sale Countdown Section
+  Style: Minimalist, Premium, Horizontal Layout
 {% endcomment %}
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
-
-  .flash-sale-container-{{ section.id }} {
+  /* Import a clean font if your theme doesn't have one (optional) */
+  .flash-sale-container {
     background-color: {{ section.settings.bg_color }};
-    padding: {{ section.settings.section_padding }}px 20px;
-    font-family: 'Montserrat', sans-serif;
+    padding: 40px 20px;
     color: {{ section.settings.text_color }};
-    position: relative;
-    overflow: hidden;
   }
 
-  .flash-sale-wrapper-{{ section.id }} {
+  .flash-sale-wrapper {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Wraps on mobile */
     gap: 20px;
   }
 
   /* --- LEFT: TEXT --- */
-  .flash-text-{{ section.id }} {
-    font-size: {{ section.settings.title_font_size }}px;
+  .flash-text {
+    font-size: 20px;
     letter-spacing: 0.5px;
     flex: 1;
     min-width: 250px;
     text-align: left;
   }
   
-  .flash-text-{{ section.id }} strong {
-    font-weight: {{ section.settings.title_font_weight }};
+  .flash-text strong {
+    font-weight: 700;
     text-transform: uppercase;
-    margin-right: 8px;
-    display: inline-block;
+    margin-right: 5px;
   }
 
-  .flash-text-{{ section.id }} .subtitle-wrapper {
-    display: inline-block;
-    position: relative;
-    font-weight: 300;
-    font-size: {{ section.settings.subtitle_font_size }}px;
+  .flash-text span {
+    font-weight: 300; /* Thin look from image */
+    color: {{ section.settings.text_color }}; /* Matches main text */
   }
 
-  /* Animated Underline Span */
-  .flash-text-{{ section.id }} .subtitle-wrapper::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    height: 2px;
-    background-color: {{ section.settings.accent_color }};
-    animation: expandWidth-{{ section.id }} {{ section.settings.animation_duration }}s ease-in-out infinite;
-    z-index: 1;
-  }
-
-  @keyframes expandWidth-{{ section.id }} {
-    0%, 100% { width: 0%; }
-    50% { width: 100%; }
-  }
-
-  /* --- CENTER: TIMER STYLES --- */
-  .flash-timer-{{ section.id }} {
+  /* --- CENTER: TIMER --- */
+  .flash-timer {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap: {{ section.settings.timer_gap }}px;
+    gap: 15px;
     flex: 1;
-    min-width: 320px;
+    min-width: 250px;
   }
 
-  /* Style 1: Classic Minimal */
-  .timer-style-classic .timer-block {
+  .timer-block {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .timer-style-classic .timer-num {
-    font-size: {{ section.settings.timer_font_size }}px;
-    font-weight: {{ section.settings.timer_font_weight }};
+  .timer-num {
+    font-size: 38px;
+    font-weight: 200; /* Very thin premium look */
     line-height: 1;
     margin-bottom: 5px;
-    font-variant-numeric: tabular-nums;
+    font-variant-numeric: tabular-nums; /* Keeps numbers from jumping */
   }
 
-  .timer-style-classic .timer-label {
-    font-size: {{ section.settings.timer_label_size }}px;
+  .timer-label {
+    font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: 600;
     opacity: 0.8;
   }
 
-  .timer-style-classic .timer-colon {
-    font-size: {{ section.settings.timer_font_size | minus: 6 }}px;
+  .timer-colon {
+    font-size: 32px;
     font-weight: 200;
     line-height: 1;
-    margin-top: -2px;
-  }
-
-  /* Style 2: Boxed Cards */
-  .timer-style-boxed .timer-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: {{ section.settings.timer_box_bg }};
-    border: 2px solid {{ section.settings.timer_box_border }};
-    padding: 15px 20px;
-    border-radius: {{ section.settings.box_radius }}px;
-    min-width: 70px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-  }
-
-  .timer-style-boxed .timer-block:hover {
-    transform: translateY(-5px);
-  }
-
-  .timer-style-boxed .timer-num {
-    font-size: {{ section.settings.timer_font_size }}px;
-    font-weight: {{ section.settings.timer_font_weight }};
-    line-height: 1;
-    margin-bottom: 8px;
-    font-variant-numeric: tabular-nums;
-    color: {{ section.settings.timer_num_color }};
-  }
-
-  .timer-style-boxed .timer-label {
-    font-size: {{ section.settings.timer_label_size }}px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 600;
-    opacity: 0.7;
-  }
-
-  .timer-style-boxed .timer-colon {
-    display: none;
-  }
-
-  /* Style 3: Large Fade Effect */
-  .timer-style-large .timer-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-
-  .timer-style-large .timer-num {
-    font-size: {{ section.settings.timer_font_size | times: 1.5 }}px;
-    font-weight: 700;
-    line-height: 1;
-    margin-bottom: 5px;
-    font-variant-numeric: tabular-nums;
-    background: linear-gradient(180deg, {{ section.settings.text_color }} 0%, {{ section.settings.timer_fade_color }} 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: pulse-{{ section.id }} 2s ease-in-out infinite;
-  }
-
-  @keyframes pulse-{{ section.id }} {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
-  }
-
-  .timer-style-large .timer-label {
-    font-size: {{ section.settings.timer_label_size }}px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: 400;
-    opacity: 0.6;
-  }
-
-  .timer-style-large .timer-colon {
-    font-size: {{ section.settings.timer_font_size }}px;
-    font-weight: 300;
-    line-height: 1;
-    margin-top: 0;
-    opacity: 0.5;
-  }
-
-  /* Style 4: Circle Design */
-  .timer-style-circle .timer-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-  }
-
-  .timer-style-circle .timer-num-wrap {
-    width: {{ section.settings.circle_size }}px;
-    height: {{ section.settings.circle_size }}px;
-    border-radius: 50%;
-    background-color: {{ section.settings.timer_box_bg }};
-    border: 3px solid {{ section.settings.accent_color }};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 8px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  }
-
-  .timer-style-circle .timer-num {
-    font-size: {{ section.settings.timer_font_size | minus: 10 }}px;
-    font-weight: {{ section.settings.timer_font_weight }};
-    font-variant-numeric: tabular-nums;
-    color: {{ section.settings.timer_num_color }};
-  }
-
-  .timer-style-circle .timer-label {
-    font-size: {{ section.settings.timer_label_size }}px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    opacity: 0.8;
-  }
-
-  .timer-style-circle .timer-colon {
-    display: none;
+    margin-top: -2px; /* Slight optical adjustment */
   }
 
   /* --- RIGHT: BUTTON --- */
-  .flash-cta-{{ section.id }} {
+  .flash-cta {
     flex: 1;
     min-width: 200px;
     text-align: right;
   }
 
-  .flash-btn-{{ section.id }} {
+  .flash-btn {
     display: inline-block;
     background-color: {{ section.settings.btn_bg }};
     color: {{ section.settings.btn_text }};
-    padding: {{ section.settings.btn_padding_v }}px {{ section.settings.btn_padding_h }}px;
+    padding: 14px 28px;
     text-transform: uppercase;
-    font-size: {{ section.settings.btn_font_size }}px;
-    font-weight: {{ section.settings.btn_font_weight }};
+    font-size: 12px;
     letter-spacing: 2px;
     text-decoration: none;
-    transition: all 0.3s ease;
-    border: 2px solid {{ section.settings.btn_border }};
-    border-radius: {{ section.settings.btn_radius }}px;
+    transition: opacity 0.3s ease;
+    border: 1px solid {{ section.settings.btn_bg }};
   }
 
-  .flash-btn-{{ section.id }}:hover {
-    background-color: {{ section.settings.btn_hover_bg }};
-    color: {{ section.settings.btn_hover_text }};
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  .flash-btn:hover {
+    opacity: 0.8;
   }
 
-  /* Responsive */
-  @media (max-width: 900px) {
-    .flash-sale-wrapper-{{ section.id }} {
+  /* MOBILE RESPONSIVE */
+  @media (max-width: 768px) {
+    .flash-sale-wrapper {
       flex-direction: column;
       text-align: center;
       justify-content: center;
     }
-    .flash-text-{{ section.id }}, .flash-cta-{{ section.id }} {
+    .flash-text, .flash-cta {
       text-align: center;
-    }
-    .flash-timer-{{ section.id }} {
-      gap: {{ section.settings.timer_gap | divided_by: 2 }}px;
     }
   }
 </style>
 
-<div class="flash-sale-container-{{ section.id }}">
-  <div class="flash-sale-wrapper-{{ section.id }}">
+<div class="flash-sale-container">
+  <div class="flash-sale-wrapper">
     
-    <div class="flash-text-{{ section.id }}">
-      <strong>{{ section.settings.title }}</strong>
-      <span class="subtitle-wrapper">{{ section.settings.subtitle }}</span>
+    <div class="flash-text">
+      <strong class="ft3">{{ section.settings.title }}</strong>
+      <span class="ft1">{{ section.settings.subtitle }}</span>
     </div>
 
-    <div class="flash-timer-{{ section.id }} timer-style-{{ section.settings.timer_style }}" 
-         id="countdown-{{ section.id }}" 
-         data-date="{{ section.settings.end_date }}">
+    <div class="flash-timer" id="countdown-{{ section.id }}" data-date="{{ section.settings.end_date }}">
       
       <div class="timer-block">
-        {% if section.settings.timer_style == 'circle' %}<div class="timer-num-wrap">{% endif %}
-        <span class="timer-num" data-unit="days">00</span>
-        {% if section.settings.timer_style == 'circle' %}</div>{% endif %}
-        <span class="timer-label">{{ section.settings.days_label }}</span>
-      </div>
-      
-      <div class="timer-colon">:</div>
-
-      <div class="timer-block">
-        {% if section.settings.timer_style == 'circle' %}<div class="timer-num-wrap">{% endif %}
-        <span class="timer-num" data-unit="hours">00</span>
-        {% if section.settings.timer_style == 'circle' %}</div>{% endif %}
-        <span class="timer-label">{{ section.settings.hours_label }}</span>
+        <span class="timer-num" id="hours">00</span>
+        <span class="timer-label">Hour</span>
       </div>
       
       <div class="timer-colon">:</div>
       
       <div class="timer-block">
-        {% if section.settings.timer_style == 'circle' %}<div class="timer-num-wrap">{% endif %}
-        <span class="timer-num" data-unit="minutes">00</span>
-        {% if section.settings.timer_style == 'circle' %}</div>{% endif %}
-        <span class="timer-label">{{ section.settings.minutes_label }}</span>
+        <span class="timer-num" id="minutes">00</span>
+        <span class="timer-label">Min</span>
       </div>
       
       <div class="timer-colon">:</div>
       
       <div class="timer-block">
-        {% if section.settings.timer_style == 'circle' %}<div class="timer-num-wrap">{% endif %}
-        <span class="timer-num" data-unit="seconds">00</span>
-        {% if section.settings.timer_style == 'circle' %}</div>{% endif %}
-        <span class="timer-label">{{ section.settings.seconds_label }}</span>
+        <span class="timer-num" id="seconds">00</span>
+        <span class="timer-label">Sec</span>
       </div>
 
     </div>
 
-    {% if section.settings.show_button %}
-    <div class="flash-cta-{{ section.id }}">
-      <a href="{{ section.settings.link }}" class="flash-btn-{{ section.id }}">
+    <div class="flash-cta">
+      <a href="{{ section.settings.link }}" class="flash-btn">
         {{ section.settings.link_text }}
       </a>
     </div>
-    {% endif %}
 
   </div>
 </div>
@@ -335,66 +162,49 @@
     const container = document.getElementById('countdown-{{ section.id }}');
     if (!container) return;
 
+    // Get the end date from settings (Format expected: YYYY-MM-DDTHH:MM:SS)
+    // If user enters simplified date in settings, we adapt logic below.
     const deadlineAttr = container.getAttribute('data-date');
+    
+    // We append the time to ensure it counts to a specific time if only date is provided
+    // Defaulting to end of that day if no time specified, or parsing directly if user provides ISO string
     const deadline = new Date(deadlineAttr).getTime();
-
-    const elements = {
-      days: container.querySelector('[data-unit="days"]'),
-      hours: container.querySelector('[data-unit="hours"]'),
-      minutes: container.querySelector('[data-unit="minutes"]'),
-      seconds: container.querySelector('[data-unit="seconds"]')
-    };
-
-    function pad(n) {
-      return n < 10 ? '0' + n : n;
-    }
 
     function updateTimer() {
       const now = new Date().getTime();
       const t = deadline - now;
 
       if (t < 0) {
-        container.innerHTML = "<div style='font-size:16px; font-weight:600; opacity:0.6;'>{{ section.settings.expired_text }}</div>";
+        // Timer expired
+        container.innerHTML = "<div style='font-size:14px; opacity:0.6;'>EXPIRED</div>";
         clearInterval(timerInterval);
         return;
       }
 
-      const d = Math.floor(t / (1000 * 60 * 60 * 24));
-      const h = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const m = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
-      const s = Math.floor((t % (1000 * 60)) / 1000);
+      // Calculate time
+      const hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((t % (1000 * 60)) / 1000);
 
-      if (elements.days) elements.days.textContent = pad(d);
-      if (elements.hours) elements.hours.textContent = pad(h);
-      if (elements.minutes) elements.minutes.textContent = pad(m);
-      if (elements.seconds) elements.seconds.textContent = pad(s);
+      // Add leading zeros
+      document.getElementById('days').innerText = (day < 31 ? '0') + days
+      document.getElementById('hours').innerText = (hours < 10 ? '0' : '') + hours;
+      document.getElementById('minutes').innerText = (minutes < 10 ? '0' : '') + minutes;
+      document.getElementById('seconds').innerText = (seconds < 10 ? '0' : '') + seconds;
     }
 
     const timerInterval = setInterval(updateTimer, 1000);
-    updateTimer();
+    updateTimer(); // Run immediately
   })();
 </script>
 
 {% schema %}
 {
-  "name": "Flash Sale Countdown Pro",
+  "name": "Flash Sale Countdown",
   "settings": [
     {
       "type": "header",
-      "content": "⚡ Section Layout"
-    },
-    {
-      "type": "range",
-      "id": "section_padding",
-      "label": "Section Padding (px)",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "default": 40
-    },
-    {
-      "type": "header",
-      "content": "📝 Title Settings"
+      "content": "Text Settings"
     },
     {
       "type": "text",
@@ -403,63 +213,14 @@
       "default": "FLASH SALE :"
     },
     {
-      "type": "range",
-      "id": "title_font_size",
-      "label": "Title Font Size (px)",
-      "min": 14,
-      "max": 48,
-      "step": 2,
-      "default": 20
-    },
-    {
-      "type": "select",
-      "id": "title_font_weight",
-      "label": "Title Font Weight",
-      "options": [
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "600", "label": "Semi-Bold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "700"
-    },
-    {
-      "type": "header",
-      "content": "✨ Animated Subtitle"
-    },
-    {
       "type": "text",
       "id": "subtitle",
-      "label": "Subtitle Text",
+      "label": "Thin Subtitle",
       "default": "UP TO 40% OFF!"
     },
     {
-      "type": "range",
-      "id": "subtitle_font_size",
-      "label": "Subtitle Font Size (px)",
-      "min": 12,
-      "max": 40,
-      "step": 2,
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "animation_duration",
-      "label": "Animation Duration (seconds)",
-      "min": 1,
-      "max": 5,
-      "step": 0.5,
-      "default": 2
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent/Underline Color",
-      "default": "#FF6B6B"
-    },
-    {
       "type": "header",
-      "content": "⏰ Timer Settings"
+      "content": "Timer Settings"
     },
     {
       "type": "text",
@@ -469,146 +230,8 @@
       "default": "2025-12-31T23:59"
     },
     {
-      "type": "select",
-      "id": "timer_style",
-      "label": "Timer Design Style",
-      "options": [
-        { "value": "classic", "label": "Classic Minimal" },
-        { "value": "boxed", "label": "Boxed Cards" },
-        { "value": "large", "label": "Large Fade Effect" },
-        { "value": "circle", "label": "Circle Design" }
-      ],
-      "default": "classic"
-    },
-    {
-      "type": "range",
-      "id": "timer_font_size",
-      "label": "Timer Number Size (px)",
-      "min": 24,
-      "max": 72,
-      "step": 2,
-      "default": 38
-    },
-    {
-      "type": "select",
-      "id": "timer_font_weight",
-      "label": "Timer Number Weight",
-      "options": [
-        { "value": "200", "label": "Extra Light" },
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "600", "label": "Semi-Bold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "200"
-    },
-    {
-      "type": "range",
-      "id": "timer_label_size",
-      "label": "Timer Label Size (px)",
-      "min": 8,
-      "max": 18,
-      "step": 1,
-      "default": 10
-    },
-    {
-      "type": "range",
-      "id": "timer_gap",
-      "label": "Gap Between Units (px)",
-      "min": 5,
-      "max": 40,
-      "step": 5,
-      "default": 15
-    },
-    {
       "type": "header",
-      "content": "🎨 Timer Box Styling (Boxed/Circle)"
-    },
-    {
-      "type": "color",
-      "id": "timer_box_bg",
-      "label": "Box Background",
-      "default": "#F5F5F5"
-    },
-    {
-      "type": "color",
-      "id": "timer_box_border",
-      "label": "Box Border Color",
-      "default": "#DDDDDD"
-    },
-    {
-      "type": "color",
-      "id": "timer_num_color",
-      "label": "Number Color (Box/Circle)",
-      "default": "#111111"
-    },
-    {
-      "type": "range",
-      "id": "box_radius",
-      "label": "Box Border Radius (px)",
-      "min": 0,
-      "max": 20,
-      "step": 2,
-      "default": 8
-    },
-    {
-      "type": "range",
-      "id": "circle_size",
-      "label": "Circle Size (px)",
-      "min": 60,
-      "max": 120,
-      "step": 5,
-      "default": 80
-    },
-    {
-      "type": "color",
-      "id": "timer_fade_color",
-      "label": "Fade Bottom Color (Large Style)",
-      "default": "#999999"
-    },
-    {
-      "type": "header",
-      "content": "🏷️ Custom Labels"
-    },
-    {
-      "type": "text",
-      "id": "days_label",
-      "label": "Days Label",
-      "default": "Days"
-    },
-    {
-      "type": "text",
-      "id": "hours_label",
-      "label": "Hours Label",
-      "default": "Hour"
-    },
-    {
-      "type": "text",
-      "id": "minutes_label",
-      "label": "Minutes Label",
-      "default": "Min"
-    },
-    {
-      "type": "text",
-      "id": "seconds_label",
-      "label": "Seconds Label",
-      "default": "Sec"
-    },
-    {
-      "type": "text",
-      "id": "expired_text",
-      "label": "Expired Message",
-      "default": "SALE ENDED"
-    },
-    {
-      "type": "header",
-      "content": "🔘 Button Settings"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_button",
-      "label": "Show Button",
-      "default": true
+      "content": "Button Settings"
     },
     {
       "type": "text",
@@ -622,55 +245,8 @@
       "label": "Button Link"
     },
     {
-      "type": "range",
-      "id": "btn_font_size",
-      "label": "Button Font Size (px)",
-      "min": 10,
-      "max": 20,
-      "step": 1,
-      "default": 12
-    },
-    {
-      "type": "select",
-      "id": "btn_font_weight",
-      "label": "Button Font Weight",
-      "options": [
-        { "value": "400", "label": "Regular" },
-        { "value": "600", "label": "Semi-Bold" },
-        { "value": "700", "label": "Bold" }
-      ],
-      "default": "600"
-    },
-    {
-      "type": "range",
-      "id": "btn_padding_v",
-      "label": "Button Padding Vertical (px)",
-      "min": 8,
-      "max": 24,
-      "step": 2,
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "btn_padding_h",
-      "label": "Button Padding Horizontal (px)",
-      "min": 16,
-      "max": 48,
-      "step": 2,
-      "default": 28
-    },
-    {
-      "type": "range",
-      "id": "btn_radius",
-      "label": "Button Border Radius (px)",
-      "min": 0,
-      "max": 50,
-      "step": 2,
-      "default": 0
-    },
-    {
       "type": "header",
-      "content": "🎨 Color Settings"
+      "content": "Colors"
     },
     {
       "type": "color",
@@ -688,36 +264,18 @@
       "type": "color",
       "id": "btn_bg",
       "label": "Button Background",
-      "default": "#1C1C1C"
+      "default": "#1c1c1c"
     },
     {
       "type": "color",
       "id": "btn_text",
       "label": "Button Text Color",
       "default": "#FFFFFF"
-    },
-    {
-      "type": "color",
-      "id": "btn_border",
-      "label": "Button Border Color",
-      "default": "#1C1C1C"
-    },
-    {
-      "type": "color",
-      "id": "btn_hover_bg",
-      "label": "Button Hover Background",
-      "default": "#333333"
-    },
-    {
-      "type": "color",
-      "id": "btn_hover_text",
-      "label": "Button Hover Text",
-      "default": "#FFFFFF"
     }
   ],
   "presets": [
     {
-      "name": "Flash Sale Countdown Pro",
+      "name": "Flash Sale Countdown",
       "category": "Promotional"
     }
   ]
