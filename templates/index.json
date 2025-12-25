@@ -407,7 +407,7 @@
         "heading_bWTwpy": {
           "type": "heading",
           "settings": {
-            "heading": "2026",
+            "heading": "ATTITUDE",
             "grid_position": "5",
             "grid_alignment": "center",
             "cl": "#222222",
@@ -446,6 +446,7 @@
       "settings": {
         "grid_columns": "1",
         "grid_rows": "1",
+        "block_image": "shopify://shop_images/Lucid_Origin_A_confident_young_white_man_seated_casually_in_a__1_1.jpg",
         "gap_direction": 0,
         "align_items": "center",
         "max_width": 1200,
