@@ -1543,7 +1543,7 @@
         "text_3px67P": {
           "type": "text",
           "settings": {
-            "ttl": "<h2>Confident & Casual</h2>",
+            "ttl": "<h2><em>Confident & Casual</em></h2>",
             "htag": "h2",
             "tff": "ft3",
             "fs": 24,
@@ -1559,9 +1559,9 @@
           "settings": {
             "ttl": "<p>Find your everyday comfort with our premium, ultra-soft tees designed for effortless style.</p>",
             "htag": "p",
-            "tff": "kug",
-            "fs": 14,
-            "fsm": 14,
+            "tff": "ft1",
+            "fs": 12,
+            "fsm": 12,
             "fw": "300",
             "lh": 1.4,
             "cl": "#000000",
