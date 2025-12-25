@@ -115,6 +115,13 @@
       text-align: center;
     }
   }
+  .bg_design{
+width:100%;
+background:{{ section.settings.bg_color }};
+height:100%;
+position:absolute;
+left:0;
+top:0}
 </style>
 
 <div class="flash-sale-container">
@@ -123,7 +130,7 @@
     <div class="flash-text">
       <strong>{{ section.settings.title }}</strong>
       <span class="pr">{{ section.settings.subtitle }}</span>
-      <span></span>
+      <span class="bg_design"></span>
     </div>
 
     <div class="flash-timer" id="countdown-{{ section.id }}" data-date="{{ section.settings.end_date }}">
