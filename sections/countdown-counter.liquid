@@ -116,16 +116,7 @@
     }
   }
 </style>
-
-<div class="flash-sale-container">
-  <div class="flash-sale-wrapper">
-    
-    <div class="flash-text">
-      <strong>{{ section.settings.title }}</strong>
-      <span class="pr">{{ section.settings.subtitle }}</span>
-      
-    </div>
-
+{% capture countdown %}
     <div class="flash-timer" id="countdown-{{ section.id }}" data-date="{{ section.settings.end_date }}">
       
       <div class="timer-block">
@@ -155,7 +146,18 @@
       </div>
 
     </div>
+{% endcapture %}
+<div class="flash-sale-container">
+  <div class="flash-sale-wrapper">
+    
+    <div class="flash-text">
+      <strong>{{ section.settings.title }}</strong>
+      <span class="pr">{{ section.settings.subtitle }}</span>
+      
+    </div>
 
+{{ countdown }}
+{{ countdown }}
     <div class="flash-cta">
       <a href="{{ section.settings.link }}" class="flash-btn">
         {{ section.settings.link_text }}
