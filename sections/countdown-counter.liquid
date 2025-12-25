@@ -1,13 +1,14 @@
 {% comment %}
-  Flash Sale Countdown Section
-  Style: Minimalist, Premium, Horizontal Layout
+  Flash Sale Countdown Section (With Days)
 {% endcomment %}
 
 <style>
-  /* Import a clean font if your theme doesn't have one (optional) */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
   .flash-sale-container {
     background-color: {{ section.settings.bg_color }};
     padding: 40px 20px;
+    font-family: 'Montserrat', sans-serif;
     color: {{ section.settings.text_color }};
   }
 
@@ -17,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap; /* Wraps on mobile */
+    flex-wrap: wrap;
     gap: 20px;
   }
 
@@ -37,8 +38,8 @@
   }
 
   .flash-text span {
-    font-weight: 300; /* Thin look from image */
-    color: {{ section.settings.text_color }}; /* Matches main text */
+    font-weight: 300;
+    color: {{ section.settings.text_color }};
   }
 
   /* --- CENTER: TIMER --- */
@@ -48,7 +49,7 @@
     justify-content: center;
     gap: 15px;
     flex: 1;
-    min-width: 250px;
+    min-width: 320px; /* Increased slightly to fit Days */
   }
 
   .timer-block {
@@ -59,10 +60,10 @@
 
   .timer-num {
     font-size: 38px;
-    font-weight: 200; /* Very thin premium look */
+    font-weight: 200;
     line-height: 1;
     margin-bottom: 5px;
-    font-variant-numeric: tabular-nums; /* Keeps numbers from jumping */
+    font-variant-numeric: tabular-nums;
   }
 
   .timer-label {
@@ -77,7 +78,7 @@
     font-size: 32px;
     font-weight: 200;
     line-height: 1;
-    margin-top: -2px; /* Slight optical adjustment */
+    margin-top: -2px;
   }
 
   /* --- RIGHT: BUTTON --- */
@@ -104,8 +105,7 @@
     opacity: 0.8;
   }
 
-  /* MOBILE RESPONSIVE */
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .flash-sale-wrapper {
       flex-direction: column;
       text-align: center;
@@ -121,12 +121,19 @@
   <div class="flash-sale-wrapper">
     
     <div class="flash-text">
-      <strong class="ft3">{{ section.settings.title }}</strong>
-      <span class="ft1">{{ section.settings.subtitle }}</span>
+      <strong>{{ section.settings.title }}</strong>
+      <span>{{ section.settings.subtitle }}</span>
     </div>
 
     <div class="flash-timer" id="countdown-{{ section.id }}" data-date="{{ section.settings.end_date }}">
       
+      <div class="timer-block">
+        <span class="timer-num" id="days">00</span>
+        <span class="timer-label">Days</span>
+      </div>
+      
+      <div class="timer-colon">:</div>
+
       <div class="timer-block">
         <span class="timer-num" id="hours">00</span>
         <span class="timer-label">Hour</span>
@@ -162,39 +169,40 @@
     const container = document.getElementById('countdown-{{ section.id }}');
     if (!container) return;
 
-    // Get the end date from settings (Format expected: YYYY-MM-DDTHH:MM:SS)
-    // If user enters simplified date in settings, we adapt logic below.
     const deadlineAttr = container.getAttribute('data-date');
-    
-    // We append the time to ensure it counts to a specific time if only date is provided
-    // Defaulting to end of that day if no time specified, or parsing directly if user provides ISO string
     const deadline = new Date(deadlineAttr).getTime();
+
+    // DOM Elements
+    const elDays = document.getElementById('days');
+    const elHours = document.getElementById('hours');
+    const elMins = document.getElementById('minutes');
+    const elSecs = document.getElementById('seconds');
 
     function updateTimer() {
       const now = new Date().getTime();
       const t = deadline - now;
 
       if (t < 0) {
-        // Timer expired
         container.innerHTML = "<div style='font-size:14px; opacity:0.6;'>EXPIRED</div>";
         clearInterval(timerInterval);
         return;
       }
 
       // Calculate time
+      const days = Math.floor(t / (1000 * 60 * 60 * 24));
       const hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((t % (1000 * 60)) / 1000);
 
-      // Add leading zeros
-      document.getElementById('days').innerText = (day < 31 ? '0') + days
-      document.getElementById('hours').innerText = (hours < 10 ? '0' : '') + hours;
-      document.getElementById('minutes').innerText = (minutes < 10 ? '0' : '') + minutes;
-      document.getElementById('seconds').innerText = (seconds < 10 ? '0' : '') + seconds;
+      // Update DOM with leading zeros
+      if(elDays) elDays.innerText = (days < 10 ? '0' : '') + days;
+      if(elHours) elHours.innerText = (hours < 10 ? '0' : '') + hours;
+      if(elMins) elMins.innerText = (minutes < 10 ? '0' : '') + minutes;
+      if(elSecs) elSecs.innerText = (seconds < 10 ? '0' : '') + seconds;
     }
 
     const timerInterval = setInterval(updateTimer, 1000);
-    updateTimer(); // Run immediately
+    updateTimer(); 
   })();
 </script>
 
