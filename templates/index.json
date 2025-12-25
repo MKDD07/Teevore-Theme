@@ -386,67 +386,19 @@
         "btn-size": "btn-md"
       }
     },
-    "countdown_timer_HCYUfG": {
-      "type": "countdown-timer",
-      "blocks": {
-        "text_aqExDR": {
-          "type": "text",
-          "settings": {
-            "ttl": "FLASH SALE : UP TO 40% OFF!",
-            "htag": "h2",
-            "tff": "ft3",
-            "fs": 24,
-            "fsm": 18,
-            "fw": "700",
-            "lh": 1.6,
-            "cl": "#000",
-            "mb": 10
-          }
-        },
-        "button_xy8Nda": {
-          "type": "button",
-          "settings": {
-            "btntxt": "SHOP NOW",
-            "url": "/",
-            "newtab1": false,
-            "btntxt1": "",
-            "url1": "",
-            "newtab2": false,
-            "btn-style": "btn7",
-            "btn-style1": "btn1",
-            "btn-size": "btn-md"
-          }
-        }
-      },
-      "block_order": [
-        "text_aqExDR",
-        "button_xy8Nda"
-      ],
-      "name": "Countdown Timer",
+    "countdown_counter_LEVDDt": {
+      "type": "countdown-counter",
+      "name": "Flash Sale Countdown",
       "settings": {
-        "layout": "right",
-        "date": "12/31/2025",
-        "cbg": "#111",
-        "ccl": "#eee",
-        "bdr": "#000",
-        "fs": 22,
-        "fw": "400",
-        "fsl": 12,
-        "radius": 5,
-        "sw": false,
-        "npd": false,
-        "bg": "#ffffff",
-        "bgg": "",
-        "ganim": false,
-        "animsp": 15,
-        "overlay": "#000",
-        "overlay_op": 0,
-        "sst": 40,
-        "ssb": 30,
-        "sstm": 25,
-        "ssbm": 25,
-        "hidem": false,
-        "hided": false
+        "title": "FLASH SALE :",
+        "subtitle": "UP TO 40% OFF!",
+        "end_date": "2025-12-31T23:59",
+        "link_text": "SHOP CLEARANCE",
+        "link": "",
+        "bg_color": "#FFFFFF",
+        "text_color": "#111111",
+        "btn_bg": "#1c1c1c",
+        "btn_text": "#FFFFFF"
       }
     },
     "richtext_v2_maBnQ4": {
@@ -2008,7 +1960,7 @@
   },
   "order": [
     "slideshow_9343dN",
-    "countdown_timer_HCYUfG",
+    "countdown_counter_LEVDDt",
     "richtext_v2_maBnQ4",
     "collection_list2_Nhz7Qe",
     "text_ticker_C67tKr",
