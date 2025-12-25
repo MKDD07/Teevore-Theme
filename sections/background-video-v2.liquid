@@ -13,6 +13,20 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  /* Dynamic Height Logic */
+  #VideoSection-{{ section.id }} .video-section__media {
+    height: {{ section.settings.video_height }}px;
+    padding-bottom: 0; /* Override standard aspect ratio padding */
+  }
+
+  /* Responsive adjustment for mobile: make it auto or smaller fixed height */
+  @media screen and (max-width: 749px) {
+    #VideoSection-{{ section.id }} .video-section__media {
+      height: 250px; /* Or use a mobile specific setting */
+      min-height: 250px;
+    }
+  }
 {%- endstyle -%}
 
 {%- liquid
@@ -29,17 +43,8 @@
   endif
 -%}
 
-{%- capture sizes -%}
-  {% if section.settings.full_width -%}
-    100vw
-  {%- else -%}
-    (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 }}px, (min-width: 750px)
-    calc(100vw - 10rem), 100vw
-  {%- endif %}
-{%- endcapture -%}
-
 <div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="video-section isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding">
+  <div class="video-section isolate{% unless section.settings.full_width %} page-width{% endunless %} section-{{ section.id }}-padding" id="VideoSection-{{ section.id }}">
     <div
       {% if section.settings.full_width %}
         class="page-width"
@@ -51,14 +56,10 @@
         </div>
       {%- endunless -%}
     </div>
+    
     <div
-      class="video-section__media deferred-media gradient global-media-settings{% if section.settings.full_width %} global-media-settings--full-width{% endif %}{% if fix_ratio %} media-fit-cover{% endif %}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+      class="video-section__media deferred-media gradient global-media-settings{% if section.settings.full_width %} global-media-settings--full-width{% endif %} media-fit-cover{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
       data-media-id="{{ video_id }}"
-      {% if poster != null %}
-        style="--ratio-percent: {{ 1 | divided_by: poster.aspect_ratio | times: 100 }}%; height: {{ section.settings.video_height }}px;"
-      {% else %}
-        style="height: {{ section.settings.video_height }}px;"
-      {% endif %}
     >
       {%- if section.settings.video == null and section.settings.video_url != null -%}
         {%- liquid
@@ -69,7 +70,7 @@
         -%}
         {%- if section.settings.video_url.type == 'youtube' -%}
           <iframe
-            src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}"
+            src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&autoplay=1{{ loop }}&controls=0&rel=0&showinfo=0"
             class="js-youtube"
             allow="autoplay; encrypted-media"
             allowfullscreen
@@ -77,7 +78,7 @@
           ></iframe>
         {%- else -%}
           <iframe
-            src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}"
+            src="https://player.vimeo.com/video/{{ video_id }}?autoplay=1{{ loop }}&background=1"
             class="js-vimeo"
             allow="autoplay; encrypted-media"
             allowfullscreen
@@ -85,17 +86,17 @@
           ></iframe>
         {%- endif -%}
       {%- else -%}
-      {{
-        section.settings.video
-        | video_tag: 
+        {{
+          section.settings.video
+          | video_tag:
             image_size: '1100x',
             autoplay: true,
             loop: section.settings.enable_video_looping,
             controls: false,
             muted: true,
-            alt: shop.name,
-            title: shop.name
-      }}
+            class: 'video-plays-inline',
+            alt: video_alt
+        }}
       {%- endif -%}
     </div>
   </div>
@@ -120,26 +121,11 @@
       "type": "select",
       "id": "heading_size",
       "options": [
-        {
-          "value": "h2",
-          "label": "Small"
-        },
-        {
-          "value": "h1",
-          "label": "Medium"
-        },
-        {
-          "value": "h0",
-          "label": "Large"
-        },
-        {
-          "value": "hxl",
-          "label": "Extra Large"
-        },
-        {
-          "value": "hxxl",
-          "label": "XX Large"
-        }
+        { "value": "h2", "label": "Small" },
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" },
+        { "value": "hxl", "label": "Extra Large" },
+        { "value": "hxxl", "label": "XX Large" }
       ],
       "default": "h1",
       "label": "Heading size"
@@ -178,17 +164,17 @@
     {
       "type": "text",
       "id": "description",
-      "label": "Description"
+      "label": "Video description (accessibility)"
     },
     {
       "type": "range",
       "id": "video_height",
       "min": 200,
-      "max": 800,
+      "max": 900,
       "step": 20,
       "unit": "px",
-      "label": "Video height",
-      "default": 400
+      "label": "Desktop Video height",
+      "default": 500
     },
     {
       "type": "header",
@@ -232,12 +218,13 @@
   ]
 }
 {% endschema %}
+
 {% style %}
+/* Ensure the container respects the height set in liquid */
 .video-section__media {
-  --ratio-percent: 56.25%;
   position: relative;
-  padding-bottom: calc(var(--ratio-percent) - var(--media-border-width));
   overflow: hidden;
+  width: 100%;
 }
 
 .scroll-trigger:where(.gradient.video-section__media) {
@@ -245,44 +232,41 @@
 }
 
 .video-section__media.global-media-settings--full-width {
-  padding-bottom: var(--ratio-percent);
+  width: 100%;
 }
 
 .video-section__media.deferred-media {
-  box-shadow: var(--media-shadow-horizontal-offset) var(--media-shadow-vertical-offset) var(--media-shadow-blur-radius)
-    rgba(var(--color-shadow), var(--media-shadow-opacity));
-}
-
-.video-section__media.deferred-media:after {
-  content: none;
-}
-
-.video-section__media iframe {
-  background-color: rgba(var(--color-foreground), 0.03);
-  border: 0;
+  box-shadow: var(--media-shadow-horizontal-offset) var(--media-shadow-vertical-offset) var(--media-shadow-blur-radius) rgba(var(--color-shadow), var(--media-shadow-opacity));
 }
 
 .video-section__media iframe,
 .video-section__media video {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover; /* Key fix: ensures video covers the container height */
+  pointer-events: none; /* Prevents interaction if using it as a background video */
+}
+
+/* Specific fix for YouTube/Vimeo if object-fit doesn't work perfectly on iframes */
+.video-section__media iframe {
+   width: 177.77vh; /* 16:9 aspect ratio compensation */
+   height: 56.25vw; 
+   min-height: 100%;
+   min-width: 100%;
+}
+
+/* Reset for standard video tags which support object-fit natively */
+.video-section__media video {
   width: 100%;
   height: 100%;
 }
 
-.video-section__media video {
-  background: #000000;
-}
-
-.video-section__media.media-fit-cover video {
-  object-fit: cover;
-}
-
 .deferred-media {
   overflow: hidden;
+  border-radius: var(--media-radius);
 }
-
-.deferred-media:not([loaded]) template {
-  z-index: -1;
-}
-
 {% endstyle %}
