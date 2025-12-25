@@ -1543,7 +1543,7 @@
         "text_3px67P": {
           "type": "text",
           "settings": {
-            "ttl": "<h3><em>Confident & Casual</em></h3>",
+            "ttl": "<h3>Confident & Casual</h3>",
             "htag": "h2",
             "tff": "kug",
             "fs": 24,
@@ -1575,12 +1575,12 @@
             "url": "shopify://collections",
             "newtab1": false,
             "btntxt1": "",
-            "url1": "",
+            "url1": "shopify://collections/ash-dune",
             "newtab2": false,
-            "btn-style": "btn4",
+            "btn-style": "btn7",
             "btn-style1": "btn1",
             "btn-size": "btn-sm",
-            "mb": 30
+            "mb": 0
           }
         }
       },
@@ -1590,7 +1590,7 @@
         "button_bCFWyR"
       ],
       "custom_css": [
-        "h3, p {font-family: \"ITC Avant Garde\";}"
+        "h3,p {font-family: \"ITC Avant Garde\";}"
       ],
       "name": "Images Collage with Text",
       "settings": {
