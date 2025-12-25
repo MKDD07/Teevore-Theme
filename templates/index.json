@@ -396,8 +396,8 @@
         "link_text": "SHOP CLEARANCE",
         "link": "",
         "bg_color": "#FFFFFF",
-        "text_color": "#111111",
-        "btn_bg": "#1c1c1c",
+        "text_color": "#086be2",
+        "btn_bg": "#086be2",
         "btn_text": "#FFFFFF"
       }
     },

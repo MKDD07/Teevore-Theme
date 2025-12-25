@@ -79,7 +79,7 @@
     "btnf": 13,
     "btn_weight": "300",
     "btncase": "none",
-    "btn_rad": 5,
+    "btn_rad": 0,
     "bdr_width": 0,
     "btn1_txt": "#ffffff",
     "btn1": "#086be2",
