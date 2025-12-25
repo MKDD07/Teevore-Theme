@@ -1,0 +1,285 @@
+{% comment %}
+  Flash Sale Countdown Section
+  Style: Minimalist, Premium, Horizontal Layout
+{% endcomment %}
+
+<style>
+  /* Import a clean font if your theme doesn't have one (optional) */
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+  .flash-sale-container {
+    background-color: {{ section.settings.bg_color }};
+    padding: 40px 20px;
+    font-family: 'Montserrat', sans-serif; /* Or use your theme's font */
+    color: {{ section.settings.text_color }};
+  }
+
+  .flash-sale-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Wraps on mobile */
+    gap: 20px;
+  }
+
+  /* --- LEFT: TEXT --- */
+  .flash-text {
+    font-size: 20px;
+    letter-spacing: 0.5px;
+    flex: 1;
+    min-width: 250px;
+    text-align: left;
+  }
+  
+  .flash-text strong {
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-right: 5px;
+  }
+
+  .flash-text span {
+    font-weight: 300; /* Thin look from image */
+    color: {{ section.settings.text_color }}; /* Matches main text */
+  }
+
+  /* --- CENTER: TIMER --- */
+  .flash-timer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .timer-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timer-num {
+    font-size: 38px;
+    font-weight: 200; /* Very thin premium look */
+    line-height: 1;
+    margin-bottom: 5px;
+    font-variant-numeric: tabular-nums; /* Keeps numbers from jumping */
+  }
+
+  .timer-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    opacity: 0.8;
+  }
+
+  .timer-colon {
+    font-size: 32px;
+    font-weight: 200;
+    line-height: 1;
+    margin-top: -2px; /* Slight optical adjustment */
+  }
+
+  /* --- RIGHT: BUTTON --- */
+  .flash-cta {
+    flex: 1;
+    min-width: 200px;
+    text-align: right;
+  }
+
+  .flash-btn {
+    display: inline-block;
+    background-color: {{ section.settings.btn_bg }};
+    color: {{ section.settings.btn_text }};
+    padding: 14px 28px;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+    border: 1px solid {{ section.settings.btn_bg }};
+  }
+
+  .flash-btn:hover {
+    opacity: 0.8;
+  }
+
+  /* MOBILE RESPONSIVE */
+  @media (max-width: 768px) {
+    .flash-sale-wrapper {
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+    }
+    .flash-text, .flash-cta {
+      text-align: center;
+    }
+  }
+</style>
+
+<div class="flash-sale-container">
+  <div class="flash-sale-wrapper">
+    
+    <div class="flash-text">
+      <strong>{{ section.settings.title }}</strong>
+      <span>{{ section.settings.subtitle }}</span>
+    </div>
+
+    <div class="flash-timer" id="countdown-{{ section.id }}" data-date="{{ section.settings.end_date }}">
+      
+      <div class="timer-block">
+        <span class="timer-num" id="hours">00</span>
+        <span class="timer-label">Hour</span>
+      </div>
+      
+      <div class="timer-colon">:</div>
+      
+      <div class="timer-block">
+        <span class="timer-num" id="minutes">00</span>
+        <span class="timer-label">Min</span>
+      </div>
+      
+      <div class="timer-colon">:</div>
+      
+      <div class="timer-block">
+        <span class="timer-num" id="seconds">00</span>
+        <span class="timer-label">Sec</span>
+      </div>
+
+    </div>
+
+    <div class="flash-cta">
+      <a href="{{ section.settings.link }}" class="flash-btn">
+        {{ section.settings.link_text }}
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (function() {
+    const container = document.getElementById('countdown-{{ section.id }}');
+    if (!container) return;
+
+    // Get the end date from settings (Format expected: YYYY-MM-DDTHH:MM:SS)
+    // If user enters simplified date in settings, we adapt logic below.
+    const deadlineAttr = container.getAttribute('data-date');
+    
+    // We append the time to ensure it counts to a specific time if only date is provided
+    // Defaulting to end of that day if no time specified, or parsing directly if user provides ISO string
+    const deadline = new Date(deadlineAttr).getTime();
+
+    function updateTimer() {
+      const now = new Date().getTime();
+      const t = deadline - now;
+
+      if (t < 0) {
+        // Timer expired
+        container.innerHTML = "<div style='font-size:14px; opacity:0.6;'>EXPIRED</div>";
+        clearInterval(timerInterval);
+        return;
+      }
+
+      // Calculate time
+      const hours = Math.floor((t % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((t % (1000 * 60)) / 1000);
+
+      // Add leading zeros
+      document.getElementById('hours').innerText = (hours < 10 ? '0' : '') + hours;
+      document.getElementById('minutes').innerText = (minutes < 10 ? '0' : '') + minutes;
+      document.getElementById('seconds').innerText = (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    const timerInterval = setInterval(updateTimer, 1000);
+    updateTimer(); // Run immediately
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Flash Sale Countdown",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Text Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Bold Title",
+      "default": "FLASH SALE :"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Thin Subtitle",
+      "default": "UP TO 40% OFF!"
+    },
+    {
+      "type": "header",
+      "content": "Timer Settings"
+    },
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End Date/Time",
+      "info": "Format: YYYY-MM-DDTHH:MM (e.g. 2025-12-31T23:59)",
+      "default": "2025-12-31T23:59"
+    },
+    {
+      "type": "header",
+      "content": "Button Settings"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Button Label",
+      "default": "SHOP CLEARANCE"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Button Background",
+      "default": "#1c1c1c"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Button Text Color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flash Sale Countdown",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}
