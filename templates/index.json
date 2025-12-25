@@ -1543,9 +1543,9 @@
         "text_3px67P": {
           "type": "text",
           "settings": {
-            "ttl": "<h3>Confident & Casual</h3>",
+            "ttl": "<h2>Confident & Casual</h2>",
             "htag": "h2",
-            "tff": "kug",
+            "tff": "ft3",
             "fs": 24,
             "fsm": 18,
             "fw": "700",
@@ -1589,9 +1589,7 @@
         "text_wieVmL",
         "button_bCFWyR"
       ],
-      "custom_css": [
-        "h3,p {font-family: \"ITC Avant Garde\";}"
-      ],
+      "custom_css": [],
       "name": "Images Collage with Text",
       "settings": {
         "image1": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
