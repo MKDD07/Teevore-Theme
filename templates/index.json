@@ -1590,7 +1590,7 @@
         "button_bCFWyR"
       ],
       "custom_css": [
-        "p {font-family: \"ITC Avant Garde\";}"
+        "h3, p {font-family: \"ITC Avant Garde\";}"
       ],
       "name": "Images Collage with Text",
       "settings": {
