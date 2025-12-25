@@ -810,7 +810,11 @@
           {
             "value": "local",
             "label": "Local"
-          }
+          },
+                    {
+            "value": "fancy",
+            "label": "Fancy"
+          },
         ]
       },
       {
