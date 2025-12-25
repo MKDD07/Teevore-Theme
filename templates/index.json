@@ -1590,7 +1590,7 @@
         "button_bCFWyR"
       ],
       "custom_css": [
-        ".btn{line-height: 1.0}"
+        ".btn {line-height: 1.7;}"
       ],
       "name": "Images Collage with Text",
       "settings": {
