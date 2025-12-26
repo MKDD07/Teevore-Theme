@@ -484,6 +484,9 @@
     },
     "background_video_v2_DUa4Gf": {
       "type": "background-video-v2",
+      "custom_css": [
+        "video{mix-blend-mode: multiply;}"
+      ],
       "name": "Video",
       "settings": {
         "heading": "",
