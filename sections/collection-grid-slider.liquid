@@ -43,7 +43,7 @@
              {{ block.shopify_attributes }}>
 
           <div class="collection-card" 
-               style="--card-bg: {{ block_st.bg_color }}; --card-text: {{ block_st.text_color }};">
+               style="--card-bg: {{ block_st.bg_color }}; --card-text: {{ block_st.text_color }};color:{{section_st.icon_color }}">
                           <spans>{{ block_st.svg_code }}</spans>
 
 
@@ -655,6 +655,12 @@ document.addEventListener('DOMContentLoaded', function() {
           "type": "color",
           "id": "bg_color",
           "label": "Background color",
+          "default": "#f5f5f5"
+        },
+                {
+          "type": "color",
+          "id": "icon_color",
+          "label": "Icon color",
           "default": "#f5f5f5"
         },
         {
