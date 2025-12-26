@@ -220,7 +220,8 @@
         "dd_zjTp6r"
       ],
       "custom_css": [
-        ".fw-sec .mgmenu.mmfull {padding-left: 20px; padding-right: 20px;}"
+        ".fw-sec .mgmenu.mmfull {padding-left: 20px; padding-right: 20px;}",
+        "#header {backdrop-filter: saturate(180%) blur(20px);}"
       ],
       "settings": {
         "ht": 70,
