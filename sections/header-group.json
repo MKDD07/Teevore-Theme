@@ -59,7 +59,7 @@
         "cl_zFkAVG"
       ],
       "custom_css": [
-        ".promo .scIcn,{color: white !important;}"
+        ".promo .scIcn {color: #086be2 !important;}"
       ],
       "name": "Promotion Bar",
       "settings": {
@@ -68,7 +68,7 @@
         "ftsm": 13,
         "fw": "400",
         "lh": 1,
-        "cl": "#ffffff",
+        "cl": "#086be2",
         "clhl": "#ffffff",
         "cnt_txt": "#e74646",
         "btncl": "#414042",
