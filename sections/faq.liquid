@@ -51,7 +51,7 @@
         </div>
     {%- endif -%}
 
-    <div class="{% if section_st.enable_small_card %}resp-flex col-md-2 col-1{% else %}col-1 {% endif %}">
+    <div class="{% if section_st.enable_small_card %}resp-flex{% else %}col-1 {% endif %}">
       <div
         id="faq{{ section.id }}"
         class="{% if is_links %}fl1{% endif %}{% if section_st.accor %} accor{% else %} no-accor{% endif %}{% if has_newsletter or has_contact_form %} wd100 wd60-md{% else %} col-100{% endif %}"
