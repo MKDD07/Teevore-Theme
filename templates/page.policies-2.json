@@ -94,6 +94,7 @@
             "button_text": "",
             "button_link": "shopify://policies/terms-of-service",
             "bg_color": "#f5f5f5",
+            "icon_color": "#086be2",
             "text_color": "#ffffff"
           }
         },
@@ -107,6 +108,7 @@
             "button_text": "",
             "button_link": "shopify://policies/shipping-policy",
             "bg_color": "#f5f5f5",
+            "icon_color": "#f5f5f5",
             "text_color": "#ffffff"
           }
         },
@@ -120,6 +122,7 @@
             "button_text": "",
             "button_link": "shopify://policies/refund-policy",
             "bg_color": "#f5f5f5",
+            "icon_color": "#f5f5f5",
             "text_color": "#ffffff"
           }
         },
@@ -133,6 +136,7 @@
             "button_text": "",
             "button_link": "shopify://policies/privacy-policy",
             "bg_color": "#f5f5f5",
+            "icon_color": "#f5f5f5",
             "text_color": "#ffffff"
           }
         },
@@ -146,6 +150,7 @@
             "button_text": "",
             "button_link": "shopify://policies/contact-information",
             "bg_color": "#f5f5f5",
+            "icon_color": "#f5f5f5",
             "text_color": "#ffffff"
           }
         }
@@ -160,7 +165,7 @@
       "name": "Collection Grid",
       "settings": {
         "title": "<p>{{ page.title }}</p>",
-        "subtitle": "{{ page.content }}",
+        "subtitle": "<p>{{ page.content }}</p>",
         "expand_width": 400,
         "collapse_width": 150,
         "grid_gap": 10,
