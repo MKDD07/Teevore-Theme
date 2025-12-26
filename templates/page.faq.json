@@ -55,7 +55,7 @@
       "disabled": true,
       "settings": {
         "page_title": false,
-        "content_data": "",
+        "content_data": "{{ page.title }}",
         "hit": 400,
         "hitt": 400,
         "hitm": 300,
@@ -83,6 +83,30 @@
     "faq_ycWURw": {
       "type": "faq",
       "blocks": {
+        "contact_form_aT9nVh": {
+          "type": "contact_form",
+          "settings": {
+            "title": "",
+            "details": "",
+            "page_width": 1000,
+            "layout": "1",
+            "show_phone": false,
+            "show_subject": false,
+            "btn-style": "btn1",
+            "bg": "#ffffff",
+            "color_fill": "#ffffff",
+            "bgg": "",
+            "overlay": "#3d4246",
+            "overlay_op": 0,
+            "headings_cl": "",
+            "sst": 40,
+            "ssb": 40,
+            "sstm": 15,
+            "ssbm": 15,
+            "hidem": false,
+            "hided": false
+          }
+        },
         "ttl_ackxJb": {
           "type": "ttl",
           "settings": {
@@ -100,14 +124,17 @@
         }
       },
       "block_order": [
+        "contact_form_aT9nVh",
         "ttl_ackxJb",
         "faqs_DwB8QQ"
       ],
       "name": "Modern FAQ",
       "settings": {
-        "title": "Frequently Asked Questions",
+        "title": "FAQ's",
         "subtitle": "Find answers to common questions about our products and services",
-        "sw": false,
+        "enable_small_card": true,
+        "enable_faq_only": true,
+        "italic_font_selection": "primary",
         "page_width": 900,
         "accor": true,
         "acc_style": "1",
@@ -122,12 +149,21 @@
         "an": "#666666",
         "fst": 14,
         "fsmt": 14,
+        "bdr": "#e5e5e5",
         "links": false,
+        "lfs": 14,
+        "lfsm": 14,
+        "lfw": "600",
+        "lcl": "#444444",
+        "lclh": "#000000",
+        "lbg": "#ffffff",
+        "lbd": "#eeeeee",
+        "sw": false,
         "bg": "#ffffff",
         "bgg": "",
         "overlay": "#000000",
         "overlay_op": 0,
-        "bdr": "#e5e5e5",
+        "headings_cl": "",
         "sst": 60,
         "ssb": 60,
         "sstm": 40,

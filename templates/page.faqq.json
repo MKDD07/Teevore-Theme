@@ -52,9 +52,8 @@
         "title",
         "text_GVAD8a"
       ],
-      "disabled": true,
       "settings": {
-        "page_title": false,
+        "page_title": true,
         "content_data": "",
         "hit": 400,
         "hitt": 400,
@@ -166,7 +165,7 @@
       "settings": {
         "title": "",
         "subtitle": "Provides answers to a list of typical questions that users might ask",
-        "enable_small_card": true,
+        "enable_small_card": false,
         "enable_faq_only": true,
         "italic_font_selection": "primary",
         "page_width": 1000,
