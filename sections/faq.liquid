@@ -30,7 +30,7 @@
     {%- if is_links -%}
       <div class="fl f-ais gap f-col f-row-md" style="--gap:50px;--gapm:20px;">
         <div
-          class="wd20 faqLinks {% render 'animate-data', css:true %}"
+          class="wd20 {% render 'animate-data', css:true %}"
           style="--cl:{{ section_st.lcl }};--clh:{{ section_st.lclh }};--fs:{{ section_st.lfs }}px;--fsm:{{ section_st.lfsm }}px;--fw:{{ section_st.lfw }};--bg:{{ section_st.lbg }};--bd:{{ section_st.lbd }};--icns:14px;"
         >
           {% for block in section.blocks %}
