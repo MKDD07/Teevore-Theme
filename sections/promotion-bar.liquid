@@ -5,185 +5,388 @@
   assign currency_blocks = section.blocks | where: 'type', 'cl'
 -%}
 
-{%- if section_st.arr_show == 'forever' -%}
-  <style>
-    .top-promo .swarw { opacity: 1; }
-  </style>
-{%- endif -%}
-  <div
-  class="sec_cov promo {% if section_st.hidem %} hide-sm{% endif %}{% if section_st.hided %} hide-md hide-lg{% endif %}{% if section_st.bgimg != blank %} bgImg lazyload{% endif %}"
-  style="
-    --sbg:{% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}{% unless request.path contains '/collections/women' or template contains  'girls_collections' %}{{ settings.bgs }}{% else %}{{ settings.bgl }}{% endunless %}{% endif %};
-    --sst:{{ section_st.sst }}px;
-    --ssb:{{ section_st.ssb }}px;
-    --sstm:{{ section_st.sstm }}px;
-    --ssbm:{{ section_st.ssbm }}px;
-    --overlay:{{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};
-  "
-  {%- if section_st.bgimg != blank -%}
-    data-bgset="{{ section_st.bgimg | image_url: width: section_st.bgimg.width }}"
-    data-sizes="auto"
-    data-parent-fit="contain"
-  {%- endif -%}
->
-  <div
-    id="{{ section.id }}"
-    class="{% if section_st.sw %} fw-sec{% else %}page-width{% endif %} top-promo zi1 pr fl"
-    style="
-      --fs:{{ section_st.fts }}px;
-      --fs_dot:{{ section_st.fts | minus: 1 }}px;
-      --fsl:{{ section_st.fts }}px;
-      --fsm:{{ section_st.ftsm }}px;
-      --lh:{{ section_st.lh }};
-      --fw:{{ section_st.fw }};
-      --mwidth:{{ section_st.fts | plus: 5 }}px;
-      --cl:{{ section_st.cl }};
-      --clhl:{{ section_st.clhl }};
-      --btncl:{{ section_st.btncl }};
-      --btnbg:{{ section_st.btnbg }};
-    "
-  >
-    {%- comment -%} Social Media Section {%- endcomment -%}
-    {%- if social_blocks.size > 0 -%}
-      {%- assign social_block = social_blocks.first -%}
-      <div
-        class="{{ social_block.settings.al }} tscl fl1 wd20 hide-sm hide-md"
-      >
-        {%- render 'social-media' -%}
-      </div>
-    {%- endif -%}
-
-    {%- comment -%} Promotion Messages Section {%- endcomment -%}
-    {%- if promotion_blocks.size > 0 -%}
-      {%- if promotion_blocks.size > 1 -%}
-        <slide-section
-          class="flslieds swiper wd60-lg wd100"
-          data-swiper='
-            {
-              "slidesPerView": "1",
-              "loop": true,
-              {% if section_st.autoplay %}"autoplay": { "delay": "{{ section_st.speed | times: 1000 }}" },{% endif %}
-              {% if section_st.fade %}"effect": "fade",{% endif %}
-              "navigation": {
-                "nextEl": ".swn{{ section.id }}",
-                "prevEl": ".swp{{ section.id }}"
-              }
-            }
-          '
-        >
-          <div class="swiper-wrapper f-aic">
-      {%- endif -%}
-
-      {%- for block in promotion_blocks -%}
-        {%- assign blk_st = block.settings -%}
-        {%- assign has_countdown = false -%}
-        {%- assign has_button = false -%}
-        {%- if blk_st.title contains '[countdown]' -%}
-          {%- assign has_countdown = true -%}
-        {%- endif -%}
-        {%- if blk_st.title contains '[button]' and blk_st.btn_txt != blank -%}
-          {%- assign has_button = true -%}
-        {%- endif -%}
-
-        <div
-          class="{% if promotion_blocks.size > 1 %}swiper-slide {% endif %} fckSl"
-          id="{{ block.id }}"
-          {{ block.shopify_attributes }}
-        >
-          {%- if blk_st.title != blank -%}
-            {%- assign display_title = blk_st.title -%}
-
-            {%- if has_countdown -%}
-              {%- capture countdown_html -%}
-                <countdown-time class="atCounter inline_timer fl f-aic ttu" style="--cl:{{ section_st.cnt_txt }};" data-date="{{ blk_st.date }}">
-                  <span><span class="tm days">00</span> {{ 'date_formats.days_short' | t }} <span class="timerdot">:</span></span>
-                  <span><span class="tm hours">00</span> {{ 'date_formats.hours_short' | t }} <span class="timerdot">:</span></span>
-                  <span><span class="tm minutes">00</span> {{ 'date_formats.minuts_short' | t }} <span class="timerdot">:</span></span>
-                  <span><span class="seconds">00</span> {{ 'date_formats.seconds_short' | t }}</span>
-                </countdown-time>
-              {%- endcapture -%}
-              {%- assign display_title = display_title | replace: '[countdown]', countdown_html -%}
-            {%- endif -%}
-
-            {%- if has_button -%}
-              {%- capture button_html -%}
-                <span class="pr btn btn-sm{% if blk_st.hdbtn %} hide-sm{% endif %}">{{ blk_st.btn_txt }}</span>
-              {%- endcapture -%}
-              {%- assign display_title = display_title | replace: '[button]', button_html -%}
-            {%- endif -%}
-
-            <a
-              {% if blk_st.link != blank %}
-                href="{{ blk_st.link }}"
-              {% else %}
-                role="link" aria-disabled="true"
-              {% endif %}
-              class="promo_msg rgTxt fl f-jcc f-aic col-gap {{ section_st.fontFm }} tc"
-              style="--gap:10px; --min-height: 30px;"
-            >
-              {{ display_title }}
-            </a>
-          {%- endif -%}
-        </div>
-      {%- endfor -%}
-
-      {%- if promotion_blocks.size > 1 -%}
-        </div>
-        {%- render 'swiper-navigation', id: section.id, section_st: section_st -%}
-        </slide-section>
-      {%- endif -%}
-    {%- endif -%}
-
-    {%- comment -%} Currency/Language Section {%- endcomment -%}
-    {%- if currency_blocks.size > 0 -%}
-      {%- assign currency_block = currency_blocks.first -%}
-      {%- assign cl_st = currency_block.settings -%}
-      <div
-        class="money-selection wd20 fl f-jce hide-sm hide-md {{ cl_st.al }}"
-      >
-        {%- if cl_st.sc -%}
-          {%- render 'social-media' -%}
-        {%- endif -%}
-
-        {%- if cl_st.menu != blank and linklists[cl_st.menu].links.size > 0 -%}
-          {%- for link in linklists[cl_st.menu].links -%}
-            <a href="{{ link.url }}" class="menu-link">{{ link.title }}</a>
-          {%- endfor -%}
-        {%- endif -%}
-
-        {%- if cl_st.txt != blank -%}
-          <div class="custom-text">{{ cl_st.txt }}</div>
-        {%- endif -%}
-
-        {%- if settings.mlcurrency or settings.mlLang -%}
-          {%- render 'currencyLang' -%}
-          {% else %}
-      <a class="btn btn-smd btn3" href="{{ section.settings.track_order }}">
-        {{ section.settings.track_order_text }}
-      </a>        
-      {%- endif -%}
-      </div>
-    {%- endif -%}
-  </div>
-</div>
 {%- style -%}
-  #{{ section.id }} .rgTxt {
-    margin-bottom: 0 !important;
+  #shopify-section-{{ section.id }} {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #{{ section.id }} {
+    --promo-fs: {{ section_st.fts }}px;
+    --promo-fsm: {{ section_st.ftsm }}px;
+    --promo-lh: {{ section_st.lh }};
+    --promo-fw: {{ section_st.fw }};
+    --promo-cl: {{ section_st.cl }};
+    --promo-clhl: {{ section_st.clhl }};
+    --promo-btncl: {{ section_st.btncl }};
+    --promo-btnbg: {{ section_st.btnbg }};
+    --promo-cnt: {{ section_st.cnt_txt }};
+    --promo-bg: {% if section_st.bgg != blank %}{{ section_st.bgg }}{% else %}#000000{% endif %};
+    --promo-overlay: {{ section_st.overlay | color_modify: 'alpha', section_st.overlay_op }};
+    --promo-sst: {{ section_st.sst }}px;
+    --promo-ssb: {{ section_st.ssb }}px;
+    --promo-sstm: {{ section_st.sstm }}px;
+    --promo-ssbm: {{ section_st.ssbm }}px;
+  }
+
+  .promo-bar-wrapper {
+    background: var(--promo-bg);
+    position: relative;
+    padding-top: var(--promo-sst);
+    padding-bottom: var(--promo-ssb);
+  }
+
+  @media (max-width: 749px) {
+    .promo-bar-wrapper {
+      padding-top: var(--promo-sstm);
+      padding-bottom: var(--promo-ssbm);
+    }
+  }
+
+  {%- if section_st.bgimg != blank -%}
+    .promo-bar-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('{{ section_st.bgimg | image_url: width: 2000 }}');
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+    }
+    .promo-bar-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--promo-overlay);
+      z-index: 1;
+    }
+  {%- endif -%}
+
+  .promo-bar-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    {% unless section_st.sw %}max-width: 1200px; margin: 0 auto; padding: 0 20px;{% endunless %}
+  }
+
+  .promo-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+  }
+
+  .promo-message {
+    font-family: var(--{{ section_st.fontFm }});
+    font-size: var(--promo-fs);
+    font-weight: var(--promo-fw);
+    line-height: var(--promo-lh);
+    color: var(--promo-cl);
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+
+  @media (max-width: 749px) {
+    .promo-message {
+      font-size: var(--promo-fsm);
+    }
+  }
+
+  .promo-message .hl {
+    color: var(--promo-clhl);
+  }
+
+  .promo-message .promo-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    background: var(--promo-btnbg);
+    color: var(--promo-btncl);
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .promo-message .promo-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 749px) {
+    .promo-message .promo-btn.hide-mobile {
+      display: none;
+    }
+  }
+
+  .promo-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--promo-cnt);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .promo-countdown span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .promo-countdown .time-value {
+    font-size: 1.1em;
+  }
+
+  .promo-countdown .time-separator {
+    margin: 0 2px;
+  }
+
+  .promo-side-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 180px;
+  }
+
+  @media (max-width: 989px) {
+    .promo-side-section {
+      display: none;
+    }
+  }
+
+  .promo-side-left {
+    justify-content: flex-start;
+  }
+
+  .promo-side-right {
+    justify-content: flex-end;
+  }
+
+  .promo-social {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .promo-social a {
+    color: var(--promo-cl);
+    font-size: 18px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .promo-social a:hover {
+    color: var(--promo-clhl);
+    transform: scale(1.1);
+  }
+
+  .promo-menu-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .promo-menu-links a {
+    color: var(--promo-cl);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .promo-menu-links a:hover {
+    color: var(--promo-clhl);
+  }
+
+  .promo-selectors {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .promo-selector {
+    position: relative;
+  }
+
+  .promo-selector select,
+  .promo-track-btn {
+    background: transparent;
+    border: 1px solid var(--promo-cl);
+    color: var(--promo-cl);
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .promo-selector select:hover,
+  .promo-track-btn:hover {
+    background: var(--promo-cl);
+    color: var(--promo-bg);
+  }
+
+  .promo-track-btn {
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  {%- if promotion_blocks.size > 1 -%}
+    .promo-slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .promo-slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .promo-slide {
+      min-width: 100%;
+      flex-shrink: 0;
+    }
+
+    {%- if section_st.arrow or section_st.arrowm -%}
+      .promo-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.2);
+        border: none;
+        color: var(--promo-cl);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        {% if section_st.arr_show == 'hover' %}opacity: 0;{% endif %}
+      }
+
+      .promo-bar-wrapper:hover .promo-arrow {
+        opacity: 1;
+      }
+
+      .promo-arrow:hover {
+        background: rgba(255,255,255,0.4);
+      }
+
+      .promo-arrow-prev {
+        left: 10px;
+      }
+
+      .promo-arrow-next {
+        right: 10px;
+      }
+
+      @media (max-width: 749px) {
+        .promo-arrow {
+          {% unless section_st.arrowm %}display: none;{% endunless %}
+        }
+      }
+
+      @media (min-width: 750px) {
+        .promo-arrow {
+          {% unless section_st.arrow %}display: none;{% endunless %}
+        }
+      }
+    {%- endif -%}
+  {%- endif -%}
+
+  @media (max-width: 749px) {
+    #{{ section.id }}.hide-mobile {
+      display: none;
+    }
+  }
+
+  @media (min-width: 750px) {
+    #{{ section.id }}.hide-desktop {
+      display: none;
+    }
   }
 {%- endstyle -%}
+
+<div 
+  id="shopify-section-{{ section.id }}" 
+  class="promo-bar-wrapper{% if section_st.hidem %} hide-mobile{% endif %}{% if section_st.hided %} hide-desktop{% endif %}"
+>
+  <div id="{{ section.id }}" class="promo-bar-container">
+<script>
+(function() {
+  const countdowns = document.querySelectorAll('#shopify-section-{{ section.id }} .promo-countdown');
+  
+  countdowns.forEach(countdown => {
+    const dateStr = countdown.dataset.date;
+    if (!dateStr) return;
+    
+    const [month, day, year] = dateStr.split('/');
+    const endDate = new Date(year, month - 1, day, 23, 59, 59).getTime();
+    
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = endDate - now;
+      
+      if (distance < 0) {
+        countdown.innerHTML = 'EXPIRED';
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      const values = countdown.querySelectorAll('.time-value');
+      if (values[0]) values[0].textContent = String(days).padStart(2, '0');
+      if (values[1]) values[1].textContent = String(hours).padStart(2, '0');
+      if (values[2]) values[2].textContent = String(minutes).padStart(2, '0');
+      if (values[3]) values[3].textContent = String(seconds).padStart(2, '0');
+    }
+    
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  });
+})();
+</script>
 
 {% schema %}
 {
   "name": "Promotion Bar",
-  "class": "index-section",
-  "max_blocks": 5,
+  "class": "promo-bar-section",
+  "max_blocks": 10,
   "disabled_on": {
     "groups": ["custom.overlay"]
   },
   "settings": [
     {
       "type": "header",
-      "content": "Text Appearance"
+      "content": "📝 Text Appearance"
     },
     {
       "type": "select",
@@ -191,18 +394,18 @@
       "label": "Font family",
       "default": "ft1",
       "options": [
-        { "value": "ft1", "label": "Font 1" },
-        { "value": "ft2", "label": "Font 2" },
-        { "value": "ft3", "label": "Font 3" }
+        { "value": "ft1", "label": "Primary Font" },
+        { "value": "ft2", "label": "Secondary Font" },
+        { "value": "ft3", "label": "Accent Font" }
       ]
     },
     {
       "type": "range",
       "id": "fts",
-      "label": "Font size",
-      "default": 18,
+      "label": "Font size (desktop)",
+      "default": 14,
       "min": 10,
-      "max": 100,
+      "max": 40,
       "step": 1,
       "unit": "px"
     },
@@ -210,9 +413,9 @@
       "type": "range",
       "id": "ftsm",
       "label": "Font size (mobile)",
-      "default": 13,
+      "default": 12,
       "min": 10,
-      "max": 50,
+      "max": 30,
       "step": 1,
       "unit": "px"
     },
@@ -220,23 +423,27 @@
       "type": "select",
       "id": "fw",
       "label": "Font weight",
-      "default": "600",
+      "default": "500",
       "options": [
-        { "value": "300", "label": "Light" },
-        { "value": "400", "label": "Regular" },
-        { "value": "500", "label": "Medium" },
-        { "value": "600", "label": "Semi Bold" },
-        { "value": "700", "label": "Bold" }
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Regular (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
       ]
     },
     {
       "type": "range",
       "id": "lh",
       "label": "Line height",
-      "default": 1.0,
+      "default": 1.4,
       "min": 1.0,
-      "max": 2.0,
+      "max": 2.5,
       "step": 0.1
+    },
+    {
+      "type": "header",
+      "content": "🎨 Colors"
     },
     {
       "type": "color",
@@ -247,100 +454,104 @@
     {
       "type": "color",
       "id": "clhl",
-      "label": "Highlight text",
-      "default": "#ffde00"
+      "label": "Highlight text color",
+      "default": "#FFD700"
     },
     {
       "type": "color",
       "id": "cnt_txt",
-      "label": "Countdown text",
-      "default": "#e74646"
+      "label": "Countdown text color",
+      "default": "#FF6B6B"
     },
     {
       "type": "color",
       "id": "btncl",
-      "label": "Button text",
+      "label": "Button text color",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "btnbg",
-      "label": "Button background",
-      "default": "#333333"
+      "label": "Button background color",
+      "default": "#000000"
     },
     {
       "type": "header",
-      "content": "Slider Settings"
+      "content": "🎬 Slider Settings"
     },
     {
       "type": "checkbox",
       "id": "fade",
-      "label": "Slide fade effect",
-      "default": true
+      "label": "Enable fade transition",
+      "default": true,
+      "info": "Smooth fade effect between slides"
     },
     {
       "type": "checkbox",
       "id": "autoplay",
-      "label": "Auto-rotate slide",
-      "default": false
+      "label": "Auto-rotate slides",
+      "default": true
     },
     {
       "type": "range",
       "id": "speed",
-      "label": "Change slide every",
+      "label": "Rotation speed",
       "default": 5,
-      "min": 1,
-      "max": 30,
+      "min": 2,
+      "max": 15,
       "step": 1,
-      "unit": "sec"
+      "unit": "sec",
+      "info": "Time between slide changes"
     },
     {
       "type": "checkbox",
       "id": "arrow",
-      "label": "Show arrows (desktop)",
+      "label": "Show navigation arrows (desktop)",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "arrowm",
-      "label": "Show arrows (mobile)",
+      "label": "Show navigation arrows (mobile)",
       "default": false
     },
     {
       "type": "select",
       "id": "arr_show",
-      "label": "Arrows visibility",
+      "label": "Arrow visibility",
       "default": "hover",
       "options": [
-        { "value": "hover", "label": "Show on Hover" },
-        { "value": "forever", "label": "Always Show" }
+        { "value": "hover", "label": "Show on hover" },
+        { "value": "forever", "label": "Always visible" }
       ]
     },
     {
       "type": "header",
-      "content": "Section Design"
+      "content": "🎨 Background & Layout"
     },
     {
       "type": "checkbox",
       "id": "sw",
-      "label": "Full width",
+      "label": "Full width layout",
       "default": true
     },
     {
       "type": "color_background",
       "id": "bgg",
-      "label": "Gradient background"
+      "label": "Background color/gradient",
+      "default": "linear-gradient(90deg, #000000 0%, #1a1a1a 100%)"
     },
     {
       "type": "image_picker",
       "id": "bgimg",
-      "label": "Background image"
+      "label": "Background image",
+      "info": "Optional: Image overlay on background"
     },
     {
       "type": "color",
       "id": "overlay",
-      "label": "Image overlay",
-      "default": "#3d4246"
+      "label": "Image overlay color",
+      "default": "#000000"
     },
     {
       "type": "range",
@@ -349,7 +560,11 @@
       "max": 1,
       "step": 0.1,
       "label": "Overlay opacity",
-      "default": 0
+      "default": 0.5
+    },
+    {
+      "type": "header",
+      "content": "📏 Spacing"
     },
     {
       "type": "range",
@@ -357,7 +572,7 @@
       "min": 0,
       "max": 100,
       "step": 5,
-      "label": "Spacing top",
+      "label": "Top spacing (desktop)",
       "unit": "px",
       "default": 10
     },
@@ -367,7 +582,7 @@
       "min": 0,
       "max": 100,
       "step": 5,
-      "label": "Spacing bottom",
+      "label": "Bottom spacing (desktop)",
       "unit": "px",
       "default": 10
     },
@@ -375,9 +590,9 @@
       "type": "range",
       "id": "sstm",
       "min": 0,
-      "max": 100,
+      "max": 80,
       "step": 5,
-      "label": "Spacing top (mobile)",
+      "label": "Top spacing (mobile)",
       "unit": "px",
       "default": 5
     },
@@ -385,84 +600,104 @@
       "type": "range",
       "id": "ssbm",
       "min": 0,
-      "max": 100,
+      "max": 80,
       "step": 5,
-      "label": "Spacing bottom (mobile)",
+      "label": "Bottom spacing (mobile)",
       "unit": "px",
       "default": 5
     },
     {
+      "type": "header",
+      "content": "📱 Visibility"
+    },
+    {
       "type": "checkbox",
       "id": "hidem",
-      "label": "Hide on mobile",
+      "label": "Hide on mobile devices",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "hided",
-      "label": "Hide on desktop",
+      "label": "Hide on desktop devices",
       "default": false
+    },
+    {
+      "type": "header",
+      "content": "📦 Track Order Settings"
+    },
+    {
+      "type": "paragraph",
+      "content": "Track order button appears when currency/language selectors are disabled"
     },
     {
       "type": "url",
       "id": "track_order",
-      "label": "Track Order Link",
-      "info":"Disable Settings from main Schema Setting Both Currency and Language only That Will Work"
+      "label": "Track order page URL"
     },
     {
       "type": "text",
       "id": "track_order_text",
-      "label": "Track Order Link Text",
+      "label": "Button text",
       "default": "Track Order"
     }
   ],
   "blocks": [
     {
       "type": "bar",
-      "name": "Promotion text",
+      "name": "📢 Promotion Message",
+      "limit": 10,
       "settings": [
         {
           "type": "textarea",
           "id": "title",
           "label": "Promotion text",
-          "default": "UP TO 80% OFF ON THE ENTIRE STORE! Hurry up!",
-          "info": "Use [countdown] to show countdown timer, [button] to show button, and <span class=\"hl\">text</span> for text highlight"
+          "default": "🔥 UP TO 80% OFF SITEWIDE! Limited Time Only [countdown] [button]",
+          "info": "Use [countdown] for timer, [button] for button, <span class=\"hl\">text</span> for highlights"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Click destination URL"
+        },
+        {
+          "type": "header",
+          "content": "⏰ Countdown Timer"
         },
         {
           "type": "text",
           "id": "date",
           "label": "End date",
-          "info": "Format: mm/dd/yyyy",
+          "info": "Format: MM/DD/YYYY (e.g., 12/31/2024)",
           "default": "12/31/2024"
+        },
+        {
+          "type": "header",
+          "content": "🔘 Call-to-Action Button"
         },
         {
           "type": "text",
           "id": "btn_txt",
           "label": "Button text",
-          "default": "Shop Now"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Button link"
+          "default": "Shop Now",
+          "info": "Use [button] in promotion text to display"
         },
         {
           "type": "checkbox",
           "id": "hdbtn",
           "label": "Hide button on mobile",
-          "default": true
+          "default": false
         }
       ]
     },
     {
       "type": "sc",
-      "name": "Social Icons",
+      "name": "📱 Social Media",
+      "limit": 1,
       "settings": [
         {
-          "type": "checkbox",
-          "id": "hdm",
-          "label": "Hide on mobile",
-          "default": false
+          "type": "paragraph",
+          "content": "Configure social media links in Theme Settings → Social Media"
         },
         {
           "type": "select",
@@ -479,33 +714,34 @@
     },
     {
       "type": "cl",
-      "name": "Currency & Language",
+      "name": "🌍 Currency & Language",
+      "limit": 1,
       "settings": [
         {
           "type": "paragraph",
-          "content": "Manage currency & language settings in Theme Settings"
+          "content": "Enable multi-currency and languages in Theme Settings → Markets"
+        },
+        {
+          "type": "header",
+          "content": "Additional Options"
         },
         {
           "type": "checkbox",
           "id": "sc",
-          "label": "Show social media",
+          "label": "Show social media icons",
           "default": false
         },
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Select menu"
+          "label": "Navigation menu",
+          "info": "Display custom menu links"
         },
         {
-          "type": "textarea",
+          "type": "richtext",
           "id": "txt",
-          "label": "Custom text"
-        },
-        {
-          "type": "checkbox",
-          "id": "hdm",
-          "label": "Hide on mobile",
-          "default": false
+          "label": "Custom text",
+          "info": "Add custom message or info"
         },
         {
           "type": "select",
@@ -526,10 +762,221 @@
       "name": "Promotion Bar",
       "blocks": [
         {
-          "type": "bar"
+          "type": "sc"
+        },
+        {
+          "type": "bar",
+          "settings": {
+            "title": "🔥 FREE SHIPPING ON ORDERS OVER $50 [countdown] [button]",
+            "date": "12/31/2024",
+            "btn_txt": "Shop Now"
+          }
+        },
+        {
+          "type": "cl"
         }
       ]
     }
   ]
 }
 {% endschema %}
+    {%- if social_blocks.size > 0 -%}
+      {%- assign social_block = social_blocks.first -%}
+      <div class="promo-side-section promo-side-left">
+        <div class="promo-social">
+          {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if settings.social_twitter_link != blank -%}
+            <a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" aria-label="Twitter">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+            </a>
+          {%- endif -%}
+          {%- if settings.social_youtube_link != blank -%}
+            <a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+    <div class="promo-content">
+      {%- if promotion_blocks.size > 0 -%}
+        {%- if promotion_blocks.size > 1 -%}
+          <div class="promo-slider" data-autoplay="{{ section_st.autoplay }}" data-speed="{{ section_st.speed }}">
+            <div class="promo-slides">
+        {%- endif -%}
+
+        {%- for block in promotion_blocks -%}
+          {%- assign blk_st = block.settings -%}
+          <div class="promo-slide" {{ block.shopify_attributes }}>
+            {%- if blk_st.title != blank -%}
+              <a 
+                {% if blk_st.link != blank %}href="{{ blk_st.link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+                class="promo-message"
+              >
+                {%- assign display_title = blk_st.title -%}
+                
+                {%- comment -%} Handle countdown {%- endcomment -%}
+                {%- if display_title contains '[countdown]' -%}
+                  {%- capture countdown_html -%}
+                    <span class="promo-countdown" data-date="{{ blk_st.date | default: '12/31/2024' }}">
+                      <span><span class="time-value">00</span>d<span class="time-separator">:</span></span>
+                      <span><span class="time-value">00</span>h<span class="time-separator">:</span></span>
+                      <span><span class="time-value">00</span>m<span class="time-separator">:</span></span>
+                      <span><span class="time-value">00</span>s</span>
+                    </span>
+                  {%- endcapture -%}
+                  {%- assign display_title = display_title | replace: '[countdown]', countdown_html -%}
+                {%- endif -%}
+
+                {%- comment -%} Handle button {%- endcomment -%}
+                {%- if display_title contains '[button]' and blk_st.btn_txt != blank -%}
+                  {%- capture button_html -%}
+                    <span class="promo-btn{% if blk_st.hdbtn %} hide-mobile{% endif %}">{{ blk_st.btn_txt }}</span>
+                  {%- endcapture -%}
+                  {%- assign display_title = display_title | replace: '[button]', button_html -%}
+                {%- endif -%}
+
+                {{ display_title }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+        {%- if promotion_blocks.size > 1 -%}
+            </div>
+            {%- if section_st.arrow or section_st.arrowm -%}
+              <button class="promo-arrow promo-arrow-prev" aria-label="Previous">‹</button>
+              <button class="promo-arrow promo-arrow-next" aria-label="Next">›</button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Right Side: Currency/Language/Track Order {%- endcomment -%}
+    {%- if currency_blocks.size > 0 -%}
+      {%- assign currency_block = currency_blocks.first -%}
+      {%- assign cl_st = currency_block.settings -%}
+      <div class="promo-side-section promo-side-right">
+        
+        {%- comment -%} Social Media (optional) {%- endcomment -%}
+        {%- if cl_st.sc -%}
+          <div class="promo-social">
+            {%- if settings.social_facebook_link != blank -%}
+              <a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" aria-label="Facebook">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Custom Menu {%- endcomment -%}
+        {%- if cl_st.menu != blank and linklists[cl_st.menu].links.size > 0 -%}
+          <div class="promo-menu-links">
+            {%- for link in linklists[cl_st.menu].links -%}
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Custom Text {%- endcomment -%}
+        {%- if cl_st.txt != blank -%}
+          <div class="promo-custom-text">{{ cl_st.txt }}</div>
+        {%- endif -%}
+
+        <div class="promo-selectors">
+          {%- comment -%} Currency Selector {%- endcomment -%}
+          {%- if settings.mlcurrency -%}
+            {%- form 'currency', class: 'promo-selector' -%}
+              <select name="currency" aria-label="Currency" onchange="this.form.submit();">
+                {%- for currency in shop.enabled_currencies -%}
+                  <option value="{{ currency.iso_code }}" {% if currency == cart.currency %}selected{% endif %}>
+                    {{ currency.iso_code }} {{ currency.symbol }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            {%- endform -%}
+          {%- endif -%}
+
+          {%- comment -%} Language Selector {%- endcomment -%}
+          {%- if settings.mlLang and shop.published_locales.size > 1 -%}
+            {%- form 'localization', class: 'promo-selector' -%}
+              <select name="locale_code" aria-label="Language" onchange="this.form.submit();">
+                {%- for locale in shop.published_locales -%}
+                  <option value="{{ locale.iso_code }}" {% if locale == request.locale %}selected{% endif %}>
+                    {{ locale.endonym_name | capitalize }}
+                  </option>
+                {%- endfor -%}
+              </select>
+            {%- endform -%}
+          {%- endif -%}
+
+          {%- comment -%} Track Order Button {%- endcomment -%}
+          {%- unless settings.mlcurrency or settings.mlLang -%}
+            {%- if section_st.track_order != blank -%}
+              <a href="{{ section_st.track_order }}" class="promo-track-btn">
+                {{ section_st.track_order_text | default: 'Track Order' }}
+              </a>
+            {%- endif -%}
+          {%- endunless -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{%- if promotion_blocks.size > 1 and section_st.autoplay -%}
+<script>
+(function() {
+  const slider = document.querySelector('#shopify-section-{{ section.id }} .promo-slider');
+  if (!slider) return;
+  
+  const slides = slider.querySelector('.promo-slides');
+  const prevBtn = slider.querySelector('.promo-arrow-prev');
+  const nextBtn = slider.querySelector('.promo-arrow-next');
+  const slideCount = slides.children.length;
+  let currentIndex = 0;
+  const speed = {{ section_st.speed | times: 1000 }};
+  let autoplayInterval;
+
+  function goToSlide(index) {
+    currentIndex = (index + slideCount) % slideCount;
+    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  function nextSlide() {
+    goToSlide(currentIndex + 1);
+  }
+
+  function prevSlide() {
+    goToSlide(currentIndex - 1);
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+  if (slider.dataset.autoplay === 'true') {
+    autoplayInterval = setInterval(nextSlide, speed);
+    slider.addEventListener('mouseenter', () => clearInterval(autoplayInterval));
+    slider.addEventListener('mouseleave', () => {
+      autoplayInterval = setInterval(nextSlide, speed);
+    });
+  }
+})();
+</script>
+{%- endif -%}
