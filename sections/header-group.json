@@ -58,6 +58,9 @@
         "sc_CpBzhV",
         "cl_zFkAVG"
       ],
+      "custom_css": [
+        ".promo .scIcn,{color: white !important;}"
+      ],
       "name": "Promotion Bar",
       "settings": {
         "fontFm": "ft1",
