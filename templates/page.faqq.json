@@ -80,58 +80,128 @@
         "sw": false
       }
     },
-    "faq_ycWURw": {
+    "faq_KUnRxp": {
       "type": "faq",
       "blocks": {
-        "ttl_ackxJb": {
+        "newsletter_gFi4Yp": {
+          "type": "newsletter",
+          "settings": {
+            "title": "",
+            "subtitle": "Sign up to stay in the loop. Receive updates,<br> access to exclusive deals, and more.",
+            "style": "1",
+            "fs": 22,
+            "fsm": 18,
+            "fst": 14,
+            "fstm": 13,
+            "cl": "#000",
+            "tf_bg": "#eee",
+            "tf_txt": "#000",
+            "btncl": "#fff",
+            "btnbg": "#000",
+            "btnclh": "#fff",
+            "btnbgh": "#86BBBF",
+            "sw": false,
+            "npd": true,
+            "bg": "#fff",
+            "bgg": "",
+            "overlay": "#3d4246",
+            "overlay_op": 0,
+            "headings_cl": "",
+            "sst": 40,
+            "ssb": 40,
+            "sstm": 15,
+            "ssbm": 15,
+            "hidem": false,
+            "hided": false
+          }
+        },
+        "link_LNWWiG": {
+          "type": "link",
+          "settings": {
+            "title": "Other Link",
+            "link": ""
+          }
+        },
+        "ttl_UcpmTp": {
           "type": "ttl",
           "settings": {
-            "title": "General Questions",
+            "title": "FAQ's Title Text",
             "content_svg": ""
           }
         },
-        "faqs_DwB8QQ": {
+        "faqs_Q4wzx3": {
           "type": "faqs",
           "settings": {
-            "title": "What is your return policy?",
-            "answer": "<p>We offer a 30-day return policy on all items. Products must be unused and in their original packaging.</p>",
+            "title": "Is Revone compatible with Shopify Online Store 2.0?",
+            "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
+            "open": false
+          }
+        },
+        "faqs_CLUwpf": {
+          "type": "faqs",
+          "settings": {
+            "title": "Is Revone compatible with Shopify Online Store 2.0?",
+            "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
+            "open": false
+          }
+        },
+        "faqs_nyFqD8": {
+          "type": "faqs",
+          "settings": {
+            "title": "Is Revone compatible with Shopify Online Store 2.0?",
+            "answer": "<p>Yes, Revone is fully compatible and supports Sections on every page.</p>",
             "open": false
           }
         }
       },
       "block_order": [
-        "ttl_ackxJb",
-        "faqs_DwB8QQ"
+        "newsletter_gFi4Yp",
+        "link_LNWWiG",
+        "ttl_UcpmTp",
+        "faqs_Q4wzx3",
+        "faqs_CLUwpf",
+        "faqs_nyFqD8"
       ],
-      "name": "Modern FAQ",
+      "name": "FAQs",
       "settings": {
-        "title": "Frequently Asked Questions",
-        "subtitle": "Find answers to common questions about our products and services",
-        "sw": false,
-        "page_width": 900,
-        "accor": true,
+        "title": "",
+        "subtitle": "Provides answers to a list of typical questions that users might ask",
+        "enable_small_card": true,
+        "enable_faq_only": true,
+        "italic_font_selection": "primary",
+        "page_width": 1000,
+        "accor": false,
         "acc_style": "1",
-        "tcl": "#000000",
-        "tfs": 24,
+        "tcl": "#222222",
+        "tfs": 22,
         "tfsm": 20,
         "tfw": "600",
-        "qu": "#333333",
-        "fs": 16,
-        "fsm": 15,
+        "qu": "#444",
+        "fs": 14,
+        "fsm": 14,
         "fw": "600",
-        "an": "#666666",
-        "fst": 14,
-        "fsmt": 14,
+        "an": "#444",
+        "fst": 13,
+        "fsmt": 13,
+        "bdr": "#eee",
         "links": false,
-        "bg": "#ffffff",
+        "lfs": 14,
+        "lfsm": 14,
+        "lfw": "600",
+        "lcl": "#444",
+        "lclh": "#000",
+        "lbg": "#fff",
+        "lbd": "#eee",
+        "sw": false,
+        "bg": "#fff",
         "bgg": "",
-        "overlay": "#000000",
+        "overlay": "#3d4246",
         "overlay_op": 0,
-        "bdr": "#e5e5e5",
-        "sst": 60,
-        "ssb": 60,
-        "sstm": 40,
-        "ssbm": 40,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 15,
+        "ssbm": 15,
         "hidem": false,
         "hided": false
       }
@@ -141,6 +211,6 @@
     "breadcrumb",
     "banner",
     "main",
-    "faq_ycWURw"
+    "faq_KUnRxp"
   ]
 }
