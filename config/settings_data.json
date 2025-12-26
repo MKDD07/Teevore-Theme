@@ -428,7 +428,8 @@
       ".jdgm-rev-widg__title {font-family: \"Kugile\";}",
       ".jdgm-rev__icon {background: rgb(255 255 255 / 50%) !important;}",
       ".jdgm-rev-widg__title {margin-top: 0; font-size: 24px !important; text-align: left !important;}",
-      ".jdgm-write-review-modal .jdgm-write-review-modal__content {background: #fff; border-radius: 15px;}"
+      ".jdgm-write-review-modal .jdgm-write-review-modal__content {background: #fff; border-radius: 15px;}",
+      ".shopify-policy__container h1 {font-size: 72px;}"
     ]
   }
 }
