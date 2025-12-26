@@ -18,9 +18,9 @@
           "type": "bar",
           "settings": {
             "title": "UP TO 30% OFF ON THE ENTIRE STORE! HURRY UP!",
+            "link": "",
             "date": "06/20/2025",
             "btn_txt": "Shop Now",
-            "link": "",
             "hdbtn": true
           }
         },
@@ -28,16 +28,15 @@
           "type": "bar",
           "settings": {
             "title": "UP TO 20% OFF ON THE SELECTED STORE! hurry up!",
+            "link": "",
             "date": "06/20/2025",
             "btn_txt": "Shop Now",
-            "link": "",
             "hdbtn": true
           }
         },
         "sc_CpBzhV": {
           "type": "sc",
           "settings": {
-            "hdm": false,
             "al": "tl"
           }
         },
@@ -47,7 +46,6 @@
             "sc": false,
             "menu": "",
             "txt": "",
-            "hdm": false,
             "al": "tr f-jce"
           }
         }
@@ -77,7 +75,7 @@
         "arrow": false,
         "arrowm": false,
         "arr_show": "hover",
-        "sw": false,
+        "sw": true,
         "bgg": "radial-gradient(rgba(240, 240, 240, 1), rgba(240, 240, 240, 1) 59%)",
         "overlay": "#3d4246",
         "overlay_op": 0,
