@@ -78,7 +78,7 @@
         "arrowm": false,
         "arr_show": "hover",
         "sw": false,
-        "bgg": "",
+        "bgg": "radial-gradient(rgba(240, 240, 240, 1), rgba(240, 240, 240, 1) 59%)",
         "overlay": "#3d4246",
         "overlay_op": 0,
         "sst": 5,
