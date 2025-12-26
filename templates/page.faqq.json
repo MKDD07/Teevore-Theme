@@ -1,0 +1,146 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "breadcrumb": {
+      "type": "breadcrumb",
+      "settings": {
+        "sw": false,
+        "hidemb": false,
+        "tc": false
+      }
+    },
+    "banner": {
+      "type": "page-banner",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "htag": "h2",
+            "tff": "ft2",
+            "fts": 60,
+            "ftsm": 20,
+            "fw": "500",
+            "tuu": false,
+            "cl": "#ffffff",
+            "mb": 0,
+            "mbm": 0
+          }
+        },
+        "text_GVAD8a": {
+          "type": "text",
+          "settings": {
+            "title": "<p>Simple, stylish and locally-crafted apparel since 2000</p>",
+            "hidemb": true,
+            "fs": 16,
+            "fsm": 14,
+            "lh": 1.5,
+            "cl": "#ffffff",
+            "mb": 30,
+            "mbm": 20
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "text_GVAD8a"
+      ],
+      "disabled": true,
+      "settings": {
+        "page_title": false,
+        "content_data": "",
+        "hit": 400,
+        "hitt": 400,
+        "hitm": 300,
+        "bg": "#dddddd",
+        "bgg": "",
+        "overlay": "#000",
+        "overlay_op": 0,
+        "cntwd": 1000,
+        "text-align": true
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "hidettl": true,
+        "hide_hdft": false,
+        "sst": 0,
+        "ssb": 0,
+        "sstm": 0,
+        "ssbm": 0,
+        "bg": "",
+        "sw": false
+      }
+    },
+    "faq_ycWURw": {
+      "type": "faq",
+      "blocks": {
+        "ttl_ackxJb": {
+          "type": "ttl",
+          "settings": {
+            "title": "General Questions",
+            "content_svg": ""
+          }
+        },
+        "faqs_DwB8QQ": {
+          "type": "faqs",
+          "settings": {
+            "title": "What is your return policy?",
+            "answer": "<p>We offer a 30-day return policy on all items. Products must be unused and in their original packaging.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "ttl_ackxJb",
+        "faqs_DwB8QQ"
+      ],
+      "name": "Modern FAQ",
+      "settings": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Find answers to common questions about our products and services",
+        "sw": false,
+        "page_width": 900,
+        "accor": true,
+        "acc_style": "1",
+        "tcl": "#000000",
+        "tfs": 24,
+        "tfsm": 20,
+        "tfw": "600",
+        "qu": "#333333",
+        "fs": 16,
+        "fsm": 15,
+        "fw": "600",
+        "an": "#666666",
+        "fst": 14,
+        "fsmt": 14,
+        "links": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000000",
+        "overlay_op": 0,
+        "bdr": "#e5e5e5",
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 40,
+        "ssbm": 40,
+        "hidem": false,
+        "hided": false
+      }
+    }
+  },
+  "order": [
+    "breadcrumb",
+    "banner",
+    "main",
+    "faq_ycWURw"
+  ]
+}
