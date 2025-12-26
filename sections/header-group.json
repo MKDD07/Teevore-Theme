@@ -77,7 +77,7 @@
         "arrow": false,
         "arrowm": false,
         "arr_show": "hover",
-        "sw": false,
+        "sw": true,
         "bgg": "",
         "overlay": "#3d4246",
         "overlay_op": 0,
