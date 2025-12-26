@@ -221,7 +221,7 @@
       ],
       "custom_css": [
         ".fw-sec .mgmenu.mmfull {padding-left: 20px; padding-right: 20px;}",
-        "#header {backdrop-filter: saturate(180%) blur(20px);}"
+        ".hdr_inline {backdrop-filter: saturate(180%) blur(20px);}"
       ],
       "settings": {
         "ht": 70,
