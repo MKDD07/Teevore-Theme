@@ -42,6 +42,7 @@
                 <div class="gitem{% if section_st.carousel %} swiper-slide{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %} {{ block.shopify_attributes }}>
                       <a href="{{ blk_st.url | default:collection.url }}" class="db pr of_hidden brad{% if section_st.zoom %} zoom_hov{% endif %}" title="{{ blk_st.title }}" style="--rounded:{{ section_st.irad}}px;">                    
                         <div class="img pr of_hidden rounded10">
+                          
                           {%- if blk_st.media_type == 'video' and blk_st.video != blank -%}
                             {{
                               blk_st.video
@@ -51,9 +52,9 @@
                                   loop: true,
                                   controls: false,
                                   muted: true,
-                                  class: 'imgFt',
+                                  class: 'imgFt pr',
                                   alt: img_alt
-                            }}
+                            }}<span><img src ="https://cdn.shopify.com/s/files/1/0781/5148/3632/files/grunge-background-with-scratches-stains_7c069142-329b-4f13-85ed-f39d2926a39e.jpg?v=1766833433"></span>
                           {%- elsif collection_image != blank -%}
                             {{ collection_image | image_url: width: collection_image.width | image_tag: loading:'lazy', class:'imgFt', alt: img_alt, sizes:sizes, widths:"1000,1400,1600,2000,2400,3000" }}
                           {%- else -%}
