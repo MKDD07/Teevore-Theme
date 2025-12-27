@@ -123,7 +123,7 @@
         "image_Rz4cad": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Banner_3.webp",
+            "image": "shopify://shop_images/generation-8115fe70-9396-4926-b992-e086a6ba5caa.png",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -231,7 +231,7 @@
         "image_WAwHJV": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Banner_5.webp",
+            "image": "shopify://shop_images/generation-da1cf047-513c-4892-a510-79c48b2179c3.png",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -293,7 +293,7 @@
       "custom_css": [
         ".slideshow .swiper-pagination-bullets {position: absolute; bottom: 0; width: 100%; z-index: 2; margin-bottom: 25px;}",
         ".slideshow .imgFt {object-position: top;}",
-        "h2{color:#fff !important;}"
+        "h2 {color: #fff !important;}"
       ],
       "name": "Carousel",
       "settings": {
