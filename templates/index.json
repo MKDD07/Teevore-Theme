@@ -292,7 +292,8 @@
       ],
       "custom_css": [
         ".slideshow .swiper-pagination-bullets {position: absolute; bottom: 0; width: 100%; z-index: 2; margin-bottom: 25px;}",
-        ".slideshow .imgFt {object-position: top;}"
+        ".slideshow .imgFt {object-position: top;}",
+        "h2{color:#fff !important;}"
       ],
       "name": "Carousel",
       "settings": {
