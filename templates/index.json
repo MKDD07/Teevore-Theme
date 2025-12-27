@@ -658,7 +658,7 @@
         "image_item_6BTRKT": {
           "type": "image_item",
           "settings": {
-            "image": "shopify://shop_images/Lucid_Origin_A_male_model_in_a_relaxed_pose_wearing_a_red_tshi_0.jpg",
+            "image": "shopify://shop_images/Square_Banner_1.webp",
             "title": "Big Sale",
             "subtitle": "Get up to 50% off your favorite styles — only for a limited time!",
             "link_url": "",
@@ -670,7 +670,7 @@
         "image_item_rXHRH8": {
           "type": "image_item",
           "settings": {
-            "image": "shopify://shop_images/Lucid_Origin_A_stylish_male_model_wearing_a_white_fitted_tshir_1.jpg",
+            "image": "shopify://shop_images/Square_Banner_4.webp",
             "title": "New Drop",
             "subtitle": "Discover the latest arrivals — trend-forward, fresh, and ready to wear.",
             "link_url": "",
@@ -682,7 +682,7 @@
         "image_item_KaXRpR": {
           "type": "image_item",
           "settings": {
-            "image": "shopify://shop_images/Lucid_Origin_A_confident_male_model_wearing_a_bright_yellow_ts_3.jpg",
+            "image": "shopify://shop_images/Square_Banner_2.webp",
             "title": "Summer Vibes",
             "subtitle": "Breezy fabrics, bright colors, and effortless looks for sunny days.",
             "link_url": "",
@@ -1265,7 +1265,7 @@
       "settings": {
         "scroll_height": 200,
         "show_background_grid": true,
-        "main_image": "shopify://shop_images/Lucid_Origin_A_stylish_young_man_wearing_a_clean_white_plain_t_0.jpg",
+        "main_image": "shopify://shop_images/Square_Banner_3.webp",
         "image_size": 600,
         "en_ratio": true,
         "radius_attached": 10,
