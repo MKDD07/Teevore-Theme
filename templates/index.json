@@ -156,7 +156,7 @@
             "mbm": 15,
             "enable_overlay_click": false,
             "btn": "Shop now",
-            "link": "shopify://collections/color-theory-collection",
+            "link": "shopify://collections/new-arrivals",
             "newtab": false,
             "display_btn": false,
             "btn2": "Shop now",
@@ -210,7 +210,7 @@
             "mbm": 15,
             "enable_overlay_click": false,
             "btn": "Shop now",
-            "link": "shopify://collections/trackline-collection",
+            "link": "shopify://collections/ash-dune",
             "newtab": false,
             "display_btn": false,
             "btn2": "Shop now",
@@ -671,7 +671,7 @@
         "image_item_rXHRH8": {
           "type": "image_item",
           "settings": {
-            "image": "shopify://shop_images/Square_Banner_4.webp",
+            "image": "shopify://shop_images/generation-b7852336-0f00-4c98-ac4b-85bf73910256.png",
             "title": "New Drop",
             "subtitle": "Discover the latest arrivals — trend-forward, fresh, and ready to wear.",
             "link_url": "",
