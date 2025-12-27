@@ -12,66 +12,10 @@
     "slideshow_9343dN": {
       "type": "slideshow",
       "blocks": {
-        "image_wyJQVQ": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "image": "shopify://shop_images/Diwali.png",
-            "imagem": "shopify://shop_images/Diwali_mobile.png",
-            "ovr": "#000000",
-            "ovropt": 0,
-            "pcl": "#000000",
-            "hd1": "",
-            "pff": "ft1",
-            "pfs": 14,
-            "pfsm": 14,
-            "pfw": "600",
-            "plh": 1.2,
-            "pmb": 5,
-            "pmbm": 5,
-            "title": "",
-            "htag": "h2",
-            "tff": "ft1",
-            "tfs": 60,
-            "tfsm": 25,
-            "tfw": "600",
-            "tlh": 1.2,
-            "to": 1,
-            "tmb": 10,
-            "tmbm": 5,
-            "hd3": "",
-            "hideh3": true,
-            "ff": "ft1",
-            "fs": 16,
-            "fsm": 14,
-            "fw": "400",
-            "lh": 1.2,
-            "mb": 25,
-            "mbm": 15,
-            "enable_overlay_click": true,
-            "btn": "Shop Now",
-            "link": "shopify://collections/big-diwali-sale-collection",
-            "newtab": false,
-            "display_btn": false,
-            "btn2": "",
-            "link2": "shopify://collections/big-diwali-sale-collection",
-            "newtab1": false,
-            "contwd": 1400,
-            "twd": 600,
-            "text-left": true,
-            "txtpos": "f-aic-md f-jcs-md",
-            "txtposm": "f-aic f-jcs",
-            "isbox": false,
-            "isboxm": false,
-            "tbg": "#ffffff",
-            "opt": 0.9,
-            "brad": 0
-          }
-        },
         "image_rEiCAb": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Banner_002_Carousel.jpg",
+            "image": "shopify://shop_images/generation-c6d5773f-bbd6-4e2a-a249-f96b226b2212.png",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -125,7 +69,7 @@
         "image_bK4Ejx": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Lucid_Origin_A_confident_young_man_wearing_a_plain_red_hoodie__2.jpg",
+            "image": "shopify://shop_images/generation-84a4736e-245e-4301-8f76-228e7283a758.png",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -179,7 +123,7 @@
         "image_Rz4cad": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Lucid_Origin_A_confident_young_man_wearing_a_plain_white_tshir_2.jpg",
+            "image": "shopify://shop_images/generation-c6d5773f-bbd6-4e2a-a249-f96b226b2212.png",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -233,7 +177,7 @@
         "image_6KdFG7": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Lucid_Origin_A_young_man_stands_outdoors_in_a_quiet_natural_se_3.jpg",
+            "image": "shopify://shop_images/generation-86724653-8f2f-4bd0-b073-4ac27475ceb4.png",
             "ovr": "#ffffff",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -287,7 +231,7 @@
         "image_WAwHJV": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/Banner_0005.jpg",
+            "image": "shopify://shop_images/generation-0ab13e8c-66c4-4e4e-ae57-cb98f95e87d4_1.png",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -340,7 +284,6 @@
         }
       },
       "block_order": [
-        "image_wyJQVQ",
         "image_rEiCAb",
         "image_bK4Ejx",
         "image_Rz4cad",
