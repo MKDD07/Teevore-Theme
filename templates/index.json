@@ -15,7 +15,7 @@
         "image_rEiCAb": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/generation-c6d5773f-bbd6-4e2a-a249-f96b226b2212.png",
+            "image": "shopify://shop_images/Banner_2.webp",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -69,7 +69,7 @@
         "image_bK4Ejx": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/generation-84a4736e-245e-4301-8f76-228e7283a758.png",
+            "image": "shopify://shop_images/Banner_1.webp",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -123,7 +123,7 @@
         "image_Rz4cad": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/generation-c6d5773f-bbd6-4e2a-a249-f96b226b2212.png",
+            "image": "shopify://shop_images/Banner_3.webp",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -177,7 +177,7 @@
         "image_6KdFG7": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/generation-86724653-8f2f-4bd0-b073-4ac27475ceb4.png",
+            "image": "shopify://shop_images/Banner_4.webp",
             "ovr": "#ffffff",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -231,7 +231,7 @@
         "image_WAwHJV": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/generation-0ab13e8c-66c4-4e4e-ae57-cb98f95e87d4_1.png",
+            "image": "shopify://shop_images/Banner_5.webp",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
