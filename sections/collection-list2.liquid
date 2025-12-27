@@ -42,7 +42,6 @@
                 <div class="gitem{% if section_st.carousel %} swiper-slide{% endif %} {% render 'animate-data', css:true %}" {% render 'animate-data' %} {{ block.shopify_attributes }}>
                       <a href="{{ blk_st.url | default:collection.url }}" class="db pr of_hidden brad{% if section_st.zoom %} zoom_hov{% endif %}" title="{{ blk_st.title }}" style="--rounded:{{ section_st.irad}}px;">                    
                         <div class="img pr of_hidden rounded10">
-                          
                           {%- if blk_st.media_type == 'video' and blk_st.video != blank -%}
                             {{
                               blk_st.video
