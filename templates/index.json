@@ -901,7 +901,7 @@
         "parallax_content_cdpCdP": {
           "type": "parallax_content",
           "settings": {
-            "bg_image": "shopify://shop_images/Lucid_Origin_A_modern_fashion_editorial_photo_of_a_single_youn_1.jpg",
+            "bg_image": "shopify://shop_images/generation-59540e06-15ca-49b4-890e-37391ac0e3d5.png",
             "heading": "{{ block.settings.collection.title }}",
             "subheading": "<p>Comfortable, everyday T-shirts that fit effortlessly into your style.</p>",
             "show_view_all": "View All",
@@ -981,7 +981,7 @@
         "parallax_content_AiqhM4": {
           "type": "parallax_content",
           "settings": {
-            "bg_image": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_plain__0_3_2835cf06-48eb-40a7-8895-20f89cfd54eb.jpg",
+            "bg_image": "shopify://shop_images/generation-f143ee87-2f7b-4ec9-8316-f818291b783b.png",
             "heading": "{{ block.settings.collection.title }}",
             "subheading": "<p>{{ block.settings.collection.metafields.collection.short_discription | metafield_tag }}</p>",
             "show_view_all": "View All",
@@ -1086,7 +1086,7 @@
         "parallax_content_FAmq76": {
           "type": "parallax_content",
           "settings": {
-            "bg_image": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_plain__1_2.jpg",
+            "bg_image": "shopify://shop_images/generation-bf566332-2bb4-45ea-a0b2-21019e7c0b3c.png",
             "heading": "{{ block.settings.collection.title }}",
             "subheading": "<p>{{ block.settings.collection.metafields.collection.short_discription | metafield_tag }}</p>",
             "show_view_all": "View All",
@@ -1475,8 +1475,8 @@
       ],
       "name": "Images Collage with Text",
       "settings": {
-        "image1": "shopify://shop_images/flux-pro-2.0_A_stylish_young_man_wearing_a_lightweight_t-shirt_hoodie_in_a_natural_beige_tone-0.jpg",
-        "image2": "shopify://shop_images/flux-pro-2.0_A_male_model_in_casual_streetwear_standing_on_a_rural_dirt_pathway_at_sunset_wea-0.jpg",
+        "image1": "shopify://shop_images/generation-afc9ff85-9560-4879-853b-6b540b264e39.png",
+        "image2": "shopify://shop_images/generation-f143ee87-2f7b-4ec9-8316-f818291b783b.png",
         "style": "4",
         "brad": 10,
         "img_width": 60,
