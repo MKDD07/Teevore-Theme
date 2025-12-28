@@ -37,6 +37,7 @@
         "sc_CpBzhV": {
           "type": "sc",
           "settings": {
+            "hdm": false,
             "al": "tl"
           }
         },
@@ -46,6 +47,7 @@
             "sc": false,
             "menu": "",
             "txt": "",
+            "hdm": false,
             "al": "tr f-jce"
           }
         }
@@ -67,10 +69,11 @@
         "cl": "#086be2",
         "clhl": "#ffffff",
         "cnt_txt": "#e74646",
+        "icon_color": "#086be2",
         "btncl": "#414042",
         "btnbg": "#086be2",
         "fade": true,
-        "autoplay": true,
+        "autoplay": false,
         "speed": 5,
         "arrow": false,
         "arrowm": false,
