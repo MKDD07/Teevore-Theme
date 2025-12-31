@@ -426,91 +426,47 @@
         "image_block_margin": 20
       }
     },
-    "background_video_v2_DUa4Gf": {
-      "type": "background-video-v2",
-      "disabled": true,
-      "custom_css": [
-        "video {mix-blend-mode: multiply;}"
-      ],
-      "name": "Video",
-      "settings": {
-        "heading": "",
-        "heading_size": "h1",
-        "enable_video_looping": true,
-        "video": "shopify://files/videos/2025-26.mp4",
-        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
-        "description": "",
-        "video_height": 200,
-        "full_width": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "richtext_wrYaTi": {
-      "type": "richtext",
+    "lookbook_shop_Q6LWbV": {
+      "type": "lookbook-shop",
       "blocks": {
-        "text_fRUP6n": {
-          "type": "text",
+        "lookbook_4DdW69": {
+          "type": "lookbook",
           "settings": {
-            "ttl": "<p>HAPPY NEW YEAR</p>",
-            "htag": "p",
-            "tff": "ft1",
-            "fs": 60,
-            "fsm": 16,
-            "fw": "700",
-            "lh": 1.6,
-            "cl": "#086be2",
-            "mb": 15
-          }
-        },
-        "text_Xa6cQi": {
-          "type": "text",
-          "settings": {
-            "ttl": "<p>2026</p>",
-            "htag": "h2",
-            "tff": "ft1",
-            "fs": 100,
-            "fsm": 60,
-            "fw": "700",
-            "lh": 1.6,
-            "cl": "#086be2",
-            "mb": 15
-          }
-        },
-        "button_bJmpxY": {
-          "type": "button",
-          "settings": {
-            "btntxt": "New Goals. New Energy. New Wins.",
-            "url": "/",
-            "newtab1": false,
-            "btntxt1": "",
-            "url1": "/",
-            "newtab2": false,
-            "btn-style": "btn1",
-            "btn-style1": "btn1",
-            "btn-size": "btn-md"
+            "image": "shopify://shop_images/Frame_22.jpg",
+            "width": "w_100",
+            "pr1": "",
+            "p1_top": 1,
+            "p1_left": 1,
+            "pr2": "",
+            "p2_top": 1,
+            "p2_left": 1,
+            "pr3": "",
+            "p3_top": 1,
+            "p3_left": 1,
+            "pr4": "",
+            "p4_top": 1,
+            "p4_left": 1
           }
         }
       },
       "block_order": [
-        "text_fRUP6n",
-        "text_Xa6cQi",
-        "button_bJmpxY"
+        "lookbook_4DdW69"
       ],
-      "name": "Rich Text",
+      "name": "Lookbook Shop",
       "settings": {
-        "maxwd": 50,
-        "lefta": false,
+        "title": "2026 IS HERE",
+        "subtitle": "",
+        "gspace": 30,
+        "gspacem": 15,
+        "col": 4,
+        "irad": 0,
         "sw": false,
         "npd": false,
         "bg": "#fff",
         "bgg": "",
-        "ganim": false,
-        "animsp": 15,
-        "overlay": "#000",
-        "overlay_op": 0,
-        "sst": 30,
-        "ssb": 30,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
         "sstm": 15,
         "ssbm": 15,
         "hidem": false,
@@ -1901,8 +1857,7 @@
   "order": [
     "slideshow_9343dN",
     "richtext_v2_maBnQ4",
-    "background_video_v2_DUa4Gf",
-    "richtext_wrYaTi",
+    "lookbook_shop_Q6LWbV",
     "countdown_counter_LEVDDt",
     "collection_list2_Nhz7Qe",
     "product_slider_AJHwjn",
