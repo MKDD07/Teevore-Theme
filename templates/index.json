@@ -459,7 +459,7 @@
         "gspace": 30,
         "gspacem": 15,
         "col": 4,
-        "irad": 0,
+        "irad": 30,
         "sw": false,
         "npd": false,
         "bg": "#fff",
