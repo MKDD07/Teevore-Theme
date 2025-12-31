@@ -428,6 +428,7 @@
     },
     "background_video_v2_DUa4Gf": {
       "type": "background-video-v2",
+      "disabled": true,
       "custom_css": [
         "video {mix-blend-mode: multiply;}"
       ],
@@ -445,8 +446,80 @@
         "padding_bottom": 36
       }
     },
+    "richtext_wrYaTi": {
+      "type": "richtext",
+      "blocks": {
+        "text_fRUP6n": {
+          "type": "text",
+          "settings": {
+            "ttl": "<p>HAPPY NEW YEAR</p>",
+            "htag": "p",
+            "tff": "ft1",
+            "fs": 60,
+            "fsm": 16,
+            "fw": "700",
+            "lh": 1.6,
+            "cl": "#086be2",
+            "mb": 15
+          }
+        },
+        "text_Xa6cQi": {
+          "type": "text",
+          "settings": {
+            "ttl": "<p>2026</p>",
+            "htag": "h2",
+            "tff": "ft1",
+            "fs": 100,
+            "fsm": 60,
+            "fw": "700",
+            "lh": 1.6,
+            "cl": "#086be2",
+            "mb": 15
+          }
+        },
+        "button_bJmpxY": {
+          "type": "button",
+          "settings": {
+            "btntxt": "New Goals. New Energy. New Wins.",
+            "url": "/",
+            "newtab1": false,
+            "btntxt1": "",
+            "url1": "/",
+            "newtab2": false,
+            "btn-style": "btn1",
+            "btn-style1": "btn1",
+            "btn-size": "btn-md"
+          }
+        }
+      },
+      "block_order": [
+        "text_fRUP6n",
+        "text_Xa6cQi",
+        "button_bJmpxY"
+      ],
+      "name": "Rich Text",
+      "settings": {
+        "maxwd": 50,
+        "lefta": false,
+        "sw": false,
+        "npd": false,
+        "bg": "#fff",
+        "bgg": "",
+        "ganim": false,
+        "animsp": 15,
+        "overlay": "#000",
+        "overlay_op": 0,
+        "sst": 30,
+        "ssb": 30,
+        "sstm": 15,
+        "ssbm": 15,
+        "hidem": false,
+        "hided": false
+      }
+    },
     "countdown_counter_LEVDDt": {
       "type": "countdown-counter",
+      "disabled": true,
       "name": "Flash Sale Countdown",
       "settings": {
         "title": "NEW Year Sale :",
@@ -1829,6 +1902,7 @@
     "slideshow_9343dN",
     "richtext_v2_maBnQ4",
     "background_video_v2_DUa4Gf",
+    "richtext_wrYaTi",
     "countdown_counter_LEVDDt",
     "collection_list2_Nhz7Qe",
     "product_slider_AJHwjn",
