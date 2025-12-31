@@ -469,7 +469,7 @@
         "ssb": 40,
         "sstm": 15,
         "ssbm": 15,
-        "hidem": false,
+        "hidem": true,
         "hided": false
       }
     },
