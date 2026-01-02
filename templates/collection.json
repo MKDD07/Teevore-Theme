@@ -382,7 +382,7 @@
       ],
       "name": "Collection List",
       "settings": {
-        "title": "Our Collection",
+        "title": "<p>Our Collection</p>",
         "subtitle": "",
         "pretitle_show": true,
         "italic_fancy_font": false,
@@ -555,7 +555,7 @@
         "italic_fancy_font": false,
         "italic_font_selection": "primary",
         "media_type": "image",
-        "image": "shopify://shop_images/GeneratedImageSeptember04_2025-12_13AM_1.jpg",
+        "image": "shopify://shop_images/Frame_35.jpg",
         "video_url": "",
         "media_fit": "contain",
         "media_position": "top",

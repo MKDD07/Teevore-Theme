@@ -339,7 +339,7 @@
         ".btn {padding: 10px 20px; gap: 10px;}",
         ".fll {align-items: center;}",
         ".input-wrapper button span {display: flex;}",
-        ".scIcn{}"
+        ".scIcn {}"
       ],
       "settings": {
         "footer_design": "default",
