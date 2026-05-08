@@ -8,6 +8,1857 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "slideshow_9343dN": {
+      "type": "slideshow",
+      "blocks": {
+        "image_rEiCAb": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Banner_2.webp",
+            "ovr": "#000000",
+            "ovropt": 0,
+            "pcl": "#ffffff",
+            "hd1": "Made for real life",
+            "pff": "ft1",
+            "pfs": 14,
+            "pfsm": 14,
+            "pfw": "600",
+            "plh": 1.2,
+            "pmb": 5,
+            "pmbm": 5,
+            "title": "Everyday Tees. Elevated.",
+            "htag": "h2",
+            "tff": "ft1",
+            "tfs": 36,
+            "tfsm": 28,
+            "tfw": "400",
+            "tlh": 1.5,
+            "to": 1,
+            "tmb": 10,
+            "tmbm": 5,
+            "hd3": "Teevore tees are crafted for comfort, durability, and effortless style. Clean designs, premium fabrics, and a fit that feels just right—every single day.",
+            "hideh3": true,
+            "ff": "ft1",
+            "fs": 13,
+            "fsm": 12,
+            "fw": "400",
+            "lh": 1.2,
+            "mb": 25,
+            "mbm": 15,
+            "enable_overlay_click": false,
+            "btn": "Shop now",
+            "link": "shopify://collections/ash-dune",
+            "newtab": false,
+            "display_btn": false,
+            "btn2": "Shop now",
+            "link2": "",
+            "newtab1": false,
+            "contwd": 1400,
+            "twd": 900,
+            "text-left": true,
+            "txtpos": "f-aic-md f-jcs-md",
+            "txtposm": "f-jcc f-aie tc",
+            "isbox": false,
+            "isboxm": false,
+            "tbg": "#ffffff",
+            "opt": 0.9,
+            "brad": 0
+          }
+        },
+        "image_bK4Ejx": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Banner_1.webp",
+            "ovr": "#000000",
+            "ovropt": 0,
+            "pcl": "#ffffff",
+            "hd1": "Comfort that lasts all day",
+            "pff": "ft1",
+            "pfs": 14,
+            "pfsm": 14,
+            "pfw": "600",
+            "plh": 1.2,
+            "pmb": 5,
+            "pmbm": 5,
+            "title": "Built to Breathe",
+            "htag": "h2",
+            "tff": "ft2",
+            "tfs": 36,
+            "tfsm": 28,
+            "tfw": "400",
+            "tlh": 1.5,
+            "to": 1,
+            "tmb": 10,
+            "tmbm": 5,
+            "hd3": "Soft, breathable cotton blends that keep you cool and comfortable—whether you’re moving through the city or slowing down on the weekend.",
+            "hideh3": true,
+            "ff": "ft1",
+            "fs": 13,
+            "fsm": 12,
+            "fw": "400",
+            "lh": 1.2,
+            "mb": 25,
+            "mbm": 15,
+            "enable_overlay_click": false,
+            "btn": "Shop now",
+            "link": "shopify://collections/best-sellers",
+            "newtab": false,
+            "display_btn": false,
+            "btn2": "Shop now",
+            "link2": "",
+            "newtab1": false,
+            "contwd": 1400,
+            "twd": 900,
+            "text-left": true,
+            "txtpos": "f-aic-md f-jcs-md",
+            "txtposm": "f-jcc f-aie tc",
+            "isbox": false,
+            "isboxm": false,
+            "tbg": "#ffffff",
+            "opt": 0.9,
+            "brad": 0
+          }
+        },
+        "image_Rz4cad": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/generation-8115fe70-9396-4926-b992-e086a6ba5caa.png",
+            "ovr": "#000000",
+            "ovropt": 0,
+            "pcl": "#ffffff",
+            "hd1": "Effortless Style for Every Day",
+            "pff": "ft1",
+            "pfs": 14,
+            "pfsm": 14,
+            "pfw": "600",
+            "plh": 1.2,
+            "pmb": 5,
+            "pmbm": 5,
+            "title": "Simple & Casual",
+            "htag": "h2",
+            "tff": "ft1",
+            "tfs": 36,
+            "tfsm": 28,
+            "tfw": "400",
+            "tlh": 1.5,
+            "to": 1,
+            "tmb": 10,
+            "tmbm": 5,
+            "hd3": "Discover the perfect blend of comfort and confidence with our premium plain black t-shirt.",
+            "hideh3": true,
+            "ff": "ft1",
+            "fs": 13,
+            "fsm": 12,
+            "fw": "400",
+            "lh": 1.2,
+            "mb": 25,
+            "mbm": 15,
+            "enable_overlay_click": false,
+            "btn": "Shop now",
+            "link": "shopify://collections/new-arrivals",
+            "newtab": false,
+            "display_btn": false,
+            "btn2": "Shop now",
+            "link2": "",
+            "newtab1": false,
+            "contwd": 1400,
+            "twd": 900,
+            "text-left": true,
+            "txtpos": "f-aic-md f-jcs-md",
+            "txtposm": "f-jcc f-aie tc",
+            "isbox": false,
+            "isboxm": false,
+            "tbg": "#ffffff",
+            "opt": 0.9,
+            "brad": 0
+          }
+        },
+        "image_6KdFG7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Banner_4.webp",
+            "ovr": "#ffffff",
+            "ovropt": 0,
+            "pcl": "#ffffff",
+            "hd1": "Elevate Your Everyday Look",
+            "pff": "ft1",
+            "pfs": 14,
+            "pfsm": 14,
+            "pfw": "600",
+            "plh": 1.2,
+            "pmb": 5,
+            "pmbm": 5,
+            "title": "Classic Tees, Modern Fit",
+            "htag": "h2",
+            "tff": "ft1",
+            "tfs": 36,
+            "tfsm": 28,
+            "tfw": "400",
+            "tlh": 1.2,
+            "to": 1,
+            "tmb": 10,
+            "tmbm": 5,
+            "hd3": "Step up your casual wardrobe with our sleek gray polo shirt featuring subtle check patterns.",
+            "hideh3": true,
+            "ff": "ft1",
+            "fs": 13,
+            "fsm": 12,
+            "fw": "400",
+            "lh": 1.2,
+            "mb": 25,
+            "mbm": 15,
+            "enable_overlay_click": false,
+            "btn": "Shop now",
+            "link": "shopify://collections/ash-dune",
+            "newtab": false,
+            "display_btn": false,
+            "btn2": "Shop now",
+            "link2": "",
+            "newtab1": false,
+            "contwd": 1400,
+            "twd": 900,
+            "text-left": true,
+            "txtpos": "f-aic-md f-jcs-md",
+            "txtposm": "f-jcc f-aie tc",
+            "isbox": false,
+            "isboxm": false,
+            "tbg": "#ffffff",
+            "opt": 0.9,
+            "brad": 0
+          }
+        },
+        "image_WAwHJV": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/generation-da1cf047-513c-4892-a510-79c48b2179c3.png",
+            "ovr": "#000000",
+            "ovropt": 0,
+            "pcl": "#ffffff",
+            "hd1": "Natural Vibes, Timeless Comfort",
+            "pff": "ft1",
+            "pfs": 14,
+            "pfsm": 17,
+            "pfw": "300",
+            "plh": 1.2,
+            "pmb": 5,
+            "pmbm": 5,
+            "title": "Tees for Nature Lovers",
+            "htag": "h2",
+            "tff": "ft1",
+            "tfs": 36,
+            "tfsm": 28,
+            "tfw": "400",
+            "tlh": 1.2,
+            "to": 1,
+            "tmb": 10,
+            "tmbm": 5,
+            "hd3": "Embrace the calm of nature with our breathable brown tee.",
+            "hideh3": true,
+            "ff": "ft2",
+            "fs": 13,
+            "fsm": 12,
+            "fw": "400",
+            "lh": 1.2,
+            "mb": 25,
+            "mbm": 15,
+            "enable_overlay_click": false,
+            "btn": "Shop now",
+            "link": "shopify://collections/trackline-collection",
+            "newtab": false,
+            "display_btn": false,
+            "btn2": "Shop now",
+            "link2": "",
+            "newtab1": false,
+            "contwd": 1400,
+            "twd": 900,
+            "text-left": true,
+            "txtpos": "f-aic-md f-jcs-md",
+            "txtposm": "f-jcc f-aie tc",
+            "isbox": false,
+            "isboxm": false,
+            "tbg": "#ffffff",
+            "opt": 0.9,
+            "brad": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_rEiCAb",
+        "image_bK4Ejx",
+        "image_Rz4cad",
+        "image_6KdFG7",
+        "image_WAwHJV"
+      ],
+      "custom_css": [
+        ".slideshow .swiper-pagination-bullets {position: absolute; bottom: 0; width: 100%; z-index: 2; margin-bottom: 25px;}",
+        ".slideshow .imgFt {object-position: top;}",
+        "h2 {color: #fff !important;}"
+      ],
+      "name": "Carousel",
+      "settings": {
+        "ht": "2",
+        "htd": 750,
+        "htt": 600,
+        "htm": 500,
+        "section_width": false,
+        "box-width": 1800,
+        "sbrad": 25,
+        "fade": true,
+        "loop": true,
+        "autoplay": true,
+        "speed": 10,
+        "arrow": true,
+        "arrowm": false,
+        "arrowc": "#ffffff",
+        "arrowbg": "rgba(0,0,0,0)",
+        "dot": true,
+        "dotm": true,
+        "dots": "#dddddd",
+        "imganim": true,
+        "txtanimation": true,
+        "animation-style": "st3",
+        "sw": true,
+        "sst": 0,
+        "ssb": 50,
+        "sstm": 0,
+        "ssbm": 25,
+        "hidem": false,
+        "hided": false,
+        "btn-style": "btn8",
+        "btn-style1": "btn8",
+        "btn-size": "btn-md"
+      }
+    },
+    "richtext_v2_maBnQ4": {
+      "type": "richtext-v2",
+      "blocks": {
+        "subheading_kRT6UY": {
+          "type": "subheading",
+          "settings": {
+            "subheading": "MORE THAN CLOTHES",
+            "grid_position": "1",
+            "grid_alignment": "center",
+            "cl": "#222222",
+            "fs": 32,
+            "fsm": 16,
+            "fw": 900,
+            "lh": 1,
+            "mb": 0,
+            "tff": "ft1"
+          }
+        },
+        "heading_bWTwpy": {
+          "type": "heading",
+          "settings": {
+            "heading": "ATTITUDE",
+            "grid_position": "5",
+            "grid_alignment": "center",
+            "cl": "#222222",
+            "lh": 1.3,
+            "mb": 20,
+            "tff": "kug"
+          }
+        },
+        "text_QqU6ig": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Teevore is where everyday fashion meets bold expression. Each piece is designed to speak your mindset, turning simple silhouettes into powerful statements you can wear with confidence.</p>",
+            "grid_position": "9",
+            "grid_alignment": "center",
+            "cl": "#222222",
+            "fs": 13,
+            "fsm": 12,
+            "fw": 400,
+            "lh": 1.5,
+            "mb": 20,
+            "image_enable": true,
+            "image_type": "image",
+            "svg_code": "",
+            "image_width": 100,
+            "image_height": 100
+          }
+        }
+      },
+      "block_order": [
+        "subheading_kRT6UY",
+        "heading_bWTwpy",
+        "text_QqU6ig"
+      ],
+      "custom_css": [],
+      "name": "Rich Text",
+      "settings": {
+        "grid_columns": "1",
+        "grid_rows": "1",
+        "block_image": "shopify://shop_images/Lucid_Origin_A_confident_young_white_man_seated_casually_in_a__1_1.jpg",
+        "gap_direction": 0,
+        "align_items": "center",
+        "max_width": 1200,
+        "show_column_bg": false,
+        "enable_left_border": false,
+        "border_thickness": 1,
+        "border_color": "#222222",
+        "tagg": "tc",
+        "lefta": false,
+        "enable_fancy": true,
+        "italic_fancy_font": true,
+        "italic_font_selection": "secondary",
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#222222",
+        "overlay_op": 0,
+        "ganim": true,
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 40,
+        "ssbm": 40,
+        "sw": true,
+        "maxwd": 100,
+        "left_align": true,
+        "hidem": false,
+        "hided": false,
+        "animsp": 1,
+        "btn_bg_color": "#007bff",
+        "btn_text_color": "#ffffff",
+        "image_border_radius": 25,
+        "image_wrapper_width": 60,
+        "image_wrapper_height": 60,
+        "image_block_margin": 20
+      }
+    },
+    "lookbook_shop_Q6LWbV": {
+      "type": "lookbook-shop",
+      "blocks": {
+        "lookbook_4DdW69": {
+          "type": "lookbook",
+          "settings": {
+            "image": "shopify://shop_images/Frame_22.jpg",
+            "width": "w_100",
+            "pr1": "",
+            "p1_top": 1,
+            "p1_left": 1,
+            "pr2": "",
+            "p2_top": 1,
+            "p2_left": 1,
+            "pr3": "",
+            "p3_top": 1,
+            "p3_left": 1,
+            "pr4": "",
+            "p4_top": 1,
+            "p4_left": 1
+          }
+        }
+      },
+      "block_order": [
+        "lookbook_4DdW69"
+      ],
+      "name": "Lookbook Shop",
+      "settings": {
+        "title": "2026 IS HERE",
+        "subtitle": "",
+        "gspace": 30,
+        "gspacem": 15,
+        "col": 4,
+        "irad": 30,
+        "sw": false,
+        "npd": false,
+        "bg": "#fff",
+        "bgg": "",
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 15,
+        "ssbm": 15,
+        "hidem": true,
+        "hided": false
+      }
+    },
+    "countdown_counter_LEVDDt": {
+      "type": "countdown-counter",
+      "disabled": true,
+      "name": "Flash Sale Countdown",
+      "settings": {
+        "title": "NEW Year Sale :",
+        "subtitle": "UP TO 40% OFF!",
+        "end_date": "2025-12-31T23:59",
+        "link_text": "SHOP CLEARANCE",
+        "link": "shopify://collections/polo-t-shirt",
+        "bg_color": "#ffffff",
+        "text_color": "#086be2",
+        "btn_bg": "#086be2",
+        "btn_text": "#ffffff"
+      }
+    },
+    "collection_list2_Nhz7Qe": {
+      "type": "collection-list2",
+      "blocks": {
+        "collection_zq8kef": {
+          "type": "collection",
+          "settings": {
+            "collection": "t-shirts",
+            "media_type": "video",
+            "pretitle": "",
+            "title": "Casual",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_fKyLjr": {
+          "type": "collection",
+          "settings": {
+            "collection": "color-theory-collection",
+            "media_type": "video",
+            "pretitle": "",
+            "title": "",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_VAVfWd": {
+          "type": "collection",
+          "settings": {
+            "collection": "urban-wear",
+            "media_type": "video",
+            "pretitle": "",
+            "title": "Urban Wear",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_Xy7CHN": {
+          "type": "collection",
+          "settings": {
+            "collection": "trackline-collection",
+            "media_type": "video",
+            "pretitle": "",
+            "title": "Trackline",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_Cic678": {
+          "type": "collection",
+          "settings": {
+            "collection": "t-shirts",
+            "media_type": "video",
+            "pretitle": "",
+            "title": "Casual",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_w8NnxD": {
+          "type": "collection",
+          "settings": {
+            "collection": "t-shirts",
+            "media_type": "video",
+            "image": "shopify://shop_images/Lucid_Origin_Ultrarealistic_highly_detailed_fashion_photoshoot_3_upscayl_4x_upscayl-standard-4x.jpg",
+            "pretitle": "",
+            "title": "Polo T-Shirt",
+            "btntxt": "",
+            "url": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_zq8kef",
+        "collection_fKyLjr",
+        "collection_VAVfWd",
+        "collection_Xy7CHN",
+        "collection_Cic678",
+        "collection_w8NnxD"
+      ],
+      "custom_css": [
+        ".at_box {padding: 20px 0 !important;}"
+      ],
+      "name": "Collection List",
+      "settings": {
+        "title": "<p>Our <em>Collection</em></p>",
+        "subtitle": "",
+        "pretitle_show": true,
+        "italic_fancy_font": false,
+        "enable_design": false,
+        "italic_font_selection": "primary",
+        "enable_background": false,
+        "different_design": true,
+        "ratio": "160",
+        "gspace": 15,
+        "gspacem": 10,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.5,
+        "count": false,
+        "zoom": true,
+        "irad": 15,
+        "btn-style": "btn7",
+        "btn-size": "btn-sm",
+        "text-align": "tc f-jcc",
+        "pfs": 12,
+        "pfsm": 12,
+        "ft": "ft1",
+        "fs": 17,
+        "fsm": 15,
+        "lh": 1.5,
+        "fw": "500",
+        "cl": "#ffffff",
+        "tbg": "#000000",
+        "tbg_op": 0,
+        "carousel": true,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": false,
+        "dotm": false,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#3d4246",
+        "overlay_op": 1,
+        "headings_cl": "",
+        "sst": 100,
+        "ssb": 100,
+        "sstm": 30,
+        "ssbm": 30,
+        "hidem": false,
+        "hided": false,
+        "pdr": 5,
+        "pdl": 15
+      }
+    },
+    "product_slider_AJHwjn": {
+      "type": "product-slider",
+      "custom_css": [],
+      "name": "New Arrivals",
+      "settings": {
+        "title": "New Arrivals!",
+        "background_image": false,
+        "subtitle": "Explore the latest trends and timeless classics",
+        "align_items": "start",
+        "justify_content": "start",
+        "elg": false,
+        "italic_font_selection": "secondary",
+        "collection": "urban-wear",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.5,
+        "rows": 50,
+        "show_view_all": "View all",
+        "btn-style": "btnLink",
+        "btn-size": "btn-sm",
+        "carousel": false,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": true,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#222222",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 30,
+        "ssbm": 30,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "banner_new_design_dgrM8d": {
+      "type": "banner_new_design",
+      "blocks": {
+        "image_item_6BTRKT": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/Square_Banner_1.webp",
+            "title": "Big Sale",
+            "subtitle": "Get up to 50% off your favorite styles — only for a limited time!",
+            "link_url": "",
+            "overlay_background": "#f0e1d5",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
+          }
+        },
+        "image_item_rXHRH8": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/generation-b7852336-0f00-4c98-ac4b-85bf73910256.png",
+            "title": "New Drop",
+            "subtitle": "Discover the latest arrivals — trend-forward, fresh, and ready to wear.",
+            "link_url": "",
+            "overlay_background": "#f0e1d5",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
+          }
+        },
+        "image_item_KaXRpR": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/Square_Banner_2.webp",
+            "title": "Summer Vibes",
+            "subtitle": "Breezy fabrics, bright colors, and effortless looks for sunny days.",
+            "link_url": "",
+            "overlay_background": "#fdf8bb",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
+          }
+        }
+      },
+      "block_order": [
+        "image_item_6BTRKT",
+        "image_item_rXHRH8",
+        "image_item_KaXRpR"
+      ],
+      "name": "Image Grid with Text Overlay",
+      "settings": {
+        "desktop_columns": 3,
+        "sticky_mobile": false
+      }
+    },
+    "product_slider_wgByjd": {
+      "type": "product-slider",
+      "name": "Best Sellers",
+      "settings": {
+        "title": "{{ section.settings.collection.title }}",
+        "background_image": false,
+        "subtitle": "Unique T-shirts made in small batches for those who stand out.",
+        "align_items": "start",
+        "justify_content": "start",
+        "elg": false,
+        "italic_font_selection": "secondary",
+        "collection": "polo-t-shirt",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.5,
+        "rows": 50,
+        "show_view_all": "View all",
+        "btn-style": "btnLink",
+        "btn-size": "btn-md",
+        "carousel": true,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": true,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#222222",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 30,
+        "ssbm": 30,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "featured_banner_UVCKif": {
+      "type": "featured-banner",
+      "blocks": {
+        "feature_DT7Tkz": {
+          "type": "feature",
+          "settings": {
+            "svg_image": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path opacity=\"0.4\" d=\"M10 3.75H11.25V8.5C11.25 8.91 11.59 9.25 12 9.25C12.41 9.25 12.75 8.91 12.75 8.5V3.75H14C14.41 3.75 14.75 3.41 14.75 3C14.75 2.59 14.41 2.25 14 2.25H10C9.59 2.25 9.25 2.59 9.25 3C9.25 3.41 9.59 3.75 10 3.75Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M14 20.25H12.75V15.5C12.75 15.09 12.41 14.75 12 14.75C11.59 14.75 11.25 15.09 11.25 15.5V20.25H10C9.59 20.25 9.25 20.59 9.25 21C9.25 21.41 9.59 21.75 10 21.75H14C14.41 21.75 14.75 21.41 14.75 21C14.75 20.59 14.41 20.25 14 20.25Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M2.82989 9.88006C2.94989 9.95006 3.07989 9.98006 3.19989 9.98006C3.45989 9.98006 3.70989 9.85006 3.84989 9.60006L4.47989 8.52006L8.59989 10.9001C8.70989 10.9701 8.83989 11.0001 8.96989 11.0001C9.22989 11.0001 9.47989 10.8701 9.61989 10.6201C9.82989 10.2601 9.69989 9.80006 9.34989 9.60006L5.23989 7.22006L5.85989 6.14006C6.06989 5.78006 5.93989 5.32006 5.58989 5.12006C5.22989 4.91006 4.76989 5.03006 4.56989 5.39006L2.56989 8.85006C2.34989 9.22006 2.46989 9.67006 2.82989 9.88006Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M21.1699 14.12C20.8099 13.91 20.3499 14.03 20.1499 14.39L19.5199 15.47L15.3999 13.1C15.0399 12.89 14.5799 13.02 14.3799 13.37C14.1699 13.73 14.2999 14.19 14.6499 14.39L18.7599 16.77L18.1399 17.85C17.9299 18.21 18.0599 18.67 18.4099 18.87C18.5299 18.94 18.6599 18.97 18.7799 18.97C19.0399 18.97 19.2899 18.84 19.4299 18.59L21.4299 15.13C21.6499 14.78 21.5299 14.33 21.1699 14.12Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M18.77 7.21994L14.66 9.59994C14.3 9.80994 14.18 10.2699 14.39 10.6199C14.53 10.8599 14.78 10.9999 15.04 10.9999C15.17 10.9999 15.3 10.9699 15.41 10.8999L19.52 8.51994L20.15 9.59994C20.29 9.83994 20.54 9.97994 20.8 9.97994C20.93 9.97994 21.06 9.94994 21.17 9.87994C21.53 9.66994 21.65 9.20994 21.44 8.85994L19.44 5.39994C19.23 5.03994 18.77 4.91994 18.42 5.12994C18.06 5.33994 17.94 5.79994 18.15 6.14995L18.77 7.21994Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M5.22988 16.78L9.33988 14.4C9.69988 14.19 9.81988 13.73 9.60988 13.38C9.39988 13.02 8.93988 12.9 8.58988 13.11L4.47988 15.49L3.84988 14.41C3.63988 14.05 3.17988 13.93 2.82988 14.14C2.46988 14.35 2.34988 14.81 2.55988 15.16L4.55988 18.62C4.69988 18.86 4.94988 19 5.20988 19C5.33988 19 5.46988 18.97 5.57988 18.9C5.93988 18.69 6.05988 18.23 5.84988 17.88L5.22988 16.78Z\" fill=\"#086be2\"></path>\n<path d=\"M15.5 12C15.5 12.64 15.33 13.23 15.03 13.75C14.42 14.8 13.29 15.5 12 15.5C10.71 15.5 9.58 14.8 8.97 13.75C8.67 13.23 8.5 12.64 8.5 12C8.5 11.36 8.67 10.77 8.97 10.25C9.58 9.2 10.71 8.5 12 8.5C13.29 8.5 14.42 9.2 15.03 10.25C15.33 10.77 15.5 11.36 15.5 12Z\" fill=\"#086be2\"></path>\n</svg>",
+            "title": "All-Season Comfort",
+            "text": "<p>Feels right, any weather.</p>"
+          }
+        },
+        "feature_3rEepA": {
+          "type": "feature",
+          "settings": {
+            "svg_image": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path d=\"M12.5001 17.53C12.3601 17.68 12.1701 17.75 11.9701 17.75C11.7801 17.75 11.5901 17.68 11.4401 17.53L9.8501 15.94C10.4401 15.87 11.0101 15.73 11.5401 15.51L12.5001 16.47C12.8001 16.76 12.8001 17.24 12.5001 17.53Z\" fill=\"#086be2\"></path>\n<path d=\"M15.9601 15.93C15.8201 16.08 15.6201 16.16 15.4301 16.16C15.2401 16.16 15.0501 16.08 14.9001 15.94L13.3701 14.44C13.7601 14.13 14.1201 13.77 14.4301 13.37L15.9501 14.87C16.2501 15.16 16.2501 15.64 15.9601 15.93Z\" fill=\"#086be2\"></path>\n<path d=\"M17.5 12.53C17.36 12.68 17.17 12.75 16.97 12.75C16.78 12.75 16.59 12.68 16.44 12.53L15.48 11.57C15.7 11.04 15.84 10.47 15.91 9.88L17.5 11.47C17.8 11.76 17.8 12.24 17.5 12.53Z\" fill=\"#086be2\"></path>\n<path d=\"M15.9002 8.07C15.4502 4.64 12.5202 2 8.97021 2C5.10021 2 1.97021 5.13 1.97021 9C1.97021 12.55 4.61021 15.48 8.04021 15.93C8.34021 15.98 8.65021 16 8.97021 16C9.27022 16 9.56021 15.98 9.85021 15.94L9.47021 15.56C9.18021 15.26 9.18021 14.79 9.47021 14.5C9.76021 14.2 10.2402 14.2 10.5302 14.5L11.5402 15.51C12.2102 15.25 12.8202 14.89 13.3702 14.44L12.4702 13.55C12.1802 13.26 12.1702 12.79 12.4702 12.49C12.7602 12.2 13.2302 12.19 13.5302 12.48L14.4302 13.37C14.8702 12.83 15.2302 12.23 15.4802 11.57L14.4702 10.56C14.1802 10.26 14.1802 9.79 14.4702 9.5C14.7602 9.2 15.2402 9.2 15.5302 9.5L15.9102 9.88C15.9502 9.59 15.9702 9.3 15.9702 9C15.9702 8.68 15.9502 8.37 15.9002 8.07Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M21.97 15C21.97 18.87 18.84 22 14.97 22C11.42 22 8.49004 19.36 8.04004 15.93C8.34004 15.98 8.65004 16 8.97004 16C9.27004 16 9.56004 15.98 9.85004 15.94L11.44 17.53C11.59 17.68 11.78 17.75 11.97 17.75C12.17 17.75 12.36 17.68 12.5 17.53C12.8 17.24 12.8 16.76 12.5 16.47L11.54 15.51C12.21 15.25 12.82 14.89 13.37 14.44L14.9 15.94C15.05 16.08 15.24 16.16 15.43 16.16C15.62 16.16 15.82 16.08 15.96 15.93C16.25 15.64 16.25 15.16 15.95 14.87L14.43 13.37C14.87 12.83 15.23 12.23 15.48 11.57L16.44 12.53C16.59 12.68 16.78 12.75 16.97 12.75C17.17 12.75 17.36 12.68 17.5 12.53C17.8 12.24 17.8 11.76 17.5 11.47L15.91 9.88001C15.95 9.59001 15.97 9.30001 15.97 9.00001C15.97 8.68001 15.95 8.37001 15.9 8.07001C19.33 8.52001 21.97 11.45 21.97 15Z\" fill=\"#086be2\"></path>\n</svg>",
+            "title": "Premium Fabric",
+            "text": "<p>Soft, durable, and stylish.</p>"
+          }
+        },
+        "feature_E8RNtC": {
+          "type": "feature",
+          "settings": {
+            "svg_image": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path opacity=\"0.6\" d=\"M14 16C14 17.77 13.23 19.37 12 20.46C10.94 21.42 9.54 22 8 22C4.69 22 2 19.31 2 16C2 13.24 3.88 10.9 6.42 10.21C7.11 11.95 8.59 13.29 10.42 13.79C10.92 13.93 11.45 14 12 14C12.55 14 13.08 13.93 13.58 13.79C13.85 14.47 14 15.22 14 16Z\" fill=\"#086be2\"></path>\n<path d=\"M18 8C18 8.78 17.85 9.53 17.58 10.21C16.89 11.95 15.41 13.29 13.58 13.79C13.08 13.93 12.55 14 12 14C11.45 14 10.92 13.93 10.42 13.79C8.59 13.29 7.11 11.95 6.42 10.21C6.15 9.53 6 8.78 6 8C6 4.69 8.69 2 12 2C15.31 2 18 4.69 18 8Z\" fill=\"#086be2\"></path>\n<path opacity=\"0.4\" d=\"M22 16C22 19.31 19.31 22 16 22C14.46 22 13.06 21.42 12 20.46C13.23 19.37 14 17.77 14 16C14 15.22 13.85 14.47 13.58 13.79C15.41 13.29 16.89 11.95 17.58 10.21C20.12 10.9 22 13.24 22 16Z\" fill=\"#086be2\"></path>\n</svg>",
+            "title": "Minimal Design",
+            "text": "<p>Built for every mood.</p>"
+          }
+        },
+        "feature_Ba8Jxy": {
+          "type": "feature",
+          "settings": {
+            "svg_image": "<svg width=\"36\" height=\"36\" viewbox=\"0 0 24 24\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n<path opacity=\"0.4\" d=\"M21.9698 12C21.9698 14.94 20.6898 17.6 18.6498 19.41C16.8898 21.01 14.5598 21.97 11.9998 21.97C6.49979 21.97 2.02979 17.5 2.02979 12C2.02979 6.5 6.49979 2.03 11.9998 2.03C14.5598 2.03 16.8898 2.99 18.6498 4.59C20.6898 6.4 21.9698 9.06 21.9698 12Z\" fill=\"#086be2\"></path>\n<path d=\"M11.9698 16.39C11.9498 18.04 10.7198 18.44 9.56978 17.98C7.19978 17.03 5.52979 14.71 5.52979 12C5.52979 9.28999 7.19978 6.97 9.56978 6.01C10.7198 5.55 11.9498 5.95999 11.9698 7.59999V16.39Z\" fill=\"#086be2\"></path>\n</svg>",
+            "title": "Everyday Ready",
+            "text": "<p>Wear it. Live in it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "feature_DT7Tkz",
+        "feature_3rEepA",
+        "feature_E8RNtC",
+        "feature_Ba8Jxy"
+      ],
+      "name": "Featured Banner",
+      "settings": {
+        "media_type": "video",
+        "video_autoplay": true,
+        "video_loop": true,
+        "video_muted": true,
+        "video_controls": false,
+        "layout": "right",
+        "tbg": "#ffffff",
+        "tbgg": "",
+        "talign": "tc",
+        "talignv": "f-aic",
+        "maxwd": 100,
+        "txtpd": false,
+        "title": "Teevore Hoodies",
+        "tff": "ft3",
+        "fs": 48,
+        "fsm": 20,
+        "fw": "400",
+        "lh": 1.3,
+        "text": "<p>Designed for comfort, crafted for every move you make. Style meets ease, wherever you go.</p>",
+        "tfs": 13,
+        "tfsm": 13,
+        "tlh": 1.8,
+        "style": "stl1",
+        "showicn": true,
+        "icns": 48,
+        "icnsm": 48,
+        "border_radius": 30,
+        "fttfs": 15,
+        "fttfsm": 13,
+        "ftfw": "600",
+        "ftlh": 1.3,
+        "ftfs": 13,
+        "ftfsm": 13,
+        "cl": "#222222",
+        "grid": 2,
+        "gridtb": 2,
+        "gridmb": 2,
+        "btn": "Read More",
+        "link": "shopify://collections/color-theory-collection",
+        "btn-style": "btn7",
+        "btn-size": "btn-sm",
+        "sbrad": 24,
+        "sw": true,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000000",
+        "overlay_op": 0,
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 15,
+        "ssbm": 15,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "product_slider_YDUKFX": {
+      "type": "product-slider",
+      "name": "Frontline",
+      "settings": {
+        "title": "{{ section.settings.collection.title }}",
+        "background_image": false,
+        "subtitle": "Explore the latest trends and timeless classics",
+        "align_items": "start",
+        "justify_content": "start",
+        "elg": false,
+        "italic_font_selection": "secondary",
+        "collection": "shaurya-collection",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.5,
+        "rows": 50,
+        "show_view_all": "View all",
+        "btn-style": "btnLink",
+        "btn-size": "btn-md",
+        "carousel": false,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": true,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#222222",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 30,
+        "ssbm": 30,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "scrolling_parallex_rkz8YK": {
+      "type": "scrolling-parallex",
+      "blocks": {
+        "parallax_content_cdpCdP": {
+          "type": "parallax_content",
+          "settings": {
+            "bg_image": "shopify://shop_images/generation-59540e06-15ca-49b4-890e-37391ac0e3d5.png",
+            "heading": "{{ block.settings.collection.title }}",
+            "subheading": "<p>Comfortable, everyday T-shirts that fit effortlessly into your style.</p>",
+            "show_view_all": "View All",
+            "collection": "trackline-collection",
+            "show_overlay": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 0.5,
+            "height": 400,
+            "parallax_speed": 0.1,
+            "text_align": "left",
+            "max_width": 600,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "padding_x": 20,
+            "heading_color": "#ffffff",
+            "heading_size": 48,
+            "heading_weight": "700",
+            "heading_line_height": 1.2,
+            "heading_margin": 20,
+            "sub_color": "#ffffff",
+            "sub_size": 18,
+            "sub_weight": "400",
+            "sub_line_height": 1.5
+          }
+        }
+      },
+      "block_order": [
+        "parallax_content_cdpCdP"
+      ],
+      "name": "Polo",
+      "settings": {
+        "title": "",
+        "subtitle": "",
+        "align_items": "center",
+        "justify_content": "center",
+        "elg": false,
+        "enable_bg_text": true,
+        "italic_font_selection": "primary",
+        "collection": "t-shirts",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.4,
+        "rows": 50,
+        "show_view_all": "",
+        "btn-style": "btn1",
+        "btn-size": "btn-md",
+        "carousel": true,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": false,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000000",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 40,
+        "sstm": 40,
+        "ssbm": 40,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "scrolling_parallex_gNkwXJ": {
+      "type": "scrolling-parallex",
+      "blocks": {
+        "parallax_content_AiqhM4": {
+          "type": "parallax_content",
+          "settings": {
+            "bg_image": "shopify://shop_images/generation-f143ee87-2f7b-4ec9-8316-f818291b783b.png",
+            "heading": "{{ block.settings.collection.title }}",
+            "subheading": "<p></p>",
+            "show_view_all": "View All",
+            "collection": "urban-wear",
+            "show_overlay": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 0.5,
+            "height": 400,
+            "parallax_speed": 0.1,
+            "text_align": "left",
+            "max_width": 600,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "padding_x": 20,
+            "heading_color": "#ffffff",
+            "heading_size": 48,
+            "heading_weight": "700",
+            "heading_line_height": 1.2,
+            "heading_margin": 20,
+            "sub_color": "#ffffff",
+            "sub_size": 18,
+            "sub_weight": "400",
+            "sub_line_height": 1.5
+          }
+        },
+        "scroll_text_top_TwXw7C": {
+          "type": "scroll_text_top",
+          "settings": {
+            "text": "PREMIUM QUALITY",
+            "show_icon": true,
+            "icon_path": "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+            "location": 20,
+            "rotate": 2,
+            "overlay_enable": true,
+            "duplicates": 15,
+            "text_color": "#ffffff",
+            "bg_color": "#b90000",
+            "icon_color": "#ffffff",
+            "font_size": 16,
+            "icon_size": 18,
+            "rotation": 0,
+            "speed": 25,
+            "padding": 15,
+            "gap": 40,
+            "text_gap": 12,
+            "spacing": 40,
+            "font_weight": "500"
+          }
+        }
+      },
+      "block_order": [
+        "parallax_content_AiqhM4",
+        "scroll_text_top_TwXw7C"
+      ],
+      "name": "Graphic Tees",
+      "settings": {
+        "title": "",
+        "subtitle": "",
+        "align_items": "center",
+        "justify_content": "center",
+        "elg": false,
+        "enable_bg_text": true,
+        "italic_font_selection": "primary",
+        "collection": "urban-wear",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.4,
+        "rows": 50,
+        "show_view_all": "",
+        "btn-style": "btn1",
+        "btn-size": "btn-md",
+        "carousel": true,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": false,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000000",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 40,
+        "ssbm": 40,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "scrolling_parallex_KeEmgg": {
+      "type": "scrolling-parallex",
+      "blocks": {
+        "parallax_content_FAmq76": {
+          "type": "parallax_content",
+          "settings": {
+            "bg_image": "shopify://shop_images/generation-bf566332-2bb4-45ea-a0b2-21019e7c0b3c.png",
+            "heading": "{{ block.settings.collection.title }}",
+            "subheading": "<p></p>",
+            "show_view_all": "View All",
+            "collection": "ash-dune",
+            "show_overlay": false,
+            "overlay_color": "#000000",
+            "overlay_opacity": 0.2,
+            "height": 400,
+            "parallax_speed": 0.1,
+            "text_align": "left",
+            "max_width": 600,
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "padding_x": 20,
+            "heading_color": "#ffffff",
+            "heading_size": 48,
+            "heading_weight": "700",
+            "heading_line_height": 1.2,
+            "heading_margin": 20,
+            "sub_color": "#ffffff",
+            "sub_size": 18,
+            "sub_weight": "400",
+            "sub_line_height": 1.5
+          }
+        }
+      },
+      "block_order": [
+        "parallax_content_FAmq76"
+      ],
+      "name": "Heading Cursed",
+      "settings": {
+        "title": "",
+        "subtitle": "",
+        "align_items": "center",
+        "justify_content": "center",
+        "elg": false,
+        "enable_bg_text": true,
+        "italic_font_selection": "primary",
+        "collection": "ash-dune",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.4,
+        "rows": 50,
+        "show_view_all": "",
+        "btn-style": "btn1",
+        "btn-size": "btn-md",
+        "carousel": true,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": false,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000000",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 40,
+        "ssbm": 40,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "beyond_WiQwzn": {
+      "type": "beyond",
+      "blocks": {
+        "text_slide_RcJdRN": {
+          "type": "text_slide",
+          "settings": {
+            "heading": "A blessing for \n every skin."
+          }
+        },
+        "image_slide_c6B44H": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_bright_2.jpg",
+            "heading": ""
+          }
+        },
+        "text_slide_xHrRFp": {
+          "type": "text_slide",
+          "settings": {
+            "heading": "The perfect mix of \n old & new."
+          }
+        },
+        "image_slide_xYW9LX": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_plain__0_2.jpg",
+            "heading": ""
+          }
+        },
+        "text_slide_fBPHUE": {
+          "type": "text_slide",
+          "settings": {
+            "heading": "A journey over borders \n & generations."
+          }
+        },
+        "image_slide_PHPQUf": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/Lucid_Origin_exquisite_high_fashion_photography_of_A_confident_3.jpg",
+            "heading": ""
+          }
+        },
+        "text_slide_fhFLDQ": {
+          "type": "text_slide",
+          "settings": {
+            "heading": "You are the \n stylist."
+          }
+        },
+        "image_slide_f3Cjzg": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_plain__0.jpg",
+            "heading": ""
+          }
+        },
+        "text_slide_pdAHpJ": {
+          "type": "text_slide",
+          "settings": {
+            "heading": "To be on the \n forefront."
+          }
+        },
+        "image_slide_dPKAWi": {
+          "type": "image_slide",
+          "settings": {
+            "image": "shopify://shop_images/Lucid_Origin_exquisite_high_fashion_photography_of_A_confident_0.jpg",
+            "heading": ""
+          }
+        }
+      },
+      "block_order": [
+        "text_slide_RcJdRN",
+        "image_slide_c6B44H",
+        "text_slide_xHrRFp",
+        "image_slide_xYW9LX",
+        "text_slide_fBPHUE",
+        "image_slide_PHPQUf",
+        "text_slide_fhFLDQ",
+        "image_slide_f3Cjzg",
+        "text_slide_pdAHpJ",
+        "image_slide_dPKAWi"
+      ],
+      "disabled": true,
+      "name": "Hero Image Text Slider",
+      "settings": {
+        "section_height": 500,
+        "section_height_mobile": 300,
+        "background_color": "#222222",
+        "text_color": "#ffffff",
+        "overlay_opacity": 65,
+        "font_family": "Helvetica",
+        "heading_size": 64,
+        "heading_size_mobile": 30,
+        "font_weight": "400",
+        "center_scale": 1.2,
+        "autoplay": true,
+        "autoplay_speed": 2400,
+        "transition_speed": 1800
+      }
+    },
+    "album_Ra9PJf": {
+      "type": "album",
+      "name": "Pro Album Scatter",
+      "settings": {
+        "scroll_height": 200,
+        "show_background_grid": true,
+        "main_image": "shopify://shop_images/Square_Banner_3.webp",
+        "image_size": 600,
+        "en_ratio": true,
+        "radius_attached": 10,
+        "radius_scattered": 10,
+        "enable_split": true,
+        "split_heading": "TrackLine Collection",
+        "split_text": "<p>As the atmosphere darkens, the pieces scatter. Experience the gritty reality of the soundscape.</p>",
+        "bg_color": "#ffffff",
+        "text_color": "#222222",
+        "anim_style": "style-1",
+        "anim_speed": 50
+      }
+    },
+    "scroling_text_nhJEGa": {
+      "type": "scroling-text",
+      "blocks": {
+        "text_9Rc6RY": {
+          "type": "text",
+          "settings": {
+            "text": "Enjoy free shipping on all orders above ₹199",
+            "outline": false
+          }
+        },
+        "text_rmqQf9": {
+          "type": "text",
+          "settings": {
+            "text": "Avail exclusive discounts for a limited time only",
+            "outline": false
+          }
+        },
+        "text_fDNFpQ": {
+          "type": "text",
+          "settings": {
+            "text": "Discover new deals and offers updated every day",
+            "outline": false
+          }
+        }
+      },
+      "block_order": [
+        "text_9Rc6RY",
+        "text_rmqQf9",
+        "text_fDNFpQ"
+      ],
+      "name": "Scrolling Text",
+      "settings": {
+        "ff": "ft1",
+        "rotate_enable": true,
+        "rotate_deg": 0,
+        "fs": 28,
+        "fsm": 20,
+        "fw": "400",
+        "cl": "#ffffff",
+        "space": 40,
+        "icon": "star",
+        "custom_svg": "Free shipping on order over $199",
+        "icns": 16,
+        "speed": 20,
+        "speedm": 15,
+        "bg": "#b90000",
+        "bgg": "",
+        "overlay": "#3d4246",
+        "overlay_op": 0,
+        "sst": 60,
+        "ssb": 0,
+        "sstm": 40,
+        "ssbm": 5,
+        "msb": 10,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "product_slider_yQdtpy": {
+      "type": "product-slider",
+      "name": "Best Sellers",
+      "settings": {
+        "title": "Complete Collection",
+        "background_image": false,
+        "subtitle": "",
+        "align_items": "start",
+        "justify_content": "start",
+        "elg": false,
+        "italic_font_selection": "secondary",
+        "collection": "t-shirts",
+        "prbox_style": "grid_1",
+        "show_color_swatch": true,
+        "show_vendor": false,
+        "gridxxl": 5,
+        "grid": 4,
+        "gridtb": 3,
+        "gridmb": 1.5,
+        "rows": 50,
+        "show_view_all": "View all",
+        "btn-style": "btnLink",
+        "btn-size": "btn-md",
+        "carousel": false,
+        "loop": false,
+        "autoplay": false,
+        "speed": 5,
+        "arrow": true,
+        "arrowm": false,
+        "dot": true,
+        "dotm": true,
+        "sw": true,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#222222",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 40,
+        "ssb": 60,
+        "sstm": 30,
+        "ssbm": 30,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "scroll_section_banner_f9QHWg": {
+      "type": "scroll-section-banner",
+      "name": "Scrolled Images Banner",
+      "settings": {
+        "heading": "Unmatched Elegance",
+        "subheading": "<p>Explore our curated selection of premium products, thoughtfully designed to elevate your everyday life. Each piece blends style, comfort, and functionality for a seamless experience. Crafted with precision and care, our collection ensures durability and lasting value. Discover quality you can trust in every detail.</p>",
+        "show_view_all": "View All",
+        "collection": "",
+        "image_1": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_with_a_slender_build__1.jpg",
+        "image_2": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_with_full_face_c_2.jpg",
+        "image_3": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_with_a_slender_build__0.jpg",
+        "image_4": "shopify://shop_images/Lucid_Origin_A_confident_young_man_wearing_a_light_dune_brown__2.jpg",
+        "image_5": "shopify://shop_images/Generated_Image_September_09_2025_-_8_11PM.jpg",
+        "media_height": "media--650px",
+        "fs": 20,
+        "fsm": 18,
+        "fw": "600",
+        "cl": "#000000",
+        "bcl": "#000000",
+        "bd": "#eeeeee",
+        "fbg": "#f4f4f4",
+        "sw": true,
+        "npd": true,
+        "sst": 30,
+        "ssb": 80,
+        "sstm": 15,
+        "ssbm": 30,
+        "bg": "",
+        "parallax_speed": 1.5,
+        "spacing_top_desktop": 80,
+        "spacing_top_mobile": 20,
+        "animate_delay_base": 250,
+        "animate_delay_increment": 30
+      }
+    },
+    "images_with_text_ebJcnF": {
+      "type": "images-with-text",
+      "blocks": {
+        "text_3px67P": {
+          "type": "text",
+          "settings": {
+            "ttl": "<h2><em>Confident & Casual</em></h2>",
+            "htag": "h2",
+            "tff": "ft3",
+            "fs": 24,
+            "fsm": 18,
+            "fw": "700",
+            "lh": 1.6,
+            "cl": "#000000",
+            "mb": 15
+          }
+        },
+        "text_wieVmL": {
+          "type": "text",
+          "settings": {
+            "ttl": "<p>Find your everyday comfort with our premium, ultra-soft tees designed for effortless style.</p>",
+            "htag": "p",
+            "tff": "ft1",
+            "fs": 12,
+            "fsm": 12,
+            "fw": "300",
+            "lh": 1.4,
+            "cl": "#000000",
+            "mb": 25
+          }
+        },
+        "button_bCFWyR": {
+          "type": "button",
+          "settings": {
+            "btntxt": "SHOP NOW",
+            "url": "shopify://collections",
+            "newtab1": false,
+            "btntxt1": "",
+            "url1": "shopify://collections/ash-dune",
+            "newtab2": false,
+            "btn-style": "btn7",
+            "btn-style1": "btn1",
+            "btn-size": "btn-sm",
+            "mb": 0
+          }
+        }
+      },
+      "block_order": [
+        "text_3px67P",
+        "text_wieVmL",
+        "button_bCFWyR"
+      ],
+      "custom_css": [
+        ".btn {line-height: 1.7;}"
+      ],
+      "name": "Images Collage with Text",
+      "settings": {
+        "image1": "shopify://shop_images/generation-afc9ff85-9560-4879-853b-6b540b264e39.png",
+        "image2": "shopify://shop_images/generation-f143ee87-2f7b-4ec9-8316-f818291b783b.png",
+        "style": "4",
+        "brad": 10,
+        "img_width": 60,
+        "order": "order0",
+        "maxwd": 600,
+        "lefta": true,
+        "v_pos": "f-aic",
+        "sw": false,
+        "npd": false,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#000000",
+        "overlay_op": 0,
+        "sst": 60,
+        "ssb": 60,
+        "sstm": 25,
+        "ssbm": 25,
+        "hidem": false,
+        "hided": false
+      }
+    },
+    "background_video_v2_qUMgyG": {
+      "type": "background-video-v2",
+      "name": "Video",
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "enable_video_looping": true,
+        "video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+        "description": "",
+        "video_height": 400,
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "instagram_rich_text_h6pNwj": {
+      "type": "instagram-rich-text",
+      "blocks": {
+        "heading_LzEMyE": {
+          "type": "heading",
+          "settings": {
+            "heading": "@Teevore.official",
+            "grid_position": "1",
+            "grid_alignment": "left",
+            "cl": "#222222",
+            "fs": 28,
+            "fsm": 24,
+            "fw": 700,
+            "lh": 1.2,
+            "mb": 20,
+            "tff": "font1"
+          }
+        },
+        "text_CkUVqr": {
+          "type": "text",
+          "settings": {
+            "text": "<ul><li>🧢 Bold | Urban | Real</li><li>🖤 Limited Drops | Premium Tees</li><li>🎯 Designed for the streets, worn by icons</li><li>📦 Shipping PAN... more</li></ul>",
+            "grid_position": "5",
+            "grid_alignment": "left",
+            "cl": "#222222",
+            "fs": 13,
+            "fsm": 12,
+            "fw": 400,
+            "lh": 1.5,
+            "mb": 0,
+            "image_enable": true,
+            "image": "shopify://shop_images/favi_icon_logo.png",
+            "image_type": "svg",
+            "svg_code": "<svg width=\"74\" height=\"82\" viewbox=\"0 0 74 82\" fill=\"none\" xmlns=\"https://www.w3.org/2000/svg\">\n<g clip-path=\"url(#clip0_354_33340)\">\n<path d=\"M63.4061 28.191C65.2899 27.9648 67.2416 27.3239 69.1351 27.192C69.9022 27.1354 74.2232 26.8432 73.1163 28.0779C72.6696 28.568 67.4358 30.3777 66.2998 30.8678C63.0954 32.2722 60.0173 34.063 56.6576 35.0809C41.3932 33.5352 26.0998 32.2439 10.7577 31.6218L10.379 31.2543C10.3499 28.0402 10.8063 24.8262 11.1073 21.631C11.2918 19.6234 11.1073 17.2389 11.6899 15.2595C12.1657 13.6572 16.778 7.00299 18.1569 6.18299C24.6044 3.97747 31.0714 1.6023 37.6937 0C42.8595 2.27149 50.3945 3.41195 55.2108 6.05103C57.0363 7.05011 61.4253 13.3933 62.1438 15.4198C63.5227 19.3218 63.4061 24.1099 63.4158 28.1816L63.4061 28.191Z\" fill=\"#222222\"></path>\n<path d=\"M42.617 54.4408C44.0444 54.8555 41.7237 56.5992 41.209 56.9197C43.4715 57.2307 44.3066 56.5615 45.229 54.6953C48.8995 53.9884 56.7258 53.7905 58.93 50.4728C59.5612 49.5114 61.2993 42.433 61.3479 41.1606C61.3964 39.9542 60.94 38.71 60.0953 37.8523C61.6683 37.8523 63.6589 34.7891 64.7464 37.4188C65.0377 38.1257 64.7756 40.9815 64.6493 41.9052C64.2998 44.5254 62.4451 50.19 60.6002 52.0939C59.7554 52.9611 58.0367 53.9224 56.7938 53.9696C55.9976 57.4004 57.2113 61.6323 55.9587 64.9218C55.2111 66.8822 49.0548 74.3847 47.3264 76.3546C44.6464 79.4273 43.1996 80.8411 38.7815 81.1898C34.8586 81.5008 29.2267 81.482 26.1777 78.8146C22.3811 75.4781 19.0019 69.2197 15.4772 65.4213C14.1372 61.7926 14.8751 57.8716 14.6324 54.1015C13.8264 53.5077 13.0885 53.3758 12.234 52.716C9.7676 50.7932 8.21397 45.8167 7.60224 42.8477C7.31093 41.4528 6.28168 37.5036 7.84499 36.7873C9.40832 36.0709 10.1366 37.9466 11.6125 37.8429L11.3601 32.8946L53.4535 36.8627C53.5118 37.2962 52.8709 37.0983 52.5602 37.1077C41.8596 37.5319 30.858 36.7401 20.138 37.0983C18.4193 37.1549 15.953 37.202 14.3119 37.3811C11.1173 37.7392 10.8066 39.0211 11.1561 41.8769C11.3795 43.696 12.5156 47.8243 13.1953 49.5585C14.1566 51.9903 16.6035 52.716 18.9922 53.3381C20.5361 53.7434 26.6438 54.4031 27.275 54.9592C27.6245 55.2703 27.7799 55.9677 28.1974 56.2976C28.9354 56.8914 30.5958 57.1176 31.4989 56.8066C30.6056 55.9866 29.5374 55.8923 29.4598 54.4503H42.5976L42.617 54.4408ZM26.9254 62.6126C27.9935 65.3553 30.557 66.3732 33.4215 66.5806C37.0919 66.8539 42.0538 66.7126 43.7628 62.9801C43.7337 62.6031 39.7331 61.3873 39.0534 61.359C37.8105 61.3024 37.0531 61.868 35.985 61.8962C34.4605 61.9339 33.1593 61.1893 31.4115 61.4061C29.9647 61.5852 28.4985 62.7257 26.9254 62.622V62.6126Z\" fill=\"#222222\"></path>\n</g>\n<defs>\n<clippath id=\"clip0_354_33340\">\n<rect width=\"67\" height=\"82\" fill=\"white\" transform=\"translate(7)\"></rect>\n</clippath>\n</defs>\n</svg>",
+            "enable_border": true,
+            "image_width": 100,
+            "image_height": 100
+          }
+        },
+        "button_wreRy7": {
+          "type": "button",
+          "settings": {
+            "btntxt": "Follow Us",
+            "url": "shopify://collections",
+            "btn-style": "btn7",
+            "btn-size": "btn-lg",
+            "grid_position": "5",
+            "grid_alignment": "right",
+            "btn_style": "btn-primary",
+            "btn_size": "btn-small",
+            "justify_content": "center",
+            "newtab": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_LzEMyE",
+        "text_CkUVqr",
+        "button_wreRy7"
+      ],
+      "name": "Instagram Richtext",
+      "settings": {
+        "grid_columns": "2",
+        "grid_rows": "3",
+        "gap_direction": 0,
+        "align_items": "center",
+        "max_width": 1400,
+        "show_column_bg": false,
+        "enable_left_border": false,
+        "border_thickness": 2,
+        "border_color": "#222222",
+        "tagg": "fl",
+        "lefta": true,
+        "italic_fancy_font": false,
+        "italic_font_selection": "primary",
+        "bg": "#ffffff",
+        "bgg": "#ffffff",
+        "overlay": "#2222224d",
+        "overlay_op": 0.3,
+        "ganim": false,
+        "sst": 60,
+        "ssb": 0,
+        "sstm": 20,
+        "ssbm": 15,
+        "sw": true,
+        "maxwd": 100,
+        "left_align": true,
+        "hidem": false,
+        "hided": false,
+        "animsp": 1,
+        "btn_bg_color": "#007bff",
+        "btn_text_color": "#ffffff",
+        "image_border_radius": 25,
+        "image_wrapper_width": 60,
+        "image_wrapper_height": 60,
+        "image_block_margin": 20
+      }
+    },
+    "175396395790ca3829": {
+      "type": "apps",
+      "settings": {
+        "sst": 30,
+        "ssb": 30,
+        "sstm": 15,
+        "ssbm": 15,
+        "bg": "",
+        "sw": false
+      }
+    },
+    "social_overlays_9xf7qe": {
+      "type": "social-overlays",
+      "blocks": {
+        "card_J6pF7k": {
+          "type": "card",
+          "settings": {
+            "link": "https://wa.me/917827232156",
+            "open_in_new_tab": false,
+            "aria_label": "",
+            "svg_code": "<svg xmlns=\"https://www.w3.org/2000/svg\" width=\"48\" height=\"48\" fill=\"currentColor\" viewbox=\"0 0 16 16\">\n  <path d=\"M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232\"></path>\n</svg>"
+          }
+        }
+      },
+      "block_order": [
+        "card_J6pF7k"
+      ],
+      "name": "Social Icon Card (Overlay)",
+      "settings": {
+        "dkbp": 55,
+        "dkrp": 55,
+        "mbbp": 20,
+        "mbrp": 20,
+        "svg_code_size": 1,
+        "card_size": 60,
+        "mbcs": 55,
+        "icon_size": 36,
+        "mbis": 20,
+        "card_gap": 0.5,
+        "cab": "#ffffff",
+        "dbr": 90,
+        "hover_scale": 110,
+        "show_one_by_one": false,
+        "en_card1": false,
+        "en_card2": false,
+        "en_card3": false,
+        "en_card4": false,
+        "card1_color": "#198754",
+        "card1_hover_bg": "#198754",
+        "card1_hover_color": "#ffffff",
+        "card2_color": "#03a9f4",
+        "card2_hover_bg": "#03a9f4",
+        "card2_hover_color": "#ffffff",
+        "card3_color": "#333333",
+        "card3_hover_bg": "#000000",
+        "card3_hover_color": "#ffffff",
+        "card4_color": "#8c9eff",
+        "card4_hover_bg": "#8c9eff",
+        "card4_hover_color": "#ffffff"
+      }
+    },
+    "faq_6mwa9x": {
+      "type": "faq",
+      "blocks": {
+        "faqs_1": {
+          "type": "faqs",
+          "settings": {
+            "title": "What sizes are available for Teevore T-shirts?",
+            "answer": "<p>Our T-shirts are available in sizes XS to XXL. Please refer to the size guide on each product page for exact measurements.</p>",
+            "open": false
+          }
+        },
+        "faqs_2": {
+          "type": "faqs",
+          "settings": {
+            "title": "What material are your T-shirts made from?",
+            "answer": "<p>Teevore T-shirts are made from 100% premium cotton, offering a soft, breathable, and long-lasting wear.</p>",
+            "open": false
+          }
+        },
+        "faqs_3": {
+          "type": "faqs",
+          "settings": {
+            "title": "How should I wash and care for my T-shirt?",
+            "answer": "<p>We recommend machine washing cold with like colors and tumble drying on low. Avoid bleach and ironing directly on prints.</p>",
+            "open": false
+          }
+        },
+        "faqs_4": {
+          "type": "faqs",
+          "settings": {
+            "title": "Do you offer international shipping?",
+            "answer": "<p>Yes, Teevore ships worldwide. Shipping rates and delivery times vary based on your location.</p>",
+            "open": false
+          }
+        },
+        "faqs_5": {
+          "type": "faqs",
+          "settings": {
+            "title": "Can I return or exchange my T-shirt?",
+            "answer": "<p>Yes, we offer a 7-day return and exchange policy on unused items with original packaging and tags.</p>",
+            "open": false
+          }
+        },
+        "faqs_6": {
+          "type": "faqs",
+          "settings": {
+            "title": "How long does delivery take?",
+            "answer": "<p>Orders are typically delivered within 3-7 business days in India, and 7-15 business days internationally.</p>",
+            "open": false
+          }
+        },
+        "newsletter_tqhWqT": {
+          "type": "newsletter",
+          "disabled": true,
+          "settings": {
+            "title": "",
+            "subtitle": "Sign up to stay in the loop. Receive updates,<br> access to exclusive deals, and more.",
+            "style": "1",
+            "fs": 22,
+            "fsm": 18,
+            "fst": 14,
+            "fstm": 13,
+            "cl": "#000000",
+            "tf_bg": "#eeeeee",
+            "tf_txt": "#000000",
+            "btncl": "#ffffff",
+            "btnbg": "#000000",
+            "btnclh": "#ffffff",
+            "btnbgh": "#86bbbf",
+            "sw": true,
+            "npd": true,
+            "bg": "#222222",
+            "bgg": "",
+            "overlay": "#3d4246",
+            "overlay_op": 0,
+            "headings_cl": "",
+            "sst": 40,
+            "ssb": 40,
+            "sstm": 15,
+            "ssbm": 15,
+            "hidem": false,
+            "hided": false
+          }
+        }
+      },
+      "block_order": [
+        "faqs_1",
+        "faqs_2",
+        "faqs_3",
+        "faqs_4",
+        "faqs_5",
+        "faqs_6",
+        "newsletter_tqhWqT"
+      ],
+      "custom_css": [],
+      "name": "FAQs",
+      "settings": {
+        "title": "Need Help? Start Here",
+        "subtitle": "Answers to common questions about our T-shirts, shipping, and returns.",
+        "enable_small_card": true,
+        "enable_faq_only": true,
+        "italic_font_selection": "secondary",
+        "page_width": 2000,
+        "accor": true,
+        "acc_style": "1",
+        "tcl": "#086be2",
+        "tfs": 15,
+        "tfsm": 14,
+        "tfw": "500",
+        "qu": "#086be2",
+        "fs": 13,
+        "fsm": 12,
+        "fw": "400",
+        "an": "#086be2",
+        "fst": 13,
+        "fsmt": 13,
+        "bdr": "#e2efff",
+        "links": false,
+        "lfs": 14,
+        "lfsm": 19,
+        "lfw": "500",
+        "lcl": "#222222",
+        "lclh": "#222222",
+        "lbg": "#086be2",
+        "lbd": "#acacac",
+        "sw": true,
+        "bg": "#ffffff",
+        "bgg": "",
+        "overlay": "#3d4246",
+        "overlay_op": 0,
+        "headings_cl": "",
+        "sst": 60,
+        "ssb": 40,
+        "sstm": 40,
+        "ssbm": 50,
+        "hidem": false,
+        "hided": false
+      }
+    }
+  },
+  "order": [
+    "slideshow_9343dN",
+    "richtext_v2_maBnQ4",
+    "lookbook_shop_Q6LWbV",
+    "countdown_counter_LEVDDt",
+    "collection_list2_Nhz7Qe",
+    "product_slider_AJHwjn",
+    "banner_new_design_dgrM8d",
+    "product_slider_wgByjd",
+    "featured_banner_UVCKif",
+    "product_slider_YDUKFX",
+    "scrolling_parallex_rkz8YK",
+    "scrolling_parallex_gNkwXJ",
+    "scrolling_parallex_KeEmgg",
+    "beyond_WiQwzn",
+    "album_Ra9PJf",
+    "scroling_text_nhJEGa",
+    "product_slider_yQdtpy",
+    "scroll_section_banner_f9QHWg",
+    "images_with_text_ebJcnF",
+    "background_video_v2_qUMgyG",
+    "instagram_rich_text_h6pNwj",
+    "175396395790ca3829",
+    "social_overlays_9xf7qe",
+    "faq_6mwa9x"
+  ]
 }
