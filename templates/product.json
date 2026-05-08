@@ -219,7 +219,6 @@
           "type": "img",
           "settings": {
             "title": "Secured by",
-            "pimg": "shopify://shop_images/Razorpay_logo.svg",
             "imgwd": 80,
             "img_align": false,
             "cl": "#222222",
@@ -577,8 +576,8 @@
       ],
       "name": "Featured Banner",
       "settings": {
-        "media_type": "image",
-        "image": "shopify://shop_images/Signature_Difference.jpg",
+        "media_type": "video",
+        "video": "shopify://files/videos/media_001.mp4",
         "video_autoplay": true,
         "video_loop": true,
         "video_muted": true,
@@ -631,133 +630,6 @@
         "ssbm": 15,
         "hidem": false,
         "hided": false
-      }
-    },
-    "collection_design_iywEfU": {
-      "type": "collection-design",
-      "blocks": {
-        "collection_W4mr9k": {
-          "type": "collection",
-          "settings": {
-            "collection": "ash-dune",
-            "custom_title": "",
-            "description": ""
-          }
-        },
-        "collection_qhtAcA": {
-          "type": "collection",
-          "settings": {
-            "collection": "bharat-legacy",
-            "custom_title": "",
-            "description": ""
-          }
-        },
-        "collection_wqYcnA": {
-          "type": "collection",
-          "settings": {
-            "collection": "shaurya-collection",
-            "custom_title": "",
-            "description": ""
-          }
-        },
-        "collection_niXtUm": {
-          "type": "collection",
-          "settings": {
-            "collection": "polo-t-shirt",
-            "custom_title": "",
-            "description": ""
-          }
-        }
-      },
-      "block_order": [
-        "collection_W4mr9k",
-        "collection_qhtAcA",
-        "collection_wqYcnA",
-        "collection_niXtUm"
-      ],
-      "name": "Our Collection",
-      "settings": {
-        "title": "Our Collection",
-        "subtitle": "",
-        "sw": true,
-        "sst": 40,
-        "ssb": 80,
-        "sstm": 20,
-        "ssbm": 20,
-        "hidem": false,
-        "hided": false,
-        "media_type": "image",
-        "image": "shopify://shop_images/Frame_33.jpg",
-        "video_url": "",
-        "media_fit": "contain",
-        "media_position": "center",
-        "video_aspect_ratio": 55,
-        "layout_style": "list",
-        "layout_type": "horizontal",
-        "enable_sticky": true,
-        "sticky_offset": 40,
-        "columns_desktop": 1,
-        "columns_mobile": 1,
-        "container_width": 1400,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "bg_color": "#ffffff",
-        "item_bg": "#ffffff",
-        "border_color": "#ffffff",
-        "border_radius": 15,
-        "item_padding": 20,
-        "item_spacing": 16,
-        "grid_gap": 20,
-        "enable_header": true,
-        "enable_image": true,
-        "enable_title": true,
-        "enable_subtitle": false,
-        "enable_description": true,
-        "enable_count": true,
-        "enable_arrow": true,
-        "header_align": "left",
-        "header_margin": 40,
-        "section_title_size": 32,
-        "section_title_weight": 600,
-        "section_title_color": "#333333",
-        "section_title_margin": 8,
-        "section_subtitle_size": 16,
-        "section_subtitle_color": "#666666",
-        "subtitle_width": 600,
-        "image_size": 150,
-        "image_height": 200,
-        "image_border_radius": 6,
-        "image_hover_scale": 105,
-        "content_spacing": 16,
-        "title_size": 18,
-        "title_weight": 600,
-        "title_color": "#333333",
-        "title_margin": 4,
-        "subtitle_size": 14,
-        "subtitle_weight": 500,
-        "subtitle_color": "#666666",
-        "subtitle_margin": 4,
-        "desc_size": 14,
-        "desc_color": "#555555",
-        "desc_lines": 2,
-        "count_position": "inline",
-        "count_size": 12,
-        "count_color": "#888888",
-        "count_bg": "#ffffffe6",
-        "count_padding": 4,
-        "count_border_radius": 4,
-        "count_weight": 500,
-        "count_top": 8,
-        "count_right": 8,
-        "count_margin": 6,
-        "arrow_size": 40,
-        "arrow_icon_size": 30,
-        "arrow_bg": "#ffffff",
-        "arrow_color": "#222222",
-        "hover_lift": 6,
-        "hover_shadow": 0,
-        "mobile_direction": "horizontal",
-        "mobile_padding": 16
       }
     },
     "brand_comparison_NdD3m9": {
@@ -877,7 +749,7 @@
         "italic_fancy_font": false,
         "italic_font_selection": "primary",
         "media_type": "image",
-        "image": "shopify://shop_images/Square_Banner_4.webp",
+        "image": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_in_his_mid20s_with_a__3.jpg",
         "video_url": "",
         "media_fit": "cover",
         "media_position": "center",
@@ -1000,7 +872,6 @@
     "breadcrumb",
     "main",
     "featured_banner_wtt8GE",
-    "collection_design_iywEfU",
     "brand_comparison_NdD3m9",
     "related",
     "recentviewed"
