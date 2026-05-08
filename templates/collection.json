@@ -636,7 +636,7 @@
         "ssbm": 15,
         "hidem": false,
         "hided": false,
-        "blog_handle": "journal",
+        "blog_handle": "news",
         "articles_count": 5,
         "excerpt_length": 120,
         "show_view_more_button": true,
