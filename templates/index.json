@@ -901,7 +901,7 @@
         "justify_content": "start",
         "elg": false,
         "italic_font_selection": "secondary",
-        "collection": "concrete-dreams-copy",
+        "collection": "concrete-dreams",
         "prbox_style": "grid_1",
         "show_color_swatch": true,
         "show_vendor": false,
@@ -942,10 +942,11 @@
         "parallax_content_cdpCdP": {
           "type": "parallax_content",
           "settings": {
+            "bg_image": "shopify://shop_images/banner_0009.jpg",
             "heading": "{{ block.settings.collection.title }}",
             "subheading": "<p>Comfortable, everyday T-shirts that fit effortlessly into your style.</p>",
             "show_view_all": "View All",
-            "collection": "trackline-collection",
+            "collection": "concrete-dreams-copy",
             "show_overlay": false,
             "overlay_color": "#000000",
             "overlay_opacity": 0.5,
