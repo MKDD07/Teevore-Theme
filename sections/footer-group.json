@@ -187,7 +187,7 @@
           "settings": {
             "hidem": false,
             "title": "Shop",
-            "menu": "footer-1",
+            "menu": "main-menu",
             "issep": false,
             "width": "wd20"
           }
@@ -197,7 +197,7 @@
           "settings": {
             "hidem": false,
             "title": "Capsule",
-            "menu": "",
+            "menu": "discover",
             "issep": false,
             "width": "wd20"
           }
@@ -207,17 +207,7 @@
           "settings": {
             "hidem": false,
             "title": "Collections",
-            "menu": "",
-            "issep": false,
-            "width": "wd20"
-          }
-        },
-        "menu_pizTUw": {
-          "type": "menu",
-          "settings": {
-            "hidem": false,
-            "title": "Services",
-            "menu": "",
+            "menu": "footer-1",
             "issep": false,
             "width": "wd20"
           }
@@ -227,17 +217,9 @@
           "settings": {
             "hidem": false,
             "title": "Policies",
-            "menu": "",
+            "menu": "policies",
             "issep": false,
             "width": "wd20"
-          }
-        },
-        "hrline_pFJVVg": {
-          "type": "hrline",
-          "settings": {
-            "lineclr": "#e2efff",
-            "hidem": true,
-            "mar": 15
           }
         },
         "liquid_BeG93a": {
@@ -248,35 +230,13 @@
             "width": "wd20"
           }
         },
-        "image_V89mmG": {
-          "type": "image",
+        "socialicons_t9FTFX": {
+          "type": "socialicons",
           "settings": {
             "hidem": false,
-            "socials": false,
-            "enable_newsletter": true,
-            "news_txt": "",
-            "socttl": "",
-            "title": "",
-            "txt": "",
-            "image_design": "side_by_side",
-            "image1": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_plain__1.jpg",
-            "url1": "",
-            "caption1": "",
-            "headline1": "New In Weekly",
-            "subtext1": "Fresh drops. Nonstop style",
-            "button_label1": "",
-            "button_url1": "",
-            "url2": "",
-            "caption2": "",
-            "headline2": "Style Starts Here",
-            "subtext2": "Shop the collection",
-            "button_label2": "Shop the collection",
-            "button_url2": "",
-            "logo-wd": 400,
-            "logomr": true,
-            "logo-wd2": 200,
+            "title": "Stay Connected",
             "issep": true,
-            "width": "wd40"
+            "width": "wd25"
           }
         },
         "hrline_eUgDHq": {
@@ -294,11 +254,9 @@
         "menu_CjaxxX",
         "menu_zxn8GL",
         "menu_AR3bb4",
-        "menu_pizTUw",
         "menu_geWQfi",
-        "hrline_pFJVVg",
         "liquid_BeG93a",
-        "image_V89mmG",
+        "socialicons_t9FTFX",
         "hrline_eUgDHq"
       ],
       "custom_css": [
