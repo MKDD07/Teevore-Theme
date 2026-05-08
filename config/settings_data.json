@@ -28,8 +28,8 @@
     "hide-price": false,
     "user_icon": "2",
     "wishlist_page": "wishlist",
-    "favicon": "shopify://shop_images/favi_icon_logo.png",
-    "favicon_retina": "shopify://shop_images/favi_icon_logo.png",
+    "favicon": "shopify://shop_images/Group_3_1.png",
+    "favicon_retina": "shopify://shop_images/Group_3_1.png",
     "freeship": "799",
     "free_ship_msg": "",
     "progress_bar": true,
@@ -364,61 +364,7 @@
     "lfont1_file": "Gustavo Bold",
     "lfont2_file": "Gustavo Bold",
     "lfont3_file": "Gustavo Bold",
-    "content_for_index": [],
-    "blocks": {
-      "13305437469741356523": {
-        "type": "shopify://apps/gsc-instagram-feed/blocks/embed/96970b1b-b770-454f-b16b-51f47e1aa4ed",
-        "disabled": false,
-        "settings": {}
-      },
-      "1207588281359620556": {
-        "type": "shopify://apps/avada-seo-suite/blocks/avada-seo/15507c6e-1aa3-45d3-b698-7e175e033440",
-        "disabled": false,
-        "settings": {}
-      },
-      "7924418359578431505": {
-        "type": "shopify://apps/seoant-ai-seo/blocks/seoant-core/8e57283b-dcb0-4f7b-a947-fb5c57a0d59d",
-        "disabled": false,
-        "settings": {}
-      },
-      "11068332061543699368": {
-        "type": "shopify://apps/booster-page-speed-optimizer/blocks/app-embed/d920faf3-7c60-423a-9636-22618b5561b5",
-        "disabled": true,
-        "settings": {}
-      },
-      "4976129024724438625": {
-        "type": "shopify://apps/smart-seo/blocks/brokenLinkDetection/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
-        "disabled": false,
-        "settings": {}
-      },
-      "6406956604159796213": {
-        "type": "shopify://apps/smart-seo/blocks/smartseo/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
-        "disabled": false,
-        "settings": {}
-      },
-      "13951170544780599758": {
-        "type": "shopify://apps/tapita-seo-speed/blocks/app-embed/cd37ca7a-40ad-4fdc-afd3-768701482209",
-        "disabled": true,
-        "settings": {
-          "hide_price": false
-        }
-      },
-      "14060646107696862457": {
-        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-        "disabled": false,
-        "settings": {}
-      },
-      "17844675666580048712": {
-        "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/sso-script/c13c688d-5c45-4054-b95f-1edd63faa705",
-        "disabled": true,
-        "settings": {}
-      },
-      "3557650678667880288": {
-        "type": "shopify://apps/razorpay-cod-magic-checkout/blocks/magicx-script/c13c688d-5c45-4054-b95f-1edd63faa705",
-        "disabled": true,
-        "settings": {}
-      }
-    }
+    "content_for_index": []
   },
   "platform_customizations": {
     "custom_css": [
