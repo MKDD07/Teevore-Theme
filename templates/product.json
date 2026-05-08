@@ -95,10 +95,6 @@
             "bm": 5
           }
         },
-        "judge_me_reviews_preview_badge_kkFVkJ": {
-          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-          "settings": {}
-        },
         "rating_37UYmt": {
           "type": "rating",
           "settings": {
@@ -455,7 +451,6 @@
       "block_order": [
         "smart_badge_zXmieL",
         "title_cWr7j8",
-        "judge_me_reviews_preview_badge_kkFVkJ",
         "rating_37UYmt",
         "price_Rxdn4C",
         "link_popup_GFqBqV",
@@ -502,15 +497,15 @@
         "btn-sticky": "btn7",
         "content": "Key Highlights",
         "content_01": "Design",
-        "result_01": "{{ product.metafields.products.pattern_print | metafield_text }}",
+        "result_01": "",
         "content_02": "Fit",
         "result_02": "",
         "content_03": "Neck",
-        "result_03": "{{ product.metafields.shopify.neckline | metafield_text: field: 'label' }}",
+        "result_03": "",
         "content_04": "Occasion",
-        "result_04": "{{ product.metafields.products.fit_style | metafield_text }}",
+        "result_04": "",
         "content_05": "Sleeve Style",
-        "result_05": "{{ product.metafields.shopify[\"sleeve-length-type\"] | metafield_text: field: 'label' }}",
+        "result_05": "",
         "page_width": 1400,
         "sst": 0,
         "ssb": 80,
