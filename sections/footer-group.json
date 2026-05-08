@@ -189,7 +189,7 @@
             "title": "Shop",
             "menu": "main-menu",
             "issep": false,
-            "width": "wd20"
+            "width": "wd25"
           }
         },
         "menu_zxn8GL": {
@@ -199,7 +199,7 @@
             "title": "Capsule",
             "menu": "discover",
             "issep": false,
-            "width": "wd20"
+            "width": "wd25"
           }
         },
         "menu_AR3bb4": {
@@ -209,7 +209,7 @@
             "title": "Collections",
             "menu": "footer-1",
             "issep": false,
-            "width": "wd20"
+            "width": "wd25"
           }
         },
         "menu_geWQfi": {
@@ -219,24 +219,42 @@
             "title": "Policies",
             "menu": "policies",
             "issep": false,
-            "width": "wd20"
+            "width": "wd25"
           }
         },
-        "liquid_BeG93a": {
-          "type": "liquid",
-          "settings": {
-            "title": "",
-            "liquid": "",
-            "width": "wd20"
-          }
-        },
-        "socialicons_t9FTFX": {
-          "type": "socialicons",
+        "custom_hWfmiw": {
+          "type": "custom",
           "settings": {
             "hidem": false,
-            "title": "Stay Connected",
+            "title": "",
+            "logo": "shopify://shop_images/Group_4_1.png",
+            "logo-wd": 200,
+            "inline_text": "Teevore is a modern streetwear label built for creators, trendsetters, and everyday comfort seekers. We blend minimal aesthetics with bold expression to deliver premium-quality t-shirts designed for every vibe — from oversized essentials to statement graphics. Every piece is crafted for comfort, confidence, and effortless style.",
+            "text_width": 600,
+            "socials": true,
+            "socttl": "Stay Connected",
+            "payicon": false,
             "issep": true,
-            "width": "wd25"
+            "width": "wd50"
+          }
+        },
+        "newsletter_6pkadj": {
+          "type": "newsletter",
+          "settings": {
+            "hidem": false,
+            "title": "Newsletter",
+            "txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
+            "rich_txt": "",
+            "socials": false,
+            "socttl": "Stay Connected",
+            "issep": true,
+            "width": "wd50",
+            "tf_bg": "#ffffff",
+            "tf_txt": "#000000",
+            "btncl": "#ffffff",
+            "btnbg": "#333333",
+            "btnclh": "#ffffff",
+            "btnbgh": "#333333"
           }
         },
         "hrline_eUgDHq": {
@@ -255,8 +273,8 @@
         "menu_zxn8GL",
         "menu_AR3bb4",
         "menu_geWQfi",
-        "liquid_BeG93a",
-        "socialicons_t9FTFX",
+        "custom_hWfmiw",
+        "newsletter_6pkadj",
         "hrline_eUgDHq"
       ],
       "custom_css": [
