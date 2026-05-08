@@ -491,80 +491,99 @@
     "collection_list2_Nhz7Qe": {
       "type": "collection-list2",
       "blocks": {
-        "collection_zq8kef": {
+        "collection_diywRB": {
           "type": "collection",
           "settings": {
-            "collection": "t-shirts",
-            "media_type": "video",
-            "pretitle": "",
-            "title": "Casual",
-            "btntxt": "",
-            "url": ""
-          }
-        },
-        "collection_fKyLjr": {
-          "type": "collection",
-          "settings": {
-            "collection": "color-theory-collection",
-            "media_type": "video",
+            "collection": "concrete-dreams",
+            "media_type": "image",
+            "video": "shopify://files/videos/media_002.mp4",
             "pretitle": "",
             "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_VAVfWd": {
+        "collection_GJAPz3": {
           "type": "collection",
           "settings": {
-            "collection": "urban-wear",
-            "media_type": "video",
+            "collection": "no-rules-club-copy",
+            "media_type": "image",
+            "video": "shopify://files/videos/media_003.mp4",
             "pretitle": "",
-            "title": "Urban Wear",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_Xy7CHN": {
+        "collection_c3ND9k": {
           "type": "collection",
           "settings": {
-            "collection": "trackline-collection",
-            "media_type": "video",
+            "collection": "rebel-frequency-copy",
+            "media_type": "image",
+            "video": "shopify://files/videos/media_008.mp4",
             "pretitle": "",
-            "title": "Trackline",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_Cic678": {
+        "collection_7t6T97": {
           "type": "collection",
           "settings": {
-            "collection": "t-shirts",
-            "media_type": "video",
+            "collection": "urban-static-copy",
+            "media_type": "image",
+            "video": "shopify://files/videos/media_005.mp4",
             "pretitle": "",
-            "title": "Casual",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_w8NnxD": {
+        "collection_dbKECn": {
           "type": "collection",
           "settings": {
-            "collection": "t-shirts",
-            "media_type": "video",
+            "collection": "concrete-dreams-copy",
+            "media_type": "image",
+            "video": "shopify://files/videos/media_006.mp4",
             "pretitle": "",
-            "title": "Polo T-Shirt",
+            "title": "",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_BWp7n8": {
+          "type": "collection",
+          "settings": {
+            "collection": "lost-signals-copy",
+            "media_type": "image",
+            "video": "shopify://files/videos/media_004.mp4",
+            "pretitle": "",
+            "title": "",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_zq8kef": {
+          "type": "collection",
+          "settings": {
+            "collection": "shadow-division-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_007.mp4",
+            "pretitle": "",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         }
       },
       "block_order": [
-        "collection_zq8kef",
-        "collection_fKyLjr",
-        "collection_VAVfWd",
-        "collection_Xy7CHN",
-        "collection_Cic678",
-        "collection_w8NnxD"
+        "collection_diywRB",
+        "collection_GJAPz3",
+        "collection_c3ND9k",
+        "collection_7t6T97",
+        "collection_dbKECn",
+        "collection_BWp7n8",
+        "collection_zq8kef"
       ],
       "custom_css": [
         ".at_box {padding: 20px 0 !important;}"
