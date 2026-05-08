@@ -187,7 +187,7 @@
           "settings": {
             "hidem": false,
             "title": "Shop",
-            "menu": "",
+            "menu": "footer-1",
             "issep": false,
             "width": "wd20"
           }

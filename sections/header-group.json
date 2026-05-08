@@ -144,7 +144,7 @@
           "settings": {
             "title": "Shop",
             "url": "",
-            "menu": "categories",
+            "menu": "main-menu",
             "lgrid": 1,
             "pttl": "BEST SELLER",
             "products": [
@@ -164,7 +164,6 @@
             "btn-style": "btn3",
             "ftcl": true,
             "colWd": 30,
-            "image": "shopify://shop_images/Lucid_Origin_A_stylish_young_man_wearing_a_clean_white_plain_t_0.jpg",
             "icnbr": 15,
             "ft_ttl": "Trackline Collection",
             "ft_ttls": 24,
@@ -187,7 +186,7 @@
           "settings": {
             "title": "Collections",
             "url": "",
-            "menu": "collections"
+            "menu": ""
           }
         },
         "dd_VaAPBm": {
@@ -195,7 +194,7 @@
           "settings": {
             "title": "Capsule",
             "url": "",
-            "menu": "capsule"
+            "menu": ""
           }
         },
         "slink_nnVYxz": {
@@ -210,7 +209,7 @@
           "settings": {
             "title": "Services",
             "url": "",
-            "menu": "account-services"
+            "menu": ""
           }
         }
       },
@@ -244,7 +243,6 @@
         "trheadcl": false,
         "trheadbg": false,
         "trheadar": false,
-        "trLogo": "shopify://shop_images/Logo_png.png",
         "thcl": "#086be2",
         "logowdm": 150,
         "cntlogo": false,
