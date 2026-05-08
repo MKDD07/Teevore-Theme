@@ -15,6 +15,7 @@
         "image_rEiCAb": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/Banner_001.jpg",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -68,6 +69,7 @@
         "image_bK4Ejx": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/Banner_003.jpg",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -121,6 +123,7 @@
         "image_Rz4cad": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/banner_0004.jpg",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -174,6 +177,7 @@
         "image_6KdFG7": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/banner_0005.jpg",
             "ovr": "#ffffff",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -227,6 +231,7 @@
         "image_WAwHJV": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/banner_0010.jpg",
             "ovr": "#000000",
             "ovropt": 0,
             "pcl": "#ffffff",
@@ -426,6 +431,7 @@
         "lookbook_4DdW69": {
           "type": "lookbook",
           "settings": {
+            "image": "shopify://shop_images/banner_0012.jpg",
             "width": "w_100",
             "pr1": "",
             "p1_top": 1,
@@ -674,19 +680,9 @@
         "image_item_6BTRKT": {
           "type": "image_item",
           "settings": {
+            "image": "shopify://shop_images/banner_0008.jpg",
             "title": "Big Sale",
             "subtitle": "Get up to 50% off your favorite styles — only for a limited time!",
-            "link_url": "",
-            "overlay_background": "#f0e1d5",
-            "title_color": "#333333",
-            "subtitle_color": "#666666"
-          }
-        },
-        "image_item_rXHRH8": {
-          "type": "image_item",
-          "settings": {
-            "title": "New Drop",
-            "subtitle": "Discover the latest arrivals — trend-forward, fresh, and ready to wear.",
             "link_url": "",
             "overlay_background": "#f0e1d5",
             "title_color": "#333333",
@@ -696,6 +692,7 @@
         "image_item_KaXRpR": {
           "type": "image_item",
           "settings": {
+            "image": "shopify://shop_images/generation-eaed5913-26ef-4b1a-b99c-4eb36a7e18b6.png",
             "title": "Summer Vibes",
             "subtitle": "Breezy fabrics, bright colors, and effortless looks for sunny days.",
             "link_url": "",
@@ -703,12 +700,24 @@
             "title_color": "#333333",
             "subtitle_color": "#666666"
           }
+        },
+        "image_item_rXHRH8": {
+          "type": "image_item",
+          "settings": {
+            "image": "shopify://shop_images/banner_0012.png",
+            "title": "New Drop",
+            "subtitle": "Discover the latest arrivals — trend-forward, fresh, and ready to wear.",
+            "link_url": "",
+            "overlay_background": "#f0e1d5",
+            "title_color": "#333333",
+            "subtitle_color": "#666666"
+          }
         }
       },
       "block_order": [
         "image_item_6BTRKT",
-        "image_item_rXHRH8",
-        "image_item_KaXRpR"
+        "image_item_KaXRpR",
+        "image_item_rXHRH8"
       ],
       "name": "Image Grid with Text Overlay",
       "settings": {
