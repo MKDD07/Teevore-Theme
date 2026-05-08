@@ -175,7 +175,6 @@
         "image_overlay_GUXiry": {
           "type": "image_overlay",
           "settings": {
-            "image": "shopify://shop_images/Group_113_f48445d8-fcb9-4998-bc55-06486fc06e3e_1.png",
             "position": "right",
             "height": "custom",
             "custom_height": 500,
@@ -188,7 +187,7 @@
           "settings": {
             "hidem": false,
             "title": "Shop",
-            "menu": "categories",
+            "menu": "",
             "issep": false,
             "width": "wd20"
           }
@@ -198,7 +197,7 @@
           "settings": {
             "hidem": false,
             "title": "Capsule",
-            "menu": "capsule",
+            "menu": "",
             "issep": false,
             "width": "wd20"
           }
@@ -208,7 +207,7 @@
           "settings": {
             "hidem": false,
             "title": "Collections",
-            "menu": "collections",
+            "menu": "",
             "issep": false,
             "width": "wd20"
           }
@@ -218,7 +217,7 @@
           "settings": {
             "hidem": false,
             "title": "Services",
-            "menu": "account-services",
+            "menu": "",
             "issep": false,
             "width": "wd20"
           }
@@ -228,7 +227,7 @@
           "settings": {
             "hidem": false,
             "title": "Policies",
-            "menu": "policies",
+            "menu": "",
             "issep": false,
             "width": "wd20"
           }
@@ -239,36 +238,6 @@
             "lineclr": "#e2efff",
             "hidem": true,
             "mar": 15
-          }
-        },
-        "image_ViEpEH": {
-          "type": "image",
-          "settings": {
-            "hidem": false,
-            "socials": true,
-            "enable_newsletter": true,
-            "news_txt": "Enter your email to receive daily news and get 20% off coupon for all items. NO spam, we promise",
-            "socttl": "Stay Connected",
-            "title": "About Us",
-            "txt": "Teevore is a bold fashion-forward T-shirt brand delivering high-quality, statement pieces for everyday rebels and trendsetters. Crafted for comfort. Designed to stand out.",
-            "image_design": "side_by_side",
-            "url1": "",
-            "caption1": "",
-            "headline1": "New In Weekly",
-            "subtext1": "Fresh drops. Nonstop style",
-            "button_label1": "",
-            "button_url1": "",
-            "url2": "",
-            "caption2": "",
-            "headline2": "Style Starts Here",
-            "subtext2": "Shop the collection",
-            "button_label2": "Shop the collection",
-            "button_url2": "",
-            "logo-wd": 300,
-            "logomr": true,
-            "logo-wd2": 300,
-            "issep": true,
-            "width": "wd40"
           }
         },
         "liquid_BeG93a": {
@@ -290,14 +259,13 @@
             "title": "",
             "txt": "",
             "image_design": "side_by_side",
-            "image1": "shopify://shop_images/Lucid_Origin_A_confident_male_model_wearing_a_bright_yellow_ts_0.jpg",
+            "image1": "shopify://shop_images/Lucid_Origin_A_confident_young_slender_person_wearing_a_plain__1.jpg",
             "url1": "",
             "caption1": "",
             "headline1": "New In Weekly",
             "subtext1": "Fresh drops. Nonstop style",
             "button_label1": "",
             "button_url1": "",
-            "image2": "shopify://shop_images/Lucid_Origin_A_male_model_in_a_relaxed_pose_wearing_a_green_ts_1.jpg",
             "url2": "",
             "caption2": "",
             "headline2": "Style Starts Here",
@@ -329,7 +297,6 @@
         "menu_pizTUw",
         "menu_geWQfi",
         "hrline_pFJVVg",
-        "image_ViEpEH",
         "liquid_BeG93a",
         "image_V89mmG",
         "hrline_eUgDHq"
@@ -348,7 +315,6 @@
         "copyright_text": "© 2025,TeeVore. All Rights Reserved.",
         "show_designby": false,
         "show_payment": true,
-        "payimg": "shopify://shop_images/SVG_Payment_logo.svg",
         "payimgwd": 400,
         "tcl": "#ffffff",
         "ff": "ft1",
