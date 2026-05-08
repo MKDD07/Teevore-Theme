@@ -235,7 +235,22 @@
             "socttl": "Stay Connected",
             "payicon": false,
             "issep": true,
-            "width": "wd50"
+            "width": "wd40"
+          }
+        },
+        "custom_MbLLjP": {
+          "type": "custom",
+          "settings": {
+            "hidem": false,
+            "title": "",
+            "logo-wd": 200,
+            "inline_text": "",
+            "text_width": 600,
+            "socials": false,
+            "socttl": "",
+            "payicon": false,
+            "issep": true,
+            "width": "wd20"
           }
         },
         "newsletter_6pkadj": {
@@ -248,7 +263,7 @@
             "socials": false,
             "socttl": "Stay Connected",
             "issep": true,
-            "width": "wd50",
+            "width": "wd40",
             "tf_bg": "#ffffff",
             "tf_txt": "#000000",
             "btncl": "#ffffff",
@@ -274,6 +289,7 @@
         "menu_AR3bb4",
         "menu_geWQfi",
         "custom_hWfmiw",
+        "custom_MbLLjP",
         "newsletter_6pkadj",
         "hrline_eUgDHq"
       ],
