@@ -495,7 +495,7 @@
           "type": "collection",
           "settings": {
             "collection": "concrete-dreams",
-            "media_type": "image",
+            "media_type": "video",
             "video": "shopify://files/videos/media_002.mp4",
             "pretitle": "",
             "title": "",
@@ -507,7 +507,7 @@
           "type": "collection",
           "settings": {
             "collection": "no-rules-club-copy",
-            "media_type": "image",
+            "media_type": "video",
             "video": "shopify://files/videos/media_003.mp4",
             "pretitle": "",
             "title": "",
@@ -519,7 +519,7 @@
           "type": "collection",
           "settings": {
             "collection": "rebel-frequency-copy",
-            "media_type": "image",
+            "media_type": "video",
             "video": "shopify://files/videos/media_008.mp4",
             "pretitle": "",
             "title": "",
@@ -531,7 +531,7 @@
           "type": "collection",
           "settings": {
             "collection": "urban-static-copy",
-            "media_type": "image",
+            "media_type": "video",
             "video": "shopify://files/videos/media_005.mp4",
             "pretitle": "",
             "title": "",
@@ -543,7 +543,7 @@
           "type": "collection",
           "settings": {
             "collection": "concrete-dreams-copy",
-            "media_type": "image",
+            "media_type": "video",
             "video": "shopify://files/videos/media_006.mp4",
             "pretitle": "",
             "title": "",
@@ -555,7 +555,7 @@
           "type": "collection",
           "settings": {
             "collection": "lost-signals-copy",
-            "media_type": "image",
+            "media_type": "video",
             "video": "shopify://files/videos/media_004.mp4",
             "pretitle": "",
             "title": "",
