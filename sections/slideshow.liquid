@@ -65,11 +65,26 @@
                                endif
                             -%}
                             {% if block_set.image != blank %}
-                            <picture class="" {% if banner_imgm != blank and banner_img_fp != blank %}style="--fp:{{ banner_img_fp }}"{% endif %}>
-                                {% if block_set.imagem != blank %}
-                                    <source media="(max-width: 767px)" srcset="{{ banner_img_src }}" width="{{ banner_imgm.width }}" height="{{ banner_imgm.height }}">
-                                {% endif %}
-                                {{ banner_img | image_url: width: banner_img.width | image_tag: class:img_class, loading: lazy_img, sizes:"100vw", widths:"400,600,800,1000,1200,1400,1600,2000,2400,3000" }}
+                            <picture class=""
+                            {% if banner_imgm != blank and banner_img_fp != blank %}
+                                style="--fp:{{ banner_img_fp }}"
+                            {% endif %}>
+
+                            {% if block_set.imagem != blank %}
+                                <source
+                                media="(max-width: 767px)"
+                                srcset="{{ banner_img_src }}"
+                                width="{{ banner_imgm.width }}"
+                                height="{{ banner_imgm.height }}">
+                            {% endif %}
+
+                            {{ banner_img | image_url: width: banner_img.width | image_tag:
+                                class: img_class,
+                                loading: img_loading,
+                                fetchpriority: img_priority,
+                                sizes: "100vw",
+                                widths: "400,600,800,1000,1200,1400,1600,2000,2400,3000"
+                            }}
                             </picture>
                             {% endif %}
                         {% elsif block.type == 'video' and block_set.video_url != blank %}
