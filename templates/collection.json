@@ -109,7 +109,6 @@
         "image_bnr_CyCrUd": {
           "type": "image_bnr",
           "settings": {
-            "img": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_with_a_slender_build__0.jpg",
             "overlay": "#000000",
             "overlay_op": 0.3,
             "prehead": "MOST AWAITED SALE",
@@ -133,7 +132,6 @@
         "clttl": true,
         "climg": true,
         "use_custom_image": true,
-        "collection_image": "",
         "media_height": "media--900px",
         "enable_description": false,
         "des_pos": "2",
@@ -203,7 +201,6 @@
         "hit": 500,
         "hitt": 500,
         "hitm": 400,
-        "image": "shopify://shop_images/Lucid_Origin_A_stylish_young_man_wearing_a_lightweight_tshirt__0_a1fbf2a0-fa85-4634-b49c-c5c996efa8c4.jpg",
         "overlay": "#000000",
         "overlay_op": 0,
         "italic_fancy_font": false,
@@ -289,96 +286,105 @@
         "hided": false
       }
     },
-    "collection_list2_aEzBjg": {
+    "collection_list2_hgnfrk": {
       "type": "collection-list2",
       "blocks": {
-        "collection_RdKenL": {
+        "collection_CQiLMC": {
           "type": "collection",
           "settings": {
-            "collection": "t-shirts",
-            "media_type": "image",
-            "image": "shopify://shop_images/Lucid_Origin_Ultrarealistic_highly_detailed_fashion_photoshoot_3_upscayl_4x_upscayl-standard-4x.jpg",
-            "pretitle": "",
-            "title": "Polo T-Shirt",
-            "btntxt": "",
-            "url": ""
-          }
-        },
-        "collection_8jzNVJ": {
-          "type": "collection",
-          "settings": {
-            "collection": "color-theory-collection",
-            "media_type": "image",
+            "collection": "concrete-dreams",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_002.mp4",
             "pretitle": "",
             "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_jYL8QH": {
+        "collection_GVLnW9": {
           "type": "collection",
           "settings": {
-            "collection": "bharat-legacy",
-            "media_type": "image",
+            "collection": "no-rules-club-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_003.mp4",
             "pretitle": "",
-            "title": "Bharat Legacy",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_7NYhNN": {
+        "collection_JtbAew": {
           "type": "collection",
           "settings": {
-            "collection": "shaurya-collection",
-            "media_type": "image",
+            "collection": "rebel-frequency-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_008.mp4",
             "pretitle": "",
-            "title": "Shaurya Collection",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_mHkfcW": {
+        "collection_pkqQ7r": {
           "type": "collection",
           "settings": {
-            "collection": "trackline-collection",
-            "media_type": "image",
+            "collection": "urban-static-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_005.mp4",
             "pretitle": "",
-            "title": "Trackline",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_mezNft": {
+        "collection_KzKw6w": {
           "type": "collection",
           "settings": {
-            "collection": "urban-wear",
-            "media_type": "image",
+            "collection": "concrete-dreams-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_006.mp4",
             "pretitle": "",
-            "title": "Urban Wear",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         },
-        "collection_hNbP8V": {
+        "collection_yxcCUt": {
           "type": "collection",
           "settings": {
-            "collection": "t-shirts",
-            "media_type": "image",
+            "collection": "lost-signals-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_004.mp4",
             "pretitle": "",
-            "title": "Casual",
+            "title": "",
+            "btntxt": "",
+            "url": ""
+          }
+        },
+        "collection_gN88ya": {
+          "type": "collection",
+          "settings": {
+            "collection": "shadow-division-copy",
+            "media_type": "video",
+            "video": "shopify://files/videos/media_007.mp4",
+            "pretitle": "",
+            "title": "",
             "btntxt": "",
             "url": ""
           }
         }
       },
       "block_order": [
-        "collection_RdKenL",
-        "collection_8jzNVJ",
-        "collection_jYL8QH",
-        "collection_7NYhNN",
-        "collection_mHkfcW",
-        "collection_mezNft",
-        "collection_hNbP8V"
+        "collection_CQiLMC",
+        "collection_GVLnW9",
+        "collection_JtbAew",
+        "collection_pkqQ7r",
+        "collection_KzKw6w",
+        "collection_yxcCUt",
+        "collection_gN88ya"
+      ],
+      "custom_css": [
+        ".at_box {padding: 20px 0 !important;}"
       ],
       "name": "Collection List",
       "settings": {
@@ -390,7 +396,7 @@
         "italic_font_selection": "primary",
         "enable_background": false,
         "different_design": true,
-        "ratio": "150",
+        "ratio": "160",
         "gspace": 15,
         "gspacem": 10,
         "gridxxl": 5,
@@ -402,7 +408,7 @@
         "irad": 15,
         "btn-style": "btn7",
         "btn-size": "btn-sm",
-        "text-align": "tl",
+        "text-align": "tc f-jcc",
         "pfs": 12,
         "pfsm": 12,
         "ft": "ft1",
@@ -421,7 +427,7 @@
         "arrowm": false,
         "dot": false,
         "dotm": false,
-        "sw": false,
+        "sw": true,
         "npd": false,
         "bg": "#ffffff",
         "bgg": "",
@@ -438,10 +444,10 @@
         "pdl": 15
       }
     },
-    "brand_comparison_mW8GfB": {
+    "brand_comparison_4Agnqi": {
       "type": "brand-comparison",
       "blocks": {
-        "comparison_row_tcrtLp": {
+        "comparison_row_WkQVPH": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Fabric Density",
@@ -453,7 +459,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_DBgBde": {
+        "comparison_row_h8kLdB": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "RIB Construction",
@@ -465,7 +471,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_BkhAcy": {
+        "comparison_row_8MKqKf": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Seam Technology",
@@ -477,7 +483,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_6JNFq3": {
+        "comparison_row_yfKTJT": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Moisture Management",
@@ -489,7 +495,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_JTFLqQ": {
+        "comparison_row_XU3hUH": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Dye Quality",
@@ -501,7 +507,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_CCqWYh": {
+        "comparison_row_PgXNLx": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Antimicrobial",
@@ -513,7 +519,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_Mtby3m": {
+        "comparison_row_QV9r9c": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Fit Engineering",
@@ -525,7 +531,7 @@
             "brand2_icon": ""
           }
         },
-        "comparison_row_rpH8Nk": {
+        "comparison_row_Mqz699": {
           "type": "comparison_row",
           "settings": {
             "feature_name": "Thread Count",
@@ -539,14 +545,14 @@
         }
       },
       "block_order": [
-        "comparison_row_tcrtLp",
-        "comparison_row_DBgBde",
-        "comparison_row_BkhAcy",
-        "comparison_row_6JNFq3",
-        "comparison_row_JTFLqQ",
-        "comparison_row_CCqWYh",
-        "comparison_row_Mtby3m",
-        "comparison_row_rpH8Nk"
+        "comparison_row_WkQVPH",
+        "comparison_row_h8kLdB",
+        "comparison_row_8MKqKf",
+        "comparison_row_yfKTJT",
+        "comparison_row_XU3hUH",
+        "comparison_row_PgXNLx",
+        "comparison_row_QV9r9c",
+        "comparison_row_Mqz699"
       ],
       "name": "Brand Comparison",
       "settings": {
@@ -555,11 +561,11 @@
         "italic_fancy_font": false,
         "italic_font_selection": "primary",
         "media_type": "image",
-        "image": "shopify://shop_images/Frame_35.jpg",
+        "image": "shopify://shop_images/Lucid_Origin_A_confident_white_young_man_in_his_mid20s_with_a__3.jpg",
         "video_url": "",
-        "media_fit": "contain",
-        "media_position": "top",
-        "video_aspect_ratio": 50,
+        "media_fit": "cover",
+        "media_position": "center",
+        "video_aspect_ratio": 55,
         "brand1_icon_color": "#3baa5c",
         "brand2_icon_color": "#d26464",
         "show_header": true,
@@ -568,14 +574,14 @@
         "header_brand2_text": "Competitor",
         "header_bg": "#f8f9fa",
         "header_text_color": "#212529",
-        "header_border_color": "#dee2e6",
-        "header_border_width": 1,
+        "header_border_color": "#eeeeee",
+        "header_border_width": 0,
         "header_padding": 16,
         "header_font_size": 16,
-        "header_font_weight": 600,
+        "header_font_weight": 500,
         "header_text_align": "left",
         "header_margin_bottom": 8,
-        "max_width": 1000,
+        "max_width": 1400,
         "column_width": 30,
         "row_gap": 12,
         "row_bg": "#ffffff",
@@ -602,8 +608,8 @@
         "overlay": "#3d4246",
         "overlay_op": 0,
         "headings_cl": "",
-        "sst": 50,
-        "ssb": 50,
+        "sst": 80,
+        "ssb": 80,
         "sstm": 25,
         "ssbm": 25,
         "hidem": false,
@@ -856,8 +862,8 @@
     "collection",
     "hero_wz47Wf",
     "scroling_text_JQzf9i",
-    "collection_list2_aEzBjg",
-    "brand_comparison_mW8GfB",
+    "collection_list2_hgnfrk",
+    "brand_comparison_4Agnqi",
     "blog_post_enhance_4RW6tx",
     "related_products_mThzFW",
     "recently_viewed_cixkhy",
