@@ -519,7 +519,7 @@ class CartItems extends HTMLElement {
     }
   }
 
-  getSectionsToRender(){
+getSectionsToRender(){
     return [
       {
         id: 'main-cart-items',
@@ -528,8 +528,8 @@ class CartItems extends HTMLElement {
       },
       {
         id: 'cart-icon-bubble',
-        section: 'cart-icon-bubble',
-        selector: '.shopify-section'
+        section: 'mobile-toolbar',
+        selector: '#cart-icon-bubble'
       },
       {
         id: 'cart-icon-ms',
@@ -538,8 +538,8 @@ class CartItems extends HTMLElement {
       },
       {
         id: 'cart-icon-nav',
-        section: 'cart-icon-nav',
-        selector: '.shopify-section'
+        section: 'header-menu-inline',
+        selector: '#cart-icon-nav'
       },
       {
         id: 'main-cart-footer',
@@ -548,7 +548,6 @@ class CartItems extends HTMLElement {
       }
     ];
   }
-
   updateQuantity(line, quantity, name, variantId) {
     this.enableLoading(line);
 
@@ -767,11 +766,13 @@ getSectionsToRender() {
     },
     {
       id: 'cart-icon-bubble',
-      selector: '#cart-icon-bubble .shopify-section'
+      section: 'mobile-toolbar',
+      selector: '#cart-icon-bubble'
     },
     {
       id: 'cart-icon-nav',
-      selector: '#cart-icon-nav .shopify-section'
+      section: 'header-menu-inline',
+      selector: '#cart-icon-nav'
     }
   ];
 }
@@ -786,25 +787,25 @@ getSectionsToRender() {
 customElements.define('cart-drawer', CartDrawer);
 
 class CartDrawerItems extends CartItems {
-  getSectionsToRender() {
-    return [
-      {
-        id: 'CartDrawer',
-        section: 'cart-drawer',
-        selector: '.drawer__inner'
-      },
-      {
-        id: 'cart-icon-bubble',
-        section: 'cart-icon-bubble',
-        selector: '#cart-icon-bubble .shopify-section'
-      },
-      {
-        id: 'cart-icon-nav',
-        section: 'cart-icon-nav',
-        selector: '#cart-icon-nav .shopify-section'
-      }
-    ];
-  }
+getSectionsToRender() {
+  return [
+    {
+      id: 'CartDrawer',
+      section: 'cart-drawer',
+      selector: '.drawer__inner'
+    },
+    {
+      id: 'cart-icon-bubble',
+      section: 'mobile-toolbar',
+      selector: '#cart-icon-bubble'
+    },
+    {
+      id: 'cart-icon-nav',
+      section: 'header-menu-inline',
+      selector: '#cart-icon-nav'
+    }
+  ];
+}
 }
 customElements.define('cart-drawer-items', CartDrawerItems);
 
