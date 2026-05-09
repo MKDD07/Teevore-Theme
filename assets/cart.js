@@ -759,18 +759,22 @@ class CartDrawer extends HTMLElement {
   getSectionInnerHTML(html, selector = '.shopify-section'){
     return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
   }
-  getSectionsToRender() {
-    return [
-      {
-        id: 'cart-drawer',
-        selector: '#CartDrawer'
-      },
-      {
-        id: 'cart-icon-bubble',
-        id: 'cart-icon-nav',
-      }
-    ];
-  }
+getSectionsToRender() {
+  return [
+    {
+      id: 'cart-drawer',
+      selector: '#CartDrawer'
+    },
+    {
+      id: 'cart-icon-bubble',
+      selector: '.shopify-section'
+    },
+    {
+      id: 'cart-icon-nav',
+      selector: '.shopify-section'
+    }
+  ];
+}
   getSectionDOM(html, selector = '.shopify-section') {
     return new DOMParser().parseFromString(html, 'text/html').querySelector(selector);
   }
