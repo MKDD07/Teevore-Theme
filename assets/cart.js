@@ -767,11 +767,11 @@ getSectionsToRender() {
     },
     {
       id: 'cart-icon-bubble',
-      selector: '.shopify-section'
+      selector: '#cart-icon-bubble .shopify-section'
     },
     {
       id: 'cart-icon-nav',
-      selector: '.shopify-section'
+      selector: '#cart-icon-nav .shopify-section'
     }
   ];
 }
@@ -796,12 +796,12 @@ class CartDrawerItems extends CartItems {
       {
         id: 'cart-icon-bubble',
         section: 'cart-icon-bubble',
-        selector: '.shopify-section'
+        selector: '#cart-icon-bubble .shopify-section'
       },
-            {
+      {
         id: 'cart-icon-nav',
         section: 'cart-icon-nav',
-        selector: '.shopify-section'
+        selector: '#cart-icon-nav .shopify-section'
       }
     ];
   }
