@@ -1172,7 +1172,7 @@
       "type": "album",
       "name": "Pro Album Scatter",
       "settings": {
-        "scroll_height": 200,
+        "scroll_height": 180,
         "show_background_grid": true,
         "main_image": "shopify://shop_images/generation-2e7f1a11-0267-40fd-bbf5-239533ed4ef9.png",
         "image_size": 600,
