@@ -514,7 +514,7 @@
     // 2. Apply the "30% Start" Logic
     // Animation starts only after 30% scroll through the track
     // Map range [0.3, 1.0] to [0, 1]
-    let startThreshold = 0; 
+    let startThreshold = 0.3; 
     let adjustedProgress = (rawProgress - startThreshold) / (1 - startThreshold);
 
     // Clamp values
