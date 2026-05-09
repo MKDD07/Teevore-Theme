@@ -1177,14 +1177,14 @@
         "main_image": "shopify://shop_images/generation-2e7f1a11-0267-40fd-bbf5-239533ed4ef9.png",
         "image_size": 600,
         "en_ratio": true,
-        "radius_attached": 10,
-        "radius_scattered": 10,
+        "radius_attached": 50,
+        "radius_scattered": 25,
         "enable_split": true,
         "split_heading": "TrackLine Collection",
         "split_text": "<p>As the atmosphere darkens, the pieces scatter. Experience the gritty reality of the soundscape.</p>",
         "bg_color": "#ffffff",
         "text_color": "#222222",
-        "anim_style": "style-1",
+        "anim_style": "style-2",
         "anim_speed": 50
       }
     },
