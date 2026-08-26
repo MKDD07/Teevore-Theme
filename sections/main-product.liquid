@@ -744,7 +744,7 @@
                   {% endif %}
                 </div>
               {% when 'gift_card_widget' %}
-              {% render 'discount-card', block: block, section: section, blk_st: 'blk_st %}
+              {% render 'discount-card', block: block, section: section %}
               {%- when 'coltabs' -%}
 <style>
 #shopify-section-{{ section.id }} .sumtabs {
@@ -6321,3 +6321,14 @@
     width: 100%;
   }
 {% endstyle %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% render 'discount-card', block: block, section: section, blk_st: 'blk_st
+    %}"
+  to: "{% render 'discount-card', block: block, section: section %}"
+  position: 40190..40250
+{% endcomment %}
